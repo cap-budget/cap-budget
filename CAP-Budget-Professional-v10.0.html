@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Cap – Budget, repas et voyages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{ --bg: #000000; --surface: #121214; --surface-card: #18181B; --ink: #F4F4F5; --muted: #A1A1AA; --line: #27272A; --field: #1F1F23; --accent: #4F46E5; --accent-ink: #FFFFFF; --accent-soft: rgba(79, 70, 229, 0.15); --good: #10B981; --warn: #F59E0B; --bad: #EF4444; --on-bad: #FFFFFF; --hero: #121214; --hero-ink: #FFFFFF; --hero-muted: #94A3B8; --toast-action: #818CF8; --radius-lg: 32px; --radius: 24px; --radius-sm: 16px; --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+button,input{font-family:inherit}
+:where(button,input,a):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.app{max-width:760px;margin:0 auto;padding:0 20px 140px}
+@media(min-width:700px){.app{padding-left:28px;padding-right:28px}.tabbar-inner{max-width:760px}.hero{padding-left:28px;padding-right:28px}.stats{margin-left:-28px;margin-right:-28px}.card{padding:28px}}
+@media(max-width:420px){.app{padding-left:14px;padding-right:14px}.card{padding:20px;border-radius:20px}.inline{flex-wrap:wrap}.inline>.input{min-width:100%}.inline .amount{flex:1 1 120px!important}.inline .btn{flex:1}}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 0 16px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:38px;height:38px;flex:none}
+.brand-name{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.brand-sub{font-size:13px;color:var(--muted);margin-top:2px;text-transform:capitalize;font-weight:500}
+.pill{font-size:13px;font-weight:700;background:var(--surface-card);border:1px solid var(--line);padding:8px 14px;border-radius:999px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}
+.pill.bad{color:var(--bad);border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.1)}
+.hero{--arc:#34D399;background:linear-gradient(145deg, #18181B 0%, #09090B 100%);color:var(--hero-ink);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px 20px 0;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.5)}
+.hero[data-state="warn"]{--arc:#FBBF24}
+.hero[data-state="bad"]{--arc:#F87171}
+.dial{position:relative;width:min(100%,280px);aspect-ratio:1;margin:0 auto;container-type:inline-size}
+.dial svg{display:block;width:100%;height:100%}
+.tick{stroke:rgba(255,255,255,.1);stroke-width:1.5;stroke-linecap:round}
+.tick.major{stroke:rgba(255,255,255,.3);stroke-width:2.5}
+.track{fill:none;stroke:rgba(255,255,255,.05);stroke-width:12}
+.arc{fill:none;stroke:var(--arc);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 1.3s cubic-bezier(.22,1,.36,1),stroke .4s,opacity .3s;filter:drop-shadow(0 0 8px var(--arc))}
+.knob{transform-origin:120px 120px;transition:transform 1.3s cubic-bezier(.22,1,.36,1),opacity .3s}
+.knob circle{fill:#FFFFFF;stroke:var(--arc);stroke-width:4}
+.dial-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20%}
+.dial-label{font-size:4.5cqw;color:var(--hero-muted);font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.dial-value{font-size:15.5cqw;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:4px;font-variant-numeric:tabular-nums}
+.dial-value.long{font-size:12cqw}
+.hero-msg{text-align:center;font-size:14.5px;color:var(--hero-muted);margin:14px auto 24px;max-width:34ch;text-wrap:balance;line-height:1.4}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin:0 -20px;background:rgba(0,0,0,0.2)}
+.stat{background:none;border:0;color:inherit;text-align:center;padding:16px 8px;font-size:inherit}
+.stat + .stat{border-left:1px solid var(--line)}
+button.stat{cursor:pointer;transition:background .2s}
+button.stat:hover{background:rgba(255,255,255,0.03)}
+.stat-label{font-size:12px;color:var(--hero-muted);font-weight:600;display:inline-flex;align-items:center;gap:4px;text-transform:uppercase;letter-spacing:.03em}
+.stat-label svg{width:12px;height:12px}
+.stat-value{font-size:16px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.card{background:var(--surface-card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:16px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+.card h2{font-size:18px;font-weight:700;letter-spacing:-.01em;margin:0 0 16px;color:var(--ink)}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card-head h2{margin-bottom:16px}
+.hint{color:var(--muted);font-size:14px;line-height:1.5;margin:-8px 0 18px}
+.muted{color:var(--muted);font-size:13.5px}
+.field{margin-bottom:16px}
+.field > label,.field-label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
+.input{width:100%;font-size:15px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;transition:border-color .2s}
+.input::placeholder,.amount input::placeholder{color:var(--muted);opacity:.5}
+.input:focus{border-color:var(--accent);outline:none}
+.amount{display:flex;align-items:baseline;gap:8px;background:var(--field);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 18px;transition:border-color .2s}
+.amount:focus-within{border-color:var(--accent)}
+.amount input{flex:1;min-width:0;width:100%;border:0;background:none;outline:none;color:var(--ink);font-size:36px;font-weight:800;letter-spacing:-.02em;padding:0;font-variant-numeric:tabular-nums}
+.amount span{font-size:24px;font-weight:700;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--field);color:var(--muted);cursor:pointer;transition:all .2s}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#FFFFFF}
+.btn{display:block;width:100%;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:16px 20px;cursor:pointer;background:var(--accent);color:var(--accent-ink);transition:transform .12s, opacity .2s;box-shadow:0 4px 12px rgba(79, 70, 229, 0.4)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--field);color:var(--ink);box-shadow:none;border:1px solid var(--line)}
+.btn.danger{background:var(--bad);color:var(--on-bad);box-shadow:0 4px 12px rgba(239, 68, 68, 0.4)}
+.btn.small{width:auto;padding:12px 18px}
+.link{font-size:13.5px;font-weight:600;color:var(--muted);background:none;border:0;padding:8px 4px;cursor:pointer;transition:color .2s}
+.link:hover{color:var(--ink)}
+.link.danger{color:var(--bad)}
+.error{color:var(--bad);font-size:13.5px;font-weight:600;margin:0 0 14px;min-height:0}
+.error:empty{display:none}
+.inline{display:flex;gap:10px}
+.inline .amount{flex:1;padding:8px 14px}
+.inline .amount input{font-size:24px}
+.inline .amount span{font-size:18px}
+.rows{list-style:none;margin:0;padding:0}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0;padding-top:4px}
+.badge{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:none;background:color-mix(in srgb,var(--c) 20%,transparent);border:1px solid color-mix(in srgb,var(--c) 40%,transparent)}
+.row-main{flex:1;min-width:0}
+.row-title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.row-sub{font-size:13px;color:var(--muted);margin-top:2px}
+.row-amount{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.row-amount.plus{color:var(--good)}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--muted);cursor:pointer;display:grid;place-items:center;flex:none;transition:all .2s}
+.icon-btn:hover{background:rgba(239, 68, 68, 0.15);color:var(--bad);border-color:rgba(239, 68, 68, 0.3)}
+.icon-btn svg{width:16px;height:16px}
+.empty{color:var(--muted);font-size:14px;line-height:1.5;margin:0}
+.split{display:flex;height:12px;border-radius:999px;overflow:hidden;gap:3px;background:var(--field);padding:2px;border:1px solid var(--line)}
+.split i{display:block;background:var(--c);min-width:6px;border-radius:999px}
+.legend{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px}
+.legend li{display:flex;align-items:center;gap:12px;font-size:14px}
+.legend .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;box-shadow:0 0 8px var(--c)}
+.legend .name{flex:1;color:var(--ink);font-weight:500}
+.legend .amt{font-weight:700;font-variant-numeric:tabular-nums}
+.legend .pct{color:var(--muted);width:45px;text-align:right;font-variant-numeric:tabular-nums;font-size:13px}
+.meter{height:8px;border-radius:999px;background:var(--field);overflow:hidden;margin:0 0 20px;border:1px solid var(--line)}
+.meter i{display:block;height:100%;width:0;background:var(--accent);border-radius:inherit;transition:width .4s;box-shadow:0 0 10px var(--accent)}
+.day{display:grid;grid-template-columns:85px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.day:first-child{border-top:0;padding-top:4px}
+.day-name{font-weight:700;color:var(--ink)}
+.day.today .day-name{color:var(--accent)}
+.day-date{font-size:12.5px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);letter-spacing:.02em;text-transform:uppercase}
+.slots{display:grid;gap:10px}
+.slot{display:flex;align-items:center;gap:12px}
+.slot span{font-size:12.5px;font-weight:700;color:var(--muted);width:36px;flex:none;text-transform:uppercase;letter-spacing:.03em}
+.slot .input{padding:12px 14px;font-size:14.5px}
+.foot{display:flex;justify-content:flex-end;margin-top:10px}
+.trip-dest{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:0;color:var(--ink)}
+.trip-when{margin-top:8px;font-weight:700;color:var(--accent)}
+.trip-date{color:var(--muted);font-size:13.5px;margin-top:2px}
+.money{display:flex;justify-content:space-between;align-items:baseline;margin:24px 0 12px}
+.money strong{font-size:32px;font-weight:800;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.money span{color:var(--muted);font-size:14px}
+.bar{height:12px;border-radius:999px;background:var(--field);overflow:hidden;border:1px solid var(--line);padding:1px}
+.bar i{display:block;height:100%;width:0;background:var(--good);border-radius:inherit;transition:width .6s cubic-bezier(.22,1,.36,1);box-shadow:0 0 10px var(--good)}
+.bar-caption{font-size:13px;color:var(--muted);margin-top:10px}
+.callout{background:rgba(79, 70, 229, 0.1);border:1px solid rgba(79, 70, 229, 0.25);border-radius:var(--radius-sm);padding:16px;font-size:14px;line-height:1.5;margin:18px 0 22px;color:#E0E7FF}
+.actions{display:flex;justify-content:space-between;margin-top:16px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);display:flex;justify-content:center;pointer-events:none;z-index:20}
+.tabbar-inner{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 12px;background:rgba(18, 18, 20, 0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid var(--line);border-bottom:0;border-radius:28px 28px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,0.5)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--muted);background:none;border:0;padding:10px 2px;border-radius:18px;cursor:pointer;transition:all .2s}
+.tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{color:#FFFFFF;background:var(--accent);box-shadow:0 4px 12px rgba(79, 70, 229, 0.4)}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,14px);opacity:0;pointer-events:none;background:#F4F4F5;color:#09090B;padding:12px 18px;border-radius:16px;display:flex;gap:16px;align-items:center;font-size:14px;font-weight:700;z-index:30;max-width:calc(100% - 32px);transition:opacity .25s,transform .25s;box-shadow:0 10px 25px rgba(0,0,0,0.5)}
+.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast button{background:none;border:0;color:var(--accent);font-size:14px;font-weight:800;cursor:pointer;padding:4px}
+dialog{border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--surface-card);color:var(--ink);width:min(92vw,380px);font-family:var(--font);box-shadow:0 25px 50px rgba(0,0,0,0.7)}
+dialog::backdrop{background:rgba(0,0,0,0.75);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+dialog h2{margin:0 0 8px;font-size:20px;letter-spacing:-.01em}
+dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
+.dlg-actions{display:flex;gap:10px;margin-top:20px}
+.dlg-actions .btn{flex:1}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{transition:none!important;animation:none!important} }
+</style>
+<style>
+/* ===== CAP Budget — Professional polish layer ===== */
+:root{
+  --cap-accent:#2dd4bf;
+  --cap-accent-2:#60a5fa;
+  --cap-bg:#07111f;
+  --cap-surface:rgba(15,27,45,.88);
+  --cap-border:rgba(148,163,184,.16);
+  --cap-text:#e5eefb;
+  --cap-muted:#8fa3bd;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(900px 500px at 8% -10%,rgba(45,212,191,.10),transparent 55%),
+    radial-gradient(800px 450px at 100% 0%,rgba(96,165,250,.10),transparent 55%),
+    var(--cap-bg);
+}
+button,input,select,textarea{font:inherit}
+button{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
+button:hover{filter:brightness(1.06)}
+button:active{transform:translateY(1px)}
+:focus-visible{
+  outline:3px solid rgba(45,212,191,.55);
+  outline-offset:2px;
+}
+.cap-pro-bar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  max-width:1180px;margin:0 auto;padding:10px 16px;
+  background:rgba(7,17,31,.82);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--cap-border);
+}
+.cap-pro-brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+.cap-pro-dot{width:9px;height:9px;border-radius:50%;background:var(--cap-accent);box-shadow:0 0 18px rgba(45,212,191,.7)}
+.cap-pro-status{font-size:12px;color:var(--cap-muted);display:flex;align-items:center;gap:7px}
+.cap-pro-status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399}
+.cap-pro-shell{max-width:1180px;margin:0 auto;padding:0 16px 90px}
+.cap-pro-card{
+  background:linear-gradient(180deg,rgba(20,34,54,.88),rgba(10,20,34,.88));
+  border:1px solid var(--cap-border);
+  box-shadow:0 18px 50px rgba(0,0,0,.18);
+  border-radius:18px;
+}
+@media(max-width:700px){
+  .cap-pro-bar{padding:9px 12px}
+  .cap-pro-shell{padding-left:10px;padding-right:10px}
+}
+</style><style>
+/* ===== CAP Budget UI v1.1 ===== */
+:root{
+  --cap-brand:#22c55e;
+  --cap-brand-2:#14b8a6;
+  --cap-blue:#3b82f6;
+  --cap-bg:#07111f;
+  --cap-card:rgba(15,27,45,.92);
+  --cap-line:rgba(148,163,184,.15);
+  --cap-text:#eef6ff;
+  --cap-muted:#93a4ba;
+}
+.cap-hero{
+  max-width:1180px;margin:22px auto 10px;padding:0 16px;
+}
+.cap-hero-inner{
+  padding:22px 24px;border-radius:22px;
+  background:
+    radial-gradient(500px 180px at 0% 0%,rgba(34,197,94,.16),transparent 70%),
+    radial-gradient(420px 180px at 100% 100%,rgba(59,130,246,.14),transparent 70%),
+    linear-gradient(135deg,rgba(18,35,57,.96),rgba(9,20,34,.96));
+  border:1px solid var(--cap-line);
+  box-shadow:0 22px 70px rgba(0,0,0,.22);
+}
+.cap-hero h1{margin:0 0 6px;font-size:clamp(25px,4vw,38px);letter-spacing:-.7px}
+.cap-hero p{margin:0;color:var(--cap-muted);max-width:720px;line-height:1.55}
+.cap-kpis{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;margin-top:18px;
+}
+.cap-kpi{
+  padding:14px 15px;border:1px solid var(--cap-line);border-radius:16px;
+  background:rgba(255,255,255,.035);
+}
+.cap-kpi small{display:block;color:var(--cap-muted);font-size:11px;text-transform:uppercase;letter-spacing:.7px}
+.cap-kpi strong{display:block;margin-top:5px;font-size:21px}
+.cap-section-title{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin:22px 0 10px;
+}
+.cap-section-title h2{margin:0;font-size:19px}
+.cap-section-title span{font-size:12px;color:var(--cap-muted)}
+.cap-quick-actions{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;
+}
+.cap-action{
+  text-align:left;padding:16px;border-radius:16px;border:1px solid var(--cap-line);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
+  color:var(--cap-text);cursor:pointer;
+}
+.cap-action b{display:block;margin-bottom:5px}
+.cap-action span{font-size:12px;color:var(--cap-muted);line-height:1.4}
+.cap-action:hover{border-color:rgba(34,197,94,.35);transform:translateY(-1px)}
+@media(max-width:850px){
+  .cap-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  .cap-hero{padding:0 10px}
+  .cap-hero-inner{padding:18px}
+  .cap-kpis,.cap-quick-actions{grid-template-columns:1fr}
+}
+</style><style>
+/* ===== CAP Budget Premium screens v1.2 ===== */
+.cap-premium-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+  margin:14px auto;max-width:1180px;padding:0 16px;
+}
+.cap-premium-card{
+  position:relative;overflow:hidden;padding:20px;border-radius:20px;
+  background:linear-gradient(145deg,rgba(20,34,54,.96),rgba(9,19,32,.96));
+  border:1px solid rgba(148,163,184,.15);
+  box-shadow:0 18px 55px rgba(0,0,0,.20);
+}
+.cap-premium-card::before{
+  content:"";position:absolute;inset:-80px auto auto -60px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(45,212,191,.13),transparent 68%);
+  pointer-events:none;
+}
+.cap-premium-label{
+  font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8fa3bd;
+}
+.cap-premium-title{margin:6px 0 4px;font-size:23px;letter-spacing:-.4px}
+.cap-premium-sub{margin:0;color:#8fa3bd;line-height:1.5;font-size:13px}
+.cap-premium-value{font-size:34px;font-weight:850;margin:14px 0 4px}
+.cap-premium-meter{height:8px;border-radius:99px;background:rgba(148,163,184,.13);overflow:hidden;margin-top:12px}
+.cap-premium-meter > i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-premium-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.cap-premium-chip{
+  padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.045);
+  border:1px solid rgba(148,163,184,.12);font-size:12px;color:#c9d7e8;
+}
+.cap-premium-list{display:grid;gap:9px;margin-top:15px}
+.cap-premium-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.035);
+}
+.cap-premium-row span{color:#9fb0c4;font-size:12px}
+.cap-premium-row strong{font-size:13px}
+.cap-stat-bars{display:grid;gap:10px;margin-top:15px}
+.cap-stat-bar{display:grid;grid-template-columns:110px 1fr 48px;align-items:center;gap:8px;font-size:12px}
+.cap-stat-bar > div{height:7px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden}
+.cap-stat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#14b8a6)}
+@media(max-width:760px){
+  .cap-premium-grid{grid-template-columns:1fr;padding:0 10px}
+  .cap-stat-bar{grid-template-columns:85px 1fr 42px}
+}
+</style><style>
+/* ===== CAP Budget Product MVP v2.0 ===== */
+.cap-app-header{
+  max-width:1180px;margin:18px auto 0;padding:0 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.cap-app-title{font-size:14px;font-weight:800;letter-spacing:.2px}
+.cap-app-sub{font-size:11px;color:#8fa3bd;margin-top:2px}
+.cap-pill{padding:7px 10px;border-radius:999px;border:1px solid rgba(34,197,94,.28);
+  background:rgba(34,197,94,.08);color:#8ee7b0;font-size:11px;font-weight:700}
+.cap-product-grid{max-width:1180px;margin:16px auto;padding:0 16px;display:grid;
+  grid-template-columns:1.3fr .7fr;gap:14px}
+.cap-product-panel{padding:22px;border-radius:20px;border:1px solid rgba(148,163,184,.15);
+  background:linear-gradient(145deg,rgba(20,34,54,.96),rgba(9,19,32,.96));
+  box-shadow:0 18px 55px rgba(0,0,0,.2)}
+.cap-product-panel h2{margin:0 0 7px;font-size:22px}
+.cap-product-panel p{margin:0;color:#91a3b8;line-height:1.55;font-size:13px}
+.cap-feature-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.cap-feature{padding:11px 12px;border-radius:13px;background:rgba(255,255,255,.035);
+  border:1px solid rgba(148,163,184,.11);font-size:12px}
+.cap-feature b{display:block;margin-bottom:3px}.cap-feature span{color:#91a3b8}
+.cap-price{font-size:30px;font-weight:900;margin:8px 0 2px}
+.cap-price small{font-size:12px;color:#91a3b8;font-weight:500}
+.cap-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;
+  width:100%;padding:12px 14px;border:0;border-radius:13px;cursor:pointer;
+  background:linear-gradient(90deg,#14b8a6,#3b82f6);color:white;font-weight:800}
+.cap-note{font-size:10px!important;margin-top:8px!important;color:#74869b!important}
+.cap-mobile-bar{display:none}
+@media(max-width:760px){
+  .cap-app-header{padding:0 10px}.cap-product-grid{grid-template-columns:1fr;padding:0 10px}
+  .cap-feature-list{grid-template-columns:1fr}.cap-mobile-bar{
+    display:flex;position:fixed;bottom:10px;left:10px;right:10px;z-index:80;
+    padding:8px;border:1px solid rgba(148,163,184,.16);border-radius:18px;
+    background:rgba(7,17,31,.9);backdrop-filter:blur(16px);gap:7px;
+    box-shadow:0 15px 45px rgba(0,0,0,.3)}
+  .cap-mobile-bar button{flex:1;border:0;border-radius:11px;padding:9px 5px;background:rgba(255,255,255,.05);
+    color:#dbeafe;font-size:10px;font-weight:700}
+}
+</style><style>
+/* ===== CAP Budget Dashboard v2.1 ===== */
+.cap-dashboard{
+  max-width:1180px;margin:18px auto;padding:0 16px;
+}
+.cap-dashboard-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin-bottom:14px;
+}
+.cap-dashboard-head h2{margin:0;font-size:24px;letter-spacing:-.5px}
+.cap-dashboard-head p{margin:4px 0 0;color:#8fa3bd;font-size:12px}
+.cap-dashboard-grid{
+  display:grid;grid-template-columns:1.35fr .65fr;gap:14px;
+}
+.cap-balance-card,.cap-decision-card{
+  border:1px solid rgba(148,163,184,.15);border-radius:22px;
+  background:linear-gradient(145deg,rgba(20,34,54,.97),rgba(8,18,31,.97));
+  box-shadow:0 20px 60px rgba(0,0,0,.22);padding:22px;
+}
+.cap-balance-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8fa3bd}
+.cap-balance-value{font-size:clamp(38px,6vw,58px);font-weight:900;letter-spacing:-2px;margin:7px 0}
+.cap-balance-help{font-size:12px;color:#91a3b8}
+.cap-balance-progress{height:10px;background:rgba(148,163,184,.12);border-radius:99px;overflow:hidden;margin:17px 0 8px}
+.cap-balance-progress i{display:block;height:100%;width:68%;border-radius:99px;background:linear-gradient(90deg,#22c55e,#14b8a6,#3b82f6)}
+.cap-balance-meta{display:flex;justify-content:space-between;font-size:11px;color:#8fa3bd}
+.cap-decision-card h3{margin:0 0 12px;font-size:17px}
+.cap-decision{
+  display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(148,163,184,.11)
+}
+.cap-decision:first-of-type{border-top:0}
+.cap-decision-dot{width:9px;height:9px;border-radius:50%;margin-top:5px;background:#22c55e;flex:0 0 auto}
+.cap-decision b{display:block;font-size:13px}.cap-decision span{font-size:11px;color:#8fa3bd;line-height:1.4}
+.cap-mini-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.cap-mini{
+  padding:14px;border:1px solid rgba(148,163,184,.13);border-radius:16px;
+  background:rgba(255,255,255,.03)
+}
+.cap-mini small{display:block;color:#8fa3bd;font-size:10px;text-transform:uppercase;letter-spacing:.7px}
+.cap-mini strong{display:block;margin-top:6px;font-size:18px}
+.cap-dashboard-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.cap-dashboard-actions button{
+  border:1px solid rgba(148,163,184,.15);border-radius:12px;padding:10px 13px;
+  background:rgba(255,255,255,.04);color:#e5eefb;font-weight:700;cursor:pointer
+}
+.cap-dashboard-actions button.primary{
+  border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6)
+}
+@media(max-width:800px){
+  .cap-dashboard{padding:0 10px}.cap-dashboard-grid{grid-template-columns:1fr}
+  .cap-mini-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style><style>
+/* ===== CAP Budget — Week Planner & Smart Planning v3.0 ===== */
+.cap-week{
+  max-width:1180px;margin:18px auto;padding:0 16px;
+}
+.cap-week-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px}
+.cap-week-head h2{margin:0;font-size:25px;letter-spacing:-.5px}
+.cap-week-head p{margin:5px 0 0;color:#8fa3bd;font-size:12px}
+.cap-week-actions{display:flex;gap:8px;flex-wrap:wrap}
+.cap-week-actions button,.cap-smart-btn{
+  border:1px solid rgba(148,163,184,.15);border-radius:12px;padding:10px 12px;
+  background:rgba(255,255,255,.04);color:#e5eefb;font-weight:700;cursor:pointer
+}
+.cap-week-actions .primary,.cap-smart-btn.primary{border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-week-grid{
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;
+}
+.cap-day{
+  min-height:220px;padding:11px;border-radius:17px;
+  border:1px solid rgba(148,163,184,.14);
+  background:linear-gradient(180deg,rgba(20,34,54,.94),rgba(9,19,32,.94));
+}
+.cap-day.today{border-color:rgba(34,197,94,.48);box-shadow:0 0 0 1px rgba(34,197,94,.10) inset}
+.cap-day-name{font-weight:850;font-size:12px}
+.cap-day-date{font-size:10px;color:#8093aa;margin:2px 0 10px}
+.cap-meal{
+  padding:8px;border-radius:11px;background:rgba(255,255,255,.035);
+  margin-bottom:7px;border:1px solid rgba(148,163,184,.09)
+}
+.cap-meal-label{font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:#7f93ab}
+.cap-meal strong{display:block;font-size:11px;margin-top:3px}
+.cap-meal span{display:block;font-size:10px;color:#8fa3bd;margin-top:2px}
+.cap-day-cost{margin-top:10px;font-size:10px;color:#8fa3bd;display:flex;justify-content:space-between}
+.cap-planning{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:12px;margin-top:14px;
+}
+.cap-panel{
+  padding:18px;border-radius:19px;border:1px solid rgba(148,163,184,.14);
+  background:linear-gradient(145deg,rgba(20,34,54,.96),rgba(9,19,32,.96));
+}
+.cap-panel h3{margin:0 0 5px;font-size:17px}.cap-panel p{margin:0;color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-list{display:grid;gap:8px;margin-top:13px}
+.cap-list-row{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:10px 11px;border-radius:12px;background:rgba(255,255,255,.035)
+}
+.cap-list-row b{font-size:12px}.cap-list-row span{font-size:11px;color:#8fa3bd}
+.cap-goal{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px
+}
+.cap-goal-value{font-size:26px;font-weight:900}
+.cap-progress{height:9px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden;margin-top:10px}
+.cap-progress i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#22c55e,#14b8a6,#3b82f6)}
+.cap-categories{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.cap-cat{padding:7px 9px;border-radius:999px;background:rgba(255,255,255,.04);font-size:10px;color:#c7d4e5}
+.cap-scenario{
+  margin-top:13px;padding:12px;border-radius:13px;background:rgba(59,130,246,.08);
+  border:1px solid rgba(59,130,246,.16)
+}
+.cap-scenario b{display:block;font-size:12px}.cap-scenario span{display:block;margin-top:4px;font-size:11px;color:#91a3b8;line-height:1.45}
+@media(max-width:1050px){.cap-week-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:760px){
+  .cap-week{padding:0 10px}.cap-week-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:5px}
+  .cap-day{min-width:210px;scroll-snap-align:start}.cap-planning{grid-template-columns:1fr}
+}
+</style><style>
+/* ===== CAP Budget — Real Budget Engine UI v4.0 ===== */
+.cap-engine{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-engine-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px}
+.cap-engine-head h2{margin:0;font-size:25px;letter-spacing:-.5px}
+.cap-engine-head p{margin:5px 0 0;color:#8fa3bd;font-size:12px}
+.cap-engine-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap-engine-card{padding:18px;border-radius:19px;border:1px solid rgba(148,163,184,.14);
+background:linear-gradient(145deg,rgba(20,34,54,.96),rgba(9,19,32,.96));box-shadow:0 18px 55px rgba(0,0,0,.18)}
+.cap-engine-card h3{margin:0 0 5px;font-size:17px}
+.cap-engine-card p{margin:0;color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-form{display:grid;gap:9px;margin-top:14px}
+.cap-form label{font-size:11px;color:#a7b8cc}
+.cap-form input,.cap-form select{width:100%;box-sizing:border-box;padding:11px 12px;border-radius:11px;
+border:1px solid rgba(148,163,184,.16);background:rgba(255,255,255,.045);color:#e7eef8;outline:none}
+.cap-form-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.cap-calc{margin-top:12px;padding:15px;border-radius:15px;background:rgba(255,255,255,.035)}
+.cap-calc-row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;font-size:12px}
+.cap-calc-row span{color:#8fa3bd}.cap-calc-row strong{font-size:13px}
+.cap-calc-row.total{border-top:1px solid rgba(148,163,184,.13);margin-top:5px;padding-top:11px}
+.cap-calc-row.total strong{font-size:20px}
+.cap-engine-actions{display:flex;gap:8px;margin-top:12px}
+.cap-engine-actions button{flex:1;padding:11px 12px;border-radius:11px;border:1px solid rgba(148,163,184,.15);
+background:rgba(255,255,255,.04);color:#e7eef8;font-weight:750;cursor:pointer}
+.cap-engine-actions .primary{border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-rec{margin-top:12px;padding:14px;border-radius:14px;background:rgba(20,184,166,.07);border:1px solid rgba(20,184,166,.15)}
+.cap-rec b{display:block;font-size:12px}.cap-rec span{display:block;margin-top:4px;color:#91a3b8;font-size:11px;line-height:1.45}
+.cap-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.cap-kpi{padding:13px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.11)}
+.cap-kpi small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase;letter-spacing:.6px}
+.cap-kpi strong{display:block;margin-top:5px;font-size:17px}
+@media(max-width:760px){.cap-engine{padding:0 10px}.cap-engine-grid{grid-template-columns:1fr}.cap-kpis{grid-template-columns:1fr 1fr}}
+</style><style>
+/* ===== CAP Budget — Connected Week v5.0 ===== */
+.cap-connected{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-connected-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px}
+.cap-connected-head h2{margin:0;font-size:25px;letter-spacing:-.5px}
+.cap-connected-head p{margin:5px 0 0;color:#8fa3bd;font-size:12px}
+.cap-connected-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cap-connected-card{padding:18px;border-radius:19px;border:1px solid rgba(148,163,184,.14);
+background:linear-gradient(145deg,rgba(20,34,54,.96),rgba(9,19,32,.96))}
+.cap-connected-card h3{margin:0 0 5px;font-size:17px}
+.cap-connected-card p{margin:0;color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-connected-list{display:grid;gap:8px;margin-top:13px}
+.cap-connected-row{display:flex;justify-content:space-between;align-items:center;gap:10px;
+padding:11px;border-radius:12px;background:rgba(255,255,255,.035)}
+.cap-connected-row b{font-size:12px}.cap-connected-row span{font-size:11px;color:#8fa3bd}
+.cap-impact{margin-top:13px;padding:14px;border-radius:14px;background:rgba(59,130,246,.07);
+border:1px solid rgba(59,130,246,.14)}
+.cap-impact strong{font-size:21px}.cap-impact span{display:block;margin-top:3px;color:#91a3b8;font-size:11px}
+.cap-course-total{font-size:25px;font-weight:900;margin-top:12px}
+.cap-course-items{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.cap-course-item{padding:9px;border-radius:11px;background:rgba(255,255,255,.035);font-size:11px}
+.cap-course-item input{margin-right:6px}
+@media(max-width:760px){.cap-connected{padding:0 10px}.cap-connected-grid{grid-template-columns:1fr}.cap-course-items{grid-template-columns:1fr}}
+</style><style>
+/* ===== CAP Budget Professional v6.0 — Product layer ===== */
+.cap-v6{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-v6 h2{margin:0;font-size:25px;letter-spacing:-.5px}.cap-v6 p{color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-v6-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.cap-v6-card{padding:18px;border-radius:19px;border:1px solid rgba(148,163,184,.14);background:linear-gradient(145deg,rgba(20,34,54,.96),rgba(9,19,32,.96))}
+.cap-v6-card h3{margin:0 0 5px;font-size:17px}
+.cap-v6-btn{border:1px solid rgba(148,163,184,.15);border-radius:11px;padding:10px 12px;background:rgba(255,255,255,.04);color:#e7eef8;font-weight:750;cursor:pointer}
+.cap-v6-btn.primary{border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-v6-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(148,163,184,.08)}
+.cap-v6-row:last-child{border-bottom:0}.cap-v6-row span{font-size:11px;color:#8fa3bd}.cap-v6-row strong{font-size:13px}
+.cap-v6-form{display:grid;gap:8px;margin-top:12px}.cap-v6-form input,.cap-v6-form select{box-sizing:border-box;width:100%;padding:10px;border-radius:10px;border:1px solid rgba(148,163,184,.15);background:rgba(255,255,255,.045);color:#e7eef8}
+.cap-v6-form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cap-v6-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.cap-v6-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.cap-v6-kpi{padding:13px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.1)}
+.cap-v6-kpi small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase;letter-spacing:.5px}.cap-v6-kpi b{display:block;font-size:19px;margin-top:4px}
+.cap-v6-bar{height:9px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden;margin-top:8px}.cap-v6-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#22c55e,#14b8a6,#3b82f6)}
+.cap-v6-note{margin-top:11px;padding:12px;border-radius:13px;background:rgba(20,184,166,.07);border:1px solid rgba(20,184,166,.14);font-size:11px;color:#a9bacd;line-height:1.5}
+.cap-v6-list{display:grid;gap:7px;margin-top:10px;max-height:260px;overflow:auto}.cap-v6-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 10px;border-radius:11px;background:rgba(255,255,255,.035)}
+.cap-v6-item button{border:0;background:transparent;color:#8fa3bd;cursor:pointer}.cap-v6-item small{color:#8fa3bd}
+.cap-v6-plan{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.cap-v6-plan>div{padding:13px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.1)}
+.cap-v6-plan b{display:block;font-size:16px}.cap-v6-plan span{display:block;color:#8fa3bd;font-size:10px;margin-top:4px}
+.cap-v6-badge{display:inline-block;padding:5px 8px;border-radius:999px;background:rgba(59,130,246,.1);color:#a9c8ff;font-size:10px;font-weight:800}
+@media(max-width:760px){.cap-v6{padding:0 10px}.cap-v6-grid{grid-template-columns:1fr}.cap-v6-kpis{grid-template-columns:1fr 1fr}.cap-v6-plan{grid-template-columns:1fr}.cap-v6-form-row{grid-template-columns:1fr}}
+</style><style>
+/* ===== CAP Conseil v7.0 ===== */
+.cap-v7{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-v7-card{padding:19px;border-radius:20px;border:1px solid rgba(148,163,184,.14);background:linear-gradient(145deg,rgba(20,34,54,.97),rgba(9,19,32,.97));box-shadow:0 18px 55px rgba(0,0,0,.16)}
+.cap-v7-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cap-v7-head h2{margin:0;font-size:25px}.cap-v7-head p{margin:5px 0 0;color:#8fa3bd;font-size:12px}
+.cap-v7-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:12px}
+.cap-v7-question{margin-top:15px;padding:16px;border-radius:16px;background:rgba(255,255,255,.035)}
+.cap-v7-question label{display:block;color:#9eb0c4;font-size:11px;margin-bottom:7px}
+.cap-v7-question input,.cap-v7-question select{width:100%;box-sizing:border-box;padding:12px;border-radius:11px;border:1px solid rgba(148,163,184,.15);background:rgba(255,255,255,.045);color:#e7eef8}
+.cap-v7-actions{display:flex;gap:8px;margin-top:12px}.cap-v7-btn{flex:1;padding:12px;border-radius:11px;border:1px solid rgba(148,163,184,.15);background:rgba(255,255,255,.04);color:#e7eef8;font-weight:800;cursor:pointer}.cap-v7-btn.primary{border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-v7-answer{min-height:220px;display:flex;flex-direction:column;justify-content:center}
+.cap-v7-answer .icon{font-size:30px}.cap-v7-answer h3{margin:8px 0 4px;font-size:20px}.cap-v7-answer p{margin:0;color:#a7b7ca;font-size:12px;line-height:1.6}
+.cap-v7-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}.cap-v7-metric{padding:12px;border-radius:13px;background:rgba(255,255,255,.035)}.cap-v7-metric small{display:block;color:#8fa3bd;font-size:9px}.cap-v7-metric strong{display:block;margin-top:4px;font-size:17px}
+.cap-v7-history{margin-top:12px}.cap-v7-history h3{margin:0 0 8px;font-size:16px}.cap-v7-history-item{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid rgba(148,163,184,.08);font-size:11px}.cap-v7-history-item span{color:#8fa3bd}
+@media(max-width:760px){.cap-v7{padding:0 10px}.cap-v7-grid{grid-template-columns:1fr}.cap-v7-metrics{grid-template-columns:1fr 1fr}}
+</style><style>
+/* ===== CAP Budget — Living Budget & Transactions v8.0 ===== */
+.cap-v8{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-v8-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.cap-v8-card{padding:18px;border-radius:20px;border:1px solid rgba(148,163,184,.14);background:linear-gradient(145deg,rgba(20,34,54,.97),rgba(9,19,32,.97))}
+.cap-v8-card h2,.cap-v8-card h3{margin:0}.cap-v8-card p{color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-v8-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:13px}
+.cap-v8-flow div{padding:10px 7px;border-radius:12px;background:rgba(255,255,255,.035);text-align:center;font-size:10px;color:#a9bacd}
+.cap-v8-flow b{display:block;font-size:13px;color:#e7eef8;margin-bottom:3px}
+.cap-v8-form{display:grid;gap:8px;margin-top:12px}.cap-v8-form-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cap-v8-form input,.cap-v8-form select{width:100%;box-sizing:border-box;padding:11px;border-radius:10px;border:1px solid rgba(148,163,184,.15);background:rgba(255,255,255,.045);color:#e7eef8}
+.cap-v8-actions{display:flex;gap:8px;margin-top:10px}.cap-v8-btn{flex:1;padding:11px;border-radius:11px;border:1px solid rgba(148,163,184,.15);background:rgba(255,255,255,.04);color:#e7eef8;font-weight:800;cursor:pointer}.cap-v8-btn.primary{border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-v8-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.cap-v8-kpi{padding:13px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.1)}
+.cap-v8-kpi small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase}.cap-v8-kpi strong{display:block;margin-top:4px;font-size:18px}
+.cap-v8-list{display:grid;gap:7px;margin-top:10px;max-height:310px;overflow:auto}.cap-v8-item{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px;border-radius:11px;background:rgba(255,255,255,.035);font-size:11px}
+.cap-v8-item span{color:#8fa3bd}.cap-v8-item button{border:0;background:transparent;color:#9fb0c2;cursor:pointer}.cap-v8-positive{color:#22c55e}.cap-v8-negative{color:#fb7185}
+.cap-v8-bar{height:8px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden;margin-top:7px}.cap-v8-bar i{display:block;height:100%;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+@media(max-width:760px){.cap-v8{padding:0 10px}.cap-v8-grid{grid-template-columns:1fr}.cap-v8-flow{grid-template-columns:1fr 1fr}.cap-v8-kpis{grid-template-columns:1fr 1fr}.cap-v8-form-row{grid-template-columns:1fr}}
+</style><style>
+/* ===== CAP Budget — Unified transaction bridge v9.0 ===== */
+.cap-v9{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-v9-card{padding:18px;border-radius:20px;border:1px solid rgba(148,163,184,.14);background:linear-gradient(145deg,rgba(20,34,54,.97),rgba(9,19,32,.97));}
+.cap-v9 h2,.cap-v9 h3{margin:0}.cap-v9 p{color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-v9-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.cap-v9-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cap-v9-chip{padding:12px;border-radius:14px;background:rgba(255,255,255,.035);text-align:center}
+.cap-v9-chip b{display:block;font-size:17px}.cap-v9-chip span{display:block;margin-top:3px;color:#8fa3bd;font-size:9px}
+.cap-v9-map{margin-top:12px;display:grid;gap:8px}
+.cap-v9-row{display:grid;grid-template-columns:120px 1fr 90px;gap:10px;align-items:center;font-size:11px}
+.cap-v9-row span{color:#8fa3bd}.cap-v9-bar{height:7px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden}.cap-v9-bar i{display:block;height:100%;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-v9-btn{width:100%;padding:11px;border-radius:11px;border:0;background:linear-gradient(90deg,#14b8a6,#3b82f6);color:white;font-weight:800;cursor:pointer;margin-top:12px}
+@media(max-width:760px){.cap-v9{padding:0 10px}.cap-v9-grid{grid-template-columns:1fr}.cap-v9-chips{grid-template-columns:1fr 1fr}.cap-v9-row{grid-template-columns:90px 1fr 75px}}
+</style><style>
+/* ===== CAP Budget — Dynamic Dashboard v10.0 ===== */
+.cap-v10{max-width:1180px;margin:18px auto;padding:0 16px}
+.cap-v10-card{padding:18px;border-radius:20px;border:1px solid rgba(148,163,184,.14);background:linear-gradient(145deg,rgba(20,34,54,.97),rgba(9,19,32,.97))}
+.cap-v10 h1,.cap-v10 h2,.cap-v10 h3{margin:0}.cap-v10 p{color:#8fa3bd;font-size:12px;line-height:1.5}
+.cap-v10-top{display:flex;justify-content:space-between;align-items:end;gap:15px}.cap-v10-top small{color:#8fa3bd}
+.cap-v10-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}
+.cap-v10-kpi{padding:15px;border-radius:15px;background:rgba(255,255,255,.035)}
+.cap-v10-kpi small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase}.cap-v10-kpi strong{display:block;font-size:21px;margin-top:5px}
+.cap-v10-main{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:12px}
+.cap-v10-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.cap-v10-bar{height:9px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden;margin-top:7px}.cap-v10-bar i{display:block;height:100%;background:linear-gradient(90deg,#14b8a6,#3b82f6)}
+.cap-v10-row{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid rgba(148,163,184,.08);font-size:11px}.cap-v10-row span{color:#8fa3bd}
+.cap-v10-alert{padding:11px;border-radius:12px;background:rgba(251,113,133,.08);border:1px solid rgba(251,113,133,.16);margin-top:8px;font-size:11px}
+.cap-v10-good{padding:11px;border-radius:12px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.14);margin-top:8px;font-size:11px}
+.cap-v10-chart{height:130px;display:flex;align-items:end;gap:8px;margin-top:12px}.cap-v10-col{flex:1;text-align:center;font-size:9px;color:#8fa3bd}.cap-v10-col i{display:block;min-height:4px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#3b82f6,#14b8a6);margin-bottom:5px}
+.cap-v10-btn{width:100%;padding:11px;border:0;border-radius:11px;background:linear-gradient(90deg,#14b8a6,#3b82f6);color:white;font-weight:800;cursor:pointer;margin-top:10px}
+@media(max-width:760px){.cap-v10{padding:0 10px}.cap-v10-kpis{grid-template-columns:1fr 1fr}.cap-v10-main,.cap-v10-grid2{grid-template-columns:1fr}.cap-v10-top{align-items:start;flex-direction:column}}
+</style></head>
+<body>
+<div class="cap-pro-bar" role="status" aria-label="État de CAP Budget">
+  <div class="cap-pro-brand"><span class="cap-pro-dot"></span><span>CAP Budget</span></div>
+  <div class="cap-pro-status"><i></i><span>Vos données restent sur cet appareil</span></div>
+</div>
+
+<div class="app">
+<header class="top">
+<div class="brand">
+<svg viewBox="0 0 36 36" aria-hidden="true">
+<circle cx="18" cy="18" r="17" fill="var(--accent)"/>
+<g transform="rotate(38 18 18)">
+<path d="M18 6 22.5 18h-9Z" fill="#fff"/>
+<path d="M18 30 13.5 18h9Z" fill="#fff" opacity=".45"/>
+</g>
+<circle cx="18" cy="18" r="2.2" fill="var(--accent-ink)"/>
+</svg>
+<div>
+<div class="brand-name">Cap</div>
+<div class="brand-sub" id="month-label"></div>
+</div>
+</div>
+<div class="pill" id="pill"></div>
+</header>
+
+<section class="cap-hero" aria-label="Présentation CAP Budget">
+  <div class="cap-hero-inner">
+    <h1>Votre budget, enfin lisible.</h1>
+    <p>CAP Budget vous aide à comprendre ce qui entre, ce qui sort et ce qu’il vous reste — avec vos données conservées directement sur votre appareil.</p>
+    <div class="cap-kpis">
+      <div class="cap-kpi"><small>Objectif</small><strong>Maîtriser</strong></div>
+      <div class="cap-kpi"><small>Suivi</small><strong>Simple</strong></div>
+      <div class="cap-kpi"><small>Décisions</small><strong>Claires</strong></div>
+      <div class="cap-kpi"><small>Données</small><strong>Locales</strong></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="cap-hero" aria-label="Accès rapide">
+  <div class="cap-section-title"><h2>Accès rapide</h2><span>Les actions essentielles</span></div>
+  <div class="cap-quick-actions">
+    <button class="cap-action" type="button" onclick="document.getElementById('nav-budget')?.click()"><b>Mon budget</b><span>Voir le reste à vivre et les dépenses.</span></button>
+    <button class="cap-action" type="button" onclick="document.getElementById('nav-repas')?.click()"><b>Mes repas</b><span>Organiser les repas et les courses.</span></button>
+    <button class="cap-action" type="button" onclick="document.getElementById('nav-voyages')?.click()"><b>Mes projets</b><span>Préparer une cagnotte et suivre un objectif.</span></button>
+  </div>
+</section>
+
+
+<section class="cap-premium-grid" aria-label="Présentation premium">
+  <article class="cap-premium-card">
+    <div class="cap-premium-label">Repas</div>
+    <h2 class="cap-premium-title">Planifier sans dépasser</h2>
+    <p class="cap-premium-sub">Un espace clair pour organiser les repas et transformer le planning en liste de courses.</p>
+    <div class="cap-premium-value">Semaine maîtrisée</div>
+    <div class="cap-premium-meter"><i style="width:78%"></i></div>
+    <div class="cap-premium-chips">
+      <span class="cap-premium-chip">Planning</span>
+      <span class="cap-premium-chip">Courses</span>
+      <span class="cap-premium-chip">Budget repas</span>
+    </div>
+  </article>
+
+  <article class="cap-premium-card">
+    <div class="cap-premium-label">Voyages & projets</div>
+    <h2 class="cap-premium-title">Donner un objectif à son épargne</h2>
+    <p class="cap-premium-sub">Visualiser une destination, une cagnotte et l'effort mensuel nécessaire pour avancer.</p>
+    <div class="cap-premium-value">Objectif visible</div>
+    <div class="cap-premium-meter"><i style="width:62%"></i></div>
+    <div class="cap-premium-chips">
+      <span class="cap-premium-chip">Cagnotte</span>
+      <span class="cap-premium-chip">Échéance</span>
+      <span class="cap-premium-chip">Progression</span>
+    </div>
+  </article>
+
+  <article class="cap-premium-card">
+    <div class="cap-premium-label">Statistiques</div>
+    <h2 class="cap-premium-title">Comprendre ses habitudes</h2>
+    <p class="cap-premium-sub">Une lecture plus visuelle des catégories de dépenses pour repérer les tendances.</p>
+    <div class="cap-stat-bars">
+      <div class="cap-stat-bar"><span>Logement</span><div><i style="width:82%"></i></div><strong>82%</strong></div>
+      <div class="cap-stat-bar"><span>Courses</span><div><i style="width:54%"></i></div><strong>54%</strong></div>
+      <div class="cap-stat-bar"><span>Loisirs</span><div><i style="width:36%"></i></div><strong>36%</strong></div>
+      <div class="cap-stat-bar"><span>Projets</span><div><i style="width:68%"></i></div><strong>68%</strong></div>
+    </div>
+  </article>
+
+  <article class="cap-premium-card">
+    <div class="cap-premium-label">CAP Budget</div>
+    <h2 class="cap-premium-title">Une vision, pas seulement des chiffres</h2>
+    <p class="cap-premium-sub">Relier budget, repas, projets et statistiques dans une expérience cohérente et facile à consulter.</p>
+    <div class="cap-premium-list">
+      <div class="cap-premium-row"><span>Décision du jour</span><strong>Que puis-je dépenser ?</strong></div>
+      <div class="cap-premium-row"><span>Objectif</span><strong>Combien mettre de côté ?</strong></div>
+      <div class="cap-premium-row"><span>Projection</span><strong>Où en serai-je ensuite ?</strong></div>
+    </div>
+  </article>
+</section>
+
+
+<section class="cap-app-header" aria-label="État du produit">
+  <div>
+    <div class="cap-app-title">CAP Budget</div>
+    <div class="cap-app-sub">Votre assistant pour décider, prévoir et économiser.</div>
+  </div>
+  <div class="cap-pill">Version Pro</div>
+</section>
+
+<section class="cap-product-grid" aria-label="Fonctionnalités premium">
+  <article class="cap-product-panel">
+    <h2>Un budget qui vous aide à décider.</h2>
+    <p>CAP Budget rassemble votre budget, vos dépenses, vos repas, vos projets et vos statistiques dans une seule expérience.</p>
+    <div class="cap-feature-list">
+      <div class="cap-feature"><b>Budget intelligent</b><span>Voir rapidement ce qui reste.</span></div>
+      <div class="cap-feature"><b>Objectifs</b><span>Transformer une envie en projet.</span></div>
+      <div class="cap-feature"><b>Repas & courses</b><span>Planifier sans perdre le fil.</span></div>
+      <div class="cap-feature"><b>Statistiques</b><span>Comprendre ses habitudes.</span></div>
+    </div>
+  </article>
+  <article class="cap-product-panel">
+    <div class="cap-premium-label">Offre à finaliser</div>
+    <h2>CAP Budget Premium</h2>
+    <p>Une expérience complète pour suivre son quotidien et ses projets.</p>
+    <div class="cap-price">3,99 € <small>/ mois</small></div>
+    <button class="cap-cta" type="button" onclick="alert('Paiement à connecter : aucune transaction n’est activée dans cette version.')">Découvrir Premium</button>
+    <p class="cap-note">Le prix affiché est une proposition de travail. Nous validerons la grille tarifaire avant la mise en vente.</p>
+  </article>
+</section>
+
+<nav class="cap-mobile-bar" aria-label="Navigation rapide">
+  <button type="button" onclick="document.getElementById('nav-budget')?.click()">Budget</button>
+  <button type="button" onclick="document.getElementById('nav-repas')?.click()">Repas</button>
+  <button type="button" onclick="document.getElementById('nav-voyages')?.click()">Projets</button>
+  <button type="button" onclick="document.getElementById('nav-stats')?.click()">Stats</button>
+</nav>
+
+
+<section class="cap-dashboard" aria-label="Tableau de bord CAP Budget">
+  <div class="cap-dashboard-head">
+    <div>
+      <h2>Mon budget</h2>
+      <p>La vue essentielle pour savoir où vous en êtes avant de dépenser.</p>
+    </div>
+  </div>
+
+  <div class="cap-dashboard-grid">
+    <article class="cap-balance-card">
+      <div class="cap-balance-label">Reste disponible ce mois</div>
+      <div class="cap-balance-value">— €</div>
+      <div class="cap-balance-help">Le montant réel sera calculé automatiquement à partir de vos données.</div>
+      <div class="cap-balance-progress"><i></i></div>
+      <div class="cap-balance-meta"><span>Budget utilisé</span><span>Suivi en temps réel</span></div>
+      <div class="cap-dashboard-actions">
+        <button class="primary" type="button" onclick="document.getElementById('nav-budget')?.click()">Voir mon budget</button>
+        <button type="button" onclick="document.getElementById('export-data')?.click()">Sauvegarder</button>
+      </div>
+    </article>
+
+    <article class="cap-decision-card">
+      <h3>À retenir aujourd’hui</h3>
+      <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Votre marge</b><span>CAP calculera la marge disponible à partir de vos revenus et dépenses.</span></div></div>
+      <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Vos charges</b><span>Les dépenses récurrentes sont prises en compte séparément.</span></div></div>
+      <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Votre objectif</b><span>Les projets d’épargne peuvent être suivis dans la section Voyages.</span></div></div>
+    </article>
+  </div>
+
+  <div class="cap-mini-grid">
+    <div class="cap-mini"><small>Revenus</small><strong>— €</strong></div>
+    <div class="cap-mini"><small>Dépenses</small><strong>— €</strong></div>
+    <div class="cap-mini"><small>Charges fixes</small><strong>— €</strong></div>
+    <div class="cap-mini"><small>Épargne</small><strong>— €</strong></div>
+  </div>
+</section>
+
+
+<section class="cap-week" aria-label="Ma semaine">
+  <div class="cap-week-head">
+    <div>
+      <h2>Ma semaine</h2>
+      <p>Une seule vue pour organiser repas, courses, loisirs et objectifs sans perdre de vue le budget.</p>
+    </div>
+    <div class="cap-week-actions">
+      <button type="button">Semaine précédente</button>
+      <button class="primary" type="button">Ajouter un élément</button>
+    </div>
+  </div>
+
+  <div class="cap-week-grid">
+    <article class="cap-day today"><div class="cap-day-name">Lundi</div><div class="cap-day-date">Aujourd'hui</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Poulet & légumes</strong><span>≈ 4,50 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>Omelette</strong><span>≈ 2,20 €</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>6,70 €</b></div></article>
+    <article class="cap-day"><div class="cap-day-name">Mardi</div><div class="cap-day-date">Demain</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Pâtes tomate</strong><span>≈ 2,80 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>Salade complète</strong><span>≈ 3,40 €</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>6,20 €</b></div></article>
+    <article class="cap-day"><div class="cap-day-name">Mercredi</div><div class="cap-day-date">J+2</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Reste du mardi</strong><span>≈ 0,00 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>Poisson & riz</strong><span>≈ 5,20 €</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>5,20 €</b></div></article>
+    <article class="cap-day"><div class="cap-day-name">Jeudi</div><div class="cap-day-date">J+3</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Wraps</strong><span>≈ 3,20 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>Soupe & tartines</strong><span>≈ 2,60 €</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>5,80 €</b></div></article>
+    <article class="cap-day"><div class="cap-day-name">Vendredi</div><div class="cap-day-date">J+4</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Salade</strong><span>≈ 3,10 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>Soirée loisirs</strong><span>Budget 25 €</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>28,10 €</b></div></article>
+    <article class="cap-day"><div class="cap-day-name">Samedi</div><div class="cap-day-date">J+5</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Brunch maison</strong><span>≈ 5,50 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>À définir</strong><span>Ajouter un repas</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>5,50 €+</b></div></article>
+    <article class="cap-day"><div class="cap-day-name">Dimanche</div><div class="cap-day-date">J+6</div>
+      <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Plat familial</strong><span>≈ 7,00 €</span></div>
+      <div class="cap-meal"><div class="cap-meal-label">Soir</div><strong>Léger</strong><span>≈ 2,00 €</span></div>
+      <div class="cap-day-cost"><span>Prévu</span><b>9,00 €</b></div></article>
+  </div>
+
+  <div class="cap-planning">
+    <article class="cap-panel">
+      <h3>🛒 Ma liste de courses</h3>
+      <p>Les ingrédients de la semaine peuvent être regroupés par rayon et comparés au budget courses.</p>
+      <div class="cap-list">
+        <div class="cap-list-row"><div><b>🥬 Fruits & légumes</b><span> 6 articles</span></div><strong>18 €</strong></div>
+        <div class="cap-list-row"><div><b>🥩 Viandes & poissons</b><span> 4 articles</span></div><strong>27 €</strong></div>
+        <div class="cap-list-row"><div><b>🥛 Frais</b><span> 5 articles</span></div><strong>13 €</strong></div>
+        <div class="cap-list-row"><div><b>🍝 Épicerie</b><span> 8 articles</span></div><strong>16 €</strong></div>
+      </div>
+      <div class="cap-goal"><span>Budget courses prévu</span><div class="cap-goal-value">74 €</div></div>
+      <div class="cap-progress"><i style="width:74%"></i></div>
+      <div class="cap-categories"><span class="cap-cat">✓ Déjà à la maison</span><span class="cap-cat">☑ À acheter</span><span class="cap-cat">Prix estimés</span></div>
+    </article>
+
+    <article class="cap-panel">
+      <h3>🎯 Mes projets & loisirs</h3>
+      <p>La semaine doit rester compatible avec les objectifs du mois.</p>
+      <div class="cap-list">
+        <div class="cap-list-row"><div><b>🎮 Loisirs</b><span>Budget semaine</span></div><strong>35 €</strong></div>
+        <div class="cap-list-row"><div><b>✈️ Voyage</b><span>Épargne cette semaine</span></div><strong>25 €</strong></div>
+        <div class="cap-list-row"><div><b>💶 Marge</b><span>Prévu après engagements</span></div><strong>— €</strong></div>
+      </div>
+      <div class="cap-scenario"><b>💡 CAP vous aide à décider</b><span>Avant une dépense, l'application peut comparer la dépense prévue avec votre budget restant, vos objectifs et vos engagements de la semaine.</span></div>
+    </article>
+  </div>
+</section>
+
+
+<section class="cap-engine" aria-label="Moteur de budget réel">
+  <div class="cap-engine-head">
+    <div>
+      <h2>Mon calcul budget</h2>
+      <p>Renseignez vos montants : CAP Budget calcule immédiatement votre marge disponible.</p>
+    </div>
+  </div>
+
+  <div class="cap-engine-grid">
+    <article class="cap-engine-card">
+      <h3>1. Votre situation</h3>
+      <p>Les montants sont enregistrés dans ce navigateur pour cette version de test.</p>
+      <div class="cap-form">
+        <div class="cap-form-row">
+          <div><label for="cap-income">Revenus mensuels (€)</label><input id="cap-income" type="number" min="0" step="0.01" value="2500"></div>
+          <div><label for="cap-fixed">Charges fixes (€)</label><input id="cap-fixed" type="number" min="0" step="0.01" value="1100"></div>
+        </div>
+        <div class="cap-form-row">
+          <div><label for="cap-food">Courses / repas (€)</label><input id="cap-food" type="number" min="0" step="0.01" value="350"></div>
+          <div><label for="cap-leisure">Loisirs (€)</label><input id="cap-leisure" type="number" min="0" step="0.01" value="150"></div>
+        </div>
+        <div class="cap-form-row">
+          <div><label for="cap-projects">Projets / voyages (€)</label><input id="cap-projects" type="number" min="0" step="0.01" value="200"></div>
+          <div><label for="cap-other">Autres dépenses (€)</label><input id="cap-other" type="number" min="0" step="0.01" value="100"></div>
+        </div>
+      </div>
+      <div class="cap-engine-actions">
+        <button class="primary" type="button" id="cap-calc-btn">Calculer mon budget</button>
+        <button type="button" id="cap-save-btn">Sauvegarder</button>
+      </div>
+    </article>
+
+    <article class="cap-engine-card">
+      <h3>2. Votre marge réelle</h3>
+      <p>Le calcul est transparent : revenus moins les postes renseignés.</p>
+      <div class="cap-calc" id="cap-result">
+        <div class="cap-calc-row"><span>Revenus</span><strong id="cap-r-income">2 500 €</strong></div>
+        <div class="cap-calc-row"><span>Charges fixes</span><strong id="cap-r-fixed">− 1 100 €</strong></div>
+        <div class="cap-calc-row"><span>Courses / repas</span><strong id="cap-r-food">− 350 €</strong></div>
+        <div class="cap-calc-row"><span>Loisirs</span><strong id="cap-r-leisure">− 150 €</strong></div>
+        <div class="cap-calc-row"><span>Projets / voyages</span><strong id="cap-r-projects">− 200 €</strong></div>
+        <div class="cap-calc-row"><span>Autres dépenses</span><strong id="cap-r-other">− 100 €</strong></div>
+        <div class="cap-calc-row total"><span>Reste disponible</span><strong id="cap-r-total">600 €</strong></div>
+      </div>
+      <div class="cap-rec"><b id="cap-rec-title">Votre marge est positive.</b><span id="cap-rec-text">Vous disposez encore d'une marge après les montants renseignés. Cette marge pourra ensuite être répartie entre épargne, dépenses imprévues et loisirs.</span></div>
+    </article>
+  </div>
+
+  <div class="cap-kpis">
+    <div class="cap-kpi"><small>Par semaine</small><strong id="cap-weekly">≈ 138 €</strong></div>
+    <div class="cap-kpi"><small>Par jour</small><strong id="cap-daily">≈ 20 €</strong></div>
+    <div class="cap-kpi"><small>Taux engagé</small><strong id="cap-rate">76 %</strong></div>
+    <div class="cap-kpi"><small>Objectif projet</small><strong id="cap-goal-kpi">200 €</strong></div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const ids = ['income','fixed','food','leisure','projects','other'];
+  const euro = n => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(n);
+  const val = id => Math.max(0, Number(document.getElementById('cap-'+id).value) || 0);
+  function calc(){
+    const v = Object.fromEntries(ids.map(id=>[id,val(id)]));
+    const totalOut = v.fixed+v.food+v.leisure+v.projects+v.other;
+    const remain = v.income-totalOut;
+    const engaged = v.income ? Math.round(totalOut/v.income*100) : 0;
+    document.getElementById('cap-r-income').textContent=euro(v.income);
+    document.getElementById('cap-r-fixed').textContent='− '+euro(v.fixed);
+    document.getElementById('cap-r-food').textContent='− '+euro(v.food);
+    document.getElementById('cap-r-leisure').textContent='− '+euro(v.leisure);
+    document.getElementById('cap-r-projects').textContent='− '+euro(v.projects);
+    document.getElementById('cap-r-other').textContent='− '+euro(v.other);
+    document.getElementById('cap-r-total').textContent=euro(remain);
+    document.getElementById('cap-weekly').textContent='≈ '+euro(remain/4.33);
+    document.getElementById('cap-daily').textContent='≈ '+euro(remain/30);
+    document.getElementById('cap-rate').textContent=engaged+' %';
+    document.getElementById('cap-goal-kpi').textContent=euro(v.projects);
+    const title=document.getElementById('cap-rec-title'), body=document.getElementById('cap-rec-text');
+    if(remain<0){title.textContent='Attention : le budget dépasse les revenus.';body.textContent='Réduisez ou réorganisez un ou plusieurs postes avant d’ajouter de nouvelles dépenses.'}
+    else if(remain<100){title.textContent='Marge très serrée.';body.textContent='Gardez une réserve pour les imprévus avant de prévoir des dépenses supplémentaires.'}
+    else {title.textContent='Votre marge est positive.';body.textContent='Vous disposez encore d’une marge après les montants renseignés. Une partie peut être affectée à l’épargne ou aux imprévus.'}
+    localStorage.setItem('capBudgetEngine',JSON.stringify(v));
+  }
+  document.getElementById('cap-calc-btn').addEventListener('click',calc);
+  document.getElementById('cap-save-btn').addEventListener('click',()=>{calc();alert('Budget sauvegardé sur cet appareil pour cette version de test.')});
+  try{
+    const saved=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');
+    if(saved) ids.forEach(id=>{if(saved[id]!==undefined) document.getElementById('cap-'+id).value=saved[id]});
+  }catch(e){}
+  calc();
+})();
+</script>
+
+
+<section class="cap-connected" aria-label="Budget connecté à la semaine">
+  <div class="cap-connected-head">
+    <div>
+      <h2>Budget connecté</h2>
+      <p>Les choix de la semaine ont maintenant un impact visible sur votre budget.</p>
+    </div>
+  </div>
+
+  <div class="cap-connected-grid">
+    <article class="cap-connected-card">
+      <h3>🛒 Courses & repas</h3>
+      <p>Une enveloppe courses peut être suivie séparément et intégrée au calcul du reste disponible.</p>
+      <div class="cap-course-total" id="cap-week-food-total">74,00 €</div>
+      <div class="cap-course-items">
+        <label class="cap-course-item"><input type="checkbox" checked> Fruits & légumes — 18 €</label>
+        <label class="cap-course-item"><input type="checkbox" checked> Viandes & poissons — 27 €</label>
+        <label class="cap-course-item"><input type="checkbox"> Produits frais — 13 €</label>
+        <label class="cap-course-item"><input type="checkbox"> Épicerie — 16 €</label>
+      </div>
+      <div class="cap-impact"><strong id="cap-food-impact">− 74,00 €</strong><span>Impact prévu sur l'enveloppe courses.</span></div>
+    </article>
+
+    <article class="cap-connected-card">
+      <h3>🎮 Loisirs & ✈️ projets</h3>
+      <p>Les dépenses plaisir et les objectifs d'épargne restent visibles à côté du budget quotidien.</p>
+      <div class="cap-connected-list">
+        <div class="cap-connected-row"><div><b>Loisirs de la semaine</b><span>Budget prévu</span></div><strong>35 €</strong></div>
+        <div class="cap-connected-row"><div><b>Projet / voyage</b><span>Épargne prévue</span></div><strong>25 €</strong></div>
+        <div class="cap-connected-row"><div><b>Reste après engagements</b><span>À calculer selon vos données</span></div><strong id="cap-connected-remain">— €</strong></div>
+      </div>
+      <div class="cap-impact"><strong>Décision assistée</strong><span>CAP Budget pourra signaler si une nouvelle dépense risque de réduire trop fortement la marge disponible.</span></div>
+    </article>
+  </div>
+</section>
+
+<script>
+(function(){
+  const read = () => { try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null} };
+  const update = () => {
+    const v=read(); if(!v) return;
+    const remain=(v.income||0)-(v.fixed||0)-(v.food||0)-(v.leisure||0)-(v.projects||0)-(v.other||0);
+    const el=document.getElementById('cap-connected-remain');
+    if(el) el.textContent=new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(remain);
+  };
+  update();
+  window.addEventListener('storage',update);
+})();
+</script>
+
+
+<section class="cap-v6" aria-label="CAP Budget — fonctions avancées">
+  <h2>CAP Budget — centre de pilotage</h2>
+  <p>Le budget, la semaine, les objectifs et les décisions sont réunis dans une seule expérience.</p>
+
+  <div class="cap-v6-kpis">
+    <div class="cap-v6-kpi"><small>Reste disponible</small><b id="v6-remain">—</b></div>
+    <div class="cap-v6-kpi"><small>Budget engagé</small><b id="v6-rate">—</b></div>
+    <div class="cap-v6-kpi"><small>Épargne projets</small><b id="v6-projects">—</b></div>
+    <div class="cap-v6-kpi"><small>Marge / semaine</small><b id="v6-week">—</b></div>
+  </div>
+
+  <div class="cap-v6-grid">
+    <article class="cap-v6-card">
+      <span class="cap-v6-badge">🧠 CAP Conseil</span>
+      <h3 style="margin-top:8px">Votre situation maintenant</h3>
+      <p id="v6-advice">Renseignez votre budget pour obtenir une recommandation.</p>
+      <div class="cap-v6-note" id="v6-advice-detail">CAP Conseil tient compte des revenus, charges, courses, loisirs, projets et autres dépenses enregistrés.</div>
+      <div class="cap-v6-actions">
+        <button class="cap-v6-btn primary" id="v6-refresh">Analyser mon budget</button>
+      </div>
+    </article>
+
+    <article class="cap-v6-card">
+      <span class="cap-v6-badge">🎯 Objectifs</span>
+      <h3 style="margin-top:8px">Mes projets</h3>
+      <p>Ajoutez plusieurs objectifs et suivez leur progression.</p>
+      <div class="cap-v6-form">
+        <div class="cap-v6-form-row">
+          <input id="v6-goal-name" placeholder="Ex. Voyage d'été">
+          <input id="v6-goal-target" type="number" min="0" step="0.01" placeholder="Montant cible €">
+        </div>
+        <div class="cap-v6-form-row">
+          <input id="v6-goal-saved" type="number" min="0" step="0.01" placeholder="Déjà épargné €">
+          <input id="v6-goal-date" type="date">
+        </div>
+        <button class="cap-v6-btn primary" id="v6-add-goal">Ajouter l'objectif</button>
+      </div>
+      <div class="cap-v6-list" id="v6-goals"></div>
+    </article>
+
+    <article class="cap-v6-card">
+      <span class="cap-v6-badge">📊 Statistiques</span>
+      <h3 style="margin-top:8px">Lecture du budget</h3>
+      <p>Une vue simple des postes qui consomment le budget actuel.</p>
+      <div id="v6-stats"></div>
+      <div class="cap-v6-note">Cette première version calcule les statistiques à partir des données du moteur de budget. L'historique mensuel sera alimenté par les opérations réelles dans l'étape suivante.</div>
+    </article>
+
+    <article class="cap-v6-card">
+      <span class="cap-v6-badge">💳 Offre Premium</span>
+      <h3 style="margin-top:8px">Structure commerciale</h3>
+      <p>Les fonctionnalités payantes sont préparées, sans activer de paiement pour l'instant.</p>
+      <div class="cap-v6-plan">
+        <div><b>Gratuit</b><span>Budget de base<br>Ma semaine<br>Calculs essentiels</span></div>
+        <div><b>3,99 €/mois</b><span>CAP Conseil<br>Objectifs multiples<br>Statistiques avancées</span></div>
+        <div><b>24,90 €</b><span>Option à définir précisément<br>avant commercialisation</span></div>
+      </div>
+      <div class="cap-v6-note">Les tarifs restent des hypothèses commerciales. Aucun paiement n'est branché tant que le produit n'est pas testé.</div>
+    </article>
+
+    <article class="cap-v6-card">
+      <span class="cap-v6-badge">💾 Données</span>
+      <h3 style="margin-top:8px">Sauvegarde locale</h3>
+      <p>Les données de cette version de démonstration restent sur cet appareil.</p>
+      <div class="cap-v6-actions">
+        <button class="cap-v6-btn" id="v6-export">Exporter mes données</button>
+        <button class="cap-v6-btn" id="v6-reset">Réinitialiser</button>
+      </div>
+      <div class="cap-v6-note">Pour une vraie application multi-appareils, il faudra ensuite un compte utilisateur et une base de données sécurisée. Cette partie ne doit pas être simulée.</div>
+    </article>
+
+    <article class="cap-v6-card">
+      <span class="cap-v6-badge">📱 Mobile</span>
+      <h3 style="margin-top:8px">Expérience téléphone</h3>
+      <p>Les cartes passent automatiquement en une colonne sur petit écran et les formulaires deviennent empilés.</p>
+      <div class="cap-v6-note">La prochaine phase de validation consiste à tester chaque écran sur téléphone, tablette et ordinateur avant publication.</div>
+    </article>
+  </div>
+</section>
+
+<script>
+(function(){
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const getBudget=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
+  const getGoals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
+  const saveGoals=g=>localStorage.setItem('capBudgetGoals',JSON.stringify(g));
+
+  function budget(){
+    const v=getBudget();
+    if(!v){return {income:0,total:0,remain:0,rate:0,projects:0,weekly:0}};
+    const total=(v.fixed||0)+(v.food||0)+(v.leisure||0)+(v.projects||0)+(v.other||0);
+    return {income:v.income||0,total,remain:(v.income||0)-total,rate:v.income?Math.round(total/v.income*100):0,projects:v.projects||0,weekly:((v.income||0)-total)/4.33};
+  }
+
+  function render(){
+    const b=budget();
+    document.getElementById('v6-remain').textContent=money(b.remain);
+    document.getElementById('v6-rate').textContent=b.rate+' %';
+    document.getElementById('v6-projects').textContent=money(b.projects);
+    document.getElementById('v6-week').textContent=money(b.weekly);
+    const advice=document.getElementById('v6-advice'), detail=document.getElementById('v6-advice-detail');
+    if(!b.income){advice.textContent='Commencez par renseigner vos revenus et dépenses dans le moteur de budget.'}
+    else if(b.remain<0){advice.textContent='Votre budget dépasse actuellement vos revenus.';detail.textContent='CAP Conseil vous recommande de revoir les postes variables avant d'ajouter de nouvelles dépenses.'}
+    else if(b.remain<100){advice.textContent='Votre marge est très serrée.';detail.textContent='Gardez une réserve pour les imprévus et évitez de considérer toute la marge comme disponible.'}
+    else {advice.textContent='Votre budget conserve une marge positive.';detail.textContent='Vous pouvez répartir cette marge entre épargne, imprévus et dépenses plaisir selon vos priorités.'}
+    const stats=[
+      ['Charges fixes', b.income?Math.round((getBudget().fixed||0)/b.income*100):0],
+      ['Courses / repas', b.income?Math.round((getBudget().food||0)/b.income*100):0],
+      ['Loisirs', b.income?Math.round((getBudget().leisure||0)/b.income*100):0],
+      ['Projets', b.income?Math.round((getBudget().projects||0)/b.income*100):0]
+    ];
+    document.getElementById('v6-stats').innerHTML=stats.map(x=>`<div class="cap-v6-row"><div><strong>${x[0]}</strong><span>${x[1]} % du revenu</span></div><b>${x[1]}%</b></div><div class="cap-v6-bar"><i style="width:${Math.min(x[1],100)}%"></i></div>`).join('');
+    const goals=getGoals();
+    document.getElementById('v6-goals').innerHTML=goals.length?goals.map((g,i)=>{
+      const pct=g.target?Math.min(100,Math.round(g.saved/g.target*100)):0;
+      return `<div class="cap-v6-item"><div><b>${g.name}</b><small>${money(g.saved)} / ${money(g.target)} · ${pct}%</small><div class="cap-v6-bar"><i style="width:${pct}%"></i></div></div><button data-goal="${i}" aria-label="Supprimer">✕</button></div>`;
+    }).join(''):'<div class="cap-v6-note">Aucun objectif pour le moment.</div>';
+    document.querySelectorAll('[data-goal]').forEach(btn=>btn.onclick=()=>{const g=getGoals();g.splice(Number(btn.dataset.goal),1);saveGoals(g);render()});
+  }
+
+  document.getElementById('v6-refresh').onclick=render;
+  document.getElementById('v6-add-goal').onclick=()=>{
+    const name=document.getElementById('v6-goal-name').value.trim(), target=Number(document.getElementById('v6-goal-target').value)||0, saved=Number(document.getElementById('v6-goal-saved').value)||0, date=document.getElementById('v6-goal-date').value;
+    if(!name||target<=0){alert('Indiquez un nom et un montant cible.');return}
+    const g=getGoals();g.push({name,target,saved,date});saveGoals(g);
+    ['v6-goal-name','v6-goal-target','v6-goal-saved','v6-goal-date'].forEach(id=>document.getElementById(id).value='');render();
+  };
+  document.getElementById('v6-export').onclick=()=>{
+    const payload={budget:getBudget(),goals:getGoals(),exportedAt:new Date().toISOString()};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}), a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);a.download='cap-budget-donnees.json';a.click();URL.revokeObjectURL(a.href);
+  };
+  document.getElementById('v6-reset').onclick=()=>{
+    if(confirm('Réinitialiser les données de démonstration de CAP Budget sur cet appareil ?')){localStorage.removeItem('capBudgetEngine');localStorage.removeItem('capBudgetGoals');location.reload()}
+  };
+  render();
+})();
+</script>
+
+
+<section class="cap-v7" aria-label="CAP Conseil">
+  <article class="cap-v7-card">
+    <div class="cap-v7-head">
+      <div>
+        <h2>🧠 CAP Conseil</h2>
+        <p>Posez une question à votre budget. CAP Conseil transforme vos chiffres en réponse simple.</p>
+      </div>
+    </div>
+
+    <div class="cap-v7-grid">
+      <div>
+        <div class="cap-v7-question">
+          <label for="v7-question">Ma question</label>
+          <select id="v7-question">
+            <option value="spend">Puis-je me permettre cette dépense ?</option>
+            <option value="week">Combien puis-je dépenser cette semaine ?</option>
+            <option value="save">Combien puis-je mettre de côté ?</option>
+            <option value="goal">Comment avancer vers mon objectif ?</option>
+          </select>
+          <div id="v7-amount-wrap" style="margin-top:10px">
+            <label for="v7-amount">Montant de la dépense (€)</label>
+            <input id="v7-amount" type="number" min="0" step="0.01" placeholder="Ex. 80">
+          </div>
+          <div class="cap-v7-actions">
+            <button class="cap-v7-btn primary" id="v7-analyze">Analyser</button>
+            <button class="cap-v7-btn" id="v7-clear">Effacer</button>
+          </div>
+        </div>
+        <div class="cap-v7-metrics">
+          <div class="cap-v7-metric"><small>Marge actuelle</small><strong id="v7-remain">—</strong></div>
+          <div class="cap-v7-metric"><small>Marge / semaine</small><strong id="v7-weekly">—</strong></div>
+          <div class="cap-v7-metric"><small>Budget engagé</small><strong id="v7-rate">—</strong></div>
+        </div>
+      </div>
+
+      <div class="cap-v7-card cap-v7-answer" id="v7-answer">
+        <div class="icon">💡</div>
+        <h3>Votre réponse apparaîtra ici</h3>
+        <p>CAP Conseil utilise les chiffres enregistrés dans votre moteur de budget. Il ne devine pas vos revenus ni vos dépenses.</p>
+      </div>
+    </div>
+
+    <div class="cap-v7-history">
+      <h3>Dernières analyses</h3>
+      <div id="v7-history"><div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div></div>
+    </div>
+  </article>
+</section>
+
+<script>
+(function(){
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const get=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
+  const getHistory=()=>{try{return JSON.parse(localStorage.getItem('capAdviceHistory')||'[]')}catch(e){return []}};
+  const saveHistory=h=>localStorage.setItem('capAdviceHistory',JSON.stringify(h.slice(0,8)));
+
+  function budget(){
+    const v=get()||{};
+    const total=(v.fixed||0)+(v.food||0)+(v.leisure||0)+(v.projects||0)+(v.other||0);
+    const remain=(v.income||0)-total;
+    return {income:v.income||0,total,remain,weekly:remain/4.33,rate:v.income?Math.round(total/v.income*100):0};
+  }
+  function refresh(){
+    const b=budget();
+    document.getElementById('v7-remain').textContent=money(b.remain);
+    document.getElementById('v7-weekly').textContent=money(b.weekly);
+    document.getElementById('v7-rate').textContent=b.rate+' %';
+    const history=getHistory();
+    document.getElementById('v7-history').innerHTML=history.length?history.map(x=>`<div class="cap-v7-history-item"><span>${x.q}</span><b>${x.a}</b></div>`).join(''):'<div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div>';
+  }
+  function analyze(){
+    const b=budget(), type=document.getElementById('v7-question').value, amount=Math.max(0,Number(document.getElementById('v7-amount').value)||0);
+    let title='', body='', icon='💡', answer='';
+    if(!b.income){title='Votre budget n’est pas encore renseigné';body='Commencez par indiquer vos revenus et vos dépenses dans le moteur de budget.';icon='📝';answer=title}
+    else if(type==='spend'){
+      const after=b.remain-amount;
+      if(amount<=0){title='Indiquez un montant';body='Entrez le montant de la dépense que vous envisagez.';icon='💶';answer=title}
+      else if(after<0){title='Cette dépense dépasse votre marge actuelle';body=`Après ${money(amount)}, votre marge passerait à ${money(after)}. Réduisez la dépense ou réorganisez un autre poste.`;icon='⚠️';answer='À revoir'}
+      else if(after<100){title='Dépense possible, mais marge serrée';body=`Après ${money(amount)}, il resterait ${money(after)}. Gardez une réserve pour les imprévus.`;icon='🟠';answer='Prudence'}
+      else{title='La dépense entre dans votre marge actuelle';body=`Après ${money(amount)}, il resterait ${money(after)}. Cela ne signifie pas que la dépense est prioritaire : vérifiez aussi vos objectifs.`;icon='✅';answer='Possible'}
+    } else if(type==='week'){
+      title='Votre enveloppe hebdomadaire indicative';body=`Avec les données actuelles, votre marge disponible représente environ ${money(Math.max(0,b.weekly))} par semaine. Gardez une réserve séparée pour les imprévus.`;answer=money(Math.max(0,b.weekly));icon='📅';
+    } else if(type==='save'){
+      const safe=Math.max(0,b.remain*0.5);
+      title='Une épargne prudente pourrait commencer ici';body=`À titre indicatif, réserver environ ${money(safe)} laisserait encore ${money(b.remain-safe)} de marge. Ce n’est pas un conseil financier personnalisé.`;answer=money(safe);icon='🎯';
+    } else {
+      title='Pour avancer vers un objectif';body=`Votre marge actuelle est de ${money(b.remain)}. Ajoutez vos objectifs dans la section Objectifs pour suivre précisément le montant restant et la progression.`;answer='Objectifs';icon='🚀';
+    }
+    document.getElementById('v7-answer').innerHTML=`<div class="icon">${icon}</div><h3>${title}</h3><p>${body}</p>`;
+    const history=getHistory();history.unshift({q:document.getElementById('v7-question').selectedOptions[0].text,a:answer});saveHistory(history);refresh();
+  }
+  document.getElementById('v7-analyze').onclick=analyze;
+  document.getElementById('v7-clear').onclick=()=>{document.getElementById('v7-amount').value='';document.getElementById('v7-answer').innerHTML='<div class="icon">💡</div><h3>Votre réponse apparaîtra ici</h3><p>CAP Conseil utilise les chiffres enregistrés dans votre moteur de budget.</p>'};
+  document.getElementById('v7-question').onchange=()=>{document.getElementById('v7-amount-wrap').style.display=document.getElementById('v7-question').value==='spend'?'block':'none'};
+  refresh();
+})();
+</script>
+
+
+<section class="cap-v8" aria-label="Budget vivant et historique">
+  <div class="cap-v8-card">
+    <h2>🔄 Le budget vivant</h2>
+    <p>Un seul état budgétaire partagé par les dépenses enregistrées, CAP Conseil et les statistiques.</p>
+    <div class="cap-v8-flow">
+      <div><b>💰</b>Revenus</div><div><b>🏠</b>Charges</div><div><b>🛒</b>Courses</div><div><b>🎮</b>Loisirs</div><div><b>✈️</b>Projets</div>
+    </div>
+    <div class="cap-v8-kpis">
+      <div class="cap-v8-kpi"><small>Revenus</small><strong id="v8-income">—</strong></div>
+      <div class="cap-v8-kpi"><small>Dépenses réelles</small><strong id="v8-real">—</strong></div>
+      <div class="cap-v8-kpi"><small>Budget planifié</small><strong id="v8-planned">—</strong></div>
+      <div class="cap-v8-kpi"><small>Reste réel</small><strong id="v8-remain">—</strong></div>
+    </div>
+  </div>
+
+  <div class="cap-v8-grid">
+    <article class="cap-v8-card">
+      <h3>➕ Ajouter une opération</h3>
+      <p>Chaque dépense ajoutée ici est enregistrée dans l'historique et impacte le budget réel.</p>
+      <div class="cap-v8-form">
+        <input id="v8-label" placeholder="Ex. Courses Carrefour">
+        <div class="cap-v8-form-row">
+          <input id="v8-amount" type="number" min="0" step="0.01" placeholder="Montant €">
+          <select id="v8-category">
+            <option value="Courses">🛒 Courses</option>
+            <option value="Repas">🍽️ Repas</option>
+            <option value="Loisirs">🎮 Loisirs</option>
+            <option value="Voyages">✈️ Voyages</option>
+            <option value="Transport">🚗 Transport</option>
+            <option value="Logement">🏠 Logement</option>
+            <option value="Abonnements">📱 Abonnements</option>
+            <option value="Autre">📦 Autre</option>
+          </select>
+        </div>
+        <input id="v8-date" type="date">
+      </div>
+      <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-add">Ajouter</button><button class="cap-v8-btn" id="v8-demo">Ajouter une dépense test</button></div>
+    </article>
+
+    <article class="cap-v8-card">
+      <h3>📒 Historique des opérations</h3>
+      <p>Modifiez ou supprimez une opération. Les chiffres sont recalculés immédiatement.</p>
+      <div class="cap-v8-list" id="v8-list"></div>
+    </article>
+
+    <article class="cap-v8-card">
+      <h3>📊 Répartition réelle</h3>
+      <p>Les dépenses enregistrées sont regroupées par catégorie.</p>
+      <div id="v8-stats"></div>
+    </article>
+
+    <article class="cap-v8-card">
+      <h3>🧠 Impact sur CAP Conseil</h3>
+      <p>Les opérations réelles sont prises en compte dans l'analyse.</p>
+      <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-advice">Analyser ma situation</button></div>
+      <div id="v8-advice-box" style="margin-top:10px;color:#a9bacd;font-size:12px;line-height:1.55">Ajoutez une opération puis relancez l'analyse pour voir son impact.</div>
+    </article>
+  </div>
+</section>
+
+<script>
+(function(){
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const today=()=>new Date().toISOString().slice(0,10);
+  const budget=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
+  const getOps=()=>{try{return JSON.parse(localStorage.getItem('capBudgetOperations')||'[]')}catch(e){return []}};
+  const saveOps=o=>localStorage.setItem('capBudgetOperations',JSON.stringify(o));
+  const getPlan=()=>{const b=budget()||{};return (b.fixed||0)+(b.food||0)+(b.leisure||0)+(b.projects||0)+(b.other||0)};
+  const baseIncome=()=>Number((budget()||{}).income||0);
+
+  function render(){
+    const ops=getOps(), income=baseIncome(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), planned=getPlan(), remain=income-real;
+    document.getElementById('v8-income').textContent=money(income);
+    document.getElementById('v8-real').textContent=money(real);
+    document.getElementById('v8-planned').textContent=money(planned);
+    document.getElementById('v8-remain').textContent=money(remain);
+    const list=document.getElementById('v8-list');
+    list.innerHTML=ops.length?ops.slice().reverse().map((o,i)=>`<div class="cap-v8-item"><div><b>${o.label}</b><span>${o.category} · ${o.date}</span></div><strong class="cap-v8-negative">− ${money(o.amount)}</strong><button data-del="${ops.length-1-i}">✕</button></div>`).join(''):'<div style="color:#8fa3bd;font-size:11px;padding:10px">Aucune dépense réelle enregistrée.</div>';
+    list.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=()=>{const o=getOps();o.splice(Number(btn.dataset.del),1);saveOps(o);render()});
+    const by={};ops.forEach(o=>by[o.category]=(by[o.category]||0)+Number(o.amount||0));
+    const entries=Object.entries(by).sort((a,b)=>b[1]-a[1]), max=entries[0]?.[1]||1;
+    document.getElementById('v8-stats').innerHTML=entries.length?entries.map(([k,v])=>`<div style="padding:8px 0;font-size:11px"><div style="display:flex;justify-content:space-between"><b>${k}</b><span>${money(v)}</span></div><div class="cap-v8-bar"><i style="width:${Math.round(v/max*100)}%"></i></div></div>`).join(''):'<div style="color:#8fa3bd;font-size:11px;padding:10px 0">Les statistiques apparaîtront avec les premières opérations.</div>';
+    window.dispatchEvent(new CustomEvent('capBudgetChanged'));
+  }
+
+  function add(label,amount,category,date){
+    if(!label||amount<=0){alert('Indiquez un libellé et un montant supérieur à 0 €.');return}
+    const o=getOps();o.push({id:Date.now()+Math.random(),label,amount:Number(amount),category,date:date||today()});saveOps(o);render();
+  }
+  document.getElementById('v8-date').value=today();
+  document.getElementById('v8-add').onclick=()=>add(document.getElementById('v8-label').value.trim(),Number(document.getElementById('v8-amount').value),document.getElementById('v8-category').value,document.getElementById('v8-date').value);
+  document.getElementById('v8-demo').onclick=()=>add('Courses de la semaine',50,'Courses',today());
+  document.getElementById('v8-advice').onclick=()=>{
+    const income=baseIncome(), ops=getOps(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), remain=income-real;
+    document.getElementById('v8-advice-box').innerHTML=income?`Après les dépenses réellement enregistrées, votre marge est de <strong>${money(remain)}</strong>. ${remain<0?'Votre historique dépasse les revenus renseignés : revoyez les dépenses ou le budget prévu.':remain<100?'La marge est faible : gardez une réserve pour les imprévus.':'La marge reste positive. Vous pouvez maintenant comparer dépenses réelles et budget planifié.'}`:'Renseignez d’abord vos revenus dans le moteur de budget.';
+  };
+  render();
+})();
+</script>
+
+
+<section class="cap-v9" aria-label="Connexion des écrans">
+  <article class="cap-v9-card">
+    <h2>🔗 Centre budgétaire — toutes vos activités réunies</h2>
+    <p>Repas, Courses, Loisirs, Voyages et Transport alimentent désormais le même registre d'opérations. Cette passerelle prépare la synchronisation de tous les écrans vers un moteur unique.</p>
+
+    <div class="cap-v9-chips">
+      <div class="cap-v9-chip"><b id="v9-count">0</b><span>opérations</span></div>
+      <div class="cap-v9-chip"><b id="v9-total">0 €</b><span>dépenses réelles</span></div>
+      <div class="cap-v9-chip"><b id="v9-cats">0</b><span>catégories actives</span></div>
+    </div>
+
+    <div class="cap-v9-grid">
+      <div class="cap-v9-card">
+        <h3>📡 Flux des écrans</h3>
+        <p>Chaque catégorie utilise le même historique partagé.</p>
+        <div class="cap-v9-map" id="v9-map"></div>
+      </div>
+      <div class="cap-v9-card">
+        <h3>🧠 Conséquence immédiate</h3>
+        <p id="v9-message">Les données enregistrées ici seront visibles par le budget vivant et CAP Conseil.</p>
+        <button class="cap-v9-btn" id="v9-refresh">Actualiser le moteur</button>
+      </div>
+    </div>
+  </article>
+</section>
+
+<script>
+(function(){
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const read=()=>{try{return JSON.parse(localStorage.getItem('capBudgetOperations')||'[]')}catch(e){return []}};
+  const render=()=>{
+    const ops=read(), total=ops.reduce((s,o)=>s+Number(o.amount||0),0);
+    const cats={Courses:0,Repas:0,Loisirs:0,Voyages:0,Transport:0,Autre:0};
+    ops.forEach(o=>cats[o.category]=(cats[o.category]||0)+Number(o.amount||0));
+    document.getElementById('v9-count').textContent=ops.length;
+    document.getElementById('v9-total').textContent=money(total);
+    document.getElementById('v9-cats').textContent=Object.values(cats).filter(v=>v>0).length;
+    const active=Object.entries(cats).filter(([k,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+    const max=active[0]?.[1]||1;
+    document.getElementById('v9-map').innerHTML=active.length?active.map(([k,v])=>`<div class="cap-v9-row"><b>${k}</b><div class="cap-v9-bar"><i style="width:${Math.round(v/max*100)}%"></i></div><strong>${money(v)}</strong></div>`).join(''):'<div style="color:#8fa3bd;font-size:11px">Aucune opération réelle pour le moment.</div>';
+    document.getElementById('v9-message').innerHTML=ops.length?`Le moteur centralise actuellement <strong>${ops.length}</strong> opération(s), pour <strong>${money(total)}</strong>. Les prochaines connexions d'écran pourront réutiliser exactement ce registre.`:'Ajoutez des opérations depuis le budget vivant pour alimenter le moteur central.';
+  };
+  document.getElementById('v9-refresh').onclick=()=>{render();window.dispatchEvent(new CustomEvent('capBudgetChanged',{detail:{source:'unified-engine'}}));};
+  window.addEventListener('capBudgetChanged',render);
+  render();
+})();
+</script>
+
+
+<section class="cap-v10" aria-label="Tableau de bord financier">
+  <article class="cap-v10-card">
+    <div class="cap-v10-top">
+      <div><small>CAP BUDGET · TABLEAU DE BORD</small><h1>Votre situation financière</h1><p id="v10-sub">Une vue en temps réel alimentée par le moteur budgétaire.</p></div>
+      <div><small id="v10-date"></small></div>
+    </div>
+
+    <div class="cap-v10-kpis">
+      <div class="cap-v10-kpi"><small>💰 Revenus</small><strong id="v10-income">—</strong></div>
+      <div class="cap-v10-kpi"><small>💸 Dépenses réelles</small><strong id="v10-spent">—</strong></div>
+      <div class="cap-v10-kpi"><small>🟢 Reste disponible</small><strong id="v10-remain">—</strong></div>
+      <div class="cap-v10-kpi"><small>📅 Enveloppe semaine</small><strong id="v10-week">—</strong></div>
+    </div>
+  </article>
+
+  <div class="cap-v10-main">
+    <article class="cap-v10-card">
+      <h2>📊 Dépenses par catégorie</h2>
+      <p>Le tableau de bord lit directement l'historique des opérations.</p>
+      <div id="v10-categories"></div>
+    </article>
+    <article class="cap-v10-card">
+      <h2>🧠 CAP Conseil</h2>
+      <div id="v10-advice" class="cap-v10-good">Analyse en cours…</div>
+      <button class="cap-v10-btn" id="v10-refresh">Actualiser</button>
+    </article>
+  </div>
+
+  <div class="cap-v10-grid2">
+    <article class="cap-v10-card">
+      <h3>⚠️ Alertes budget</h3>
+      <div id="v10-alerts"></div>
+    </article>
+    <article class="cap-v10-card">
+      <h3>🎯 Objectifs & épargne</h3>
+      <div id="v10-goals"></div>
+    </article>
+  </div>
+
+  <article class="cap-v10-card" style="margin-top:12px">
+    <h3>📈 Évolution récente</h3>
+    <p>Comparaison des dépenses enregistrées sur les dernières périodes disponibles.</p>
+    <div class="cap-v10-chart" id="v10-chart"></div>
+  </article>
+</section>
+
+<script>
+(function(){
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const ops=()=>{try{return JSON.parse(localStorage.getItem('capBudgetOperations')||'[]')}catch(e){return []}};
+  const engine=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
+  const goals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
+  const fmtDate=d=>new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+  function render(){
+    const o=ops(), b=engine()||{}, income=Number(b.income||0), spent=o.reduce((s,x)=>s+Number(x.amount||0),0), remain=income-spent, week=Math.max(0,remain/4.33);
+    document.getElementById('v10-income').textContent=money(income);
+    document.getElementById('v10-spent').textContent=money(spent);
+    document.getElementById('v10-remain').textContent=money(remain);
+    document.getElementById('v10-week').textContent=money(week);
+    document.getElementById('v10-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+    const by={};o.forEach(x=>by[x.category]=(by[x.category]||0)+Number(x.amount||0));
+    const entries=Object.entries(by).sort((a,b)=>b[1]-a[1]), max=entries[0]?.[1]||1;
+    document.getElementById('v10-categories').innerHTML=entries.length?entries.map(([k,v])=>`<div class="cap-v10-row"><b>${k}</b><span>${money(v)}<div class="cap-v10-bar"><i style="width:${Math.round(v/max*100)}%"></i></div></span></div>`).join(''):'<p>Aucune dépense réelle enregistrée.</p>';
+
+    let advice='';
+    if(!income) advice='Renseignez vos revenus pour obtenir une analyse complète.';
+    else if(remain<0) advice=`Votre historique dépasse les revenus renseignés de ${money(Math.abs(remain))}. Il faut revoir les dépenses ou le budget prévu.`;
+    else if(remain<100) advice=`Votre marge est actuellement de ${money(remain)}. Une réserve pour les imprévus mérite d'être prise en compte.`;
+    else advice=`Votre marge actuelle est de ${money(remain)}. Votre enveloppe hebdomadaire indicative est de ${money(week)}.`;
+    document.getElementById('v10-advice').textContent=advice;
+
+    const alerts=[];
+    if(remain<0) alerts.push('🔴 Les dépenses réelles dépassent les revenus renseignés.');
+    if(income && spent/income>.8) alerts.push('🟠 Plus de 80 % des revenus renseignés sont déjà engagés dans l’historique.');
+    if(!alerts.length) alerts.push('🟢 Aucune alerte critique détectée avec les données disponibles.');
+    document.getElementById('v10-alerts').innerHTML=alerts.map(x=>`<div class="${x.includes('🔴')||x.includes('🟠')?'cap-v10-alert':'cap-v10-good'}">${x}</div>`).join('');
+
+    const g=goals();
+    document.getElementById('v10-goals').innerHTML=g.length?g.slice(0,5).map(x=>{const target=Number(x.target||x.amount||0), saved=Number(x.saved||x.current||0), pct=target?Math.min(100,Math.round(saved/target*100)):0;return `<div class="cap-v10-row"><b>${x.name||'Objectif'}</b><span>${money(saved)} / ${money(target)}<div class="cap-v10-bar"><i style="width:${pct}%"></i></div></span></div>`}).join(''):'<div class="cap-v10-good">Aucun objectif enregistré pour le moment.</div>';
+
+    const buckets={};o.forEach(x=>{const d=new Date(x.date||Date.now()), key=d.toLocaleDateString('fr-FR',{month:'short'});buckets[key]=(buckets[key]||0)+Number(x.amount||0)});
+    const vals=Object.entries(buckets).slice(-6), m=Math.max(...vals.map(x=>x[1]),1);
+    document.getElementById('v10-chart').innerHTML=vals.length?vals.map(([k,v])=>`<div class="cap-v10-col"><i style="height:${Math.max(6,Math.round(v/m*100))}%"></i>${k}<br>${money(v)}</div>`).join(''):'<div style="color:#8fa3bd;font-size:11px">Ajoutez des opérations pour construire votre évolution.</div>';
+  }
+  document.getElementById('v10-refresh').onclick=render;
+  window.addEventListener('capBudgetChanged',render);
+  render();
+})();
+</script>
+
+<main>
+<!-- BUDGET -->
+<section id="tab-budget" aria-label="Budget">
+<div class="hero" id="hero" data-state="ok">
+<div class="dial">
+<svg viewBox="0 0 240 240" aria-hidden="true">
+<g id="ticks"></g>
+<circle class="track" cx="120" cy="120" r="92"/>
+<circle class="arc" id="arc" cx="120" cy="120" r="92" transform="rotate(-90 120 120)"/>
+<g class="knob" id="knob"><circle cx="212" cy="120" r="7"/></g>
+</svg>
+<div class="dial-center">
+<div class="dial-label" id="dial-label">Reste à vivre</div>
+<div class="dial-value" id="dial-value">0 €</div>
+</div>
+</div>
+<p class="hero-msg" id="hero-msg" aria-live="polite"></p>
+<div class="stats">
+<button class="stat" id="edit-salary" type="button" aria-label="Modifier le salaire">
+<div class="stat-label">Salaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></svg>
+</div>
+<div class="stat-value" id="v-salary"></div>
+</button>
+<div class="stat">
+<div class="stat-label">Dépensé</div>
+<div class="stat-value" id="v-spent"></div>
+</div>
+<div class="stat">
+<div class="stat-label">Épargné</div>
+<div class="stat-value" id="v-saved"></div>
+</div>
+</div>
+</div>
+
+<!-- CHARGES FIXES -->
+<section class="card" id="card-recurring" aria-labelledby="recurring-title">
+<div class="card-head">
+<h2 id="recurring-title">🔄 Charges fixes</h2>
+</div>
+<p class="hint">Loyer, abonnements, crédits... déduits automatiquement chaque mois.</p>
+<form id="recurring-form" style="margin-bottom: 16px;" novalidate>
+<div class="inline">
+<input class="input" id="r-label" type="text" maxlength="60" autocomplete="off" placeholder="Libellé (ex : Loyer, Netflix)">
+<div class="amount" style="flex:0 0 120px;">
+<input id="r-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0">
+<span aria-hidden="true">€</span>
+</div>
+<button class="btn small" type="submit">Ajouter</button>
+</div>
+</form>
+<ul class="rows" id="recurring-list"></ul>
+<p class="empty" id="recurring-empty">Aucune charge fixe enregistrée.</p>
+</section>
+
+<form class="card" id="expense-form" novalidate>
+<h2>Nouvelle dépense</h2>
+<div class="field">
+<label for="f-amount">Montant</label>
+<div class="amount">
+<input id="f-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0">
+<span aria-hidden="true">€</span>
+</div>
+</div>
+<div class="field">
+<label for="f-label">Libellé (facultatif)</label>
+<input class="input" id="f-label" type="text" maxlength="60" autocomplete="off" placeholder="Ex : courses du samedi">
+</div>
+<div class="field">
+<span class="field-label" id="cat-label">Catégorie</span>
+<div class="chips" id="chips" role="group" aria-labelledby="cat-label"></div>
+</div>
+<p class="error" id="expense-error" role="alert"></p>
+<button class="btn" type="submit">Ajouter la dépense</button>
+</form>
+<section class="card" id="card-split" aria-labelledby="split-title" hidden>
+<h2 id="split-title">Où part ton argent</h2>
+<div class="split" id="split" aria-hidden="true"></div>
+<ul class="legend" id="legend"></ul>
+</section>
+<section class="card" aria-labelledby="hist-title">
+<div class="card-head">
+<h2 id="hist-title">Historique du mois</h2>
+<button class="link danger" id="clear-expenses" type="button">Tout effacer</button>
+</div>
+<ul class="rows" id="history"></ul>
+<p class="empty" id="history-empty">Aucune dépense ce mois-ci. Ajoute la première ci-dessus pour voir ton cadran bouger.</p>
+</section>
+<section class="card" aria-labelledby="backup-title">
+<h2 id="backup-title">Sauvegarde des données</h2>
+<p class="hint">Tes données restent dans ce navigateur. Exporte régulièrement une copie JSON pour éviter de les perdre.</p>
+<div class="inline" style="flex-wrap:wrap">
+<button class="btn small" type="button" id="export-data">Exporter mes données</button>
+<button class="btn ghost small" type="button" id="import-trigger">Importer une sauvegarde</button>
+<input id="import-file" type="file" accept="application/json,.json" hidden>
+</div>
+<p class="error" id="backup-error" role="alert"></p>
+</section>
+</section>
+
+<!-- REPAS -->
+<section id="tab-repas" aria-label="Repas" hidden>
+<div class="card">
+<div class="card-head">
+<h2>Planning de la semaine</h2>
+<span class="muted" id="meal-count"></span>
+</div>
+<div class="meter" aria-hidden="true"><i id="meal-meter"></i></div>
+<div id="days"></div>
+<div class="foot"><button class="link" id="clear-meals" type="button">Vider la semaine</button></div>
+<datalist id="ideas">
+<option value="Pâtes carbonara"></option>
+<option value="Poulet rôti et légumes"></option>
+<option value="Omelette et salade"></option>
+<option value="Riz sauté aux légumes"></option>
+<option value="Soupe et tartines"></option>
+<option value="Salade composée"></option>
+<option value="Gratin de courgettes"></option>
+<option value="Wraps au poulet"></option>
+<option value="Croque-monsieur"></option>
+<option value="Curry de pois chiches"></option>
+<option value="Restes de la veille"></option>
+</datalist>
+</div>
+
+<!-- Liste de courses -->
+<div class="card" aria-labelledby="shopping-list-title">
+<div class="card-head">
+<h2 id="shopping-list-title">🛒 Liste de courses</h2>
+<button class="link danger" id="clear-shopping" type="button">Tout vider</button>
+</div>
+<p class="hint">Générée automatiquement par vos repas et complétable manuellement.</p>
+<form id="shopping-form" style="margin-bottom: 16px;" novalidate>
+<div class="inline">
+<input class="input" id="shopping-input" type="text" maxlength="60" autocomplete="off" placeholder="Ajouter un article (ex: Lait, Savon...)">
+<button class="btn small" type="submit">Ajouter</button>
+</div>
+</form>
+<ul class="rows" id="shopping-list"></ul>
+<p class="empty" id="shopping-empty">Aucun article dans la liste de courses.</p>
+</div>
+</section>
+
+<!-- VOYAGES -->
+<section id="tab-voyages" aria-label="Voyages" hidden>
+<form class="card" id="trip-form" novalidate>
+<h2 id="trip-form-title">Où as-tu envie de partir ?</h2>
+<p class="hint" id="trip-form-hint">Fixe un objectif et une date de départ. Cap calcule combien mettre de côté chaque mois.</p>
+<div class="field">
+<label for="t-dest">Destination</label>
+<input class="input" id="t-dest" type="text" maxlength="50" autocomplete="off" placeholder="Ex : Lisbonne">
+</div>
+<div class="field">
+<label for="t-goal">Budget du voyage (€)</label>
+<input class="input" id="t-goal" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex : 1200">
+</div>
+<div class="field">
+<label for="t-date">Date de départ</label>
+<input class="input" id="t-date" type="date">
+</div>
+<p class="error" id="trip-error" role="alert"></p>
+<button class="btn" id="trip-submit" type="submit">Créer ma cagnotte</button>
+<div class="actions" id="trip-cancel-wrap" hidden>
+<button class="link" id="trip-cancel" type="button">Annuler</button>
+</div>
+</form>
+<div id="trip-view" hidden>
+<section class="card" aria-labelledby="trip-dest">
+<h2 class="trip-dest" id="trip-dest"></h2>
+<div class="trip-when" id="trip-when"></div>
+<div class="trip-date" id="trip-date"></div>
+<div class="money">
+<strong id="trip-saved"></strong>
+<span id="trip-goal"></span>
+</div>
+<div class="bar" role="progressbar" aria-label="Avancement de la cagnotte" aria-valuemin="0" aria-valuemax="100" id="trip-bar-wrap"><i id="trip-bar"></i></div>
+<div class="bar-caption" id="trip-pct"></div>
+<div class="callout" id="trip-callout"></div>
+<form id="contrib-form" novalidate>
+<div class="inline">
+<div class="amount">
+<label for="c-amount" class="sr-only">Montant du versement</label>
+<input id="c-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="0">
+<span aria-hidden="true">€</span>
+</div>
+<button class="btn small" type="submit">Ajouter au pot</button>
+</div>
+<p class="hint" style="margin:12px 2px 0">Les versements du mois sont retirés de ton reste à vivre.</p>
+<p class="error" id="contrib-error" role="alert" style="margin-top:10px"></p>
+</form>
+</section>
+<section class="card" aria-labelledby="contrib-title">
+<h2 id="contrib-title">Derniers versements</h2>
+<ul class="rows" id="contribs"></ul>
+<p class="empty" id="contribs-empty">Aucun versement pour l’instant.</p>
+<div class="actions">
+<button class="link" id="trip-edit" type="button">Modifier le projet</button>
+<button class="link danger" id="trip-delete" type="button">Supprimer</button>
+</div>
+</section>
+</div>
+</section>
+
+<!-- STATISTIQUES -->
+<section id="tab-stats" aria-label="Statistiques" hidden>
+<div class="card">
+<h2>📈 Tendances mensuelles</h2>
+<p class="hint">Suivi de tes dépenses globales par mois.</p>
+<ul class="rows" id="stats-months-list"></ul>
+<p class="empty" id="stats-months-empty">Aucun historique de dépenses disponible.</p>
+</div>
+</section>
+</main>
+</div>
+<nav class="tabbar" aria-label="Navigation principale">
+<div class="tabbar-inner">
+<button class="tab" id="nav-budget" type="button" aria-current="page">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a1 1 0 0 1 1 1v2"/><path d="M3 7.5V17a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H5.5A2.5 2.5 0 0 1 3 7.5Z"/><circle cx="16" cy="13.5" r="1.2"/></svg> Budget
+</button>
+<button class="tab" id="nav-repas" type="button">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"/><path d="M17 21V3c-2.2 1.2-3.5 4-3.5 7 0 1.6.9 2.5 2 2.7H17"/></svg> Repas
+</button>
+<button class="tab" id="nav-voyages" type="button">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg> Voyages
+</button>
+<button class="tab" id="nav-stats" type="button">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> Stats
+</button>
+</div>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="dlg-salary" aria-labelledby="dlg-salary-title">
+<form id="salary-form" novalidate>
+<h2 id="dlg-salary-title">Ton salaire mensuel</h2>
+<p>Cap s’en sert pour calculer ton reste à vivre.</p>
+<div class="amount">
+<label for="s-amount" class="sr-only">Salaire mensuel en euros</label>
+<input id="s-amount" type="text" inputmode="decimal" autocomplete="off">
+<span aria-hidden="true">€</span>
+</div>
+<p class="error" id="salary-error" role="alert" style="margin:10px 0 0"></p>
+<div class="dlg-actions">
+<button class="btn ghost" type="button" id="salary-cancel">Annuler</button>
+<button class="btn" type="submit">Enregistrer</button>
+</div>
+</form>
+</dialog>
+<dialog id="dlg-confirm" aria-labelledby="dlg-confirm-title">
+<h2 id="dlg-confirm-title"></h2>
+<p id="dlg-confirm-text"></p>
+<div class="dlg-actions">
+<button class="btn ghost" type="button" id="dlg-confirm-cancel">Annuler</button>
+<button class="btn danger" type="button" id="dlg-confirm-ok">Supprimer</button>
+</div>
+</dialog>
+<script>
+window.CAP_BUDGET_PRO_VERSION='10.0.0';
+
+(function(){
+'use strict';
+const KEY = 'cap_state_v4';
+const OLD_KEY = 'cap_depenses';
+const CATS = [
+{id:'courses', label:'Courses', icon:'🛒', color:'#10B981'},
+{id:'resto', label:'Resto', icon:'🍽️', color:'#F97316'},
+{id:'transport', label:'Transport', icon:'🚇', color:'#3B82F6'},
+{id:'loisirs', label:'Loisirs', icon:'🎟️', color:'#A855F7'},
+{id:'shopping', label:'Shopping', icon:'🛍', color:'#EC4899'},
+{id:'autre', label:'Autre', icon:'✨', color:'#71717A'}
+];
+const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
+const DAYS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+const R = 92, CIRC = 2 * Math.PI * R;
+const X_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+const $ = (s, r) => (r || document).querySelector(s);
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const pad = n => String(n).padStart(2, '0');
+const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const fromISO = s => { const p = s.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); };
+const startOfToday = () => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); };
+const nf0 = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 0});
+const nf2 = new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const eur = n => { const v = Math.round(n * 100) / 100; return (Number.isInteger(v) ? nf0.format(v) : nf2.format(v)) + '\u00A0€'; };
+const parseAmount = v => { const raw = String(v).trim().replace(/[\s\u00a0\u202f€]/g, ''); if (!raw) return NaN; const normalized = raw.includes(',') ? raw.replace(/\./g, '').replace(',', '.') : raw; return /^\d+(?:\.\d{1,2})?$/.test(normalized) ? Number(normalized) : NaN; };
+const validAmount = n => Number.isFinite(n) && n > 0 && n < 10000000;
+function h(tag, attrs) {
+const el = document.createElement(tag); const a = attrs || {};
+Object.keys(a).forEach(k => {
+const v = a[k];
+if (k === 'class') el.className = v;
+else if (k === 'text') el.textContent = v;
+else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
+else if (v !== false && v != null) el.setAttribute(k, v === true ? '' : v);
+});
+Array.prototype.slice.call(arguments, 2).flat().forEach(k => {
+if (k == null || k === false) return;
+el.append(k.nodeType ? k : document.createTextNode(k));
+});
+return el;
+}
+function friendlyDate(s) {
+const d = fromISO(s), t = startOfToday();
+const diff = Math.round((t - d) / 86400000);
+if (diff === 0) return "Aujourd'hui";
+if (diff === 1) return 'Hier';
+return d.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
+}
+function defaults() { return {salary: 2000, expenses: [], recurring: [], meals: {}, manualShopping: [], checkedShopping: {}, trip: null}; }
+function normalize(s) {
+const out = defaults();
+if (!s || typeof s !== 'object') return out;
+if (Number.isFinite(s.salary) && s.salary > 0) out.salary = Number(s.salary);
+if (Array.isArray(s.expenses)) out.expenses = s.expenses.filter(e => e && Number.isFinite(e.amount) && typeof e.date === 'string');
+if (Array.isArray(s.recurring)) out.recurring = s.recurring.filter(r => r && Number.isFinite(r.amount) && typeof r.label === 'string');
+if (s.meals && typeof s.meals === 'object') out.meals = s.meals;
+if (Array.isArray(s.manualShopping)) out.manualShopping = s.manualShopping.filter(item => typeof item === 'string');
+if (s.checkedShopping && typeof s.checkedShopping === 'object') out.checkedShopping = s.checkedShopping;
+const t = s.trip;
+if (t && typeof t === 'object' && t.dest && Number.isFinite(t.goal) && t.date) {
+out.trip = { dest: String(t.dest), goal: Number(t.goal), date: String(t.date), contribs: Array.isArray(t.contribs) ? t.contribs.filter(c => c && Number.isFinite(c.amount) && typeof c.date === 'string') : [] };
+}
+return out;
+}
+function load() {
+try {
+const raw = localStorage.getItem(KEY);
+if (raw) return normalize(JSON.parse(raw));
+const old = localStorage.getItem('cap_state_v3') || localStorage.getItem('cap_state_v2') || localStorage.getItem(OLD_KEY);
+if (old) {
+const parsed = JSON.parse(old);
+const s = defaults();
+if (Array.isArray(parsed)) {
+s.expenses = parsed.filter(x => x && Number.isFinite(x.montant)).map(x => ({ id: uid(), label: String(x.libelle || 'Dépense'), amount: Number(x.montant), cat: 'autre', date: iso(new Date()) }));
+} else if (typeof parsed === 'object') {
+return normalize(parsed);
+}
+return s;
+}
+} catch (e) {}
+return defaults();
+}
+let state = load();
+function save() {
+try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+}
+function summary() {
+const mk = iso(new Date()).slice(0, 7);
+const list = state.expenses.filter(e => e.date.slice(0, 7) === mk);
+const variableSpent = list.reduce((a, e) => a + e.amount, 0);
+const recurringSpent = state.recurring ? state.recurring.reduce((a, r) => a + r.amount, 0) : 0;
+const spent = variableSpent + recurringSpent;
+const saved = state.trip ? state.trip.contribs.filter(c => c.date.slice(0, 7) === mk).reduce((a, c) => a + c.amount, 0) : 0;
+return {list: list, spent: spent, recurringSpent: recurringSpent, saved: saved, reste: Math.round((state.salary - spent - saved) * 100) / 100};
+}
+let toastTimer;
+function hideToast() { $('#toast').classList.remove('show'); }
+function toast(msg, action) {
+const t = $('#toast');
+t.replaceChildren(h('span', {text: msg}));
+if (action) {
+t.append(h('button', {type: 'button', text: action.label, onclick: () => { action.fn(); hideToast(); }}));
+}
+t.classList.add('show');
+clearTimeout(toastTimer);
+toastTimer = setTimeout(hideToast, action ? 5500 : 2600);
+}
+function ask(title, text, okLabel) {
+return new Promise(res => {
+const d = $('#dlg-confirm');
+$('#dlg-confirm-title').textContent = title;
+$('#dlg-confirm-text').textContent = text;
+$('#dlg-confirm-ok').textContent = okLabel;
+const done = v => { d.close(); res(v); };
+$('#dlg-confirm-ok').onclick = () => done(true);
+$('#dlg-confirm-cancel').onclick = () => done(false);
+d.onclose = () => res(false);
+d.showModal();
+});
+}
+const hero = $('#hero'), arc = $('#arc'), knob = $('#knob');
+function buildTicks() {
+let s = '';
+for (let i = 0; i < 72; i++) {
+const a = i * 5 * Math.PI / 180, major = i % 18 === 0;
+const r1 = major ? 101 : 105, r2 = major ? 115 : 111;
+const x1 = (120 + Math.sin(a) * r1).toFixed(2), y1 = (120 - Math.cos(a) * r1).toFixed(2);
+const x2 = (120 + Math.sin(a) * r2).toFixed(2), y2 = (120 - Math.cos(a) * r2).toFixed(2);
+s += '<line class="tick' + (major ? ' major' : '') + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"/>';
+}
+$('#ticks').innerHTML = s;
+}
+function renderHeader(sum) {
+$('#month-label').textContent = new Date().toLocaleDateString('fr-FR', {month: 'long', year: 'numeric'});
+const pill = $('#pill');
+pill.classList.toggle('bad', sum.reste < 0);
+pill.textContent = sum.reste >= 0 ? eur(sum.reste) + ' restants' : eur(-sum.reste) + ' de trop';
+}
+function renderBudget(sum) {
+const reste = sum.reste;
+const ratio = state.salary > 0 ? reste / state.salary : 0;
+hero.dataset.state = (reste < 0 || ratio < 0.1) ? 'bad' : ratio < 0.3 ? 'warn' : 'ok';
+const f = Math.max(0, Math.min(1, ratio));
+arc.style.strokeDashoffset = CIRC * (1 - f);
+arc.style.opacity = f > 0 ? 1 : 0;
+knob.style.transform = 'rotate(' + (f * 360 - 90) + 'deg)';
+knob.style.opacity = f > 0 ? 1 : 0;
+const val = eur(reste);
+const dv = $('#dial-value');
+dv.textContent = val;
+dv.classList.toggle('long', val.length > 8);
+$('#dial-label').textContent = reste < 0 ? 'Budget dépassé' : 'Reste à vivre';
+const now = new Date();
+const last = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+const daysLeft = last - now.getDate() + 1;
+let msg;
+if (reste < 0) msg = 'Tu as dépassé ton budget de ' + eur(-reste) + ' ce mois-ci.';
+else if (daysLeft === 1) msg = 'Dernier jour du mois : il te reste ' + eur(reste) + ' à dépenser.';
+else msg = 'Tu peux dépenser environ ' + eur(Math.floor(reste / daysLeft)) + ' par jour jusqu’à la fin du mois.';
+$('#hero-msg').textContent = msg;
+$('#v-salary').textContent = eur(state.salary);
+$('#v-spent').textContent = eur(sum.spent);
+$('#v-saved').textContent = eur(sum.saved);
+const sorted = sum.list.slice().sort((a, b) => b.date.localeCompare(a.date));
+$('#history').replaceChildren.apply($('#history'), sorted.map(expenseRow));
+$('#history-empty').hidden = sorted.length > 0;
+$('#clear-expenses').hidden = sorted.length === 0;
+const totals = {};
+sum.list.forEach(e => {
+const k = CAT[e.cat] ? e.cat : 'autre';
+totals[k] = (totals[k] || 0) + e.amount;
+});
+const entries = Object.keys(totals).map(k => [k, totals[k]]).sort((a, b) => b[1] - a[1]);
+$('#card-split').hidden = entries.length === 0;
+$('#split').replaceChildren.apply($('#split'), entries.map(en => h('i', {style: '--c:' + CAT[en[0]].color + ';flex:' + en[1]})));
+$('#legend').replaceChildren.apply($('#legend'), entries.map(en => {
+const c = CAT[en[0]];
+return h('li', {}, h('span', {class: 'dot', style: '--c:' + c.color}), h('span', {class: 'name', text: c.label}), h('span', {class: 'amt', text: eur(en[1])}), h('span', {class: 'pct', text: Math.round(en[1] / (sum.spent - sum.recurringSpent || 1) * 100) + ' %'}) );
+}));
+renderRecurring();
+renderStats();
+}
+function expenseRow(e) {
+const c = CAT[e.cat] || CAT.autre;
+const del = h('button', {class: 'icon-btn', type: 'button', 'aria-label': 'Supprimer ' + e.label, onclick: () => removeExpense(e.id)});
+del.innerHTML = X_ICON;
+return h('li', {class: 'row'}, h('span', {class: 'badge', style: '--c:' + c.color, 'aria-hidden': 'true', text: c.icon}), h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: e.label}), h('div', {class: 'row-sub', text: friendlyDate(e.date) + ', ' + c.label.toLowerCase()}) ), h('div', {class: 'row-amount', text: '− ' + eur(e.amount)}), del );
+}
+function removeExpense(id) {
+const idx = state.expenses.findIndex(e => e.id === id);
+if (idx < 0) return;
+const item = state.expenses.splice(idx, 1)[0];
+save();
+renderAll();
+toast('Dépense supprimée', {label: 'Annuler', fn: () => { state.expenses.splice(idx, 0, item); save(); renderAll(); }});
+}
+
+// Charges fixes handling
+function renderRecurring() {
+const listEl = $('#recurring-list');
+const emptyEl = $('#recurring-empty');
+const items = state.recurring || [];
+listEl.replaceChildren.apply(listEl, items.map(r => {
+const del = h('button', {class: 'icon-btn', type: 'button', 'aria-label': 'Supprimer ' + r.label, onclick: () => removeRecurring(r.id)});
+del.innerHTML = X_ICON;
+return h('li', {class: 'row'}, h('span', {class: 'badge', style: '--c:#4F46E5', 'aria-hidden': 'true', text: '🔄'}), h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: r.label}), h('div', {class: 'row-sub', text: 'Mensuel'})), h('div', {class: 'row-amount', text: '− ' + eur(r.amount)}), del);
+}));
+emptyEl.hidden = items.length > 0;
+}
+function removeRecurring(id) {
+state.recurring = state.recurring.filter(r => r.id !== id);
+save();
+renderAll();
+toast('Charge fixe supprimée');
+}
+$('#recurring-form').addEventListener('submit', ev => {
+ev.preventDefault();
+const label = $('#r-label').value.trim();
+const amount = parseAmount($('#r-amount').value);
+if (!label) { $('#r-label').focus(); return; }
+if (!validAmount(amount)) { $('#r-amount').focus(); return; }
+state.recurring = state.recurring || [];
+state.recurring.push({id: uid(), label: label, amount: Math.round(amount * 100) / 100});
+$('#r-label').value = '';
+$('#r-amount').value = '';
+save();
+renderAll();
+toast('Charge fixe ajoutée');
+});
+
+let selCat = 'courses';
+function buildChips() {
+const box = $('#chips');
+box.replaceChildren.apply(box, CATS.map(c => h('button', { class: 'chip', type: 'button', 'data-cat': c.id, 'aria-pressed': String(c.id === selCat), onclick: () => { selCat = c.id; updateChips(); } }, h('span', {'aria-hidden': 'true', text: c.icon}), c.label)));
+}
+function updateChips() {
+Array.prototype.forEach.call($('#chips').children, b => b.setAttribute('aria-pressed', String(b.dataset.cat === selCat)));
+}
+$('#expense-form').addEventListener('submit', ev => {
+ev.preventDefault();
+const amount = parseAmount($('#f-amount').value);
+const err = $('#expense-error');
+if (!validAmount(amount)) {
+err.textContent = 'Entre un montant supérieur à 0 €.';
+$('#f-amount').focus();
+return;
+}
+err.textContent = '';
+const label = $('#f-label').value.trim() || CAT[selCat].label;
+state.expenses.unshift({id: uid(), label: label, amount: Math.round(amount * 100) / 100, cat: selCat, date: iso(new Date())});
+save();
+renderAll();
+$('#f-amount').value = '';
+$('#f-label').value = '';
+toast('Dépense ajoutée');
+if (window.matchMedia('(pointer:fine)').matches) $('#f-amount').focus();
+});
+$('#clear-expenses').addEventListener('click', async () => {
+const sum = summary();
+const month = new Date().toLocaleDateString('fr-FR', {month: 'long', year: 'numeric'});
+const ok = await ask('Effacer les dépenses ?', 'Les ' + sum.list.length + ' dépenses de ' + month + ' seront supprimées.', 'Tout effacer');
+if (!ok) return;
+const ids = new Set(sum.list.map(e => e.id));
+const removed = state.expenses.filter(e => ids.has(e.id));
+state.expenses = state.expenses.filter(e => !ids.has(e.id));
+save();
+renderAll();
+toast('Dépenses effacées', {label: 'Annuler', fn: () => { state.expenses = removed.concat(state.expenses); save(); renderAll(); }});
+});
+$('#edit-salary').addEventListener('click', () => {
+$('#s-amount').value = String(state.salary).replace('.', ',');
+$('#salary-error').textContent = '';
+$('#dlg-salary').showModal();
+$('#s-amount').select();
+});
+$('#salary-cancel').addEventListener('click', () => $('#dlg-salary').close());
+$('#salary-form').addEventListener('submit', ev => {
+ev.preventDefault();
+const n = parseAmount($('#s-amount').value);
+if (!validAmount(n)) {
+$('#salary-error').textContent = 'Entre un salaire supérieur à 0 €.';
+return;
+}
+state.salary = Math.round(n * 100) / 100;
+save();
+renderAll();
+$('#dlg-salary').close();
+toast('Salaire mis à jour');
+});
+function mealFilled() {
+let n = 0;
+for (let i = 0; i < 7; i++) {
+const m = state.meals[i] || {};
+if ((m.midi || '').trim()) n++;
+if ((m.soir || '').trim()) n++;
+}
+return n;
+}
+function updateMealCount() {
+const n = mealFilled();
+$('#meal-count').textContent = n + ' sur 14 prévus';
+$('#meal-meter').style.width = (n / 14 * 100) + '%';
+}
+function setMeal(i, key, val) {
+state.meals[i] = state.meals[i] || {};
+state.meals[i][key] = val;
+save();
+updateMealCount();
+renderShoppingList();
+}
+function buildMeals() {
+const box = $('#days');
+const now = new Date();
+const idx = (now.getDay() + 6) % 7;
+const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - idx);
+box.replaceChildren.apply(box, DAYS.map((name, i) => {
+const d = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
+const saved = state.meals[i] || {};
+const slot = (key, label, ph) => h('label', {class: 'slot'}, h('span', {text: label}), h('input', { class: 'input', type: 'text', list: 'ideas', maxlength: '60', autocomplete: 'off', placeholder: ph, value: saved[key] || '', 'aria-label': name + ' ' + label.toLowerCase(), oninput: e => setMeal(i, key, e.target.value) }) );
+return h('div', {class: 'day' + (i === idx ? ' today' : '')}, h('div', {}, h('div', {class: 'day-name', text: name}), h('div', {class: 'day-date', text: d.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'})}), i === idx ? h('span', {class: 'tag', text: "Aujourd'hui"}) : null ), h('div', {class: 'slots'}, slot('midi', 'Midi', 'Ex : salade composée'), slot('soir', 'Soir', 'Ex : pâtes carbonara')) );
+}));
+updateMealCount();
+renderShoppingList();
+}
+function renderShoppingList() {
+const listEl = $('#shopping-list');
+const emptyEl = $('#shopping-empty');
+const itemsMap = new Map();
+
+for (let i = 0; i < 7; i++) {
+const m = state.meals[i];
+if (!m) continue;
+['midi', 'soir'].forEach(slotKey => {
+const val = (m[slotKey] || '').trim();
+if (val) {
+const key = val.toLowerCase();
+if (!itemsMap.has(key)) {
+itemsMap.set(key, {name: val, count: 0, isManual: false});
+}
+itemsMap.get(key).count++;
+}
+});
+}
+
+if (Array.isArray(state.manualShopping)) {
+state.manualShopping.forEach(name => {
+const key = name.toLowerCase();
+if (!itemsMap.has(key)) {
+itemsMap.set(key, {name: name, count: 1, isManual: true});
+}
+});
+}
+
+const items = Array.from(itemsMap.values());
+listEl.replaceChildren.apply(listEl, items.map(item => {
+const checked = !!state.checkedShopping[item.name];
+const cb = h('input', { type: 'checkbox', checked: checked, style: 'width:20px;height:20px;cursor:pointer;accent-color:var(--accent)' });
+const titleEl = h('div', {class: 'row-title', text: item.name + (item.count > 1 && !item.isManual ? ' (x' + item.count + ')' : '')});
+if (checked) {
+titleEl.style.textDecoration = 'line-through';
+titleEl.style.opacity = '0.5';
+}
+cb.onchange = e => {
+state.checkedShopping[item.name] = e.target.checked;
+save();
+titleEl.style.textDecoration = e.target.checked ? 'line-through' : 'none';
+titleEl.style.opacity = e.target.checked ? '0.5' : '1';
+};
+
+const del = h('button', {class: 'icon-btn', type: 'button', 'aria-label': 'Supprimer ' + item.name, onclick: () => removeShoppingItem(item.name, item.isManual)});
+del.innerHTML = X_ICON;
+
+return h('li', {class: 'row', style: 'gap:12px;align-items:center;'}, cb, h('div', {class: 'row-main'}, titleEl, h('div', {class: 'row-sub', text: item.isManual ? 'Ajouté manuellement' : 'Repas planifié'})), del );
+}));
+emptyEl.hidden = items.length > 0;
+}
+function removeShoppingItem(name, isManual) {
+if (isManual) {
+state.manualShopping = state.manualShopping.filter(i => i !== name);
+} else {
+for (let i = 0; i < 7; i++) {
+const m = state.meals[i];
+if (!m) continue;
+if ((m.midi || '').trim().toLowerCase() === name.toLowerCase()) m.midi = '';
+if ((m.soir || '').trim().toLowerCase() === name.toLowerCase()) m.soir = '';
+}
+buildMeals();
+}
+delete state.checkedShopping[name];
+save();
+renderShoppingList();
+toast('Article supprimé');
+}
+$('#shopping-form').addEventListener('submit', ev => {
+ev.preventDefault();
+const input = $('#shopping-input');
+const val = input.value.trim();
+if (!val) return;
+state.manualShopping = state.manualShopping || [];
+if (!state.manualShopping.includes(val)) {
+state.manualShopping.push(val);
+}
+input.value = '';
+save();
+renderShoppingList();
+toast('Article ajouté à la liste');
+});
+$('#clear-shopping').addEventListener('click', async () => {
+const ok = await ask('Vider la liste de courses ?', 'Tous les ajouts manuels et les coches seront réinitialisés.', 'Tout vider');
+if (!ok) return;
+state.manualShopping = [];
+state.checkedShopping = {};
+save();
+renderShoppingList();
+toast('Liste de courses vidée');
+});
+$('#clear-meals').addEventListener('click', async () => {
+if (mealFilled() === 0) {
+toast('Le planning est déjà vide');
+return;
+}
+const ok = await ask('Vider la semaine ?', 'Tous les repas prévus seront effacés.', 'Vider');
+if (!ok) return;
+state.meals = {};
+state.checkedShopping = {};
+save();
+document.querySelectorAll('#days input').forEach(i => { i.value = ''; });
+updateMealCount();
+renderShoppingList();
+});
+let tripEditing = false;
+function setTripFormMode(editing) {
+tripEditing = editing;
+const t = state.trip;
+$('#t-dest').value = editing && t ? t.dest : '';
+$('#t-goal').value = editing && t ? String(t.goal).replace('.', ',') : '';
+$('#t-date').value = editing && t ? t.date : '';
+$('#trip-error').textContent = '';
+$('#trip-form-title').textContent = editing ? 'Modifier le projet' : 'Où as-tu envie de partir ?';
+$('#trip-form-hint').hidden = editing;
+$('#trip-submit').textContent = editing ? 'Enregistrer' : 'Créer ma cagnotte';
+$('#trip-cancel-wrap').hidden = !editing;
+renderTrip();
+}
+function renderTrip() {
+const t = state.trip;
+const showForm = !t || tripEditing;
+$('#trip-form').hidden = !showForm;
+$('#trip-view').hidden = showForm;
+if (showForm) return;
+const saved = t.contribs.reduce((a, c) => a + c.amount, 0);
+const pct = Math.max(0, Math.min(100, saved / t.goal * 100));
+const days = Math.round((fromISO(t.date) - startOfToday()) / 86400000);
+$('#trip-dest').textContent = t.dest;
+$('#trip-when').textContent = days > 1 ? 'Départ dans ' + days + ' jours' : days === 1 ? 'Départ demain' : days === 0 ? "Départ aujourd'hui" : 'Date de départ passée';
+$('#trip-date').textContent = fromISO(t.date).toLocaleDateString('fr-FR', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+$('#trip-saved').textContent = eur(saved);
+$('#trip-goal').textContent = 'sur ' + eur(t.goal);
+$('#trip-bar').style.width = pct + '%';
+$('#trip-bar-wrap').setAttribute('aria-valuenow', String(Math.round(pct)));
+$('#trip-pct').textContent = Math.floor(pct) + ' % de l’objectif atteint';
+const remaining = Math.max(0, t.goal - saved);
+let msg;
+if (saved >= t.goal) msg = 'Objectif atteint : ta cagnotte couvre tout le voyage. Bon voyage !';
+else if (days <= 0) msg = 'La date de départ est passée. Modifie le projet pour recalculer ton effort mensuel.';
+else {
+const months = Math.max(1, days / 30.44);
+msg = 'Il te reste ' + eur(remaining) + ' à réunir. En mettant de côté environ ' + eur(Math.ceil(remaining / months)) + ' par mois, tu seras prêt à temps.';
+}
+$('#trip-callout').textContent = msg;
+const list = t.contribs.slice(0, 5).map(c => {
+const del = h('button', {class: 'icon-btn', type: 'button', 'aria-label': 'Supprimer le versement de ' + eur(c.amount), onclick: () => removeContrib(c.id)});
+del.innerHTML = X_ICON;
+return h('li', {class: 'row'}, h('span', {class: 'badge', style: '--c:#10B981', 'aria-hidden': 'true', text: '＋'}), h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: 'Versement'}), h('div', {class: 'row-sub', text: friendlyDate(c.date)})), h('div', {class: 'row-amount plus', text: '+ ' + eur(c.amount)}), del );
+});
+$('#contribs').replaceChildren.apply($('#contribs'), list);
+$('#contribs-empty').hidden = list.length > 0;
+}
+function removeContrib(id) {
+const arr = state.trip.contribs;
+const idx = arr.findIndex(c => c.id === id);
+if (idx < 0) return;
+const item = arr.splice(idx, 1)[0];
+save();
+renderAll();
+toast('Versement supprimé', {label: 'Annuler', fn: () => { if (state.trip) { state.trip.contribs.splice(idx, 0, item); save(); renderAll(); } }});
+}
+$('#trip-form').addEventListener('submit', ev => {
+ev.preventDefault();
+const dest = $('#t-dest').value.trim();
+const goal = parseAmount($('#t-goal').value);
+const date = $('#t-date').value;
+const err = $('#trip-error');
+if (!dest) {
+err.textContent = 'Indique ta destination.';
+$('#t-dest').focus();
+return;
+}
+if (!validAmount(goal)) {
+err.textContent = 'Entre un budget supérieur à 0 €.';
+$('#t-goal').focus();
+return;
+}
+if (!date || fromISO(date) < startOfToday()) {
+err.textContent = 'Choisis une date de départ à partir d’aujourd’hui.';
+$('#t-date').focus();
+return;
+}
+const wasEditing = tripEditing;
+state.trip = {dest: dest, goal: Math.round(goal * 100) / 100, date: date, contribs: wasEditing && state.trip ? state.trip.contribs : []};
+tripEditing = false;
+save();
+renderAll();
+toast(wasEditing ? 'Projet mis à jour' : 'Projet enregistré');
+});
+$('#trip-cancel').addEventListener('click', () => setTripFormMode(false));
+$('#trip-edit').addEventListener('click', () => setTripFormMode(true));
+$('#trip-delete').addEventListener('click', async () => {
+const ok = await ask('Supprimer ce projet ?', 'Les versements seront supprimés et ne seront plus retirés de ton reste à vivre.', 'Supprimer');
+if (!ok) return;
+state.trip = null;
+save();
+setTripFormMode(false);
+renderAll();
+});
+$('#contrib-form').addEventListener('submit', ev => {
+ev.preventDefault();
+const n = parseAmount($('#c-amount').value);
+const err = $('#contrib-error');
+if (!validAmount(n)) {
+err.textContent = 'Entre un montant supérieur à 0 €.';
+$('#c-amount').focus();
+return;
+}
+err.textContent = '';
+state.trip.contribs.unshift({id: uid(), amount: Math.round(n * 100) / 100, date: iso(new Date())});
+$('#c-amount').value = '';
+save();
+renderAll();
+toast('Versement ajouté');
+});
+function renderStats() {
+const monthsMap = {};
+state.expenses.forEach(e => {
+const mKey = e.date.slice(0, 7);
+monthsMap[mKey] = (monthsMap[mKey] || 0) + e.amount;
+});
+const entries = Object.keys(monthsMap).sort((a, b) => b.localeCompare(a));
+const recurringTotal = state.recurring ? state.recurring.reduce((a, r) => a + r.amount, 0) : 0;
+
+const listEl = $('#stats-months-list');
+const emptyEl = $('#stats-months-empty');
+
+const rows = entries.map(mKey => {
+const [y, m] = mKey.split('-');
+const d = new Date(Number(y), Number(m) - 1, 1);
+const monthName = d.toLocaleDateString('fr-FR', {month: 'long', year: 'numeric'});
+const variable = monthsMap[mKey];
+const isCurrent = mKey === iso(new Date()).slice(0, 7);
+const fixedForMonth = isCurrent ? recurringTotal : 0;
+const total = variable + fixedForMonth;
+return h('li', {class: 'row'},
+h('span', {class: 'badge', style: '--c:#4F46E5', 'aria-hidden': 'true', text: '📊'}),
+h('div', {class: 'row-main'},
+h('div', {class: 'row-title', text: monthName}),
+h('div', {class: 'row-sub', text: 'Dépenses variables : ' + eur(variable) + (isCurrent ? ' + Charges fixes actuelles : ' + eur(recurringTotal) : ' (hors charges fixes)')})
+),
+h('div', {class: 'row-amount', text: eur(total)})
+);
+});
+
+listEl.replaceChildren.apply(listEl, rows);
+emptyEl.hidden = rows.length > 0;
+}
+function showTab(name) {
+['budget', 'repas', 'voyages', 'stats'].forEach(n => {
+$('#tab-' + n).hidden = n !== name;
+const b = $('#nav-' + n);
+if (n === name) b.setAttribute('aria-current', 'page');
+else b.removeAttribute('aria-current');
+});
+window.scrollTo({top: 0});
+}
+['budget', 'repas', 'voyages', 'stats'].forEach(n => $('#nav-' + n).addEventListener('click', () => showTab(n)));
+function renderAll() {
+const sum = summary();
+renderHeader(sum);
+renderBudget(sum);
+renderTrip();
+}
+$('#export-data').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({version: 1, exportedAt: new Date().toISOString(), state}, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = h('a', {href: url, download: 'cap-sauvegarde-' + iso(new Date()) + '.json'});
+  document.body.append(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  toast('Sauvegarde exportée');
+});
+$('#import-trigger').addEventListener('click', () => $('#import-file').click());
+$('#import-file').addEventListener('change', async ev => {
+  const file = ev.target.files && ev.target.files[0]; if (!file) return;
+  try {
+    const parsed = JSON.parse(await file.text());
+    const candidate = normalize(parsed && parsed.state ? parsed.state : parsed);
+    const ok = await ask('Importer cette sauvegarde ?', 'Les données actuellement présentes dans Cap seront remplacées.', 'Remplacer');
+    if (ok) { state = candidate; save(); renderAll(); buildMeals(); toast('Sauvegarde importée'); }
+  } catch (e) { $('#backup-error').textContent = 'Fichier invalide. Choisis une sauvegarde JSON exportée depuis Cap.'; }
+  ev.target.value = '';
+});
+
+buildTicks();
+buildChips();
+buildMeals();
+$('#t-date').min = iso(new Date());
+arc.style.strokeDasharray = CIRC + ' ' + CIRC;
+arc.style.strokeDashoffset = CIRC;
+arc.style.opacity = 0;
+knob.style.transform = 'rotate(-90deg)';
+knob.style.opacity = 0;
+void arc.getBoundingClientRect();
+renderAll();
+})();
+</script>
+</body>
+</html>
