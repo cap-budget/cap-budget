@@ -1,280 +1,258 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="dark">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Cap – Budget, repas et voyages</title>
+
+<!-- Configuration PWA Mobile -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cap Budget">
+<link rel="manifest" href="data:application/manifest+json;charset=utf-8,{
+  %22name%22: %22Cap Budget%22,
+  %22short_name%22: %22Cap%22,
+  %22start_url%22: %22./index.html%22,
+  %22display%22: %22standalone%22,
+  %22background_color%22: %22%23090A0F%22,
+  %22theme_color%22: %22%23090A0F%22
+}">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{ --bg: #000000; --surface: #121214; --surface-card: #18181B; --ink: #F4F4F5; --muted: #A1A1AA; --line: #27272A; --field: #1F1F23; --accent: #4F46E5; --accent-ink: #FFFFFF; --accent-soft: rgba(79, 70, 229, 0.15); --good: #10B981; --warn: #F59E0B; --bad: #EF4444; --on-bad: #FFFFFF; --hero: #121214; --hero-ink: #FFFFFF; --hero-muted: #94A3B8; --toast-action: #818CF8; --radius-lg: 32px; --radius: 24px; --radius-sm: 16px; --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-*,*::before,*::after{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
-[hidden]{display:none!important}
-button,input{font-family:inherit}
-:where(button,input,a):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.app{max-width:760px;margin:0 auto;padding:0 20px 140px}
-@media(min-width:700px){.app{padding-left:28px;padding-right:28px}.tabbar-inner{max-width:760px}.hero{padding-left:28px;padding-right:28px}.stats{margin-left:-28px;margin-right:-28px}.card{padding:28px}}
-@media(max-width:420px){.app{padding-left:14px;padding-right:14px}.card{padding:20px;border-radius:20px}.inline{flex-wrap:wrap}.inline>.input{min-width:100%}.inline .amount{flex:1 1 120px!important}.inline .btn{flex:1}}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 0 16px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand svg{width:38px;height:38px;flex:none}
-.brand-name{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1}
-.brand-sub{font-size:13px;color:var(--muted);margin-top:2px;text-transform:capitalize;font-weight:500}
-.pill{font-size:13px;font-weight:700;background:var(--surface-card);border:1px solid var(--line);padding:8px 14px;border-radius:999px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--ink)}
-.pill.bad{color:var(--bad);border-color:rgba(239,68,68,0.4);background:rgba(239,68,68,0.1)}
-.hero{--arc:#34D399;background:linear-gradient(145deg, #18181B 0%, #09090B 100%);color:var(--hero-ink);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px 20px 0;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.5)}
-.hero[data-state="warn"]{--arc:#FBBF24}
-.hero[data-state="bad"]{--arc:#F87171}
-.dial{position:relative;width:min(100%,280px);aspect-ratio:1;margin:0 auto;container-type:inline-size}
-.dial svg{display:block;width:100%;height:100%}
-.tick{stroke:rgba(255,255,255,.1);stroke-width:1.5;stroke-linecap:round}
-.tick.major{stroke:rgba(255,255,255,.3);stroke-width:2.5}
-.track{fill:none;stroke:rgba(255,255,255,.05);stroke-width:12}
-.arc{fill:none;stroke:var(--arc);stroke-width:12;stroke-linecap:round;transition:stroke-dashoffset 1.3s cubic-bezier(.22,1,.36,1),stroke .4s,opacity .3s;filter:drop-shadow(0 0 8px var(--arc))}
-.knob{transform-origin:120px 120px;transition:transform 1.3s cubic-bezier(.22,1,.36,1),opacity .3s}
-.knob circle{fill:#FFFFFF;stroke:var(--arc);stroke-width:4}
-.dial-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20%}
-.dial-label{font-size:4.5cqw;color:var(--hero-muted);font-weight:600;letter-spacing:.02em;text-transform:uppercase}
-.dial-value{font-size:15.5cqw;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:4px;font-variant-numeric:tabular-nums}
-.dial-value.long{font-size:12cqw}
-.hero-msg{text-align:center;font-size:14.5px;color:var(--hero-muted);margin:14px auto 24px;max-width:34ch;text-wrap:balance;line-height:1.4}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin:0 -20px;background:rgba(0,0,0,0.2)}
-.stat{background:none;border:0;color:inherit;text-align:center;padding:16px 8px;font-size:inherit}
-.stat + .stat{border-left:1px solid var(--line)}
-button.stat{cursor:pointer;transition:background .2s}
-button.stat:hover{background:rgba(255,255,255,0.03)}
-.stat-label{font-size:12px;color:var(--hero-muted);font-weight:600;display:inline-flex;align-items:center;gap:4px;text-transform:uppercase;letter-spacing:.03em}
-.stat-label svg{width:12px;height:12px}
-.stat-value{font-size:16px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--ink)}
-.card{background:var(--surface-card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin-top:16px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
-.card h2{font-size:18px;font-weight:700;letter-spacing:-.01em;margin:0 0 16px;color:var(--ink)}
-.card-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.card-head h2{margin-bottom:16px}
-.hint{color:var(--muted);font-size:14px;line-height:1.5;margin:-8px 0 18px}
-.muted{color:var(--muted);font-size:13.5px}
-.field{margin-bottom:16px}
-.field > label,.field-label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.03em}
-.input{width:100%;font-size:15px;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;transition:border-color .2s}
-.input::placeholder,.amount input::placeholder{color:var(--muted);opacity:.5}
-.input:focus{border-color:var(--accent);outline:none}
-.amount{display:flex;align-items:baseline;gap:8px;background:var(--field);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 18px;transition:border-color .2s}
-.amount:focus-within{border-color:var(--accent)}
-.amount input{flex:1;min-width:0;width:100%;border:0;background:none;outline:none;color:var(--ink);font-size:36px;font-weight:800;letter-spacing:-.02em;padding:0;font-variant-numeric:tabular-nums}
-.amount span{font-size:24px;font-weight:700;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--field);color:var(--muted);cursor:pointer;transition:all .2s}
-.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:#FFFFFF}
-.btn{display:block;width:100%;font-size:15px;font-weight:700;border:0;border-radius:var(--radius-sm);padding:16px 20px;cursor:pointer;background:var(--accent);color:var(--accent-ink);transition:transform .12s, opacity .2s;box-shadow:0 4px 12px rgba(79, 70, 229, 0.4)}
-.btn:active{transform:scale(.98)}
-.btn.ghost{background:var(--field);color:var(--ink);box-shadow:none;border:1px solid var(--line)}
-.btn.danger{background:var(--bad);color:var(--on-bad);box-shadow:0 4px 12px rgba(239, 68, 68, 0.4)}
-.btn.small{width:auto;padding:12px 18px}
-.link{font-size:13.5px;font-weight:600;color:var(--muted);background:none;border:0;padding:8px 4px;cursor:pointer;transition:color .2s}
-.link:hover{color:var(--ink)}
-.link.danger{color:var(--bad)}
-.error{color:var(--bad);font-size:13.5px;font-weight:600;margin:0 0 14px;min-height:0}
-.error:empty{display:none}
-.inline{display:flex;gap:10px}
-.inline .amount{flex:1;padding:8px 14px}
-.inline .amount input{font-size:24px}
-.inline .amount span{font-size:18px}
-.rows{list-style:none;margin:0;padding:0}
-.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
-.row:first-child{border-top:0;padding-top:4px}
-.badge{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:none;background:color-mix(in srgb,var(--c) 20%,transparent);border:1px solid color-mix(in srgb,var(--c) 40%,transparent)}
-.row-main{flex:1;min-width:0}
-.row-title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
-.row-sub{font-size:13px;color:var(--muted);margin-top:2px}
-.row-amount{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
-.row-amount.plus{color:var(--good)}
-.icon-btn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--muted);cursor:pointer;display:grid;place-items:center;flex:none;transition:all .2s}
-.icon-btn:hover{background:rgba(239, 68, 68, 0.15);color:var(--bad);border-color:rgba(239, 68, 68, 0.3)}
-.icon-btn svg{width:16px;height:16px}
-.empty{color:var(--muted);font-size:14px;line-height:1.5;margin:0}
-.split{display:flex;height:12px;border-radius:999px;overflow:hidden;gap:3px;background:var(--field);padding:2px;border:1px solid var(--line)}
-.split i{display:block;background:var(--c);min-width:6px;border-radius:999px}
-.legend{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px}
-.legend li{display:flex;align-items:center;gap:12px;font-size:14px}
-.legend .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;box-shadow:0 0 8px var(--c)}
-.legend .name{flex:1;color:var(--ink);font-weight:500}
-.legend .amt{font-weight:700;font-variant-numeric:tabular-nums}
-.legend .pct{color:var(--muted);width:45px;text-align:right;font-variant-numeric:tabular-nums;font-size:13px}
-.meter{height:8px;border-radius:999px;background:var(--field);overflow:hidden;margin:0 0 20px;border:1px solid var(--line)}
-.meter i{display:block;height:100%;width:0;background:var(--accent);border-radius:inherit;transition:width .4s;box-shadow:0 0 10px var(--accent)}
-.day{display:grid;grid-template-columns:85px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
-.day:first-child{border-top:0;padding-top:4px}
-.day-name{font-weight:700;color:var(--ink)}
-.day.today .day-name{color:var(--accent)}
-.day-date{font-size:12.5px;color:var(--muted);margin-top:2px}
-.tag{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);letter-spacing:.02em;text-transform:uppercase}
-.slots{display:grid;gap:10px}
-.slot{display:flex;align-items:center;gap:12px}
-.slot span{font-size:12.5px;font-weight:700;color:var(--muted);width:36px;flex:none;text-transform:uppercase;letter-spacing:.03em}
-.slot .input{padding:12px 14px;font-size:14.5px}
-.foot{display:flex;justify-content:flex-end;margin-top:10px}
-.trip-dest{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin:0;color:var(--ink)}
-.trip-when{margin-top:8px;font-weight:700;color:var(--accent)}
-.trip-date{color:var(--muted);font-size:13.5px;margin-top:2px}
-.money{display:flex;justify-content:space-between;align-items:baseline;margin:24px 0 12px}
-.money strong{font-size:32px;font-weight:800;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--ink)}
-.money span{color:var(--muted);font-size:14px}
-.bar{height:12px;border-radius:999px;background:var(--field);overflow:hidden;border:1px solid var(--line);padding:1px}
-.bar i{display:block;height:100%;width:0;background:var(--good);border-radius:inherit;transition:width .6s cubic-bezier(.22,1,.36,1);box-shadow:0 0 10px var(--good)}
-.bar-caption{font-size:13px;color:var(--muted);margin-top:10px}
-.callout{background:rgba(79, 70, 229, 0.1);border:1px solid rgba(79, 70, 229, 0.25);border-radius:var(--radius-sm);padding:16px;font-size:14px;line-height:1.5;margin:18px 0 22px;color:#E0E7FF}
-.actions{display:flex;justify-content:space-between;margin-top:16px}
-.tabbar{position:fixed;left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);display:flex;justify-content:center;pointer-events:none;z-index:20}
-.tabbar-inner{pointer-events:auto;width:100%;max-width:480px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:10px 12px;background:rgba(18, 18, 20, 0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid var(--line);border-bottom:0;border-radius:28px 28px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,0.5)}
-.tab{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--muted);background:none;border:0;padding:10px 2px;border-radius:18px;cursor:pointer;transition:all .2s}
-.tab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.tab[aria-current="page"]{color:#FFFFFF;background:var(--accent);box-shadow:0 4px 12px rgba(79, 70, 229, 0.4)}
-.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translate(-50%,14px);opacity:0;pointer-events:none;background:#F4F4F5;color:#09090B;padding:12px 18px;border-radius:16px;display:flex;gap:16px;align-items:center;font-size:14px;font-weight:700;z-index:30;max-width:calc(100% - 32px);transition:opacity .25s,transform .25s;box-shadow:0 10px 25px rgba(0,0,0,0.5)}
-.toast.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.toast button{background:none;border:0;color:var(--accent);font-size:14px;font-weight:800;cursor:pointer;padding:4px}
-dialog{border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--surface-card);color:var(--ink);width:min(92vw,380px);font-family:var(--font);box-shadow:0 25px 50px rgba(0,0,0,0.7)}
-dialog::backdrop{background:rgba(0,0,0,0.75);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
-dialog h2{margin:0 0 8px;font-size:20px;letter-spacing:-.01em}
-dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
-.dlg-actions{display:flex;gap:10px;margin-top:20px}
-.dlg-actions .btn{flex:1}
-@media (prefers-reduced-motion: reduce){ *,*::before,*::after{transition:none!important;animation:none!important} }
-</style>
-<style>
-/* ===== CAP Budget — Professional polish layer & CAP Décision enhancements ===== */
-:root{
-  --cap-accent:#2dd4bf;
-  --cap-accent-2:#60a5fa;
-  --cap-bg:#07111f;
-  --cap-surface:rgba(15,27,45,.88);
-  --cap-border:rgba(148,163,184,.16);
-  --cap-text:#e5eefb;
-  --cap-muted:#8fa3bd;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  background:
-    radial-gradient(900px 500px at 8% -10%,rgba(45,212,191,.10),transparent 55%),
-    radial-gradient(800px 450px at 100% 0%,rgba(96,165,250,.10),transparent 55%),
-    var(--cap-bg);
-}
-button,input,select,textarea{font:inherit}
-button{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
-button:hover{filter:brightness(1.06)}
-button:active{transform:translateY(1px)}
-:focus-visible{
-  outline:3px solid rgba(45,212,191,.55);
-  outline-offset:2px;
-}
-.cap-pro-bar{
-  position:sticky;top:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  max-width:1180px;margin:0 auto;padding:10px 16px;
-  background:rgba(7,17,31,.82);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--cap-border);
-}
-.cap-pro-brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
-.cap-pro-dot{width:9px;height:9px;border-radius:50%;background:var(--cap-accent);box-shadow:0 0 18px rgba(45,212,191,.7)}
-.cap-pro-status{font-size:12px;color:var(--cap-muted);display:flex;align-items:center;gap:7px}
-.cap-pro-status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34d399}
-.cap-pro-shell{max-width:1180px;margin:0 auto;padding:0 16px 90px}
-.cap-pro-card{
-  background:linear-gradient(180deg,rgba(20,34,54,.88),rgba(10,20,34,.88));
-  border:1px solid var(--cap-border);
-  box-shadow:0 18px 50px rgba(0,0,0,.18);
-  border-radius:18px;
-}
-/* Style spécifique pour la bannière de lancement & CAP Décision */
-.cap-trial-banner{
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(20, 184, 166, 0.2));
-  border: 1px solid rgba(34, 197, 94, 0.4);
-  border-radius: var(--radius-sm);
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #4ade80;
-  text-align: center;
-  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.15);
-}
-.cap-decision-card{
-  background: linear-gradient(145deg, rgba(20,34,54,.96), rgba(9,19,32,.96));
-  border: 1px solid var(--cap-border);
-  border-radius: var(--radius);
-  padding: 24px;
-  margin-top: 16px;
-  box-shadow: 0 18px 55px rgba(0,0,0,.20);
-}
-@media(max-width:700px){
-  .cap-pro-bar{padding:9px 12px}
-  .cap-pro-shell{padding-left:10px;padding-right:10px}
-}
+  :root {
+    --bg: #090A0F;
+    --surface: #131620;
+    --surface-glass: rgba(13, 17, 28, 0.75);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(99, 102, 241, 0.35);
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --primary: #6366F1;
+    --primary-glow: rgba(99, 102, 241, 0.4);
+    --accent-teal: #14B8A6;
+    --success: #10B981;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --font: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: var(--font);
+    min-height: 100vh;
+    padding: 20px 16px 100px;
+    background-image: 
+      radial-gradient(circle at 10% 10%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(20, 184, 166, 0.12) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  .container { max-width: 480px; margin: 0 auto; }
+
+  /* En-tête */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 0 4px;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #F8FAFC 30%, #94A3B8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .badge-lifetime {
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(20, 184, 166, 0.15);
+    color: var(--accent-teal);
+    border: 1px solid rgba(20, 184, 166, 0.3);
+    padding: 6px 12px;
+    border-radius: 99px;
+  }
+
+  /* Bannière Promo */
+  .promo-banner {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(20, 184, 166, 0.18));
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    backdrop-filter: blur(12px);
+  }
+  .promo-text h3 { font-size: 14px; font-weight: 700; color: #E2E8F0; }
+  .promo-text p { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Cartes de montants / stats */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .stat-card {
+    background: var(--surface-glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    backdrop-filter: blur(20px);
+  }
+  .stat-label { font-size: 11.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .stat-value { font-size: 22px; font-weight: 800; margin-top: 8px; letter-spacing: -0.02em; }
+  .stat-value.positive { color: var(--success); }
+  .stat-value.accent { color: var(--accent-teal); }
+
+  /* Blocs et formulaires */
+  .card {
+    background: var(--surface-glass);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .card-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+  .input-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .input-group label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
+  .input-field {
+    width: 100%;
+    background: rgba(9, 10, 15, 0.6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    color: var(--text-main);
+    font-size: 14.5px;
+  }
+  .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+
+  .btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), #4F46E5);
+    color: #FFF;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    transition: transform 0.1s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+
+  /* Grille des Offres / Prix de Vente */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .price-card {
+    background: rgba(9, 10, 15, 0.4);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .price-card.featured {
+    border-color: var(--accent-teal);
+    background: rgba(20, 184, 166, 0.05);
+  }
+  .price-info h4 { font-size: 14px; font-weight: 700; }
+  .price-info p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .price-tag { font-size: 18px; font-weight: 800; color: var(--text-main); }
 </style>
 </head>
 <body>
 
-  <!-- Barre supérieure élégante -->
-  <div class="cap-pro-bar">
-    <div class="cap-pro-brand">
-      <div class="cap-pro-dot"></div>
-      <span>CAP BUDGET</span>
-    </div>
-    <div class="cap-pro-status">
-      <i></i> Offre à vie (Sans abonnement)
+<div class="container">
+  <!-- En-tête -->
+  <header class="header">
+    <div class="logo">CAP.</div>
+    <div class="badge-lifetime">Accès à vie</div>
+  </header>
+
+  <!-- Bannière Essai -->
+  <div class="promo-banner">
+    <div style="font-size: 24px;">✨</div>
+    <div class="promo-text">
+      <h3>1ère semaine offerte</h3>
+      <p>Installe l'app sur ton téléphone et reprends le contrôle.</p>
     </div>
   </div>
 
-  <div class="app">
+  <!-- Tableau de bord des montants -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Budget Restant</div>
+      <div class="stat-value positive">640 €</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Épargne Voyage</div>
+      <div class="stat-value accent">1 250 €</div>
+    </div>
+  </div>
+
+  <!-- Module CAP Décision -->
+  <section class="card">
+    <div class="card-title">💡 CAP Décision</div>
+    <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 16px;">Vérifie instantanément si une envie respecte tes objectifs financiers.</p>
     
-    <!-- Bannière de la première semaine offerte -->
-    <div class="cap-trial-banner">
-      ✨ Offre Spéciale : Votre première semaine est 100% gratuite ! Testez toutes les fonctions sans engagement.
+    <div class="input-group">
+      <label for="userQuery">Ton envie du moment</label>
+      <input type="text" id="userQuery" class="input-field" placeholder="Ex: Restaurant ce soir 55 €">
     </div>
 
-    <!-- MODULE INTERACTIF : CAP DÉCISION -->
-    <section class="card cap-decision-card">
-      <div class="card-head">
-        <h2>💡 CAP Décision — Votre assistant intelligent</h2>
+    <button class="btn" onclick="analyserDepense()">Analyser la dépense</button>
+    <div id="decisionResult" style="margin-top: 16px;"></div>
+  </section>
+
+  <!-- Grille des Tarifs / Offres pour la Vente -->
+  <section class="card">
+    <div class="card-title">🚀 Nos Offres & Tarifs</div>
+    <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 12px;">Choisis la formule idéale pour débloquer tout le potentiel de Cap.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-info">
+          <h4>Pass Mensuel</h4>
+          <p>Sans engagement, résiliable à tout moment</p>
+        </div>
+        <div class="price-tag">9,99 €</div>
       </div>
-      <p class="hint">Interrogez votre budget en temps réel pour savoir si vous pouvez vous offrir une sortie, un repas ou un achat sans impacter vos projets.</p>
-      
-      <div class="field">
-        <label for="capDecisionInput">Votre question ou dépense envisagée</label>
-        <input type="text" id="capDecisionInput" class="input" placeholder="Ex: Puis-je dépenser 45 € pour un restaurant ce soir ?">
+
+      <div class="price-card featured">
+        <div class="price-info">
+          <h4>Accès à vie (VIP)</h4>
+          <p>Paiement unique, mises à jour incluses</p>
+        </div>
+        <div class="price-tag" style="color: var(--accent-teal);">49,99 €</div>
       </div>
-      
-      <button class="btn" onclick="lancerCapDecision()">Analyser avec CAP Décision</button>
-      
-      <div id="capDecisionOutput" style="margin-top: 16px; font-weight: 600; line-height: 1.5; color: var(--ink);"></div>
-    </section>
+    </div>
+  </section>
+</div>
 
-    <!-- Le reste de votre application d'origine peut s'intégrer ou se placer ici -->
-
-  </div>
-
-  <script>
-    function lancerCapDecision() {
-      const inputVal = document.getElementById('capDecisionInput').value.trim();
-      const outputDiv = document.getElementById('capDecisionOutput');
-      
-      if(!inputVal) {
-        outputDiv.innerHTML = "<span style='color: var(--bad);'>⚠️ Veuillez saisir une question ou un montant à analyser.</span>";
-        return;
-      }
-      
-      // Simulation d'une analyse instantanée et intelligente basée sur les critères de CAP Budget
-      outputDiv.innerHTML = "<div style='padding: 14px; background: rgba(45,212,191,0.1); border: 1px solid rgba(45,212,191,0.3); border-radius: 12px; color: var(--cap-text);'>" +
-        "✅ <strong>CAP Décision :</strong> Feu vert ! Cette dépense est cohérente avec votre budget repas de la semaine et préserve votre épargne voyage." +
-        "</div>";
+<script>
+  function analyserDepense() {
+    const query = document.getElementById('userQuery').value.trim();
+    const resultDiv = document.getElementById('decisionResult');
+    if (!query) {
+      resultDiv.innerHTML = `<div style="padding: 12px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; color: #FCA5A5; font-weight: 600;">⚠️ Entre une dépense à analyser.</div>`;
+      return;
     }
-  </script>
-
+    resultDiv.innerHTML = `<div style="padding: 14px; background: rgba(20, 184, 166, 0.15); border: 1px solid rgba(20, 184, 166, 0.35); border-radius: 12px; color: #5EEAD4;"><strong>Feu vert validé !</strong> Ton budget et ton épargne voyage sont préservés.</div>`;
+  }
+</script>
 </body>
 </html>
-
