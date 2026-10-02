@@ -526,13 +526,15 @@ border:1px solid rgba(59,130,246,.14)}
 .cap-v6-kpi small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase;letter-spacing:.5px}.cap-v6-kpi b{display:block;font-size:19px;margin-top:4px}
 .cap-v6-bar{height:9px;border-radius:99px;background:rgba(148,163,184,.12);overflow:hidden;margin-top:8px}.cap-v6-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#22c55e,#14b8a6,#3b82f6)}
 .cap-v6-note{margin-top:11px;padding:12px;border-radius:13px;background:rgba(20,184,166,.07);border:1px solid rgba(20,184,166,.14);font-size:11px;color:#a9bacd;line-height:1.5}
-.cap-v6-list{display:grid;gap:7px;margin-top:10px;max-height:260px;overflow:auto}.cap-v6-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 10px;border-radius:11px;background:rgba(255,255,255,.035)}
-.cap-v6-item button{border:0;background:transparent;color:#8fa3bd;cursor:pointer}.cap-v6-item small{color:#8fa3bd}
+.cap-v6-list{display:grid;gap:7px;margin-top:10px;max-height:260px;overflow:auto}.cap-v6-item{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:11px 10px;border-radius:11px;background:rgba(255,255,255,.035)}
+.cap-v6-item>div{min-width:0;flex:1}.cap-v6-item b{display:block;font-size:14px;color:#f4f4f5}.cap-v6-item small{display:block;color:#8fa3bd;margin-top:3px;font-size:11px;line-height:1.45}.cap-v6-goal-meta{display:flex;flex-wrap:wrap;gap:5px 10px;margin-top:4px}.cap-v6-goal-meta span{color:#a9bacd}.cap-v6-goal-plan{margin-top:8px;padding:9px 10px;border-radius:10px;background:rgba(20,184,166,.06);border:1px solid rgba(20,184,166,.12);font-size:11px;line-height:1.45;color:#c8d7e6}.cap-v6-goal-plan b{display:inline;font-size:12px;color:#eef6ff}.cap-v6-goal-plan strong{color:#9ff1df}.cap-v6-goal-plan .warn{color:#ffd48a}.cap-v6-item button{border:0;background:transparent;color:#8fa3bd;cursor:pointer;flex:none}
 .cap-v6-plan{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.cap-v6-plan>div{padding:13px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.1)}
 .cap-v6-plan b{display:block;font-size:16px}.cap-v6-plan span{display:block;color:#8fa3bd;font-size:10px;margin-top:4px}
 .cap-v6-badge{display:inline-block;padding:5px 8px;border-radius:999px;background:rgba(59,130,246,.1);color:#a9c8ff;font-size:10px;font-weight:800}
 @media(max-width:760px){.cap-v6{padding:0 10px}.cap-v6-grid{grid-template-columns:1fr}.cap-v6-kpis{grid-template-columns:1fr 1fr}.cap-v6-plan{grid-template-columns:1fr}.cap-v6-form-row{grid-template-columns:1fr}}
 </style><style>
+.cap-v6-goal-plan-v2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}.cap-v6-goal-plan-v2>div{padding:8px 9px;border-radius:9px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12)}.cap-v6-goal-plan-v2 span{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase;letter-spacing:.35px}.cap-v6-goal-plan-v2 strong{display:block;margin-top:2px;color:#eef6ff;font-size:12px}@media(max-width:760px){.cap-v6-goal-plan-v2{grid-template-columns:1fr}}
+
 /* ===== CAP Conseil v7.0 ===== */
 .cap-v7{max-width:1180px;margin:18px auto;padding:0 16px}
 .cap-v7-card{padding:19px;border-radius:20px;border:1px solid rgba(148,163,184,.14);background:linear-gradient(145deg,rgba(20,34,54,.97),rgba(9,19,32,.97));box-shadow:0 18px 55px rgba(0,0,0,.16)}
@@ -598,7 +600,53 @@ border:1px solid rgba(59,130,246,.14)}
 .cap-v10-chart{height:130px;display:flex;align-items:end;gap:8px;margin-top:12px}.cap-v10-col{flex:1;text-align:center;font-size:9px;color:#8fa3bd}.cap-v10-col i{display:block;min-height:4px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,#3b82f6,#14b8a6);margin-bottom:5px}
 .cap-v10-btn{width:100%;padding:11px;border:0;border-radius:11px;background:linear-gradient(90deg,#14b8a6,#3b82f6);color:white;font-weight:800;cursor:pointer;margin-top:10px}
 @media(max-width:760px){.cap-v10{padding:0 10px}.cap-v10-kpis{grid-template-columns:1fr 1fr}.cap-v10-main,.cap-v10-grid2{grid-template-columns:1fr}.cap-v10-top{align-items:start;flex-direction:column}}
-</style></head>
+</style>
+<style>
+/* ===== CAP Décision v2 — décision réelle + simulateur ===== */
+.cap-v7-v2-topline{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+.cap-v7-v2-tag{padding:7px 10px;border-radius:999px;background:rgba(20,184,166,.08);border:1px solid rgba(20,184,166,.18);color:#a9f5e8;font-size:10px;font-weight:800}
+.cap-v7-v2-sim{margin-top:14px;padding:16px;border-radius:17px;background:linear-gradient(145deg,rgba(10,24,38,.92),rgba(7,17,29,.92));border:1px solid rgba(59,130,246,.16)}
+.cap-v7-v2-sim-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.cap-v7-v2-sim-head h3{margin:0;font-size:16px}
+.cap-v7-v2-sim-head p{margin:4px 0 0;color:#8fa3bd;font-size:11px;line-height:1.45}
+.cap-v7-v2-quick{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 10px}
+.cap-v7-v2-quick button{border:1px solid rgba(148,163,184,.15);border-radius:999px;padding:8px 11px;background:rgba(255,255,255,.045);color:#e7eef8;font-size:11px;font-weight:800;cursor:pointer}
+.cap-v7-v2-quick button:hover{border-color:rgba(45,212,191,.35)}
+.cap-v7-v2-sim-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.cap-v7-v2-sim-row input{width:100%;box-sizing:border-box;padding:12px;border-radius:11px;border:1px solid rgba(148,163,184,.16);background:rgba(255,255,255,.045);color:#eef6ff;font-size:15px;font-weight:800}
+.cap-v7-v2-sim-btn{border:0;border-radius:11px;padding:12px 15px;background:linear-gradient(90deg,#14b8a6,#3b82f6);color:#fff;font-weight:850;cursor:pointer}
+.cap-v7-v2-answer{margin-top:12px;padding:14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.12)}
+.cap-v7-v2-answer[data-tone="good"]{border-color:rgba(34,197,94,.28);background:rgba(34,197,94,.055)}
+.cap-v7-v2-answer[data-tone="warn"]{border-color:rgba(245,158,11,.28);background:rgba(245,158,11,.055)}
+.cap-v7-v2-answer[data-tone="bad"]{border-color:rgba(239,68,68,.28);background:rgba(239,68,68,.055)}
+.cap-v7-v2-answer h4{margin:0;font-size:15px}
+.cap-v7-v2-answer p{margin:5px 0 0;color:#9fb0c4;font-size:11px;line-height:1.55}
+.cap-v7-v2-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.cap-v7-v2-kpi{padding:10px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(148,163,184,.09)}
+.cap-v7-v2-kpi small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase;letter-spacing:.6px}
+.cap-v7-v2-kpi strong{display:block;margin-top:4px;font-size:15px}
+.cap-v7-v2-project{margin-top:10px;padding:14px;border-radius:15px;background:rgba(59,130,246,.055);border:1px solid rgba(59,130,246,.12)}
+.cap-v7-v2-project-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.cap-v7-v2-project-title{font-size:12px;font-weight:800}
+.cap-v7-v2-project-sub{display:block;margin-top:3px;color:#94a8bd;font-size:10px}
+.cap-v7-v2-before-after{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.cap-v7-v2-side{padding:10px;border-radius:12px;background:rgba(255,255,255,.035);border:1px solid rgba(148,163,184,.09)}
+.cap-v7-v2-side small{display:block;color:#8fa3bd;font-size:9px;text-transform:uppercase;letter-spacing:.6px}
+.cap-v7-v2-side strong{display:block;margin-top:4px;font-size:17px}
+.cap-v7-v2-side em{display:block;margin-top:2px;color:#94a8bd;font-size:10px;font-style:normal}
+.cap-v7-v2-project-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:9px}
+.cap-v7-v2-project-meta div{padding:8px;border-radius:10px;background:rgba(255,255,255,.025)}
+.cap-v7-v2-project-meta small{display:block;color:#8fa3bd;font-size:9px}
+.cap-v7-v2-project-meta b{display:block;margin-top:3px;font-size:11px}
+.cap-v7-v2-project-note{margin-top:9px;color:#9fb0c4;font-size:10.5px;line-height:1.5}
+.cap-v7-v2-source{margin-top:10px;color:#70859d;font-size:10px;line-height:1.4}
+@media(max-width:760px){
+  .cap-v7-v2-sim-row{grid-template-columns:1fr}
+  .cap-v7-v2-sim-btn{width:100%}
+}
+</style>
+
+</head>
 <body>
 <div class="cap-pro-bar" role="status" aria-label="État de CAP Budget">
   <div class="cap-pro-brand"><span class="cap-pro-dot"></span><span>CAP Budget</span></div>
@@ -1010,13 +1058,15 @@ border:1px solid rgba(59,130,246,.14)}
       <p id="v6-advice">Renseignez votre budget pour obtenir une recommandation.</p>
       <div class="cap-v6-note" id="v6-advice-detail">CAP Conseil tient compte des revenus, charges, courses, loisirs, projets et autres dépenses enregistrés.</div>
       <div class="cap-v6-actions">
-        <button class="cap-v6-btn primary" id="v6-refresh">Analyser mon budget</button>
+        <button class="cap-v6-btn" id="v6-refresh" type="button" aria-label="Actualiser le conseil">Actualiser le conseil</button>
+        <span id="v6-refresh-status" aria-live="polite" style="font-size:11px;color:#9ff1df"></span>
       </div>
     </article>
 
     <article class="cap-v6-card">
       <span class="cap-v6-badge">🎯 Objectifs</span>
       <h3 style="margin-top:8px">Mes projets</h3>
+      <div class="cap-v6-note" style="margin-top:8px">CAP Conseil affiche maintenant l’effort du projet et la marge restante directement ici.</div>
       <p>Ajoutez plusieurs objectifs et suivez leur progression.</p>
       <div class="cap-v6-form">
         <div class="cap-v6-form-row">
@@ -1079,6 +1129,14 @@ border:1px solid rgba(59,130,246,.14)}
   const getGoals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
   const saveGoals=g=>localStorage.setItem('capBudgetGoals',JSON.stringify(g));
 
+  // Projet test ajouté automatiquement pour valider CAP Décision v2.
+  // Il n'écrase pas les projets déjà présents sur l'appareil.
+  const seedGoals=getGoals();
+  if(!seedGoals.some(g=>g&&g.name==='Voyage Portugal')){
+    seedGoals.push({name:'Voyage Portugal',target:2000,saved:500,date:'2027-06-30'});
+    saveGoals(seedGoals);
+  }
+
   function budget(){
     const v=getBudget();
     if(!v){return {income:0,total:0,remain:0,rate:0,projects:0,weekly:0}};
@@ -1094,9 +1152,28 @@ border:1px solid rgba(59,130,246,.14)}
     document.getElementById('v6-week').textContent=money(b.weekly);
     const advice=document.getElementById('v6-advice'), detail=document.getElementById('v6-advice-detail');
     if(!b.income){advice.textContent='Commencez par renseigner vos revenus et dépenses dans le moteur de budget.'}
-    else if(b.remain<0){advice.textContent='Votre budget dépasse actuellement vos revenus.';detail.textContent='CAP Conseil vous recommande de revoir les postes variables avant d'ajouter de nouvelles dépenses.'}
+    else if(b.remain<0){advice.textContent='Votre budget dépasse actuellement vos revenus.';detail.textContent='CAP Conseil vous recommande de revoir les postes variables avant d’ajouter de nouvelles dépenses.'}
     else if(b.remain<100){advice.textContent='Votre marge est très serrée.';detail.textContent='Gardez une réserve pour les imprévus et évitez de considérer toute la marge comme disponible.'}
-    else {advice.textContent='Votre budget conserve une marge positive.';detail.textContent='Vous pouvez répartir cette marge entre épargne, imprévus et dépenses plaisir selon vos priorités.'}
+    else {
+      const goals=getGoals().filter(g=>g&&Number(g.target)>0);
+      if(goals.length){
+        const g=goals[0];
+        const remaining=Math.max(0,(Number(g.target)||0)-(Number(g.saved)||0));
+        let monthly=0;
+        if(g.date){
+          const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
+          monthly=Math.ceil(remaining/Math.max(1,days/30.44));
+        }
+        const marginAfter=monthly?Math.max(0,b.remain-monthly):b.remain;
+        advice.textContent='Votre budget conserve une marge positive et votre projet principal est pris en compte.';
+        detail.textContent=monthly
+          ? `${g.name} : ${money(remaining)} restent à financer · effort indicatif ${money(monthly)}/mois · sur ${money(b.remain)} de marge, il resterait ${money(marginAfter)} après cet effort.`
+          : `${g.name} : ${money(remaining)} restent à financer. Renseigne une date cible pour calculer l’effort mensuel.`;
+      } else {
+        advice.textContent='Votre budget conserve une marge positive.';
+        detail.textContent='Vous pouvez répartir cette marge entre épargne, imprévus et dépenses plaisir selon vos priorités.';
+      }
+    }
     const stats=[
       ['Charges fixes', b.income?Math.round((getBudget().fixed||0)/b.income*100):0],
       ['Courses / repas', b.income?Math.round((getBudget().food||0)/b.income*100):0],
@@ -1105,14 +1182,42 @@ border:1px solid rgba(59,130,246,.14)}
     ];
     document.getElementById('v6-stats').innerHTML=stats.map(x=>`<div class="cap-v6-row"><div><strong>${x[0]}</strong><span>${x[1]} % du revenu</span></div><b>${x[1]}%</b></div><div class="cap-v6-bar"><i style="width:${Math.min(x[1],100)}%"></i></div>`).join('');
     const goals=getGoals();
+    const formatGoalDate=d=>{
+      if(!d) return 'Date cible : non définie';
+      const dt=new Date(d+'T00:00:00');
+      return Number.isNaN(dt.getTime())?'Date cible : non définie':'Date cible : '+dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});
+    };
     document.getElementById('v6-goals').innerHTML=goals.length?goals.map((g,i)=>{
-      const pct=g.target?Math.min(100,Math.round(g.saved/g.target*100)):0;
-      return `<div class="cap-v6-item"><div><b>${g.name}</b><small>${money(g.saved)} / ${money(g.target)} · ${pct}%</small><div class="cap-v6-bar"><i style="width:${pct}%"></i></div></div><button data-goal="${i}" aria-label="Supprimer">✕</button></div>`;
+      const target=Number(g.target)||0, saved=Number(g.saved)||0;
+      const pct=target?Math.min(100,Math.round(saved/target*100)):0;
+      const remaining=Math.max(0,target-saved);
+      let monthly=0;
+      if(g.date){
+        const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
+        monthly=Math.ceil(remaining/Math.max(1,days/30.44));
+      }
+      const marginAfter=monthly?b.remain-monthly:b.remain;
+      const planTone=monthly && marginAfter<0 ? 'warn' : '';
+      const planText=monthly
+        ? `CAP repère : <b>${money(monthly)}</b> / mois pour ce projet · marge restante après cet effort : <strong class="${planTone}">${money(Math.max(0,marginAfter))}</strong>${marginAfter<0?' · marge insuffisante pour couvrir cet effort ce mois-ci.':''}`
+        : `CAP repère : <strong>${money(b.remain)}</strong> de marge disponible · renseigne une date cible pour calculer un effort mensuel.`;
+      return `<div class="cap-v6-item"><div><b>${g.name}</b><small>${money(saved)} / ${money(target)} · ${pct}%</small><div class="cap-v6-goal-meta"><span>Reste : ${money(remaining)}</span><span>${formatGoalDate(g.date)}</span></div><div class="cap-v6-goal-plan">${planText}</div><div class="cap-v6-goal-plan-v2"><div><span>Effort mensuel</span><strong>${monthly?money(monthly)+' / mois':'—'}</strong></div><div><span>Marge après effort</span><strong>${monthly?money(Math.max(0,marginAfter)):money(b.remain)}</strong></div></div><div class="cap-v6-bar"><i style="width:${pct}%"></i></div></div><button data-goal="${i}" aria-label="Supprimer ${String(g.name).replace(/"/g,'&quot;')}">✕</button></div>`;
     }).join(''):'<div class="cap-v6-note">Aucun objectif pour le moment.</div>';
     document.querySelectorAll('[data-goal]').forEach(btn=>btn.onclick=()=>{const g=getGoals();g.splice(Number(btn.dataset.goal),1);saveGoals(g);render()});
   }
 
-  document.getElementById('v6-refresh').onclick=render;
+  const refreshBtn=document.getElementById('v6-refresh');
+  const refreshStatus=document.getElementById('v6-refresh-status');
+  if(refreshBtn){
+    refreshBtn.addEventListener('click',()=>{
+      render();
+      if(refreshStatus){
+        refreshStatus.textContent='✓ Conseil actualisé';
+        clearTimeout(window.__capRefreshTimer);
+        window.__capRefreshTimer=setTimeout(()=>{refreshStatus.textContent=''},1800);
+      }
+    });
+  }
   document.getElementById('v6-add-goal').onclick=()=>{
     const name=document.getElementById('v6-goal-name').value.trim(), target=Number(document.getElementById('v6-goal-target').value)||0, saved=Number(document.getElementById('v6-goal-saved').value)||0, date=document.getElementById('v6-goal-date').value;
     if(!name||target<=0){alert('Indiquez un nom et un montant cible.');return}
@@ -1132,19 +1237,27 @@ border:1px solid rgba(59,130,246,.14)}
 </script>
 
 
-<section class="cap-v7" aria-label="CAP Conseil">
+<section class="cap-v7" aria-label="CAP Décision v2">
   <article class="cap-v7-card">
     <div class="cap-v7-head">
       <div>
-        <h2>🧠 CAP Conseil</h2>
-        <p>Posez une question à votre budget. CAP Conseil transforme vos chiffres en réponse simple.</p>
+        <span class="cap-v6-badge">🧠 CAP Décision v2</span>
+        <h2 style="margin-top:8px">Décider avec ton vrai budget</h2>
+        <p>CAP calcule la situation à partir de tes revenus, charges fixes, dépenses réelles, épargne et projets enregistrés.</p>
       </div>
+    </div>
+
+    <div class="cap-v7-v2-topline">
+      <span class="cap-v7-v2-tag">💰 Calcul réel</span>
+      <span class="cap-v7-v2-tag">🔮 Simulation « Et si ? »</span>
+      <span class="cap-v7-v2-tag">🎯 Impact projets</span>
+      <span class="cap-v7-v2-tag">💾 Données locales</span>
     </div>
 
     <div class="cap-v7-grid">
       <div>
         <div class="cap-v7-question">
-          <label for="v7-question">Ma question</label>
+          <label for="v7-question">Que veux-tu savoir ?</label>
           <select id="v7-question">
             <option value="spend">Puis-je me permettre cette dépense ?</option>
             <option value="week">Combien puis-je dépenser cette semaine ?</option>
@@ -1153,24 +1266,50 @@ border:1px solid rgba(59,130,246,.14)}
           </select>
           <div id="v7-amount-wrap" style="margin-top:10px">
             <label for="v7-amount">Montant de la dépense (€)</label>
-            <input id="v7-amount" type="number" min="0" step="0.01" placeholder="Ex. 80">
+            <input id="v7-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 80">
           </div>
           <div class="cap-v7-actions">
-            <button class="cap-v7-btn primary" id="v7-analyze">Analyser</button>
-            <button class="cap-v7-btn" id="v7-clear">Effacer</button>
+            <button class="cap-v7-btn primary" id="v7-analyze" type="button">Analyser</button>
+            <button class="cap-v7-btn" id="v7-clear" type="button">Effacer</button>
           </div>
         </div>
         <div class="cap-v7-metrics">
-          <div class="cap-v7-metric"><small>Marge actuelle</small><strong id="v7-remain">—</strong></div>
-          <div class="cap-v7-metric"><small>Marge / semaine</small><strong id="v7-weekly">—</strong></div>
+          <div class="cap-v7-metric"><small>Reste réel</small><strong id="v7-remain">—</strong></div>
+          <div class="cap-v7-metric"><small>Enveloppe / semaine</small><strong id="v7-weekly">—</strong></div>
           <div class="cap-v7-metric"><small>Budget engagé</small><strong id="v7-rate">—</strong></div>
         </div>
       </div>
 
       <div class="cap-v7-card cap-v7-answer" id="v7-answer">
         <div class="icon">💡</div>
-        <h3>Votre réponse apparaîtra ici</h3>
-        <p>CAP Conseil utilise les chiffres enregistrés dans votre moteur de budget. Il ne devine pas vos revenus ni vos dépenses.</p>
+        <h3>Ta situation réelle</h3>
+        <p>CAP lit les données enregistrées sur ton appareil pour produire une réponse à partir du budget réel.</p>
+      </div>
+    </div>
+
+    <div class="cap-v7-v2-sim" aria-label="Simulateur Et si ?">
+      <div class="cap-v7-v2-sim-head">
+        <div>
+          <h3>🔮 Et si je dépensais… ?</h3>
+          <p>Teste une dépense avant de la faire. CAP montre immédiatement ce qu'il resterait et l'effet sur ton épargne et ton projet.</p>
+        </div>
+      </div>
+      <div class="cap-v7-v2-quick" aria-label="Montants rapides">
+        <button type="button" data-v2-quick="20">20 €</button>
+        <button type="button" data-v2-quick="50">50 €</button>
+        <button type="button" data-v2-quick="100">100 €</button>
+        <button type="button" data-v2-quick="200">200 €</button>
+      </div>
+      <div class="cap-v7-v2-sim-row">
+        <div>
+          <label for="v7-sim-amount" style="display:block;color:#9fb0c4;font-size:10px;margin-bottom:6px">Dépense simulée</label>
+          <input id="v7-sim-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 50">
+        </div>
+        <button class="cap-v7-v2-sim-btn" id="v7-sim-analyze" type="button">Simuler</button>
+      </div>
+      <div class="cap-v7-v2-answer" id="v7-sim-answer" data-tone="good">
+        <h4>La simulation apparaîtra ici</h4>
+        <p>Entre un montant pour voir l'impact sur ta marge disponible, ton potentiel d'épargne et ton projet principal.</p>
       </div>
     </div>
 
@@ -1178,58 +1317,237 @@ border:1px solid rgba(59,130,246,.14)}
       <h3>Dernières analyses</h3>
       <div id="v7-history"><div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div></div>
     </div>
+    <div class="cap-v7-v2-source">Les calculs utilisent le budget principal et les données enregistrées dans le navigateur. Ils sont indicatifs et ne constituent pas un conseil financier personnalisé.</div>
   </article>
 </section>
 
 <script>
 (function(){
   const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
-  const get=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
-  const getHistory=()=>{try{return JSON.parse(localStorage.getItem('capAdviceHistory')||'[]')}catch(e){return []}};
-  const saveHistory=h=>localStorage.setItem('capAdviceHistory',JSON.stringify(h.slice(0,8)));
+  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+  const readJSON=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key)||'');return v==null?fallback:v}catch(e){return fallback}};
+  const currentMonth=()=>new Date().toISOString().slice(0,7);
+  const core=()=>readJSON('cap_state_v4',null);
+  const engine=()=>readJSON('capBudgetEngine',null);
+  const oldGoals=()=>readJSON('capBudgetGoals',[]);
+  const normalizeHistory=h=>{
+    const seen=new Set();
+    return (Array.isArray(h)?h:[]).filter(item=>item&&typeof item==='object').filter(item=>{
+      const key=String(item.q??'')+'\u0000'+String(item.a??'');
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0,8);
+  };
+  const HISTORY_KEY='capAdviceHistory';
+  const HASH_PREFIX='#CAP_HISTORY:';
+  const readHashHistory=()=>{
+    try{
+      if(typeof location==='undefined' || typeof location.hash!=='string' || !location.hash.startsWith(HASH_PREFIX)) return [];
+      const v=JSON.parse(decodeURIComponent(location.hash.slice(HASH_PREFIX.length)));
+      return Array.isArray(v)?v:[];
+    }catch(e){return []}
+  };
+  const writeHashHistory=h=>{
+    try{
+      const clean=normalizeHistory(h);
+      const hash=HASH_PREFIX+encodeURIComponent(JSON.stringify(clean));
+      if(location.hash!==hash) history.replaceState(null,'',hash);
+    }catch(e){}
+  };
+  const getHistory=()=>{
+    const local=normalizeHistory(readJSON(HISTORY_KEY,[]));
+    const hash=normalizeHistory(readHashHistory());
+    const merged=normalizeHistory([...hash,...local]);
+    try{localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));}catch(e){}
+    writeHashHistory(merged);
+    return merged;
+  };
+  const saveHistory=h=>{
+    const clean=normalizeHistory(h);
+    try{localStorage.setItem(HISTORY_KEY,JSON.stringify(clean));}catch(e){}
+    writeHashHistory(clean);
+  };
 
-  function budget(){
-    const v=get()||{};
-    const total=(v.fixed||0)+(v.food||0)+(v.leisure||0)+(v.projects||0)+(v.other||0);
-    const remain=(v.income||0)-total;
-    return {income:v.income||0,total,remain,weekly:remain/4.33,rate:v.income?Math.round(total/v.income*100):0};
+  function actualBudget(){
+    /* CAP Décision doit utiliser la même base budgétaire que le centre de pilotage.
+       On privilégie donc capBudgetEngine (source affichée dans CAP Budget) et on
+       conserve cap_state_v4 uniquement pour retrouver d’éventuelles informations
+       de voyage nécessaires à l’affichage du projet. */
+    const v=engine()||{};
+    const income=Number(v.income)||0;
+    const recurring=Number(v.fixed)||0;
+    const variable=(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.other)||0);
+    const tripSaved=Number(v.projects)||0;
+    const committed=recurring+variable+tripSaved;
+    const remain=Math.round((income-committed)*100)/100;
+    const now=new Date(), lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+    const daysLeft=Math.max(1,lastDay-now.getDate()+1);
+    const weeksLeft=Math.max(1,daysLeft/7);
+    const s=core();
+    return {
+      source:'pilotage',
+      salary:income,
+      recurring,
+      variable,
+      tripSaved,
+      committed,
+      remain,
+      daysLeft,
+      weekly:Math.max(0,remain/weeksLeft),
+      rate:income?Math.round(committed/income*100):0,
+      state:(s && typeof s==='object')?s:null
+    };
   }
+
+  function projectList(b){
+    const out=[];
+    if(b.state && b.state.trip){
+      const t=b.state.trip;
+      const saved=Array.isArray(t.contribs)?t.contribs.reduce((a,c)=>a+(Number(c.amount)||0),0):0;
+      out.push({name:t.dest||'Projet principal',target:Number(t.goal)||0,saved,date:t.date||'',type:'Voyage'});
+    }
+    oldGoals().forEach(g=>out.push({name:g&&g.name||'Objectif',target:Number(g&&g.target)||0,saved:Number(g&&g.saved)||0,date:g&&g.date||'',type:'Objectif'}));
+    return out.filter(x=>x.target>0);
+  }
+
+  function renderProjectImpact(b,after){
+    const el=document.getElementById('v7-project-impact');
+    if(!el) return;
+    const projects=projectList(b);
+    if(!projects.length){
+      el.innerHTML='<b>🎯 Aucun projet avec échéance disponible.</b><span>Ajoute un voyage ou un objectif pour que CAP calcule précisément l’impact d’une nouvelle dépense.</span>';
+      return;
+    }
+    const p=projects[0], remaining=Math.max(0,p.target-p.saved);
+    let monthly=0, fit='';
+    if(p.date){
+      const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));
+      const months=Math.max(1,days/30.44);
+      monthly=Math.ceil(remaining/months);
+      fit=after>=monthly?'La marge simulée couvre encore l’effort mensuel indicatif nécessaire.':'La marge simulée devient inférieure à l’effort mensuel indicatif nécessaire.';
+    } else fit='Aucune date cible : CAP conserve le montant restant sans inventer d’échéance.';
+    el.innerHTML=`<b>🎯 ${esc(p.type)} : ${esc(p.name)}</b><span>Reste à financer : <strong>${money(remaining)}</strong>${monthly?' · effort indicatif : <strong>'+money(monthly)+'/mois</strong>':''}<br>${esc(fit)}</span>`;
+  }
+
+  function setAnswer(title,body,icon,tone){
+    document.getElementById('v7-answer').innerHTML=`<div class="icon">${icon}</div><h3>${title}</h3><p>${body}</p>`;
+    document.getElementById('v7-answer').dataset.tone=tone||'';
+  }
+
   function refresh(){
-    const b=budget();
+    const b=actualBudget();
     document.getElementById('v7-remain').textContent=money(b.remain);
     document.getElementById('v7-weekly').textContent=money(b.weekly);
     document.getElementById('v7-rate').textContent=b.rate+' %';
     const history=getHistory();
-    document.getElementById('v7-history').innerHTML=history.length?history.map(x=>`<div class="cap-v7-history-item"><span>${x.q}</span><b>${x.a}</b></div>`).join(''):'<div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div>';
+    document.getElementById('v7-history').innerHTML=history.length?history.map(x=>`<div class="cap-v7-history-item"><span>${esc(x.q)}</span><b>${esc(x.a)}</b></div>`).join(''):'<div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div>';
   }
+
   function analyze(){
-    const b=budget(), type=document.getElementById('v7-question').value, amount=Math.max(0,Number(document.getElementById('v7-amount').value)||0);
-    let title='', body='', icon='💡', answer='';
-    if(!b.income){title='Votre budget n’est pas encore renseigné';body='Commencez par indiquer vos revenus et vos dépenses dans le moteur de budget.';icon='📝';answer=title}
+    const b=actualBudget(), type=document.getElementById('v7-question').value, amount=Math.max(0,Number(document.getElementById('v7-amount').value)||0);
+    let title='',body='',icon='💡',answer='';
+    if(!b.salary){title='Ton budget n’est pas encore renseigné';body='Renseigne ton salaire dans le budget principal pour que CAP puisse calculer une marge réelle.';icon='📝';answer='À renseigner';}
     else if(type==='spend'){
       const after=b.remain-amount;
-      if(amount<=0){title='Indiquez un montant';body='Entrez le montant de la dépense que vous envisagez.';icon='💶';answer=title}
-      else if(after<0){title='Cette dépense dépasse votre marge actuelle';body=`Après ${money(amount)}, votre marge passerait à ${money(after)}. Réduisez la dépense ou réorganisez un autre poste.`;icon='⚠️';answer='À revoir'}
-      else if(after<100){title='Dépense possible, mais marge serrée';body=`Après ${money(amount)}, il resterait ${money(after)}. Gardez une réserve pour les imprévus.`;icon='🟠';answer='Prudence'}
-      else{title='La dépense entre dans votre marge actuelle';body=`Après ${money(amount)}, il resterait ${money(after)}. Cela ne signifie pas que la dépense est prioritaire : vérifiez aussi vos objectifs.`;icon='✅';answer='Possible'}
+      if(amount<=0){title='Indique un montant';body='Entre le montant de la dépense que tu envisages.';icon='💶';answer='Montant manquant';}
+      else if(after<0){title='Cette dépense dépasse ta marge actuelle';body=`Après ${money(amount)}, ton reste passerait à ${money(after)}. Il manque ${money(Math.abs(after))} pour absorber la dépense sans dépasser la marge actuelle.`;icon='⚠️';answer='À revoir';}
+      else if(after<b.weekly){title='Possible, mais elle consomme plus d’une semaine de marge';body=`Après ${money(amount)}, il resterait ${money(after)}. Ton enveloppe hebdomadaire actuelle est d’environ ${money(b.weekly)}.`;icon='🟠';answer='Prudence';}
+      else {title='La dépense entre dans ta marge actuelle';body=`Après ${money(amount)}, il resterait ${money(after)}. Vérifie aussi l’effet sur ton épargne et ton projet avant de décider.`;icon='✅';answer='Possible';}
+      renderProjectImpact(b,after);
     } else if(type==='week'){
-      title='Votre enveloppe hebdomadaire indicative';body=`Avec les données actuelles, votre marge disponible représente environ ${money(Math.max(0,b.weekly))} par semaine. Gardez une réserve séparée pour les imprévus.`;answer=money(Math.max(0,b.weekly));icon='📅';
+      const weeksRemaining=Math.max(1,b.daysLeft/7);
+      title='Ton enveloppe hebdomadaire actuelle';
+      body=`Il reste ${b.daysLeft} jour(s) dans le mois, soit environ ${weeksRemaining.toFixed(1).replace('.', ',')} semaines. Sur cette période, ta marge de ${money(b.remain)} représente environ ${money(b.weekly)} par semaine.`;
+      answer=money(b.weekly);icon='📅';
     } else if(type==='save'){
-      const safe=Math.max(0,b.remain*0.5);
-      title='Une épargne prudente pourrait commencer ici';body=`À titre indicatif, réserver environ ${money(safe)} laisserait encore ${money(b.remain-safe)} de marge. Ce n’est pas un conseil financier personnalisé.`;answer=money(safe);icon='🎯';
+      const safe=Math.max(0,b.remain);
+      title='Ta capacité d’épargne disponible';body=`Ta marge réellement disponible est de ${money(safe)}. C’est le montant maximal qui reste après les charges, dépenses et versements déjà enregistrés ce mois-ci — sans prévoir de nouvelle dépense.`;answer=money(safe);icon='🎯';
     } else {
-      title='Pour avancer vers un objectif';body=`Votre marge actuelle est de ${money(b.remain)}. Ajoutez vos objectifs dans la section Objectifs pour suivre précisément le montant restant et la progression.`;answer='Objectifs';icon='🚀';
+      const projects=projectList(b);
+      if(!projects.length){title='Ajoute d’abord un objectif';body=`Ta marge actuelle est de ${money(b.remain)}. Ajoute un voyage ou un objectif pour que CAP calcule l’effort nécessaire.`;answer='Objectif';icon='🚀';}
+      else {const p=projects[0], remaining=Math.max(0,p.target-p.saved);let monthly=0;if(p.date){const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44));}title='Ton projet principal';body=`${p.name} : il reste ${money(remaining)} à financer.${monthly?' Effort indicatif : '+money(monthly)+' / mois.':''} Ta marge actuelle est de ${money(b.remain)}.`;answer='Projet';icon='🚀';}
     }
-    document.getElementById('v7-answer').innerHTML=`<div class="icon">${icon}</div><h3>${title}</h3><p>${body}</p>`;
+    setAnswer(title,body,icon, type==='spend' && amount>0 ? (b.remain-amount<0?'bad':b.remain-amount<b.weekly?'warn':'good') : '');
     const history=getHistory();history.unshift({q:document.getElementById('v7-question').selectedOptions[0].text,a:answer});saveHistory(history);refresh();
   }
+
+  function simulate(){
+    const b=actualBudget(), amount=Math.max(0,Number(document.getElementById('v7-sim-amount').value)||0), box=document.getElementById('v7-sim-answer');
+    if(!b.salary){box.dataset.tone='warn';box.innerHTML='<h4>📝 Commence par renseigner ton budget</h4><p>CAP a besoin de ton revenu et de tes données réelles pour calculer une simulation fiable.</p>';return;}
+    if(amount<=0){box.dataset.tone='';box.innerHTML='<h4>💶 Entre un montant</h4><p>Choisis 20 €, 50 €, 100 €, 200 € ou saisis ton propre montant.</p>';return;}
+    const after=Math.round((b.remain-amount)*100)/100;
+    const impact=b.remain>0?Math.round(amount/b.remain*100):0;
+    const tone=after<0?'bad':after<b.weekly?'warn':'good';
+    const title=after<0?'🚫 Dépense au-dessus de ta marge':after<b.weekly?'⚠️ Dépense possible, mais elle réduit fortement ta marge':'✅ Dépense compatible avec ta marge actuelle';
+    const savingAfter=Math.max(0,after);
+    let projectHtml='';
+    const projects=projectList(b);
+    if(projects.length){
+      const p=projects[0], remaining=Math.max(0,p.target-p.saved);
+      let monthly=0, projectStatus='', monthsCoveredBefore=0, monthsCoveredAfter=0;
+      if(p.date){
+        const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));
+        monthly=Math.ceil(remaining/Math.max(1,days/30.44));
+        monthsCoveredBefore=monthly?Math.max(0,b.remain/monthly):0;
+        monthsCoveredAfter=monthly?Math.max(0,after/monthly):0;
+        projectStatus=after>=monthly?'La dépense ne met pas en cause l’effort mensuel indicatif du projet.':'La dépense fait passer la marge simulée sous l’effort mensuel indicatif du projet.';
+      } else projectStatus='Aucune échéance n’est enregistrée.';
+      const deltaMargin=Math.round((b.remain-after)*100)/100;
+      const dateLabel=p.date?new Date(p.date+'T00:00:00').toLocaleDateString('fr-FR'):'';
+      const beforeMonths=monthsCoveredBefore.toFixed(1).replace('.',','), afterMonths=monthsCoveredAfter.toFixed(1).replace('.',',');
+      const beforeMargin=money(b.remain), afterMargin=money(after);
+      const projectRemaining=money(remaining);
+      const monthlyLabel=monthly?money(monthly)+'/mois':'—';
+      const projectChanged='non';
+      projectHtml=`<div class="cap-v7-v2-project">
+        <div class="cap-v7-v2-project-head">
+          <div><div class="cap-v7-v2-project-title">🎯 Impact sur ${esc(p.name)}</div><span class="cap-v7-v2-project-sub">La simulation porte sur ta marge, pas sur l’argent déjà enregistré dans le projet.</span></div>
+        </div>
+        <div class="cap-v7-v2-before-after">
+          <div class="cap-v7-v2-side"><small>Avant la dépense</small><strong>${beforeMargin}</strong><em>marge disponible</em></div>
+          <div class="cap-v7-v2-side"><small>Après la dépense</small><strong>${afterMargin}</strong><em>marge disponible</em></div>
+        </div>
+        <div class="cap-v7-v2-project-meta">
+          <div><small>Reste à financer</small><b>${projectRemaining}</b></div>
+          <div><small>Effort indicatif</small><b>${monthlyLabel}</b></div>
+          <div><small>Date cible</small><b>${dateLabel||'Non définie'}</b></div>
+          <div><small>Projet modifié</small><b>${projectChanged}</b></div>
+        </div>
+        <div class="cap-v7-v2-project-note">La dépense simulée retire ${money(deltaMargin)} de ta marge disponible, mais ne change pas les ${projectRemaining} qu’il reste à financer pour le projet. ${esc(projectStatus)} Ta marge couvre environ <strong>${beforeMonths} mensualités</strong> du projet avant la dépense, puis <strong>${afterMonths}</strong> après.</div>
+      </div>`;
+    } else projectHtml='<div class="cap-v7-v2-project"><b>🎯 Aucun projet actif</b><span>Ajoute un voyage ou un objectif pour que CAP mesure son impact.</span></div>';
+    box.dataset.tone=tone;
+    box.innerHTML=`<h4>${title}</h4><p>Reste avant : <strong>${money(b.remain)}</strong> · après : <strong>${money(after)}</strong>.<br>La dépense représente environ <strong>${impact}%</strong> de ta marge actuelle. Capacité d’épargne disponible avant : <strong>${money(Math.max(0,b.remain))}</strong> · après : <strong>${money(savingAfter)}</strong>.</p>${projectHtml}`;
+
+    // Enregistrer aussi les simulations dans « Dernières analyses ».
+    const simulationHistory=getHistory();
+    simulationHistory.unshift({
+      q:`Simulation : dépense de ${money(amount)}`,
+      a:`${money(b.remain)} → ${money(after)} · ${after<0?'au-dessus de la marge':after<b.weekly?'marge fortement réduite':'dépense compatible'}`
+    });
+    saveHistory(simulationHistory);
+    refresh();
+  }
+
   document.getElementById('v7-analyze').onclick=analyze;
-  document.getElementById('v7-clear').onclick=()=>{document.getElementById('v7-amount').value='';document.getElementById('v7-answer').innerHTML='<div class="icon">💡</div><h3>Votre réponse apparaîtra ici</h3><p>CAP Conseil utilise les chiffres enregistrés dans votre moteur de budget.</p>'};
-  document.getElementById('v7-question').onchange=()=>{document.getElementById('v7-amount-wrap').style.display=document.getElementById('v7-question').value==='spend'?'block':'none'};
+  document.getElementById('v7-sim-analyze').onclick=simulate;
+  document.querySelectorAll('[data-v2-quick]').forEach(btn=>btn.addEventListener('click',()=>{document.getElementById('v7-sim-amount').value=btn.dataset.v2Quick;simulate()}));
+  document.getElementById('v7-clear').onclick=()=>{
+    document.getElementById('v7-amount').value='';
+    document.getElementById('v7-sim-amount').value='';
+    document.getElementById('v7-answer').dataset.tone='';
+    document.getElementById('v7-answer').innerHTML='<div class="icon">💡</div><h3>Ta situation réelle</h3><p>CAP lit les données enregistrées sur ton appareil pour produire une réponse à partir du budget réel.</p>';
+    document.getElementById('v7-sim-answer').dataset.tone='';
+    document.getElementById('v7-sim-answer').innerHTML='<h4>La simulation apparaîtra ici</h4><p>Entre un montant pour voir l’impact sur ta marge disponible, ton potentiel d’épargne et ton projet principal.</p>';
+  };
+  document.getElementById('v7-question').onchange=()=>{
+    document.getElementById('v7-amount-wrap').style.display=document.getElementById('v7-question').value==='spend'?'block':'none';
+  };
+  window.addEventListener('capBudgetChanged',()=>{refresh();const n=document.getElementById('v7-sim-amount').value;if(n) simulate();});
   refresh();
 })();
 </script>
-
 
 <section class="cap-v8" aria-label="Budget vivant et historique">
   <div class="cap-v8-card">
@@ -1959,6 +2277,7 @@ let state = load();
 function save() {
 try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
 scheduleCloudSave();
+window.dispatchEvent(new Event('capBudgetChanged'));
 }
 function summary() {
 const mk = iso(new Date()).slice(0, 7);
@@ -2524,6 +2843,22 @@ cloudBtn.onclick = async () => {
     console.warn('Supabase non configuré', e);
   }
 })();
+})();
+</script>
+
+<script>
+(function seedCapBudgetTestGoal(){
+  try {
+    const key='capBudgetGoals';
+    const goals=JSON.parse(localStorage.getItem(key)||'[]');
+    const exists=Array.isArray(goals) && goals.some(g => g && g.name === 'Voyage Portugal');
+    if(!exists){
+      goals.push({name:'Voyage Portugal',target:2000,saved:500,date:'2027-06-30'});
+      localStorage.setItem(key, JSON.stringify(goals));
+    }
+    const refresh=document.getElementById('v6-refresh');
+    if(refresh) refresh.click();
+  } catch(e) { console.warn('Impossible d’ajouter le projet test', e); }
 })();
 </script>
 </body>
