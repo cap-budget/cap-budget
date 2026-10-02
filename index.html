@@ -1843,41 +1843,6 @@ border:1px solid rgba(59,130,246,.14)}
 <p class="empty" id="recurring-empty">Aucune charge fixe enregistrée.</p>
 </section>
 
-
-<section class="cap-mvp-card" aria-labelledby="mvp-quick-title">
-  <div class="cap-mvp-head">
-    <div>
-      <h2 id="mvp-quick-title">⚡ Saisie 1-clic</h2>
-      <p>Ajoute une dépense fréquente sans remplir le formulaire. Chaque bouton peut être annulé immédiatement.</p>
-    </div>
-  </div>
-  <div class="cap-quick-grid" id="cap-quick-grid"></div>
-  <div class="cap-voice-row">
-    <button class="cap-voice-btn" id="cap-voice-btn" type="button">🎙️ Dicter une dépense</button>
-    <div class="cap-voice-status" id="cap-voice-status" aria-live="polite"></div>
-  </div>
-</section>
-
-<section class="cap-mvp-card" id="cap-trip-mvp" aria-labelledby="cap-trip-mvp-title" hidden>
-  <div class="cap-trip-mvp-head">
-    <div>
-      <h3 id="cap-trip-mvp-title">✈️ Épargne Voyage</h3>
-      <span id="cap-trip-mvp-dest"></span>
-    </div>
-    <span id="cap-trip-mvp-pct">0 %</span>
-  </div>
-  <div class="cap-trip-mvp-money">
-    <div><strong id="cap-trip-mvp-saved">0 €</strong><small id="cap-trip-mvp-goal">sur 0 €</small></div>
-    <div style="text-align:right"><strong id="cap-trip-mvp-remaining">0 €</strong><small>reste à financer</small></div>
-  </div>
-  <div class="cap-trip-mvp-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progression de l'épargne voyage"><i id="cap-trip-mvp-bar"></i></div>
-  <div class="cap-trip-mvp-meta"><span id="cap-trip-mvp-effort">Effort : —</span><span id="cap-trip-mvp-date">Date cible : —</span></div>
-  <div class="cap-trip-mvp-actions">
-    <button class="cap-mvp-btn primary" id="cap-trip-mvp-add" type="button">Ajouter au pot</button>
-    <button class="cap-mvp-btn" id="cap-trip-mvp-open" type="button">Voir le projet</button>
-  </div>
-</section>
-
 <form class="card" id="expense-form" novalidate>
 <h2>Nouvelle dépense</h2>
 <div class="field">
@@ -2409,7 +2374,6 @@ return h('li', {}, h('span', {class: 'dot', style: '--c:' + c.color}), h('span',
 }));
 renderRecurring();
 renderStats();
-renderTripMvp();
 }
 function expenseRow(e) {
 const c = CAT[e.cat] || CAT.autre;
@@ -2460,135 +2424,6 @@ toast('Charge fixe ajoutée');
 });
 
 let selCat = 'courses';
-
-/* ===== MVP 2 — quick actions + voice + travel progress ===== */
-const CAP_QUICK_EXPENSES = [
-  {label:'Café', icon:'☕', amount:3, cat:'resto'},
-  {label:'Boulangerie', icon:'🥖', amount:5, cat:'courses'},
-  {label:'Courses', icon:'🛒', amount:25, cat:'courses'},
-  {label:'Transport', icon:'🚇', amount:2.5, cat:'transport'},
-  {label:'Déjeuner', icon:'🍽️', amount:12, cat:'resto'},
-  {label:'Loisirs', icon:'🎟️', amount:15, cat:'loisirs'}
-];
-function addExpenseDirect(label, amount, cat, sourceMessage) {
-  const n = Number(amount);
-  if (!validAmount(n) || !CAT[cat]) return;
-  const item = {id: uid(), label, amount: Math.round(n * 100) / 100, cat, date: iso(new Date())};
-  state.expenses.unshift(item);
-  save();
-  renderAll();
-  toast(sourceMessage || ('Dépense ajoutée : ' + eur(n)), {
-    label: 'Annuler',
-    fn: () => { state.expenses = state.expenses.filter(e => e.id !== item.id); save(); renderAll(); }
-  });
-}
-function renderQuickExpenses() {
-  const box = $('#cap-quick-grid');
-  if (!box) return;
-  box.replaceChildren.apply(box, CAP_QUICK_EXPENSES.map(q => h('button', {
-    class: 'cap-quick-btn', type: 'button', 'aria-label': 'Ajouter ' + q.label + ' ' + eur(q.amount),
-    onclick: () => addExpenseDirect(q.label, q.amount, q.cat, q.label + ' ajouté : ' + eur(q.amount))
-  },
-    h('div', {class:'cap-quick-top'}, h('span',{class:'cap-quick-icon','aria-hidden':'true',text:q.icon}), h('span',{class:'cap-quick-amount',text:eur(q.amount)})),
-    h('span',{class:'cap-quick-label',text:q.label})
-  )));
-}
-function renderTripMvp() {
-  const card = $('#cap-trip-mvp');
-  if (!card) return;
-  const t = state.trip;
-  if (!t || !Number.isFinite(t.goal) || t.goal <= 0) { card.hidden = true; return; }
-  card.hidden = false;
-  const saved = (t.contribs || []).reduce((a,c) => a + Number(c.amount || 0), 0);
-  const pct = Math.max(0, Math.min(100, t.goal ? (saved / t.goal) * 100 : 0));
-  const remaining = Math.max(0, Number(t.goal) - saved);
-  const days = Math.max(1, Math.round((fromISO(t.date) - startOfToday()) / 86400000));
-  const monthly = Math.ceil(remaining / Math.max(1, days / 30.44));
-  $('#cap-trip-mvp-dest').textContent = t.dest;
-  $('#cap-trip-mvp-pct').textContent = Math.floor(pct) + ' %';
-  $('#cap-trip-mvp-saved').textContent = eur(saved);
-  $('#cap-trip-mvp-goal').textContent = 'sur ' + eur(t.goal);
-  $('#cap-trip-mvp-remaining').textContent = eur(remaining);
-  $('#cap-trip-mvp-bar').style.width = pct + '%';
-  $('#cap-trip-mvp-bar').parentElement.setAttribute('aria-valuenow', String(Math.round(pct)));
-  $('#cap-trip-mvp-effort').textContent = 'Effort : ' + eur(monthly) + '/mois';
-  $('#cap-trip-mvp-date').textContent = 'Date cible : ' + fromISO(t.date).toLocaleDateString('fr-FR');
-}
-function setupTripMvpActions() {
-  const addBtn = $('#cap-trip-mvp-add');
-  const openBtn = $('#cap-trip-mvp-open');
-  if (addBtn) addBtn.onclick = () => {
-    const t = state.trip; if (!t) return;
-    const suggested = Number((Math.max(0, t.goal - (t.contribs || []).reduce((a,c)=>a+Number(c.amount||0),0)) / Math.max(1, (fromISO(t.date)-startOfToday())/86400000/30.44)).toFixed(2));
-    $('#c-amount').value = String(suggested).replace('.', ',');
-    $('#nav-voyages').click();
-    setTimeout(() => $('#c-amount')?.focus(), 50);
-  };
-  if (openBtn) openBtn.onclick = () => $('#nav-voyages').click();
-}
-function frWordsToNumber(text) {
-  const s = text.toLowerCase().replace(/[-']/g,' ').replace(/€/g,' euro ').replace(/\s+/g,' ').trim();
-  const units={zero:0,un:1,une:1,deux:2,trois:3,quatre:4,cinq:5,six:6,sept:7,huit:8,neuf:9,dix:10,onze:11,douze:12,treize:13,quatorze:14,quinze:15,seize:16};
-  const tens={vingt:20,trente:30,quarante:40,cinquante:50,soixante:60,quatrevingt:80};
-  let total=0, current=0;
-  const words=s.replace(/quatre vingt/g,'quatrevingt').split(' ');
-  for(let i=0;i<words.length;i++){
-    const w=words[i];
-    if(w==='cent'){current=(current||1)*100; total+=current; current=0; continue;}
-    if(w==='mille'){total+=(current||1)*1000; current=0; continue;}
-    if(Object.prototype.hasOwnProperty.call(units,w)){current+=units[w]; continue;}
-    if(Object.prototype.hasOwnProperty.call(tens,w)){current+=tens[w]; continue;}
-    if(w==='et'||w==='euros'||w==='euro'||w==='de'||w==='la'||w==='le'||w==='les'||w==='de' || w==='d'){continue;}
-    const n=Number(w.replace(',','.')); if(Number.isFinite(n)) current+=n;
-  }
-  return total+current;
-}
-function parseVoiceExpense(transcript) {
-  const raw = transcript.trim();
-  const cleaned = raw.toLowerCase().replace(/virgule/g,',');
-  let amount = NaN;
-  const numeric = cleaned.match(/(\d+(?:[.,]\d{1,2})?)/);
-  if (numeric) amount = Number(numeric[1].replace(',','.'));
-  if (!Number.isFinite(amount)) {
-    const beforeEuro = cleaned.match(/([a-zàâçéèêëîïôûùüÿœæ' -]+)\s*(?:euros?|€)/i);
-    if (beforeEuro) amount = frWordsToNumber(beforeEuro[1]);
-  }
-  if (!Number.isFinite(amount) || amount <= 0) {
-    const rough = frWordsToNumber(cleaned);
-    if (rough > 0 && rough < 10000000) amount = rough;
-  }
-  const categoryRules = [
-    ['courses', ['course','courses','carrefour','supermarché','supermarche','marché','marche','boulangerie','pain','lait','monoprix','auchan','leclerc']],
-    ['resto', ['resto','restaurant','déjeuner','dejeuner','repas','pizza','sandwich','café','cafe','bar']],
-    ['transport', ['métro','metro','bus','train','uber','taxi','essence','carburant','péage','peage','transport']],
-    ['loisirs', ['cinéma','cinema','concert','sortie','loisir','sport','netflix','jeu','musée','musee']],
-    ['shopping', ['shopping','vêtement','vetement','chaussure','amazon','cadeau','achat']]
-  ];
-  let cat='autre';
-  for(const [id, words] of categoryRules){ if(words.some(w => cleaned.includes(w))){ cat=id; break; } }
-  let label = raw.replace(/\d+(?:[.,]\d{1,2})?\s*(?:euros?|€)?/ig,' ').trim();
-  if (!label || label.length < 2 || !/[a-zà-ÿ]/i.test(label)) label = CAT[cat]?.label || 'Dépense';
-  label = label.replace(/^(de|pour|un|une|des|la|le|les)\s+/i,'').trim();
-  return {amount, cat, label: label || CAT[cat].label};
-}
-function setupVoiceExpense() {
-  const btn=$('#cap-voice-btn'), status=$('#cap-voice-status');
-  if(!btn||!status) return;
-  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!Recognition){btn.disabled=true;btn.textContent='🎙️ Entrée vocale indisponible';status.textContent='Ton navigateur ne permet pas la dictée vocale.';return;}
-  const rec=new Recognition(); rec.lang='fr-FR'; rec.interimResults=false; rec.maxAlternatives=1;
-  rec.onstart=()=>{btn.classList.add('listening');btn.textContent='⏺️ Écoute en cours…';status.textContent='Dis par exemple : « 12 euros restaurant ».'};
-  rec.onerror=e=>{btn.classList.remove('listening');btn.textContent='🎙️ Dicter une dépense';status.textContent=e.error==='not-allowed'?'Autorise le micro dans le navigateur.':'Je n’ai pas compris. Réessaie.'};
-  rec.onend=()=>{btn.classList.remove('listening');btn.textContent='🎙️ Dicter une dépense'};
-  rec.onresult=e=>{
-    const transcript=e.results?.[0]?.[0]?.transcript||'';
-    const parsed=parseVoiceExpense(transcript);
-    if(!validAmount(parsed.amount)){status.textContent='Montant non détecté : dis par exemple « 12 euros restaurant ».';return;}
-    addExpenseDirect(parsed.label,parsed.amount,parsed.cat,'🎙️ ' + parsed.label + ' ajouté : ' + eur(parsed.amount));
-    status.textContent='Compris : ' + parsed.label + ' · ' + eur(parsed.amount);
-  };
-  btn.onclick=()=>{try{rec.start()}catch(e){}}
-}
 function buildChips() {
 const box = $('#chips');
 box.replaceChildren.apply(box, CATS.map(c => h('button', { class: 'chip', type: 'button', 'data-cat': c.id, 'aria-pressed': String(c.id === selCat), onclick: () => { selCat = c.id; updateChips(); } }, h('span', {'aria-hidden': 'true', text: c.icon}), c.label)));
@@ -2970,9 +2805,6 @@ $('#import-file').addEventListener('change', async ev => {
 buildTicks();
 buildChips();
 buildMeals();
-renderQuickExpenses();
-setupVoiceExpense();
-setupTripMvpActions();
 $('#t-date').min = iso(new Date());
 arc.style.strokeDasharray = CIRC + ' ' + CIRC;
 arc.style.strokeDashoffset = CIRC;
