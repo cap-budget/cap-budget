@@ -1128,6 +1128,14 @@ border:1px solid rgba(59,130,246,.14)}
   const getBudget=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
   const getGoals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
   const saveGoals=g=>localStorage.setItem('capBudgetGoals',JSON.stringify(g));
+  const daysUntil=dateStr=>{
+    const now=new Date();
+    const todayUTC=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+    const [y,m,d]=String(dateStr||'').split('-').map(Number);
+    if(!y||!m||!d) return 0;
+    const targetUTC=Date.UTC(y,m-1,d);
+    return Math.max(0,Math.round((targetUTC-todayUTC)/86400000));
+  };
 
   // Projet test ajouté automatiquement pour valider CAP Décision v2.
   // Il n'écrase pas les projets déjà présents sur l'appareil.
@@ -1161,7 +1169,7 @@ border:1px solid rgba(59,130,246,.14)}
         const remaining=Math.max(0,(Number(g.target)||0)-(Number(g.saved)||0));
         let monthly=0;
         if(g.date){
-          const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
+          const days=daysUntil(g.date);
           monthly=Math.ceil(remaining/Math.max(1,days/30.44));
         }
         const marginAfter=monthly?Math.max(0,b.remain-monthly):b.remain;
@@ -1193,7 +1201,7 @@ border:1px solid rgba(59,130,246,.14)}
       const remaining=Math.max(0,target-saved);
       let monthly=0;
       if(g.date){
-        const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
+        const days=daysUntil(g.date);
         monthly=Math.ceil(remaining/Math.max(1,days/30.44));
       }
       const marginAfter=monthly?b.remain-monthly:b.remain;
