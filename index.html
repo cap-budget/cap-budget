@@ -796,7 +796,7 @@ border:1px solid rgba(59,130,246,.14)}
   <div class="cap-dashboard-grid">
     <article class="cap-balance-card">
       <div class="cap-balance-label">Reste disponible ce mois</div>
-      <div class="cap-balance-value">— €</div>
+      <div class="cap-balance-value" id="cap-dashboard-remain">— €</div>
       <div class="cap-balance-help">Le montant réel sera calculé automatiquement à partir de vos données.</div>
       <div class="cap-balance-progress"><i></i></div>
       <div class="cap-balance-meta"><span>Budget utilisé</span><span>Suivi en temps réel</span></div>
@@ -887,7 +887,7 @@ border:1px solid rgba(59,130,246,.14)}
       <div class="cap-list">
         <div class="cap-list-row"><div><b>🎮 Loisirs</b><span>Budget semaine</span></div><strong>35 €</strong></div>
         <div class="cap-list-row"><div><b>✈️ Voyage</b><span>Épargne cette semaine</span></div><strong>25 €</strong></div>
-        <div class="cap-list-row"><div><b>💶 Marge</b><span>Prévu après engagements</span></div><strong>— €</strong></div>
+        <div class="cap-list-row"><div><b>💶 Marge</b><span>Prévu après engagements</span></div><strong id="cap-week-margin">— €</strong></div>
       </div>
       <div class="cap-scenario"><b>💡 CAP vous aide à décider</b><span>Avant une dépense, l'application peut comparer la dépense prévue avec votre budget restant, vos objectifs et vos engagements de la semaine.</span></div>
     </article>
@@ -957,10 +957,63 @@ border:1px solid rgba(59,130,246,.14)}
   const ids = ['income','fixed','food','leisure','projects','other'];
   const euro = n => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(n);
   const val = id => Math.max(0, Number(document.getElementById('cap-'+id).value) || 0);
+
+  // ===== Source unique de marge CAP =====
+  // Tous les écrans CAP qui parlent de « marge » ou « reste disponible »
+  // lisent désormais exactement cette même valeur issue du moteur principal.
+  window.CAPBudgetSource = window.CAPBudgetSource || {
+    read(){
+      try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}
+    },
+    income(){
+      const v=this.read()||{};
+      return Number(v.income)||0;
+    },
+    margin(){
+      const v=this.read()||{};
+      const income=Number(v.income)||0;
+      const planned=(Number(v.fixed)||0)+(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.projects)||0)+(Number(v.other)||0);
+      return Math.round((income-planned)*100)/100;
+    },
+    weekly(){
+      const margin=this.margin();
+      const now=new Date(), lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+      const daysLeft=Math.max(1,lastDay-now.getDate()+1);
+      return Math.round((Math.max(0,margin)/(daysLeft/7))*100)/100;
+    },
+    daily(){
+      return Math.round((this.margin()/30)*100)/100;
+    },
+    planned(){
+      const v=this.read()||{};
+      return (Number(v.fixed)||0)+(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.projects)||0)+(Number(v.other)||0);
+    },
+    applyUI(){
+      const margin=this.margin();
+      const weekly=this.weekly();
+      const daily=this.daily();
+      const income=this.income();
+      const planned=this.planned();
+      const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val};
+      const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+      set('cap-dashboard-remain',money(margin));
+      set('cap-week-margin',money(margin));
+      set('cap-weekly', '≈ '+money(weekly));
+      set('cap-daily', '≈ '+money(daily));
+      set('v7-remain', money(margin));
+      set('v7-weekly', money(weekly));
+      set('v8-remain', money(margin));
+      set('v10-income', money(income));
+      set('v10-remain', money(margin));
+      set('v10-week', money(weekly));
+      return {income,planned,margin,weekly,daily};
+    }
+  };
+
   function calc(){
     const v = Object.fromEntries(ids.map(id=>[id,val(id)]));
     const totalOut = v.fixed+v.food+v.leisure+v.projects+v.other;
-    const remain = v.income-totalOut;
+    const remain = Math.round((v.income-totalOut)*100)/100;
     const engaged = v.income ? Math.round(totalOut/v.income*100) : 0;
     document.getElementById('cap-r-income').textContent=euro(v.income);
     document.getElementById('cap-r-fixed').textContent='− '+euro(v.fixed);
@@ -969,8 +1022,6 @@ border:1px solid rgba(59,130,246,.14)}
     document.getElementById('cap-r-projects').textContent='− '+euro(v.projects);
     document.getElementById('cap-r-other').textContent='− '+euro(v.other);
     document.getElementById('cap-r-total').textContent=euro(remain);
-    document.getElementById('cap-weekly').textContent='≈ '+euro(remain/4.33);
-    document.getElementById('cap-daily').textContent='≈ '+euro(remain/30);
     document.getElementById('cap-rate').textContent=engaged+' %';
     document.getElementById('cap-goal-kpi').textContent=euro(v.projects);
     const title=document.getElementById('cap-rec-title'), body=document.getElementById('cap-rec-text');
@@ -978,6 +1029,8 @@ border:1px solid rgba(59,130,246,.14)}
     else if(remain<100){title.textContent='Marge très serrée.';body.textContent='Gardez une réserve pour les imprévus avant de prévoir des dépenses supplémentaires.'}
     else {title.textContent='Votre marge est positive.';body.textContent='Vous disposez encore d’une marge après les montants renseignés. Une partie peut être affectée à l’épargne ou aux imprévus.'}
     localStorage.setItem('capBudgetEngine',JSON.stringify(v));
+    window.CAPBudgetSource.applyUI();
+    window.dispatchEvent(new CustomEvent('capBudgetChanged',{detail:{source:'budget-engine'}}));
   }
   document.getElementById('cap-calc-btn').addEventListener('click',calc);
   document.getElementById('cap-save-btn').addEventListener('click',()=>{calc();alert('Budget sauvegardé sur cet appareil pour cette version de test.')});
@@ -986,6 +1039,7 @@ border:1px solid rgba(59,130,246,.14)}
     if(saved) ids.forEach(id=>{if(saved[id]!==undefined) document.getElementById('cap-'+id).value=saved[id]});
   }catch(e){}
   calc();
+  window.addEventListener('capBudgetChanged',()=>{ if(window.CAPBudgetSource) window.CAPBudgetSource.applyUI(); });
 })();
 </script>
 
@@ -1030,7 +1084,7 @@ border:1px solid rgba(59,130,246,.14)}
   const read = () => { try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null} };
   const update = () => {
     const v=read(); if(!v) return;
-    const remain=(v.income||0)-(v.fixed||0)-(v.food||0)-(v.leisure||0)-(v.projects||0)-(v.other||0);
+    const remain=window.CAPBudgetSource ? window.CAPBudgetSource.margin() : ((v.income||0)-(v.fixed||0)-(v.food||0)-(v.leisure||0)-(v.projects||0)-(v.other||0));
     const el=document.getElementById('cap-connected-remain');
     if(el) el.textContent=new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(remain);
   };
@@ -1141,7 +1195,9 @@ border:1px solid rgba(59,130,246,.14)}
     const v=getBudget();
     if(!v){return {income:0,total:0,remain:0,rate:0,projects:0,weekly:0}};
     const total=(v.fixed||0)+(v.food||0)+(v.leisure||0)+(v.projects||0)+(v.other||0);
-    return {income:v.income||0,total,remain:(v.income||0)-total,rate:v.income?Math.round(total/v.income*100):0,projects:v.projects||0,weekly:((v.income||0)-total)/4.33};
+    const remain=window.CAPBudgetSource?window.CAPBudgetSource.margin():(v.income||0)-total;
+    const weekly=window.CAPBudgetSource?window.CAPBudgetSource.weekly():remain/4.33;
+    return {income:v.income||0,total,remain,rate:v.income?Math.round(total/v.income*100):0,projects:v.projects||0,weekly};
   }
 
   function render(){
@@ -1251,7 +1307,7 @@ border:1px solid rgba(59,130,246,.14)}
       <span class="cap-v7-v2-tag">💰 Calcul réel</span>
       <span class="cap-v7-v2-tag">🔮 Simulation « Et si ? »</span>
       <span class="cap-v7-v2-tag">🎯 Impact projets</span>
-      <span class="cap-v7-v2-tag">☁️ Données locales + Supabase</span>
+      <span class="cap-v7-v2-tag">💾 Données locales</span>
     </div>
 
     <div class="cap-v7-grid">
@@ -1317,7 +1373,7 @@ border:1px solid rgba(59,130,246,.14)}
       <h3>Dernières analyses</h3>
       <div id="v7-history"><div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div></div>
     </div>
-    <div class="cap-v7-v2-source">Les calculs utilisent le budget principal et les données enregistrées dans le navigateur. Quand ton compte Supabase est connecté, l’historique CAP Décision est aussi sauvegardé en ligne. Les calculs restent indicatifs et ne constituent pas un conseil financier personnalisé.</div>
+    <div class="cap-v7-v2-source">Les calculs utilisent le budget principal et les données enregistrées dans le navigateur. Ils sont indicatifs et ne constituent pas un conseil financier personnalisé.</div>
   </article>
 </section>
 
@@ -1355,15 +1411,10 @@ border:1px solid rgba(59,130,246,.14)}
       if(location.hash!==hash) history.replaceState(null,'',hash);
     }catch(e){}
   };
-  const cloudStateHistory=()=>{
-    const s=readJSON('cap_state_v4',null);
-    return normalizeHistory(s && Array.isArray(s.adviceHistory) ? s.adviceHistory : []);
-  };
   const getHistory=()=>{
     const local=normalizeHistory(readJSON(HISTORY_KEY,[]));
     const hash=normalizeHistory(readHashHistory());
-    const cloud=cloudStateHistory();
-    const merged=normalizeHistory([...hash,...local,...cloud]);
+    const merged=normalizeHistory([...hash,...local]);
     try{localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));}catch(e){}
     writeHashHistory(merged);
     return merged;
@@ -1372,9 +1423,6 @@ border:1px solid rgba(59,130,246,.14)}
     const clean=normalizeHistory(h);
     try{localStorage.setItem(HISTORY_KEY,JSON.stringify(clean));}catch(e){}
     writeHashHistory(clean);
-    if(typeof window!=='undefined' && typeof window.CAP_BUDGET_PERSIST_ADVICE_HISTORY==='function'){
-      window.CAP_BUDGET_PERSIST_ADVICE_HISTORY(clean);
-    }
   };
 
   function actualBudget(){
@@ -1388,10 +1436,11 @@ border:1px solid rgba(59,130,246,.14)}
     const variable=(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.other)||0);
     const tripSaved=Number(v.projects)||0;
     const committed=recurring+variable+tripSaved;
-    const remain=Math.round((income-committed)*100)/100;
+    const remain=window.CAPBudgetSource?window.CAPBudgetSource.margin():Math.round((income-committed)*100)/100;
     const now=new Date(), lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
     const daysLeft=Math.max(1,lastDay-now.getDate()+1);
     const weeksLeft=Math.max(1,daysLeft/7);
+    const weekly=window.CAPBudgetSource?window.CAPBudgetSource.weekly():Math.max(0,remain/weeksLeft);
     const s=core();
     return {
       source:'pilotage',
@@ -1402,7 +1451,7 @@ border:1px solid rgba(59,130,246,.14)}
       committed,
       remain,
       daysLeft,
-      weekly:Math.max(0,remain/weeksLeft),
+      weekly,
       rate:income?Math.round(committed/income*100):0,
       state:(s && typeof s==='object')?s:null
     };
@@ -1568,7 +1617,7 @@ border:1px solid rgba(59,130,246,.14)}
       <div class="cap-v8-kpi"><small>Revenus</small><strong id="v8-income">—</strong></div>
       <div class="cap-v8-kpi"><small>Dépenses réelles</small><strong id="v8-real">—</strong></div>
       <div class="cap-v8-kpi"><small>Budget planifié</small><strong id="v8-planned">—</strong></div>
-      <div class="cap-v8-kpi"><small>Reste réel</small><strong id="v8-remain">—</strong></div>
+      <div class="cap-v8-kpi"><small>Reste disponible CAP</small><strong id="v8-remain">—</strong></div>
     </div>
   </div>
 
@@ -1628,7 +1677,7 @@ border:1px solid rgba(59,130,246,.14)}
   const baseIncome=()=>Number((budget()||{}).income||0);
 
   function render(){
-    const ops=getOps(), income=baseIncome(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), planned=getPlan(), remain=income-real;
+    const ops=getOps(), income=baseIncome(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), planned=getPlan(), remain=window.CAPBudgetSource?window.CAPBudgetSource.margin():(income-planned);
     document.getElementById('v8-income').textContent=money(income);
     document.getElementById('v8-real').textContent=money(real);
     document.getElementById('v8-planned').textContent=money(planned);
@@ -1650,7 +1699,7 @@ border:1px solid rgba(59,130,246,.14)}
   document.getElementById('v8-add').onclick=()=>add(document.getElementById('v8-label').value.trim(),Number(document.getElementById('v8-amount').value),document.getElementById('v8-category').value,document.getElementById('v8-date').value);
   document.getElementById('v8-demo').onclick=()=>add('Courses de la semaine',50,'Courses',today());
   document.getElementById('v8-advice').onclick=()=>{
-    const income=baseIncome(), ops=getOps(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), remain=income-real;
+    const income=baseIncome(), ops=getOps(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), remain=window.CAPBudgetSource?window.CAPBudgetSource.margin():(income-getPlan());
     document.getElementById('v8-advice-box').innerHTML=income?`Après les dépenses réellement enregistrées, votre marge est de <strong>${money(remain)}</strong>. ${remain<0?'Votre historique dépasse les revenus renseignés : revoyez les dépenses ou le budget prévu.':remain<100?'La marge est faible : gardez une réserve pour les imprévus.':'La marge reste positive. Vous pouvez maintenant comparer dépenses réelles et budget planifié.'}`:'Renseignez d’abord vos revenus dans le moteur de budget.';
   };
   render();
@@ -1761,7 +1810,7 @@ border:1px solid rgba(59,130,246,.14)}
   const goals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
   const fmtDate=d=>new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
   function render(){
-    const o=ops(), b=engine()||{}, income=Number(b.income||0), spent=o.reduce((s,x)=>s+Number(x.amount||0),0), remain=income-spent, week=Math.max(0,remain/4.33);
+    const o=ops(), b=engine()||{}, income=Number(b.income||0), spent=o.reduce((s,x)=>s+Number(x.amount||0),0), remain=window.CAPBudgetSource?window.CAPBudgetSource.margin():(Number(b.income||0)-Number(b.fixed||0)-Number(b.food||0)-Number(b.leisure||0)-Number(b.projects||0)-Number(b.other||0)), week=window.CAPBudgetSource?window.CAPBudgetSource.weekly():Math.max(0,remain/4.33);
     document.getElementById('v10-income').textContent=money(income);
     document.getElementById('v10-spent').textContent=money(spent);
     document.getElementById('v10-remain').textContent=money(remain);
@@ -2182,37 +2231,12 @@ function showAuthUI() {
   document.getElementById('auth-local').onclick = () => { panel.remove(); cloudMessage('Mode local : les données restent sur cet appareil.'); };
   document.getElementById('auth-config').onclick = () => { panel.remove(); addCloudUI(); };
 }
-function mergeLocalAdviceHistoryIntoState() {
-  let local = [];
-  try { local = JSON.parse(localStorage.getItem('capAdviceHistory') || '[]'); } catch (e) {}
-  local = Array.isArray(local) ? local : [];
-  const base = Array.isArray(state.adviceHistory) ? state.adviceHistory : [];
-  const seen = new Set();
-  const merged = [...base, ...local].filter(item => item && typeof item === 'object').filter(item => {
-    const key = String(item.q ?? '') + '\u0000' + String(item.a ?? '');
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  }).slice(0, 8);
-  let changed = JSON.stringify(base) !== JSON.stringify(merged);
-  state.adviceHistory = merged;
-  try { localStorage.setItem('capAdviceHistory', JSON.stringify(merged)); } catch (e) {}
-  return changed;
-}
 async function loadCloudState() {
   if (!supabaseClient || !currentUser) return;
   const {data,error} = await supabaseClient.from(window.CAP_BUDGET_SUPABASE_SETUP.table).select('state').eq('user_id',currentUser.id).maybeSingle();
   if(error){ cloudMessage('Erreur de lecture Supabase : '+error.message); return; }
-  let historyChanged = false;
-  if(data && data.state){
-    state = normalize(data.state);
-    historyChanged = mergeLocalAdviceHistoryIntoState();
-    localStorage.setItem(KEY, JSON.stringify(state));
-    if(historyChanged) await saveCloudState();
-  } else {
-    historyChanged = mergeLocalAdviceHistoryIntoState();
-    await saveCloudState();
-  }
+  if(data && data.state){ state = normalize(data.state); localStorage.setItem(KEY, JSON.stringify(state)); }
+  else await saveCloudState();
 }
 async function saveCloudState() {
   if (!supabaseClient || !currentUser) return;
@@ -2272,7 +2296,7 @@ if (diff === 0) return "Aujourd'hui";
 if (diff === 1) return 'Hier';
 return d.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
 }
-function defaults() { return {salary: 2000, expenses: [], recurring: [], meals: {}, manualShopping: [], checkedShopping: {}, trip: null, adviceHistory: []}; }
+function defaults() { return {salary: 2000, expenses: [], recurring: [], meals: {}, manualShopping: [], checkedShopping: {}, trip: null}; }
 function normalize(s) {
 const out = defaults();
 if (!s || typeof s !== 'object') return out;
@@ -2282,15 +2306,6 @@ if (Array.isArray(s.recurring)) out.recurring = s.recurring.filter(r => r && Num
 if (s.meals && typeof s.meals === 'object') out.meals = s.meals;
 if (Array.isArray(s.manualShopping)) out.manualShopping = s.manualShopping.filter(item => typeof item === 'string');
 if (s.checkedShopping && typeof s.checkedShopping === 'object') out.checkedShopping = s.checkedShopping;
-if (Array.isArray(s.adviceHistory)) {
-const seen = new Set();
-out.adviceHistory = s.adviceHistory.filter(item => item && typeof item === 'object').filter(item => {
-const key = String(item.q ?? '') + '\u0000' + String(item.a ?? '');
-if (seen.has(key)) return false;
-seen.add(key);
-return true;
-}).slice(0, 8);
-}
 const t = s.trip;
 if (t && typeof t === 'object' && t.dest && Number.isFinite(t.goal) && t.date) {
 out.trip = { dest: String(t.dest), goal: Number(t.goal), date: String(t.date), contribs: Array.isArray(t.contribs) ? t.contribs.filter(c => c && Number.isFinite(c.amount) && typeof c.date === 'string') : [] };
@@ -2321,13 +2336,6 @@ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
 scheduleCloudSave();
 window.dispatchEvent(new Event('capBudgetChanged'));
 }
-window.CAP_BUDGET_PERSIST_ADVICE_HISTORY = function(history) {
-  const clean = Array.isArray(history) ? history.filter(item => item && typeof item === 'object').slice(0,8) : [];
-  state.adviceHistory = clean;
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
-  try { localStorage.setItem('capAdviceHistory', JSON.stringify(clean)); } catch (e) {}
-  scheduleCloudSave();
-};
 function summary() {
 const mk = iso(new Date()).slice(0, 7);
 const list = state.expenses.filter(e => e.date.slice(0, 7) === mk);
