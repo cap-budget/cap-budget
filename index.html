@@ -1699,6 +1699,96 @@ border:1px solid rgba(59,130,246,.14)}
 </script>
 
 
+<section class="cap-v10" aria-label="Tableau de bord financier">
+  <article class="cap-v10-card">
+    <div class="cap-v10-top">
+      <div><small>CAP BUDGET · TABLEAU DE BORD</small><h1>Votre situation financière</h1><p id="v10-sub">Une vue en temps réel alimentée par le moteur budgétaire.</p></div>
+      <div><small id="v10-date"></small></div>
+    </div>
+
+    <div class="cap-v10-kpis">
+      <div class="cap-v10-kpi"><small>💰 Revenus</small><strong id="v10-income">—</strong></div>
+      <div class="cap-v10-kpi"><small>💸 Dépenses réelles</small><strong id="v10-spent">—</strong></div>
+      <div class="cap-v10-kpi"><small>🟢 Reste disponible</small><strong id="v10-remain">—</strong></div>
+      <div class="cap-v10-kpi"><small>📅 Enveloppe semaine</small><strong id="v10-week">—</strong></div>
+    </div>
+  </article>
+
+  <div class="cap-v10-main">
+    <article class="cap-v10-card">
+      <h2>📊 Dépenses par catégorie</h2>
+      <p>Le tableau de bord lit directement l'historique des opérations.</p>
+      <div id="v10-categories"></div>
+    </article>
+    <article class="cap-v10-card">
+      <h2>🧠 CAP Conseil</h2>
+      <div id="v10-advice" class="cap-v10-good">Analyse en cours…</div>
+      <button class="cap-v10-btn" id="v10-refresh">Actualiser</button>
+    </article>
+  </div>
+
+  <div class="cap-v10-grid2">
+    <article class="cap-v10-card">
+      <h3>⚠️ Alertes budget</h3>
+      <div id="v10-alerts"></div>
+    </article>
+    <article class="cap-v10-card">
+      <h3>🎯 Objectifs & épargne</h3>
+      <div id="v10-goals"></div>
+    </article>
+  </div>
+
+  <article class="cap-v10-card" style="margin-top:12px">
+    <h3>📈 Évolution récente</h3>
+    <p>Comparaison des dépenses enregistrées sur les dernières périodes disponibles.</p>
+    <div class="cap-v10-chart" id="v10-chart"></div>
+  </article>
+</section>
+
+<script>
+(function(){
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const ops=()=>{try{return JSON.parse(localStorage.getItem('capBudgetOperations')||'[]')}catch(e){return []}};
+  const engine=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
+  const goals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
+  const fmtDate=d=>new Date(d).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+  function render(){
+    const o=ops(), b=engine()||{}, income=Number(b.income||0), spent=o.reduce((s,x)=>s+Number(x.amount||0),0), remain=income-spent, week=Math.max(0,remain/4.33);
+    document.getElementById('v10-income').textContent=money(income);
+    document.getElementById('v10-spent').textContent=money(spent);
+    document.getElementById('v10-remain').textContent=money(remain);
+    document.getElementById('v10-week').textContent=money(week);
+    document.getElementById('v10-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+    const by={};o.forEach(x=>by[x.category]=(by[x.category]||0)+Number(x.amount||0));
+    const entries=Object.entries(by).sort((a,b)=>b[1]-a[1]), max=entries[0]?.[1]||1;
+    document.getElementById('v10-categories').innerHTML=entries.length?entries.map(([k,v])=>`<div class="cap-v10-row"><b>${k}</b><span>${money(v)}<div class="cap-v10-bar"><i style="width:${Math.round(v/max*100)}%"></i></div></span></div>`).join(''):'<p>Aucune dépense réelle enregistrée.</p>';
+
+    let advice='';
+    if(!income) advice='Renseignez vos revenus pour obtenir une analyse complète.';
+    else if(remain<0) advice=`Votre historique dépasse les revenus renseignés de ${money(Math.abs(remain))}. Il faut revoir les dépenses ou le budget prévu.`;
+    else if(remain<100) advice=`Votre marge est actuellement de ${money(remain)}. Une réserve pour les imprévus mérite d'être prise en compte.`;
+    else advice=`Votre marge actuelle est de ${money(remain)}. Votre enveloppe hebdomadaire indicative est de ${money(week)}.`;
+    document.getElementById('v10-advice').textContent=advice;
+
+    const alerts=[];
+    if(remain<0) alerts.push('🔴 Les dépenses réelles dépassent les revenus renseignés.');
+    if(income && spent/income>.8) alerts.push('🟠 Plus de 80 % des revenus renseignés sont déjà engagés dans l’historique.');
+    if(!alerts.length) alerts.push('🟢 Aucune alerte critique détectée avec les données disponibles.');
+    document.getElementById('v10-alerts').innerHTML=alerts.map(x=>`<div class="${x.includes('🔴')||x.includes('🟠')?'cap-v10-alert':'cap-v10-good'}">${x}</div>`).join('');
+
+    const g=goals();
+    document.getElementById('v10-goals').innerHTML=g.length?g.slice(0,5).map(x=>{const target=Number(x.target||x.amount||0), saved=Number(x.saved||x.current||0), pct=target?Math.min(100,Math.round(saved/target*100)):0;return `<div class="cap-v10-row"><b>${x.name||'Objectif'}</b><span>${money(saved)} / ${money(target)}<div class="cap-v10-bar"><i style="width:${pct}%"></i></div></span></div>`}).join(''):'<div class="cap-v10-good">Aucun objectif enregistré pour le moment.</div>';
+
+    const buckets={};o.forEach(x=>{const d=new Date(x.date||Date.now()), key=d.toLocaleDateString('fr-FR',{month:'short'});buckets[key]=(buckets[key]||0)+Number(x.amount||0)});
+    const vals=Object.entries(buckets).slice(-6), m=Math.max(...vals.map(x=>x[1]),1);
+    document.getElementById('v10-chart').innerHTML=vals.length?vals.map(([k,v])=>`<div class="cap-v10-col"><i style="height:${Math.max(6,Math.round(v/m*100))}%"></i>${k}<br>${money(v)}</div>`).join(''):'<div style="color:#8fa3bd;font-size:11px">Ajoutez des opérations pour construire votre évolution.</div>';
+  }
+  document.getElementById('v10-refresh').onclick=render;
+  window.addEventListener('capBudgetChanged',render);
+  render();
+})();
+</script>
+
 <main>
 <!-- BUDGET -->
 <section id="tab-budget" aria-label="Budget">
@@ -1954,7 +2044,7 @@ border:1px solid rgba(59,130,246,.14)}
 </div>
 </dialog>
 <script>
-window.CAP_BUDGET_PRO_VERSION='10.1.0';
+window.CAP_BUDGET_PRO_VERSION='10.0.0';
 
 
 window.CAP_BUDGET_SUPABASE_SETUP = {
