@@ -1251,7 +1251,7 @@ border:1px solid rgba(59,130,246,.14)}
       <span class="cap-v7-v2-tag">💰 Calcul réel</span>
       <span class="cap-v7-v2-tag">🔮 Simulation « Et si ? »</span>
       <span class="cap-v7-v2-tag">🎯 Impact projets</span>
-      <span class="cap-v7-v2-tag">💾 Données locales</span>
+      <span class="cap-v7-v2-tag">☁️ Données locales + Supabase</span>
     </div>
 
     <div class="cap-v7-grid">
@@ -1317,7 +1317,7 @@ border:1px solid rgba(59,130,246,.14)}
       <h3>Dernières analyses</h3>
       <div id="v7-history"><div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div></div>
     </div>
-    <div class="cap-v7-v2-source">Les calculs utilisent le budget principal et les données enregistrées dans le navigateur. Ils sont indicatifs et ne constituent pas un conseil financier personnalisé.</div>
+    <div class="cap-v7-v2-source">Les calculs utilisent le budget principal et les données enregistrées dans le navigateur. Quand ton compte Supabase est connecté, l’historique CAP Décision est aussi sauvegardé en ligne. Les calculs restent indicatifs et ne constituent pas un conseil financier personnalisé.</div>
   </article>
 </section>
 
@@ -1355,10 +1355,15 @@ border:1px solid rgba(59,130,246,.14)}
       if(location.hash!==hash) history.replaceState(null,'',hash);
     }catch(e){}
   };
+  const cloudStateHistory=()=>{
+    const s=readJSON('cap_state_v4',null);
+    return normalizeHistory(s && Array.isArray(s.adviceHistory) ? s.adviceHistory : []);
+  };
   const getHistory=()=>{
     const local=normalizeHistory(readJSON(HISTORY_KEY,[]));
     const hash=normalizeHistory(readHashHistory());
-    const merged=normalizeHistory([...hash,...local]);
+    const cloud=cloudStateHistory();
+    const merged=normalizeHistory([...hash,...local,...cloud]);
     try{localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));}catch(e){}
     writeHashHistory(merged);
     return merged;
@@ -1367,6 +1372,9 @@ border:1px solid rgba(59,130,246,.14)}
     const clean=normalizeHistory(h);
     try{localStorage.setItem(HISTORY_KEY,JSON.stringify(clean));}catch(e){}
     writeHashHistory(clean);
+    if(typeof window!=='undefined' && typeof window.CAP_BUDGET_PERSIST_ADVICE_HISTORY==='function'){
+      window.CAP_BUDGET_PERSIST_ADVICE_HISTORY(clean);
+    }
   };
 
   function actualBudget(){
@@ -2174,12 +2182,37 @@ function showAuthUI() {
   document.getElementById('auth-local').onclick = () => { panel.remove(); cloudMessage('Mode local : les données restent sur cet appareil.'); };
   document.getElementById('auth-config').onclick = () => { panel.remove(); addCloudUI(); };
 }
+function mergeLocalAdviceHistoryIntoState() {
+  let local = [];
+  try { local = JSON.parse(localStorage.getItem('capAdviceHistory') || '[]'); } catch (e) {}
+  local = Array.isArray(local) ? local : [];
+  const base = Array.isArray(state.adviceHistory) ? state.adviceHistory : [];
+  const seen = new Set();
+  const merged = [...base, ...local].filter(item => item && typeof item === 'object').filter(item => {
+    const key = String(item.q ?? '') + '\u0000' + String(item.a ?? '');
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 8);
+  let changed = JSON.stringify(base) !== JSON.stringify(merged);
+  state.adviceHistory = merged;
+  try { localStorage.setItem('capAdviceHistory', JSON.stringify(merged)); } catch (e) {}
+  return changed;
+}
 async function loadCloudState() {
   if (!supabaseClient || !currentUser) return;
   const {data,error} = await supabaseClient.from(window.CAP_BUDGET_SUPABASE_SETUP.table).select('state').eq('user_id',currentUser.id).maybeSingle();
   if(error){ cloudMessage('Erreur de lecture Supabase : '+error.message); return; }
-  if(data && data.state){ state = normalize(data.state); localStorage.setItem(KEY, JSON.stringify(state)); }
-  else await saveCloudState();
+  let historyChanged = false;
+  if(data && data.state){
+    state = normalize(data.state);
+    historyChanged = mergeLocalAdviceHistoryIntoState();
+    localStorage.setItem(KEY, JSON.stringify(state));
+    if(historyChanged) await saveCloudState();
+  } else {
+    historyChanged = mergeLocalAdviceHistoryIntoState();
+    await saveCloudState();
+  }
 }
 async function saveCloudState() {
   if (!supabaseClient || !currentUser) return;
@@ -2239,7 +2272,7 @@ if (diff === 0) return "Aujourd'hui";
 if (diff === 1) return 'Hier';
 return d.toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
 }
-function defaults() { return {salary: 2000, expenses: [], recurring: [], meals: {}, manualShopping: [], checkedShopping: {}, trip: null}; }
+function defaults() { return {salary: 2000, expenses: [], recurring: [], meals: {}, manualShopping: [], checkedShopping: {}, trip: null, adviceHistory: []}; }
 function normalize(s) {
 const out = defaults();
 if (!s || typeof s !== 'object') return out;
@@ -2249,6 +2282,15 @@ if (Array.isArray(s.recurring)) out.recurring = s.recurring.filter(r => r && Num
 if (s.meals && typeof s.meals === 'object') out.meals = s.meals;
 if (Array.isArray(s.manualShopping)) out.manualShopping = s.manualShopping.filter(item => typeof item === 'string');
 if (s.checkedShopping && typeof s.checkedShopping === 'object') out.checkedShopping = s.checkedShopping;
+if (Array.isArray(s.adviceHistory)) {
+const seen = new Set();
+out.adviceHistory = s.adviceHistory.filter(item => item && typeof item === 'object').filter(item => {
+const key = String(item.q ?? '') + '\u0000' + String(item.a ?? '');
+if (seen.has(key)) return false;
+seen.add(key);
+return true;
+}).slice(0, 8);
+}
 const t = s.trip;
 if (t && typeof t === 'object' && t.dest && Number.isFinite(t.goal) && t.date) {
 out.trip = { dest: String(t.dest), goal: Number(t.goal), date: String(t.date), contribs: Array.isArray(t.contribs) ? t.contribs.filter(c => c && Number.isFinite(c.amount) && typeof c.date === 'string') : [] };
@@ -2279,6 +2321,13 @@ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
 scheduleCloudSave();
 window.dispatchEvent(new Event('capBudgetChanged'));
 }
+window.CAP_BUDGET_PERSIST_ADVICE_HISTORY = function(history) {
+  const clean = Array.isArray(history) ? history.filter(item => item && typeof item === 'object').slice(0,8) : [];
+  state.adviceHistory = clean;
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+  try { localStorage.setItem('capAdviceHistory', JSON.stringify(clean)); } catch (e) {}
+  scheduleCloudSave();
+};
 function summary() {
 const mk = iso(new Date()).slice(0, 7);
 const list = state.expenses.filter(e => e.date.slice(0, 7) === mk);
@@ -2861,114 +2910,5 @@ cloudBtn.onclick = async () => {
   } catch(e) { console.warn('Impossible d’ajouter le projet test', e); }
 })();
 </script>
-
-<script>
-/* ===== CAP Budget — simulateur de secours robuste ===== */
-(function(){
-  'use strict';
-  function money(n){
-    return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
-  }
-  function read(key, fallback){
-    try{
-      const raw=localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    }catch(e){ return fallback; }
-  }
-  function budget(){
-    const v=read('capBudgetEngine',{})||{};
-    const income=Number(v.income)||0;
-    const total=(Number(v.fixed)||0)+(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.projects)||0)+(Number(v.other)||0);
-    const remain=Math.round((income-total)*100)/100;
-    const now=new Date();
-    const lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-    const daysLeft=Math.max(1,lastDay-now.getDate()+1);
-    return {income,total,remain,weekly:Math.max(0,remain/(daysLeft/7))};
-  }
-  function project(){
-    const goals=read('capBudgetGoals',[]);
-    if(!Array.isArray(goals)||!goals.length) return null;
-    const g=goals.find(x=>x && Number(x.target)>0);
-    if(!g) return null;
-    const target=Number(g.target)||0, saved=Number(g.saved)||0;
-    const remaining=Math.max(0,target-saved);
-    let monthly=0;
-    if(g.date){
-      const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
-      monthly=Math.ceil(remaining/Math.max(1,days/30.44));
-    }
-    return {name:String(g.name||'Projet'),remaining,monthly,date:g.date||''};
-  }
-  function historyAdd(amount,b,after){
-    try{
-      const key='capAdviceHistory';
-      const h=read(key,[]);
-      const item={
-        q:`Simulation : dépense de ${money(amount)}`,
-        a:`${money(b.remain)} → ${money(after)} · ${after<0?'au-dessus de la marge':after<b.weekly?'marge fortement réduite':'dépense compatible'}`
-      };
-      const out=[item,...(Array.isArray(h)?h:[])];
-      const seen=new Set(), clean=[];
-      for(const x of out){
-        const sig=String(x?.q||'')+'\u0000'+String(x?.a||'');
-        if(!seen.has(sig)){seen.add(sig);clean.push(x);}
-        if(clean.length>=8) break;
-      }
-      localStorage.setItem(key,JSON.stringify(clean));
-      if(typeof window.refresh==='function'){ try{window.refresh();}catch(e){} }
-      const hist=document.getElementById('v7-history');
-      if(hist){
-        hist.innerHTML=clean.map(x=>`<div class="cap-v7-history-item"><span>${String(x.q||'')}</span><b>${String(x.a||'')}</b></div>`).join('');
-      }
-    }catch(e){}
-  }
-  function simulateFallback(amount){
-    const box=document.getElementById('v7-sim-answer');
-    if(!box) return;
-    const b=budget();
-    amount=Math.max(0,Number(amount)||0);
-    if(!b.income){
-      box.dataset.tone='warn';
-      box.innerHTML='<h4>📝 Commence par renseigner ton budget</h4><p>CAP a besoin de ton revenu et de tes données réelles pour calculer une simulation.</p>';
-      return;
-    }
-    if(amount<=0){
-      box.dataset.tone='';
-      box.innerHTML='<h4>💶 Entre un montant</h4><p>Choisis 20 €, 50 €, 100 €, 200 € ou saisis ton propre montant.</p>';
-      return;
-    }
-    const after=Math.round((b.remain-amount)*100)/100;
-    const impact=b.remain>0 ? Math.round(amount/b.remain*100) : 0;
-    const tone=after<0?'bad':after<b.weekly?'warn':'good';
-    const title=after<0?'🚫 Dépense au-dessus de ta marge':after<b.weekly?'⚠️ Dépense possible, mais elle réduit fortement ta marge':'✅ Dépense compatible avec ta marge actuelle';
-    const p=project();
-    let html=`<h4>${title}</h4><p>Reste avant : <strong>${money(b.remain)}</strong> · après : <strong>${money(after)}</strong>.<br>La dépense représente environ <strong>${impact}%</strong> de ta marge actuelle. Capacité d’épargne disponible avant : <strong>${money(Math.max(0,b.remain))}</strong> · après : <strong>${money(Math.max(0,after))}</strong>.</p>`;
-    if(p){
-      const beforeMonths=p.monthly ? Math.max(0,b.remain/p.monthly).toFixed(1).replace('.',',') : '—';
-      const afterMonths=p.monthly ? Math.max(0,after/p.monthly).toFixed(1).replace('.',',') : '—';
-      const dateLabel=p.date?new Date(p.date+'T00:00:00').toLocaleDateString('fr-FR'):'Non définie';
-      html+=`<div class="cap-v7-v2-project"><div class="cap-v7-v2-project-title">🎯 Impact sur ${p.name}</div><span class="cap-v7-v2-project-sub">La simulation porte sur ta marge, pas sur l’argent déjà enregistré dans le projet.</span><div class="cap-v7-v2-before-after"><div class="cap-v7-v2-side"><small>Avant la dépense</small><strong>${money(b.remain)}</strong><em>marge disponible</em></div><div class="cap-v7-v2-side"><small>Après la dépense</small><strong>${money(after)}</strong><em>marge disponible</em></div></div><div class="cap-v7-v2-project-meta"><div><small>Reste à financer</small><b>${money(p.remaining)}</b></div><div><small>Effort indicatif</small><b>${p.monthly?money(p.monthly)+'/mois':'—'}</b></div><div><small>Date cible</small><b>${dateLabel}</b></div><div><small>Projet modifié</small><b>non</b></div></div><div class="cap-v7-v2-project-note">La dépense simulée retire ${money(amount)} de ta marge disponible, mais ne change pas les ${money(p.remaining)} qu’il reste à financer pour le projet. Ta marge couvre environ <strong>${beforeMonths} mensualités</strong> du projet avant la dépense, puis <strong>${afterMonths}</strong> après.</div></div>`;
-    }else{
-      html+='<div class="cap-v7-v2-project"><b>🎯 Aucun projet actif</b><span>Ajoute un voyage ou un objectif pour que CAP mesure son impact.</span></div>';
-    }
-    box.dataset.tone=tone;
-    box.innerHTML=html;
-    historyAdd(amount,b,after);
-  }
-  function bind(){
-    const input=document.getElementById('v7-sim-amount');
-    const run=()=>simulateFallback(input?input.value:0);
-    const btn=document.getElementById('v7-sim-analyze');
-    if(btn) btn.addEventListener('click',run,true);
-    document.querySelectorAll('[data-v2-quick]').forEach(el=>el.addEventListener('click',function(){
-      if(input) input.value=this.getAttribute('data-v2-quick')||'';
-      run();
-    },true));
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind); else bind();
-  window.CAP_simulateFallback=simulateFallback;
-})();
-</script>
-
 </body>
 </html>
