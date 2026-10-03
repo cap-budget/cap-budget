@@ -1129,14 +1129,6 @@ border:1px solid rgba(59,130,246,.14)}
   const getGoals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
   const saveGoals=g=>localStorage.setItem('capBudgetGoals',JSON.stringify(g));
 
-  // Projet test ajouté automatiquement pour valider CAP Décision v2.
-  // Il n'écrase pas les projets déjà présents sur l'appareil.
-  const seedGoals=getGoals();
-  if(!seedGoals.some(g=>g&&g.name==='Voyage Portugal')){
-    seedGoals.push({name:'Voyage Portugal',target:2000,saved:500,date:'2027-06-30'});
-    saveGoals(seedGoals);
-  }
-
   function budget(){
     const v=getBudget();
     if(!v){return {income:0,total:0,remain:0,rate:0,projects:0,weekly:0}};
@@ -2847,19 +2839,485 @@ cloudBtn.onclick = async () => {
 </script>
 
 <script>
-(function seedCapBudgetTestGoal(){
-  try {
-    const key='capBudgetGoals';
-    const goals=JSON.parse(localStorage.getItem(key)||'[]');
-    const exists=Array.isArray(goals) && goals.some(g => g && g.name === 'Voyage Portugal');
-    if(!exists){
-      goals.push({name:'Voyage Portugal',target:2000,saved:500,date:'2027-06-30'});
-      localStorage.setItem(key, JSON.stringify(goals));
+/* ========================================================================
+   CAP BUDGET — MOTEUR CENTRAL UNIFIÉ v11.0
+   Une seule source de vérité pour les modules Budget / Semaine / Centre /
+   Répartition / CAP Conseil / CAP Décision.
+   ======================================================================== */
+(function(){
+  'use strict';
+
+  const CENTRAL_KEY = 'capBudgetCentral_v11';
+  const ENGINE_KEY = 'capBudgetEngine';
+  const OPS_KEY = 'capBudgetOperations';
+  const CORE_KEY = 'cap_state_v4';
+  const GOALS_KEY = 'capBudgetGoals';
+  const HISTORY_KEY = 'capAdviceHistory';
+
+  const money = n => new Intl.NumberFormat('fr-FR', {
+    style:'currency', currency:'EUR', minimumFractionDigits:2, maximumFractionDigits:2
+  }).format(Number(n)||0);
+  const round = n => Math.round((Number(n)||0)*100)/100;
+  const todayISO = () => {
+    const d=new Date();
+    const p=n=>String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+  };
+  const monthKey = d => {
+    const x=d instanceof Date?d:new Date(d||Date.now());
+    return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`;
+  };
+  const currentMonth = monthKey(new Date());
+  const escapeHtml = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+  function readJSON(key, fallback){
+    try{
+      const raw=localStorage.getItem(key);
+      if(raw==null) return fallback;
+      const v=JSON.parse(raw);
+      return v==null?fallback:v;
+    }catch(e){ return fallback; }
+  }
+  function writeJSON(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){}
+  }
+
+  function normalizeCategory(value){
+    const raw=String(value||'').trim().toLowerCase();
+    const map={
+      courses:'Courses', course:'Courses', groceries:'Courses',
+      repas:'Repas', resto:'Repas', restaurant:'Repas', meal:'Repas',
+      transport:'Transport',
+      loisirs:'Loisirs', loisir:'Loisirs', entertainment:'Loisirs',
+      shopping:'Shopping', achats:'Shopping',
+      voyages:'Voyages', voyage:'Voyages', projets:'Voyages', projet:'Voyages',
+      logement:'Logement', loyer:'Logement',
+      abonnements:'Abonnements', abonnement:'Abonnements',
+      autre:'Autre', others:'Autre'
+    };
+    return map[raw] || (raw ? String(value).trim() : 'Autre');
+  }
+
+  function readEngine(){
+    const e=readJSON(ENGINE_KEY,{});
+    return e && typeof e==='object' ? e : {};
+  }
+  function readCore(){
+    const s=readJSON(CORE_KEY,null);
+    return s && typeof s==='object' ? s : {};
+  }
+  function readGoals(){
+    const g=readJSON(GOALS_KEY,[]);
+    return Array.isArray(g)?g.filter(x=>x&&typeof x==='object'):[];
+  }
+  function readOperationStore(){
+    const o=readJSON(OPS_KEY,[]);
+    return Array.isArray(o)?o.filter(x=>x&&typeof x==='object'):[];
+  }
+
+  function toCentralOp(o, source){
+    const amount=Math.abs(Number(o.amount ?? o.montant ?? 0));
+    if(!Number.isFinite(amount) || amount<=0) return null;
+    const rawDate=o.date || o.day || o.createdAt || todayISO();
+    const d=new Date(rawDate);
+    const date=Number.isNaN(d.getTime()) ? todayISO() : `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    return {
+      id:String(o.id || `${source}-${date}-${amount}-${Math.random().toString(36).slice(2)}`),
+      label:String(o.label || o.libelle || 'Dépense'),
+      amount:round(amount),
+      category:normalizeCategory(o.category || o.cat || o.categorie),
+      date,
+      source
+    };
+  }
+
+  function mergeOperations(){
+    const all=[];
+    for(const o of readOperationStore()){
+      const x=toCentralOp(o,'operations'); if(x) all.push(x);
     }
-    const refresh=document.getElementById('v6-refresh');
-    if(refresh) refresh.click();
-  } catch(e) { console.warn('Impossible d’ajouter le projet test', e); }
-})();
-</script>
-</body>
-</html>
+    const core=readCore();
+    if(Array.isArray(core.expenses)){
+      for(const o of core.expenses){
+        const x=toCentralOp(o,'budget'); if(x) all.push(x);
+      }
+    }
+    const seen=new Set(), out=[];
+    all.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+    for(const o of all){
+      const key=`${o.label.toLowerCase()}|${o.amount.toFixed(2)}|${o.date}|${o.category.toLowerCase()}`;
+      if(seen.has(key)) continue;
+      seen.add(key); out.push(o);
+    }
+    return out;
+  }
+
+  function readCentralBase(){
+    const stored=readJSON(CENTRAL_KEY,null);
+    return stored&&typeof stored==='object'?stored:{};
+  }
+
+  function buildCentralState(){
+    const e=readEngine();
+    const core=readCore();
+    const stored=readCentralBase();
+    const ops=mergeOperations();
+
+    const income = Number(e.income)>0 ? round(e.income) :
+      (Number(stored.income)>0 ? round(stored.income) : (Number(core.salary)>0 ? round(core.salary) : 2500));
+    const fixed = Number(e.fixed)>=0 && ('fixed' in e) ? round(e.fixed) :
+      (Array.isArray(core.recurring) ? round(core.recurring.reduce((s,x)=>s+Number(x.amount||0),0)) : 0);
+    const food = Number(e.food)>=0 ? round(e.food) : Number(stored.food||0);
+    const leisure = Number(e.leisure)>=0 ? round(e.leisure) : Number(stored.leisure||0);
+    const projectsBudget = Number(e.projects)>=0 ? round(e.projects) : Number(stored.projectsBudget||0);
+    const other = Number(e.other)>=0 ? round(e.other) : Number(stored.other||0);
+    const planned = Number(e.planned)>=0 ? round(e.planned) : round(fixed+food+leisure+projectsBudget+other);
+
+    const opsCurrent=ops.filter(o=>o.date.slice(0,7)===currentMonth);
+    const realVariable=round(opsCurrent.reduce((s,o)=>s+o.amount,0));
+    const realFixed=fixed;
+    const realSpent=round(realFixed+realVariable);
+    const remaining=round(income-realSpent);
+    const plannedRemaining=round(income-planned);
+
+    const now=new Date();
+    const lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+    const daysLeft=Math.max(1,lastDay-now.getDate()+1);
+    const weeksLeft=daysLeft/7;
+    const weekly=round(remaining/weeksLeft);
+    const daily=round(remaining/daysLeft);
+
+    const savingsCurrent=core.trip && Array.isArray(core.trip.contribs)
+      ? round(core.trip.contribs.filter(c=>String(c.date||'').slice(0,7)===currentMonth).reduce((s,c)=>s+Number(c.amount||0),0))
+      : 0;
+
+    const goals=readGoals();
+    let project=null;
+    if(goals.length){
+      const g=goals[0];
+      project={name:String(g.name||'Projet principal'),target:round(g.target||0),saved:round(g.saved||0),date:String(g.date||'')};
+    } else if(core.trip && Number(core.trip.goal)>0){
+      const t=core.trip;
+      project={
+        name:String(t.dest||'Projet principal'),
+        target:round(t.goal),
+        saved:round(Array.isArray(t.contribs)?t.contribs.reduce((s,c)=>s+Number(c.amount||0),0):0),
+        date:String(t.date||'')
+      };
+    }
+    if(project){
+      project.remaining=round(Math.max(0,project.target-project.saved));
+      if(project.date){
+        const dd=new Date(project.date+'T00:00:00');
+        const months=Math.max(1,(dd.getTime()-Date.now())/(86400000*30.44));
+        project.monthly=round(Math.ceil(project.remaining/months));
+      }else project.monthly=0;
+      project.marginAfterEffort=round(remaining-(project.monthly||0));
+    }
+
+    const byCategory={};
+    for(const o of opsCurrent) byCategory[o.category]=round((byCategory[o.category]||0)+o.amount);
+    const categories=Object.entries(byCategory).sort((a,b)=>b[1]-a[1]);
+
+    return {
+      version:11,
+      updatedAt:new Date().toISOString(),
+      income,
+      fixed,
+      food,
+      leisure,
+      projectsBudget,
+      other,
+      planned,
+      plannedRemaining,
+      operations:ops,
+      operationsCurrent:opsCurrent,
+      realVariable,
+      realFixed,
+      realSpent,
+      remaining,
+      weekly,
+      daily,
+      daysLeft,
+      weeksLeft,
+      rate:income?Math.round(realSpent/income*100):0,
+      plannedRate:income?Math.round(planned/income*100):0,
+      savingsCurrent,
+      goals,
+      project,
+      byCategory:categories.reduce((o,[k,v])=>{o[k]=v;return o},{}),
+      activeCategoryCount:categories.length
+    };
+  }
+
+  function persistCompatibility(s){
+    // Le moteur central devient la référence. On conserve les anciennes clés pour
+    // que les modules historiques présents dans cette page continuent de fonctionner.
+    writeJSON(ENGINE_KEY,{
+      income:s.income,
+      fixed:s.fixed,
+      food:s.food,
+      leisure:s.leisure,
+      projects:s.projectsBudget,
+      other:s.other,
+      planned:s.planned
+    });
+    writeJSON(OPS_KEY,s.operations.map(o=>({id:o.id,label:o.label,amount:o.amount,category:o.category,date:o.date})));
+
+    const core=readCore();
+    const recurring=Array.isArray(core.recurring)?core.recurring:[];
+    const recurringSum=round(recurring.reduce((a,r)=>a+Number(r.amount||0),0));
+    let nextRecurring=recurring.slice();
+    if(s.fixed>0 && Math.abs(recurringSum-s.fixed)>0.01){
+      // On ne supprime aucune charge nommée : on ajoute une ligne d'ajustement seulement
+      // lorsque l'ancien module et le moteur planifié ne portent pas le même montant.
+      nextRecurring=recurring.filter(r=>!String(r.id||'').startsWith('cap-central-adjustment'));
+      const delta=round(s.fixed-nextRecurring.reduce((a,r)=>a+Number(r.amount||0),0));
+      if(delta>0) nextRecurring.push({id:'cap-central-adjustment',label:'Charges fixes — total planifié',amount:delta});
+    }
+    const mappedExpenses=s.operations.map(o=>({
+      id:o.id,label:o.label,amount:o.amount,
+      cat:(o.category||'Autre').toLowerCase(),date:o.date
+    }));
+    writeJSON(CORE_KEY,{...core,salary:s.income,expenses:mappedExpenses,recurring:nextRecurring});
+    writeJSON(CENTRAL_KEY,s);
+  }
+
+  let state={};
+  let sourceSignature='';
+
+  function sourceSig(){
+    const e=readEngine(), o=readOperationStore(), c=readCore(), g=readGoals();
+    return JSON.stringify({e,o,c:{salary:c.salary,expenses:c.expenses,recurring:c.recurring,trip:c.trip},g});
+  }
+
+  function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value;}
+  function setHTML(id,html){const el=document.getElementById(id);if(el)el.innerHTML=html;}
+
+  function updateMiniCards(){
+    const cards=[...document.querySelectorAll('.cap-mini')];
+    for(const card of cards){
+      const label=card.querySelector('small')?.textContent.trim().toLowerCase();
+      const strong=card.querySelector('strong');
+      if(!strong) continue;
+      if(label==='revenus') strong.textContent=money(state.income);
+      else if(label==='dépenses') strong.textContent=money(state.realSpent);
+      else if(label==='charges fixes') strong.textContent=money(state.fixed);
+      else if(label==='épargne') strong.textContent=money(state.savingsCurrent);
+    }
+    const balance=document.querySelector('.cap-balance-value');
+    if(balance) balance.textContent=money(state.remaining);
+    const help=document.querySelector('.cap-balance-help');
+    if(help) help.textContent=`Revenus ${money(state.income)} · dépenses réelles ${money(state.realSpent)} · budget planifié ${money(state.planned)}.`;
+    const progress=document.querySelector('.cap-balance-progress i');
+    if(progress) progress.style.width=(state.income?Math.max(0,Math.min(100,state.realSpent/state.income*100)):0)+'%';
+  }
+
+  function updateWeek(){
+    const rows=[...document.querySelectorAll('.cap-week .cap-list-row')];
+    for(const row of rows){
+      const label=row.querySelector('b')?.textContent.trim().toLowerCase();
+      if(label==='marge'){
+        const amount=row.querySelector('strong');
+        if(amount) amount.textContent=money(state.weekly);
+      }
+    }
+    const connected=document.getElementById('cap-connected-remain');
+    if(connected) connected.textContent=money(state.remaining);
+    const weekFood=document.getElementById('cap-week-food-total');
+    if(weekFood && state.food>0) weekFood.textContent=money(Math.round(state.food/state.weeksLeft*100)/100);
+    const foodImpact=document.getElementById('cap-food-impact');
+    if(foodImpact && state.food>0) foodImpact.textContent='− '+money(Math.round(state.food/state.weeksLeft*100)/100);
+  }
+
+  function updateTopBudget(){
+    setText('v-salary',money(state.income));
+    setText('v-spent',money(state.realSpent));
+    setText('v-saved',money(state.savingsCurrent));
+    setText('cap-r-income',money(state.income));
+    setText('cap-r-fixed','− '+money(state.fixed));
+    setText('cap-r-food','− '+money(state.food));
+    setText('cap-r-leisure','− '+money(state.leisure));
+    setText('cap-r-projects','− '+money(state.projectsBudget));
+    setText('cap-r-other','− '+money(state.other));
+    setText('cap-r-total',money(state.plannedRemaining));
+    setText('cap-weekly','≈ '+money(state.weekly));
+    setText('cap-daily','≈ '+money(state.daily));
+    setText('cap-rate',state.rate+' %');
+    setText('cap-goal-kpi',money(state.projectsBudget));
+    setText('cap-connected-remain',money(state.remaining));
+
+    const hero=document.getElementById('hero');
+    const arc=document.getElementById('arc');
+    const knob=document.getElementById('knob');
+    const dial=document.getElementById('dial-value');
+    if(hero&&arc&&knob&&dial){
+      const ratio=state.income?state.remaining/state.income:0;
+      hero.dataset.state=state.remaining<0?'bad':ratio<0.1?'bad':ratio<0.3?'warn':'ok';
+      const f=Math.max(0,Math.min(1,ratio));
+      const circ=2*Math.PI*92;
+      arc.style.strokeDasharray=circ+' '+circ;
+      arc.style.strokeDashoffset=circ*(1-f);
+      arc.style.opacity=f>0?1:0;
+      knob.style.transform='rotate('+(f*360-90)+'deg)';
+      knob.style.opacity=f>0?1:0;
+      dial.textContent=money(state.remaining);
+      document.getElementById('dial-label')?.replaceChildren(document.createTextNode(state.remaining<0?'Budget dépassé':'Reste à vivre'));
+      const msg=state.remaining<0
+        ? `Ton budget réel dépasse tes revenus de ${money(Math.abs(state.remaining))}.`
+        : `Il te reste ${money(state.remaining)} de marge réelle, soit environ ${money(state.daily)} par jour jusqu’à la fin du mois.`;
+      setText('hero-msg',msg);
+      const pill=document.getElementById('pill');
+      if(pill){pill.classList.toggle('bad',state.remaining<0);pill.textContent=state.remaining>=0?money(state.remaining)+' restants':money(Math.abs(state.remaining))+' de trop';}
+    }
+  }
+
+  function updateV8(){
+    setText('v8-income',money(state.income));
+    setText('v8-real',money(state.realSpent));
+    setText('v8-planned',money(state.planned));
+    setText('v8-remain',money(state.remaining));
+
+    const list=document.getElementById('v8-list');
+    if(list){
+      const rows=state.operations.slice(0,20);
+      list.innerHTML=rows.length?rows.map(o=>`<div class="cap-v8-item"><div><b>${escapeHtml(o.label)}</b><span>${escapeHtml(o.category)} · ${escapeHtml(o.date)}</span></div><strong class="cap-v8-negative">− ${money(o.amount)}</strong><button type="button" data-central-del="${escapeHtml(o.id)}">✕</button></div>`).join(''):'<div style="color:#8fa3bd;font-size:11px;padding:10px">Aucune opération réelle enregistrée.</div>';
+      list.querySelectorAll('[data-central-del]').forEach(btn=>btn.addEventListener('click',()=>removeOperation(btn.getAttribute('data-central-del'))));
+    }
+
+    const entries=Object.entries(state.byCategory).sort((a,b)=>b[1]-a[1]);
+    const stats=document.getElementById('v8-stats');
+    if(stats){
+      const combined=[];
+      if(state.fixed>0) combined.push(['Charges fixes',state.fixed,'fixed']);
+      for(const [k,v] of entries) combined.push([k,v,'ops']);
+      const max=Math.max(...combined.map(x=>x[1]),1);
+      stats.innerHTML=combined.length?combined.map(([k,v])=>`<div style="padding:8px 0;font-size:11px"><div style="display:flex;justify-content:space-between"><b>${escapeHtml(k)}</b><span>${money(v)}</span></div><div class="cap-v8-bar"><i style="width:${Math.round(v/max*100)}%"></i></div></div>`).join(''):'<div style="color:#8fa3bd;font-size:11px;padding:10px 0">Les statistiques apparaîtront avec les premières opérations.</div>';
+    }
+    const advice=document.getElementById('v8-advice-box');
+    if(advice && advice.dataset.centralLocked!=='1'){
+      advice.innerHTML=`Après les dépenses réellement enregistrées, votre marge réelle est de <strong>${money(state.remaining)}</strong>. Budget planifié : <strong>${money(state.planned)}</strong>.`;
+    }
+  }
+
+  function updateV9(){
+    setText('v9-count',String(state.operations.length));
+    setText('v9-total',money(state.realSpent));
+    setText('v9-cats',String(state.activeCategoryCount));
+    const active=Object.entries(state.byCategory).sort((a,b)=>b[1]-a[1]);
+    const max=Math.max(...active.map(x=>x[1]),1);
+    setHTML('v9-map',active.length?active.map(([k,v])=>`<div class="cap-v9-row"><b>${escapeHtml(k)}</b><div class="cap-v9-bar"><i style="width:${Math.round(v/max*100)}%"></i></div><strong>${money(v)}</strong></div>`).join(''):'<div style="color:#8fa3bd;font-size:11px">Aucune opération réelle pour le moment.</div>');
+    setHTML('v9-message',state.operations.length
+      ? `Le moteur centralise <strong>${state.operations.length}</strong> opération(s). Dépenses réelles du mois : <strong>${money(state.realSpent)}</strong>. Budget planifié : <strong>${money(state.planned)}</strong>.`
+      : `Le moteur centralise les données du budget. Charges fixes : <strong>${money(state.fixed)}</strong> · budget planifié : <strong>${money(state.planned)}</strong>. Ajoute une opération réelle pour alimenter l’historique.`);
+  }
+
+  function updateV10(){
+    setText('v10-income',money(state.income));
+    setText('v10-spent',money(state.realSpent));
+    setText('v10-remain',money(state.remaining));
+    setText('v10-week',money(state.weekly));
+    const cats=[];
+    if(state.fixed>0) cats.push(['Charges fixes',state.fixed]);
+    cats.push(...Object.entries(state.byCategory));
+    cats.sort((a,b)=>b[1]-a[1]);
+    const max=Math.max(...cats.map(x=>x[1]),1);
+    setHTML('v10-categories',cats.length?cats.map(([k,v])=>`<div class="cap-v10-row"><b>${escapeHtml(k)}</b><span>${money(v)}<div class="cap-v10-bar"><i style="width:${Math.round(v/max*100)}%"></i></div></span></div>`).join(''):'<p>Aucune dépense réelle enregistrée.</p>');
+
+    const adv=document.getElementById('v10-advice');
+    if(adv){
+      adv.textContent=!state.income?'Renseignez vos revenus pour obtenir une analyse complète.':state.remaining<0
+        ?`Les dépenses réelles dépassent les revenus de ${money(Math.abs(state.remaining))}.`
+        :`Marge réelle : ${money(state.remaining)} · enveloppe hebdomadaire indicative : ${money(state.weekly)}.`;
+    }
+    const alerts=[];
+    if(state.remaining<0) alerts.push('🔴 Les dépenses réelles dépassent les revenus renseignés.');
+    if(state.income && state.realSpent/state.income>.8) alerts.push('🟠 Plus de 80 % des revenus sont déjà absorbés par les dépenses réelles.');
+    if(state.planned>state.income) alerts.push('🟠 Le budget planifié dépasse les revenus renseignés.');
+    if(!alerts.length) alerts.push('🟢 Aucune alerte critique avec les données disponibles.');
+    setHTML('v10-alerts',alerts.map(x=>`<div class="${x.includes('🔴')||x.includes('🟠')?'cap-v10-alert':'cap-v10-good'}">${escapeHtml(x)}</div>`).join(''));
+
+    const goalEls=state.goals.slice(0,5).map(g=>{
+      const target=Number(g.target||g.amount||0), saved=Number(g.saved||g.current||0), pct=target?Math.min(100,Math.round(saved/target*100)):0;
+      return `<div class="cap-v10-row"><b>${escapeHtml(g.name||'Objectif')}</b><span>${money(saved)} / ${money(target)}<div class="cap-v10-bar"><i style="width:${pct}%"></i></div></span></div>`;
+    });
+    setHTML('v10-goals',goalEls.length?goalEls.join(''):'<div class="cap-v10-good">Aucun objectif enregistré pour le moment.</div>');
+
+    const buckets={};
+    state.operationsCurrent.forEach(o=>{const key=o.date.slice(8,10)+'/'+o.date.slice(5,7);buckets[key]=(buckets[key]||0)+o.amount;});
+    let vals=Object.entries(buckets).slice(-6);
+    if(!vals.length && state.fixed>0) vals=[['Charges fixes',state.fixed]];
+    const m=Math.max(...vals.map(x=>x[1]),1);
+    setHTML('v10-chart',vals.length?vals.map(([k,v])=>`<div class="cap-v10-col"><i style="height:${Math.max(6,Math.round(v/m*100))}%"></i>${escapeHtml(k)}<br>${money(v)}</div>`).join(''):'<div style="color:#8fa3bd;font-size:11px">Ajoutez des opérations pour construire votre évolution.</div>');
+  }
+
+  function projectText(){
+    if(!state.project) return 'Aucun projet principal enregistré pour le moment.';
+    const p=state.project;
+    return p.monthly
+      ? `${p.name} : ${money(p.remaining)} restent à financer · effort indicatif ${money(p.monthly)}/mois · sur ${money(state.remaining)} de marge réelle, il resterait ${money(Math.max(0,p.marginAfterEffort))} après cet effort.`
+      : `${p.name} : ${money(p.remaining)} restent à financer. Ajoute une date cible pour calculer l’effort mensuel.`;
+  }
+
+  function updateV6(){
+    setText('v6-remain',money(state.remaining));
+    setText('v6-rate',state.rate+' %');
+    setText('v6-projects',money(state.projectsBudget));
+    setText('v6-week',money(state.weekly));
+    const advice=document.getElementById('v6-advice');
+    const detail=document.getElementById('v6-advice-detail');
+    if(advice&&detail){
+      if(state.remaining<0){
+        advice.textContent='Votre budget réel dépasse actuellement vos revenus.';
+        detail.textContent=`Dépenses réelles : ${money(state.realSpent)} pour ${money(state.income)} de revenus. Réexamine les postes avant d’ajouter une nouvelle dépense.`;
+      }else{
+        advice.textContent=state.project?'Votre budget réel conserve une marge positive et votre projet principal est pris en compte.':'Votre budget réel conserve une marge positive.';
+        detail.textContent=state.project?projectText():`Marge réelle disponible : ${money(state.remaining)} · budget planifié : ${money(state.planned)}.`;
+      }
+    }
+    const stats=[
+      ['Charges fixes',state.fixed],
+      ['Courses / repas',state.food],
+      ['Loisirs',state.leisure],
+      ['Projets',state.projectsBudget]
+    ];
+    setHTML('v6-stats',stats.map(([k,v])=>{const pct=state.income?Math.round(v/state.income*100):0;return `<div class="cap-v6-row"><div><strong>${escapeHtml(k)}</strong><span>${pct} % du revenu</span></div><b>${pct}%</b></div><div class="cap-v6-bar"><i style="width:${Math.min(pct,100)}%"></i></div>`}).join(''));
+
+    const goals=state.goals;
+    const list=document.getElementById('v6-goals');
+    if(list){
+      const rows=goals.map((g,i)=>{
+        const target=Number(g.target)||0,saved=Number(g.saved)||0,pct=target?Math.min(100,Math.round(saved/target*100)):0,remaining=Math.max(0,target-saved);
+        let monthly=0;
+        if(g.date){const dd=new Date(g.date+'T00:00:00');const months=Math.max(1,(dd.getTime()-Date.now())/(86400000*30.44));monthly=Math.ceil(remaining/months);}
+        const after=monthly?Math.max(0,state.remaining-monthly):state.remaining;
+        const date=g.date?new Date(g.date+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}):'non définie';
+        return `<div class="cap-v6-item"><div><b>${escapeHtml(g.name||'Objectif')}</b><small>${money(saved)} / ${money(target)} · ${pct}%</small><div class="cap-v6-goal-meta"><span>Reste : ${money(remaining)}</span><span>Date cible : ${escapeHtml(date)}</span></div><div class="cap-v6-goal-plan">CAP repère : <b>${monthly?money(monthly):money(state.remaining)}</b>${monthly?' / mois · marge restante après cet effort : <strong>'+money(after)+'</strong>':' de marge disponible · renseigne une date cible pour calculer un effort mensuel.'}</div><div class="cap-v6-goal-plan-v2"><div><span>Effort mensuel</span><strong>${monthly?money(monthly)+' / mois':'—'}</strong></div><div><span>Marge après effort</span><strong>${monthly?money(after):money(state.remaining)}</strong></div></div><div class="cap-v6-bar"><i style="width:${pct}%"></i></div></div><button data-central-goal="${i}" aria-label="Supprimer ${escapeHtml(g.name||'Objectif')}">✕</button></div>`;
+      });
+      list.innerHTML=rows.length?rows.join(''):'<div class="cap-v6-note">Aucun objectif pour le moment.</div>';
+      list.querySelectorAll('[data-central-goal]').forEach(btn=>btn.addEventListener('click',()=>{
+        const arr=readGoals();arr.splice(Number(btn.getAttribute('data-central-goal')),1);writeJSON(GOALS_KEY,arr);refreshCentral(true);
+      }));
+    }
+  }
+
+  function updateV7(){
+    setText('v7-remain',money(state.remaining));
+    setText('v7-weekly',money(state.weekly));
+    setText('v7-rate',state.rate+' %');
+    const projects=state.project;
+    const impact=document.getElementById('v7-project-impact');
+    if(impact){
+      impact.innerHTML=projects
+        ? `<b>🎯 ${escapeHtml(projects.name)}</b><span>Reste à financer : <strong>${money(projects.remaining)}</strong>${projects.monthly?' · effort indicatif : <strong>'+money(projects.monthly)+'/mois</strong>':''}<br>${projects.monthly?(state.remaining>=projects.monthly?'La marge réelle couvre encore l’effort mensuel indicatif nécessaire.':'La marge réelle devient inférieure à l’effort mensuel indicatif nécessaire.'):'Aucune date cible enregistrée.'}</span>`
+        : '<b>🎯 Aucun projet principal.</b><span>Ajoute un objectif pour que CAP mesure son impact.</span>';
+    }
+  }
+
+  function historyRead(){
+    const h=readJSON(HISTORY_KEY,[]);return Array.isArray(h)?h:[];
+  }
+  function historyWrite(arr){writeJSON(HISTORY_KEY,arr.slice(0,8));}
+  function pushHistory(q,a){
+    const arr=historyRead();
+    const key=String(q)+'
