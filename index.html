@@ -143,6 +143,7 @@ dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
 .dlg-actions{display:flex;gap:10px;margin-top:20px}
 .dlg-actions .btn{flex:1}
 @media (prefers-reduced-motion: reduce){ *,*::before,*::after{transition:none!important;animation:none!important} }
+.trip-photo{min-height:190px;border-radius:var(--radius);margin:0 0 16px;overflow:hidden}.stats-recurring-group{border-top:1px solid var(--line)}.stats-recurring-group:last-child{border-bottom:1px solid var(--line)}.stats-recurring-group summary{display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none;cursor:pointer;padding:15px 4px;font-weight:700;color:var(--ink)}.stats-recurring-group summary::-webkit-details-marker{display:none}.stats-recurring-group summary:after{content:'⌄';color:var(--accent);font-size:18px;margin-left:auto}.stats-recurring-group[open] summary:after{content:'⌃'}.stats-recurring-group summary strong{font-variant-numeric:tabular-nums}.stats-recurring-group .rows{margin:0 0 8px 12px}.stats-recurring-group .row{padding:10px 0}
 </style>
 <style>
 /* ===== CAP Budget — Professional polish layer ===== */
@@ -1676,7 +1677,16 @@ body.cap-redesign .app{max-width:none;padding:0}
             <option value="Voyages">✈️ Voyages</option>
             <option value="Transport">🚗 Transport</option>
             <option value="Logement">🏠 Logement</option>
-            <option value="Abonnements">📱 Abonnements</option>
+            <option value="Abonnement">📱 Abonnement</option>
+            <option value="Santé">💚 Santé</option>
+            <option value="Éducation">📚 Éducation</option>
+            <option value="Énergie / eau">💡 Énergie / eau</option>
+            <option value="Téléphone / Internet">📶 Téléphone / Internet</option>
+            <option value="Animaux">🐾 Animaux</option>
+            <option value="Cadeaux">🎁 Cadeaux</option>
+            <option value="Vêtements">👕 Vêtements</option>
+            <option value="Impôts">🧾 Impôts</option>
+            <option value="Projets / voyages">✈️ Projets / voyages</option>
             <option value="Autre">📦 Autre</option>
           </select>
         </div>
@@ -1935,6 +1945,10 @@ body.cap-redesign .app{max-width:none;padding:0}
 </div>
 <button class="btn small" type="submit">Ajouter</button>
 </div>
+<label for="r-category" class="hint" style="display:block;margin:10px 2px 6px">Type de charge</label>
+<select class="input" id="r-category" style="width:100%;margin-bottom:12px">
+<option value="Abonnements">📱 Abonnements</option><option value="Logement">🏠 Logement</option><option value="Assurances">🛡️ Assurances</option><option value="Crédits">💳 Crédits</option><option value="Transport">🚗 Transport</option><option value="Autres charges">📦 Autres charges</option>
+</select>
 </form>
 <ul class="rows" id="recurring-list"></ul>
 <p class="empty" id="recurring-empty">Aucune charge fixe enregistrée.</p>
@@ -2052,6 +2066,7 @@ body.cap-redesign .app{max-width:none;padding:0}
 </div>
 </form>
 <div id="trip-view" hidden>
+<div class="cap-dash-hero-photo trip-photo" role="img" aria-label="Paysage ensoleillé du Portugal"><div class="cap-dash-photo-tag">Une escapade à préparer ✨</div></div>
 <section class="card" aria-labelledby="trip-dest">
 <h2 class="trip-dest" id="trip-dest"></h2>
 <div class="trip-when" id="trip-when"></div>
@@ -2095,6 +2110,12 @@ body.cap-redesign .app{max-width:none;padding:0}
 <p class="hint">Suivi de tes dépenses globales par mois.</p>
 <ul class="rows" id="stats-months-list"></ul>
 <p class="empty" id="stats-months-empty">Aucun historique de dépenses disponible.</p>
+</div>
+<div class="card" id="stats-recurring-card">
+<h2>🔄 Détail des charges fixes</h2>
+<p class="hint">Clique sur une catégorie pour voir les prélèvements enregistrés, comme Netflix ou Amazon.</p>
+<div id="stats-recurring-groups"></div>
+<p class="empty" id="stats-recurring-empty">Aucune charge fixe enregistrée pour le moment.</p>
 </div>
 </section>
 </main>
@@ -2297,6 +2318,17 @@ const CATS = [
 {id:'transport', label:'Transport', icon:'🚇', color:'#3B82F6'},
 {id:'loisirs', label:'Loisirs', icon:'🎟️', color:'#A855F7'},
 {id:'shopping', label:'Shopping', icon:'🛍', color:'#EC4899'},
+{id:'abonnements', label:'Abonnement', icon:'📱', color:'#06B6D4'},
+{id:'logement', label:'Logement', icon:'🏠', color:'#F59E0B'},
+{id:'energie', label:'Énergie / eau', icon:'💡', color:'#EAB308'},
+{id:'telecom', label:'Téléphone / Internet', icon:'📶', color:'#0EA5E9'},
+{id:'sante', label:'Santé', icon:'💚', color:'#22C55E'},
+{id:'animaux', label:'Animaux', icon:'🐾', color:'#A16207'},
+{id:'cadeaux', label:'Cadeaux', icon:'🎁', color:'#DB2777'},
+{id:'vetements', label:'Vêtements', icon:'👕', color:'#7C3AED'},
+{id:'impots', label:'Impôts', icon:'🧾', color:'#64748B'},
+{id:'projets', label:'Projets / voyages', icon:'✈️', color:'#8B5CF6'},
+{id:'education', label:'Éducation', icon:'📚', color:'#F97316'},
 {id:'autre', label:'Autre', icon:'✨', color:'#71717A'}
 ];
 const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
@@ -2488,6 +2520,15 @@ toast('Dépense supprimée', {label: 'Annuler', fn: () => { state.expenses.splic
 }
 
 // Charges fixes handling
+function inferRecurringCategory(label) {
+const s = String(label || '').toLowerCase();
+if (/netflix|amazon|prime|spotify|disney|youtube|canal|deezer|abonnement|apple tv|icloud/.test(s)) return 'Abonnements';
+if (/loyer|edf|électricité|electricite|eau|gaz|internet|box|logement/.test(s)) return 'Logement';
+if (/assurance|mutuelle/.test(s)) return 'Assurances';
+if (/crédit|credit|emprunt/.test(s)) return 'Crédits';
+if (/transport|navigo|parking/.test(s)) return 'Transport';
+return 'Autres charges';
+}
 function renderRecurring() {
 const listEl = $('#recurring-list');
 const emptyEl = $('#recurring-empty');
@@ -2495,7 +2536,7 @@ const items = state.recurring || [];
 listEl.replaceChildren.apply(listEl, items.map(r => {
 const del = h('button', {class: 'icon-btn', type: 'button', 'aria-label': 'Supprimer ' + r.label, onclick: () => removeRecurring(r.id)});
 del.innerHTML = X_ICON;
-return h('li', {class: 'row'}, h('span', {class: 'badge', style: '--c:#4F46E5', 'aria-hidden': 'true', text: '🔄'}), h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: r.label}), h('div', {class: 'row-sub', text: 'Mensuel'})), h('div', {class: 'row-amount', text: '− ' + eur(r.amount)}), del);
+return h('li', {class: 'row'}, h('span', {class: 'badge', style: '--c:#4F46E5', 'aria-hidden': 'true', text: '🔄'}), h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: r.label}), h('div', {class: 'row-sub', text: (r.category || inferRecurringCategory(r.label)) + ' · Mensuel'})), h('div', {class: 'row-amount', text: '− ' + eur(r.amount)}), del);
 }));
 emptyEl.hidden = items.length > 0;
 }
@@ -2512,7 +2553,7 @@ const amount = parseAmount($('#r-amount').value);
 if (!label) { $('#r-label').focus(); return; }
 if (!validAmount(amount)) { $('#r-amount').focus(); return; }
 state.recurring = state.recurring || [];
-state.recurring.push({id: uid(), label: label, amount: Math.round(amount * 100) / 100});
+state.recurring.push({id: uid(), label: label, amount: Math.round(amount * 100) / 100, category: $('#r-category').value});
 $('#r-label').value = '';
 $('#r-amount').value = '';
 save();
@@ -2863,6 +2904,21 @@ h('div', {class: 'row-amount', text: eur(total)})
 
 listEl.replaceChildren.apply(listEl, rows);
 emptyEl.hidden = rows.length > 0;
+const recurringGroups = {};
+(state.recurring || []).forEach(r => {
+const category = r.category || inferRecurringCategory(r.label);
+(recurringGroups[category] = recurringGroups[category] || []).push(r);
+});
+const groupBox = $('#stats-recurring-groups');
+const recurringEmpty = $('#stats-recurring-empty');
+const groups = Object.keys(recurringGroups).sort((a, b) => a.localeCompare(b, 'fr')).map(category => {
+const items = recurringGroups[category];
+const subtotal = items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+const detailRows = items.map(item => h('li', {class: 'row'}, h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: item.label}), h('div', {class: 'row-sub', text: 'Prélèvement mensuel'})), h('div', {class: 'row-amount', text: '− ' + eur(item.amount)})));
+return h('details', {class: 'stats-recurring-group'}, h('summary', {}, h('span', {text: category}), h('strong', {text: eur(subtotal)})), h('ul', {class: 'rows'}, detailRows));
+});
+groupBox.replaceChildren.apply(groupBox, groups);
+recurringEmpty.hidden = groups.length > 0;
 }
 function showTab(name) {
 ['budget', 'repas', 'voyages', 'stats'].forEach(n => {
