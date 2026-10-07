@@ -3545,4 +3545,72 @@ cloudBtn.onclick = async () => {
   setTimeout(bind,500);
 })();
 </script>
+
+<script id="cap-v8-category-examples-repair">
+(function(){
+  function install(){
+    const select=document.getElementById('v8-category');
+    if(!select || document.getElementById('cap-v8-category-examples')) return;
+    select.style.pointerEvents='auto';
+    select.style.position='relative';
+    select.style.zIndex='20';
+    select.style.cursor='pointer';
+    select.style.minHeight='54px';
+    select.style.width='100%';
+
+    const wrap=document.createElement('div');
+    wrap.id='cap-v8-category-examples';
+    wrap.style.cssText='margin:10px 0 14px;padding:12px;border:1px solid var(--line,#27272A);border-radius:16px;background:var(--field,#1F1F23);position:relative;z-index:10;';
+    const title=document.createElement('div');
+    title.textContent='Exemples de catégorie — clique sur celui qui correspond';
+    title.style.cssText='font-size:15px;font-weight:700;margin-bottom:9px;color:var(--ink,#F4F4F5);';
+    const grid=document.createElement('div');
+    grid.style.cssText='display:flex;flex-wrap:wrap;gap:8px;';
+
+    const cats=[
+      ['Courses','🛒 Courses'],
+      ['Repas','🍽️ Resto'],
+      ['Transport','🚗 Transport'],
+      ['Loisirs','🎮 Loisirs'],
+      ['Shopping','🛍️ Shopping'],
+      ['Abonnements','📱 Abonnements'],
+      ['Logement','🏠 Logement'],
+      ['Santé','💚 Santé'],
+      ['Projets / voyages','✈️ Projets / voyages'],
+      ['Éducation','📚 Éducation'],
+      ['Autre','📦 Autre']
+    ];
+
+    cats.forEach(([value,label])=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.textContent=label;
+      b.style.cssText='font:inherit;font-size:15px;font-weight:700;padding:10px 13px;border-radius:999px;border:1px solid var(--line,#27272A);background:var(--surface-card,#18181B);color:var(--ink,#F4F4F5);cursor:pointer;min-height:44px;';
+      b.addEventListener('click',()=>{
+        select.value=value;
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+        grid.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+      });
+      b.setAttribute('aria-pressed',String(select.value===value));
+      grid.appendChild(b);
+    });
+
+    wrap.append(title,grid);
+    const label=select.closest('label');
+    if(label) label.parentNode.insertBefore(wrap,label);
+    else select.parentNode.insertBefore(wrap,select);
+
+    const sub=document.getElementById('v8-quick-details');
+    if(sub){
+      const old=sub.innerHTML;
+      const obs=new MutationObserver(()=>{ if(sub.innerHTML!==old){} });
+      obs.observe(sub,{childList:true});
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install,{once:true});
+  else install();
+  setTimeout(install,600);
+})();
+</script>
+
 </body></html>
