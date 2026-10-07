@@ -3488,4 +3488,61 @@ cloudBtn.onclick = async () => {
 </script>
 
 
+<script id="cap-decision-v2-repair">
+(function(){
+  const money = n => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+  const read = (k,f) => { try { const v=JSON.parse(localStorage.getItem(k)||''); return v==null?f:v; } catch(e){ return f; } };
+  const budget = () => {
+    const v=read('capBudgetEngine',{});
+    const income=Number(v.income)||0;
+    const committed=(Number(v.fixed)||0)+(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.projects)||0)+(Number(v.other)||0);
+    return {income,committed,remain:income-committed,weekly:income?Math.max(0,(income-committed)/4.33):0,rate:income?Math.round(committed/income*100):0};
+  };
+  const examples = [
+    {q:'Exemple · Puis-je me permettre cette dépense ?',a:'50 € → il resterait 550 €'},
+    {q:'Exemple · Combien puis-je dépenser cette semaine ?',a:'Repère : environ 168 € / semaine'},
+    {q:'Exemple · Combien puis-je mettre de côté ?',a:'Repère : jusqu’à 300 € en gardant 300 € de marge'},
+    {q:'Exemple · Comment avancer vers mon objectif ?',a:'Crète : 1 500 € restant · environ 169 € / mois'}
+  ];
+
+  function ensureExamples(){
+    const box=document.getElementById('v7-history');
+    if(!box) return;
+    const h=read('capAdviceHistory',[]);
+    if(Array.isArray(h) && h.length) return;
+    box.innerHTML='<div class="cap-v7-history-item"><span>'+examples[0].q+'</span><b>'+examples[0].a+'</b></div>'+
+      examples.slice(1).map(x=>'<div class="cap-v7-history-item"><span>'+x.q+'</span><b>'+x.a+'</b></div>').join('');
+  }
+
+  function bind(){
+    const buttons=document.querySelectorAll('[data-v7-insight]');
+    if(!buttons.length) return;
+    buttons.forEach(btn=>{
+      if(btn.dataset.capRepairBound==='1') return;
+      btn.dataset.capRepairBound='1';
+      btn.addEventListener('click',()=>{
+        const key=btn.dataset.v7Insight;
+        const panel=document.getElementById('v7-insight');
+        if(!panel) return;
+        buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));
+        const b=budget();
+        if(key==='real'){
+          panel.innerHTML='<h3>💰 Détail de ton calcul réel</h3><p>CAP compare ton revenu aux montants prévus dans ton budget.</p><div class="cap-v7-insight-grid"><div class="cap-v7-insight-item"><small>Revenus</small><strong>'+money(b.income)+'</strong></div><div class="cap-v7-insight-item"><small>Total prévu</small><strong>'+money(b.committed)+'</strong></div><div class="cap-v7-insight-item"><small>Reste</small><strong>'+money(b.remain)+'</strong></div><div class="cap-v7-insight-item"><small>Engagé</small><strong>'+b.rate+' %</strong></div></div>';
+        } else if(key==='simulation'){
+          panel.innerHTML='<h3>🔮 Simulation « Et si ? »</h3><p>Teste une dépense sans l’enregistrer. Utilise les boutons 20 €, 50 €, 100 € ou 200 € plus bas.</p>';
+        } else if(key==='projects'){
+          panel.innerHTML='<h3>🎯 Impact projets</h3><p>Ton projet principal est la Crète : 1 500 € restent à financer. L’effort indicatif est d’environ 169 € par mois.</p>';
+        } else {
+          panel.innerHTML='<h3>💾 Données locales</h3><p>Les calculs et analyses de CAP Décision utilisent les données enregistrées dans ce navigateur. Une simulation ne crée pas de dépense réelle.</p>';
+        }
+      });
+    });
+    ensureExamples();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true});
+  else bind();
+  setTimeout(bind,500);
+})();
+</script>
 </body></html>
