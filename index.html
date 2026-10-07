@@ -804,6 +804,44 @@ body{font-size:18px}
 .chip{font-size:16px}
 .row-title{font-size:17px}
 </style>
+
+<style>
+/* ===== Accessibilité — taille renforcée sur téléphone ===== */
+@media (max-width: 760px){
+  body{font-size:18px}
+  .app{font-size:18px}
+  .card h2{font-size:22px}
+  .hint,.callout,.empty,dialog p{font-size:18px}
+  .muted,.row-sub,.bar-caption,.trip-date,.money span{font-size:17px}
+  .field > label,.field-label{font-size:16px}
+  .expense-form-intro{font-size:16px}
+  .expense-field-help{font-size:15px}
+  .stat-label{font-size:15px}
+  .stat-value{font-size:19px}
+  .legend li{font-size:17px}
+  .legend .pct{font-size:16px}
+  .day-date,.slot span{font-size:16px}
+  .tag{font-size:15px}
+  .slot .input{font-size:18px}
+  .input{font-size:18px;min-height:54px}
+  .btn{font-size:18px;min-height:54px}
+  .link{font-size:17px}
+  .tab{font-size:15px;min-height:56px}
+  .pill,.chip{font-size:16px}
+  .row-title{font-size:18px}
+  .cap-dash-page-title{font-size:18px}
+  .cap-dash-page-sub{font-size:14px}
+  .cap-dash-status{font-size:13px}
+  .cap-dash-kicker{font-size:12px}
+  .cap-dash-hero h1{font-size:26px}
+  .cap-dash-hero p{font-size:15px}
+  .cap-dash-goal-fig{font-size:15px}
+  .cap-dash-goal-fig strong{font-size:17px}
+  .cap-dash-goal-pct{font-size:19px}
+  .cap-dash-goal-meta{font-size:14px}
+  .cap-dash-photo-tag{font-size:12px}
+}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
