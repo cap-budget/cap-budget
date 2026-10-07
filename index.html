@@ -3283,5 +3283,15 @@ cloudBtn.onclick = async () => {
   } catch(e) { console.warn('Impossible d’ajouter le projet test', e); }
 })();
 </script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(error => {
+      console.warn("Service worker CAP Budget non enregistré", error);
+    });
+  });
+}
+</script>
 </body>
 </html>
