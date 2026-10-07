@@ -1,0 +1,11 @@
+{
+  "name": "CAP Budget",
+  "short_name": "CAP Budget",
+  "description": "Gérez votre budget, vos repas, vos voyages et vos objectifs d'épargne.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "fr",
+  "orientation": "portrait"
+}
