@@ -3745,7 +3745,7 @@ cloudBtn.onclick = async () => {
     ?'Bienvenue dans votre espace Premium TEST. Votre accès a été vérifié avec Stripe et Supabase. Retrouvez votre analyse approfondie dans la rubrique Statistiques.'
     :'MODE TEST STRIPE : les boutons permettent de tester le paiement avec une carte fictive. Aucun débit réel. L’accès Premium TEST est vérifié avec Stripe et Supabase après connexion.';
   const pricingStatus=document.getElementById('cap-premium-pricing-status');
-  if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Votre accès Premium TEST est actif. Profitez de votre analyse approfondie ci-dessus.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
+  if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Premium TEST déjà actif sur ce compte : les boutons « S’abonner » et « Acheter » sont masqués pour éviter un second paiement. Pour tester une nouvelle souscription, connectez-vous avec un autre compte CAP Budget sans abonnement. Aucun paiement réel n’est activé.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
   // Un compte Premium déjà actif ne doit pas être invité à payer une seconde fois.
   document.querySelectorAll('[data-cap-checkout]').forEach(link=>{
     link.hidden=!!result.premium;
@@ -3754,7 +3754,7 @@ cloudBtn.onclick = async () => {
   });
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
   if(pricingNote)pricingNote.textContent=result.premium
-    ?'Votre accès Premium TEST est confirmé. Aucun nouveau paiement n’est nécessaire. Les paiements réels restent désactivés.'
+    ?'Votre accès Premium TEST est confirmé. Les boutons de paiement sont volontairement masqués sur ce compte déjà abonné. Les paiements réels restent désactivés.'
     :'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. L’accès Premium TEST est vérifié après connexion. Les paiements réels restent désactivés.';
   const insights=document.getElementById('cap-premium-insights');
   if(insights){
