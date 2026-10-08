@@ -3892,9 +3892,11 @@ cloudBtn.onclick = async () => {
     if(!Number.isFinite(amount)||amount<=0||amount>100000000)return;
     const salary=document.getElementById('v-salary');
     const previous=parseEuro(salary?.textContent);
-    if(previous===null||Math.abs(previous-amount)<0.005)return;
+    if(previous!==null&&Math.abs(previous-amount)<0.005)return;
+    // La synchronisation utilise le revenu enregistré, jamais le texte du cadran.
     window.dispatchEvent(new CustomEvent('capSyncMainIncome',{detail:{amount}}));
     updateComparison();
+    updateSyncExplanation();
   }
   function updateSyncExplanation(){
     const main=parseEuro(document.getElementById('v8-income')?.textContent);
@@ -3910,6 +3912,8 @@ cloudBtn.onclick = async () => {
     updateSyncExplanation();
     const btn=document.getElementById('cap-sync-main-income');
     if(btn)btn.hidden=true;
+    // Relecture après l'initialisation des autres modules, sans boucle d'écriture.
+    queueMicrotask(reconcileOnReturn);
   });
   window.addEventListener('capBudgetChanged',()=>{
     syncIncomeFromMain();
