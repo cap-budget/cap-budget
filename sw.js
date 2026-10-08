@@ -1,4 +1,4 @@
-const CACHE_NAME = "cap-budget-v2";
+const CACHE_NAME = "cap-budget-v3-prix-3999";
 
 const APP_FILES = [
   "./",
