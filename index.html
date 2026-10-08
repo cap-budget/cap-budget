@@ -2283,7 +2283,7 @@ body{font-size:19px!important;line-height:1.55}
 <div class="dial-value" id="dial-value">2 000&nbsp;€</div>
 </div>
 </div>
-<p class="hero-msg" id="hero-msg" aria-live="polite">Tu peux dépenser environ 80&nbsp;€ par jour jusqu’à la fin du mois.</p><p id="cap-budget-reconciliation" role="status" style="font-size:12px;line-height:1.55;color:#d1fae5;margin:0 12px 12px;text-align:center;border:1px solid #34d39955;border-radius:10px;padding:10px">Comparaison des deux modules en préparation…</p> <p id="cap-budget-source-note" style="font-size:12px;line-height:1.55;color:#a8b7c9;margin:0 12px 14px;text-align:center">Ce cadran utilise le salaire de ce module et déduit les charges mensuelles prévues (comme Netflix), les dépenses saisies ici et l’épargne. Le montant « Charges + dépenses » inclut donc les charges prévues même sans opération réelle enregistrée. Le tableau de bord principal utilise un budget prévisionnel distinct : ne cumulez pas leurs soldes.</p>
+<p class="hero-msg" id="hero-msg" aria-live="polite">Tu peux dépenser environ 80&nbsp;€ par jour jusqu’à la fin du mois.</p><p id="cap-budget-reconciliation" role="status" style="font-size:12px;line-height:1.55;color:#d1fae5;margin:0 12px 12px;text-align:center;border:1px solid #34d39955;border-radius:10px;padding:10px">Comparaison des deux modules en préparation…</p> <div style="text-align:center;margin:0 12px 12px"><button type="button" id="cap-sync-main-income" style="border:1px solid #34d399;background:#12352b;color:#d1fae5;border-radius:10px;padding:11px 14px;font:600 13px inherit;cursor:pointer">Utiliser les revenus du budget principal dans ce cadran</button></div> <p id="cap-budget-source-note" style="font-size:12px;line-height:1.55;color:#a8b7c9;margin:0 12px 14px;text-align:center">Ce cadran utilise le salaire de ce module et déduit les charges mensuelles prévues (comme Netflix), les dépenses saisies ici et l’épargne. Le montant « Charges + dépenses » inclut donc les charges prévues même sans opération réelle enregistrée. Le tableau de bord principal utilise un budget prévisionnel distinct : ne cumulez pas leurs soldes.</p>
 <div class="stats">
 <button class="stat" id="edit-salary" type="button" aria-label="Modifier le salaire">
 <div class="stat-label">Salaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4Z"></path><path d="m13.5 6.5 4 4"></path></svg>
@@ -3069,6 +3069,18 @@ state.expenses = state.expenses.filter(e => !ids.has(e.id));
 save();
 renderAll();
 toast('Dépenses effacées', {label: 'Annuler', fn: () => { state.expenses = removed.concat(state.expenses); save(); renderAll(); }});
+});
+window.addEventListener('capSyncMainIncome', ev => {
+  const amount=Number(ev.detail&&ev.detail.amount);
+  if(!Number.isFinite(amount)||amount<=0||amount>100000000)return;
+  if(Math.abs(state.salary-amount)<0.005)return;
+  try {
+    const key='cap_salary_before_main_sync_v1';
+    if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({salary:state.salary,savedAt:new Date().toISOString()}));
+  } catch(_) {}
+  state.salary=Math.round(amount*100)/100;
+  save();
+  renderAll();
 });
 $('#edit-salary').addEventListener('click', () => {
 $('#s-amount').value = String(state.salary).replace('.', ',');
@@ -3856,6 +3868,17 @@ cloudBtn.onclick = async () => {
       const el=document.getElementById(id);
       if(el)new MutationObserver(updateComparison).observe(el,{childList:true,subtree:true,characterData:true});
     });
+  });
+  document.getElementById('cap-sync-main-income')?.addEventListener('click',()=>{
+    const main=document.getElementById('v8-income'),salary=document.getElementById('v-salary');
+    const amount=parseEuro(main?.textContent);
+    if(amount===null||amount<=0){alert('Revenus du budget principal indisponibles. Aucune donnée modifiée.');return;}
+    const previous=parseEuro(salary?.textContent);
+    if(previous!==null&&Math.abs(previous-amount)<0.005){updateComparison();return;}
+    const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+    if(!confirm('Synchroniser le salaire de ce cadran avec les revenus du budget principal ('+euro(amount)+') ?\\n\\nLe salaire précédent ('+euro(previous||0)+') sera sauvegardé. Les dépenses, charges et objectifs ne seront pas modifiés.'))return;
+    window.dispatchEvent(new CustomEvent('capSyncMainIncome',{detail:{amount}}));
+    updateComparison();
   });
   window.addEventListener('capBudgetChanged',updateComparison);
 })();
