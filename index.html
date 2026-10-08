@@ -1424,12 +1424,17 @@ body{font-size:19px!important;line-height:1.55}
       <h3 style="margin-top:8px">Lecture du budget</h3>
       <p>Une vue simple des postes qui consomment le budget actuel.</p>
       <div id="v6-stats"></div>
+      <section id="cap-premium-insights" hidden aria-live="polite" style="margin-top:16px;padding:15px;border:1px solid #34d39955;border-radius:14px;background:#10261e">
+        <strong style="color:#a7f3d0">✨ Analyse approfondie · Premium TEST</strong>
+        <div id="cap-premium-insights-body" style="margin-top:10px;color:#e5f7ef;font-size:13px;line-height:1.65"></div>
+      </section>
       <div class="cap-v6-note">Cette première version calcule les statistiques à partir des données du moteur de budget. L'historique mensuel sera alimenté par les opérations réelles dans l'étape suivante.</div>
     </article>
 
     <article class="cap-v6-card" id="pricing">
       <span class="cap-v6-badge">💳 Offre Premium</span>
       <h3 style="margin-top:8px">Choisissez votre formule Premium</h3>
+      <p id="cap-premium-pricing-status" role="status" hidden style="padding:10px;border:1px solid #34d39977;border-radius:10px;color:#a7f3d0;font-weight:700"></p>
       <p><strong>MODE TEST STRIPE :</strong> les boutons permettent de tester le parcours de paiement avec une carte fictive. Aucun débit réel. La vérification de l'accès Premium TEST s'effectue avec Stripe et Supabase après connexion au compte CAP Budget.</p>
       <div class="cap-v6-plan">
         <div><b>Mensuel — 3,99 € TTC/mois</b><span>7 jours d'essai gratuit avec carte bancaire obligatoire. À la fin des 7 jours, abonnement à 3,99 € TTC/mois avec prélèvement automatique, sauf résiliation avant la fin de l'essai.<br>CAP Conseil approfondi, objectifs multiples et statistiques avancées.<br><a href="#pricing" data-cap-checkout="monthly" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'essai 7 jours (Stripe TEST) ↗</a></span></div>
@@ -3721,6 +3726,29 @@ cloudBtn.onclick = async () => {
   const result=await response.json().catch(()=>null);
   if(!response.ok||!result)return;
   window.CAP_BUDGET_PREMIUM_TEST=!!result.premium;
+  const pricingStatus=document.getElementById('cap-premium-pricing-status');
+  if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Votre accès Premium TEST est actif. Profitez de votre analyse approfondie ci-dessus.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
+  const insights=document.getElementById('cap-premium-insights');
+  if(insights){
+    insights.hidden=!result.premium;
+    if(result.premium){
+      const source=document.getElementById('v6-stats');
+      const output=document.getElementById('cap-premium-insights-body');
+      const render=()=>{
+        const entries=Array.from(source?.querySelectorAll('.cap-v6-row')||[]).map(row=>({
+          label:row.querySelector('strong')?.textContent?.trim()||'Poste',
+          pct:Number((row.querySelector('b')?.textContent||'').replace('%','').trim())
+        })).filter(x=>Number.isFinite(x.pct)&&x.pct>=0);
+        if(!entries.length){output.textContent='L’analyse apparaîtra lorsque les statistiques du budget seront disponibles.';return;}
+        const total=entries.reduce((sum,x)=>sum+x.pct,0);
+        const first=entries.reduce((a,b)=>a.pct>=b.pct?a:b);
+        const remaining=100-total;
+        output.textContent='Premier poste : '+first.label+' ('+first.pct+' % du revenu). Postes affichés : '+total+' % du revenu. '+(remaining>=0?'Part non représentée dans ces postes : '+remaining+' % du revenu.':'Attention : le total des postes dépasse 100 % du revenu.')+' Ces pourcentages proviennent du budget actuel, pas d’un historique bancaire.';
+      };
+      render();
+      if(source&&!source.dataset.capPremiumObserved){source.dataset.capPremiumObserved='1';new MutationObserver(render).observe(source,{childList:true,subtree:true,characterData:true});}
+    }
+  }
   window.dispatchEvent(new CustomEvent('cap-premium-status',{detail:result}));
   let badge=document.getElementById('cap-premium-test-status');
   if(!badge){badge=document.createElement('div');badge.id='cap-premium-test-status';badge.setAttribute('role','status');badge.style.cssText='position:fixed;bottom:14px;right:14px;z-index:9000;padding:9px 13px;border-radius:12px;background:#15251d;color:#d1fae5;font:600 13px system-ui;box-shadow:0 2px 12px #0005;max-width:260px';document.body.appendChild(badge);}
