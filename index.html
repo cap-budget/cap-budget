@@ -2283,7 +2283,7 @@ body{font-size:19px!important;line-height:1.55}
 <div class="dial-value" id="dial-value">2 000&nbsp;€</div>
 </div>
 </div>
-<p class="hero-msg" id="hero-msg" aria-live="polite">Tu peux dépenser environ 80&nbsp;€ par jour jusqu’à la fin du mois.</p><p id="cap-budget-source-note" style="font-size:12px;line-height:1.55;color:#a8b7c9;margin:0 12px 14px;text-align:center">Ce cadran utilise le salaire de ce module et déduit les charges mensuelles prévues (comme Netflix), les dépenses saisies ici et l’épargne. Le montant « Charges + dépenses » inclut donc les charges prévues même sans opération réelle enregistrée. Le tableau de bord principal utilise un budget prévisionnel distinct : ne cumulez pas leurs soldes.</p>
+<p class="hero-msg" id="hero-msg" aria-live="polite">Tu peux dépenser environ 80&nbsp;€ par jour jusqu’à la fin du mois.</p><p id="cap-budget-reconciliation" role="status" style="font-size:12px;line-height:1.55;color:#d1fae5;margin:0 12px 12px;text-align:center;border:1px solid #34d39955;border-radius:10px;padding:10px">Comparaison des deux modules en préparation…</p> <p id="cap-budget-source-note" style="font-size:12px;line-height:1.55;color:#a8b7c9;margin:0 12px 14px;text-align:center">Ce cadran utilise le salaire de ce module et déduit les charges mensuelles prévues (comme Netflix), les dépenses saisies ici et l’épargne. Le montant « Charges + dépenses » inclut donc les charges prévues même sans opération réelle enregistrée. Le tableau de bord principal utilise un budget prévisionnel distinct : ne cumulez pas leurs soldes.</p>
 <div class="stats">
 <button class="stat" id="edit-salary" type="button" aria-label="Modifier le salaire">
 <div class="stat-label">Salaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4Z"></path><path d="m13.5 6.5 4 4"></path></svg>
@@ -3828,6 +3828,36 @@ cloudBtn.onclick = async () => {
  }
  window.addEventListener('load',()=>{refreshPremium().catch(()=>{});});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshPremium().catch(()=>{});});
+})();
+</script>
+
+<script>
+/* Contrôle de cohérence en lecture seule : aucune écriture dans les budgets. */
+(function(){
+  function parseEuro(value){
+    const normalized=String(value||'').replace(/[\u00a0\u202f\s€]/g,'').replace(',','.');
+    const n=Number(normalized);return Number.isFinite(n)?n:null;
+  }
+  function updateComparison(){
+    const note=document.getElementById('cap-budget-reconciliation');
+    const main=document.getElementById('v8-income');
+    const salary=document.getElementById('v-salary');
+    if(!note||!main||!salary)return;
+    const a=parseEuro(main.textContent),b=parseEuro(salary.textContent);
+    if(a===null||b===null){note.textContent='Les deux modules conservent leurs calculs indépendants.';return;}
+    const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+    note.textContent=a===b
+      ?'Revenus identiques dans les deux modules ('+euro(a)+'). Les charges et opérations restent suivies séparément.'
+      :'Écart entre les revenus des modules : budget principal '+euro(a)+' ; cadran '+euro(b)+' (différence : '+euro(Math.abs(a-b))+'). Les soldes ne sont pas additionnables. Aucune donnée n’a été modifiée.';
+  }
+  window.addEventListener('load',()=>{
+    updateComparison();
+    ['v8-income','v-salary'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)new MutationObserver(updateComparison).observe(el,{childList:true,subtree:true,characterData:true});
+    });
+  });
+  window.addEventListener('capBudgetChanged',updateComparison);
 })();
 </script>
 </body></html>
