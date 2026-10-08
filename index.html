@@ -2279,11 +2279,11 @@ body{font-size:19px!important;line-height:1.55}
 <g class="knob" id="knob" style="transform: rotate(270deg); opacity: 1;"><circle cx="212" cy="120" r="7"></circle></g>
 </svg>
 <div class="dial-center">
-<div class="dial-label" id="dial-label">Reste à vivre</div>
+<div class="dial-label" id="dial-label">Solde du cadran</div>
 <div class="dial-value" id="dial-value">2 000&nbsp;€</div>
 </div>
 </div>
-<p class="hero-msg" id="hero-msg" aria-live="polite">Tu peux dépenser environ 80&nbsp;€ par jour jusqu’à la fin du mois.</p><p id="cap-budget-reconciliation" role="status" style="font-size:12px;line-height:1.55;color:#d1fae5;margin:0 12px 12px;text-align:center;border:1px solid #34d39955;border-radius:10px;padding:10px">Comparaison des deux modules en préparation…</p> <div style="text-align:center;margin:0 12px 12px"><button type="button" id="cap-sync-main-income" style="border:1px solid #34d399;background:#12352b;color:#d1fae5;border-radius:10px;padding:11px 14px;font:600 13px inherit;cursor:pointer">Utiliser les revenus du budget principal dans ce cadran</button></div> <p id="cap-budget-source-note" style="font-size:12px;line-height:1.55;color:#a8b7c9;margin:0 12px 14px;text-align:center">Ce cadran utilise le salaire de ce module et déduit les charges mensuelles prévues (comme Netflix), les dépenses saisies ici et l’épargne. Le montant « Charges + dépenses » inclut donc les charges prévues même sans opération réelle enregistrée. Le tableau de bord principal utilise un budget prévisionnel distinct : ne cumulez pas leurs soldes.</p>
+<p class="hero-msg" id="hero-msg" aria-live="polite">Repère indicatif du cadran, hors enveloppes du budget principal.</p><p id="cap-budget-reconciliation" role="status" style="font-size:12px;line-height:1.55;color:#d1fae5;margin:0 12px 12px;text-align:center;border:1px solid #34d39955;border-radius:10px;padding:10px">Comparaison des deux modules en préparation…</p> <div style="text-align:center;margin:0 12px 12px"><button type="button" id="cap-sync-main-income" style="border:1px solid #34d399;background:#12352b;color:#d1fae5;border-radius:10px;padding:11px 14px;font:600 13px inherit;cursor:pointer">Utiliser les revenus du budget principal dans ce cadran</button></div> <p id="cap-budget-source-note" style="font-size:12px;line-height:1.55;color:#a8b7c9;margin:0 12px 14px;text-align:center">Ce cadran utilise le salaire de ce module et déduit les charges mensuelles prévues (comme Netflix), les dépenses saisies ici et l’épargne. Le montant « Charges + dépenses » inclut donc les charges prévues même sans opération réelle enregistrée. Le tableau de bord principal utilise un budget prévisionnel distinct : ne cumulez pas leurs soldes.</p>
 <div class="stats">
 <button class="stat" id="edit-salary" type="button" aria-label="Modifier le salaire">
 <div class="stat-label">Salaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4Z"></path><path d="m13.5 6.5 4 4"></path></svg>
@@ -2892,14 +2892,14 @@ const val = eur(reste);
 const dv = $('#dial-value');
 dv.textContent = val;
 dv.classList.toggle('long', val.length > 8);
-$('#dial-label').textContent = reste < 0 ? 'Budget dépassé' : 'Reste à vivre';
+$('#dial-label').textContent = reste < 0 ? 'Solde du cadran négatif' : 'Solde du cadran';
 const now = new Date();
 const last = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 const daysLeft = last - now.getDate() + 1;
 let msg;
 if (reste < 0) msg = 'Tu as dépassé ton budget de ' + eur(-reste) + ' ce mois-ci.';
-else if (daysLeft === 1) msg = 'Dernier jour du mois : il te reste ' + eur(reste) + ' à dépenser.';
-else msg = 'Tu peux dépenser environ ' + eur(Math.floor(reste / daysLeft)) + ' par jour jusqu’à la fin du mois.';
+else if (daysLeft === 1) msg = 'Dernier jour du mois : solde indicatif du cadran ' + eur(reste) + ', hors enveloppes du budget principal.';
+else msg = 'Repère indicatif du cadran : ' + eur(Math.floor(reste / daysLeft)) + ' par jour, hors enveloppes du budget principal. Ce n’est pas une somme librement disponible.';
 $('#hero-msg').textContent = msg;
 $('#v-salary').textContent = eur(state.salary);
 $('#v-spent').textContent = eur(sum.spent);
