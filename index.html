@@ -3728,6 +3728,16 @@ cloudBtn.onclick = async () => {
   window.CAP_BUDGET_PREMIUM_TEST=!!result.premium;
   const pricingStatus=document.getElementById('cap-premium-pricing-status');
   if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Votre accès Premium TEST est actif. Profitez de votre analyse approfondie ci-dessus.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
+  // Un compte Premium déjà actif ne doit pas être invité à payer une seconde fois.
+  document.querySelectorAll('[data-cap-checkout]').forEach(link=>{
+    link.hidden=!!result.premium;
+    link.setAttribute('aria-hidden',result.premium?'true':'false');
+    link.tabIndex=result.premium?-1:0;
+  });
+  const pricingNote=document.querySelector('#pricing .cap-v6-note');
+  if(pricingNote)pricingNote.textContent=result.premium
+    ?'Votre accès Premium TEST est confirmé. Aucun nouveau paiement n’est nécessaire. Les paiements réels restent désactivés.'
+    :'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. L’accès Premium TEST est vérifié après connexion. Les paiements réels restent désactivés.';
   const insights=document.getElementById('cap-premium-insights');
   if(insights){
     insights.hidden=!result.premium;
