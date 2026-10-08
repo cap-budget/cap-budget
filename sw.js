@@ -1,4 +1,4 @@
-const CACHE_NAME = "cap-budget-v1";
+const CACHE_NAME = "cap-budget-v2";
 
 const APP_FILES = [
   "./",
@@ -7,20 +7,14 @@ const APP_FILES = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      )
+      Promise.all(keys.filter(key => key.startsWith("cap-budget-") && key !== CACHE_NAME).map(key => caches.delete(key)))
     )
   );
   self.clients.claim();
@@ -28,20 +22,32 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
-
   const url = new URL(event.request.url);
-
   if (url.origin !== self.location.origin) return;
 
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      return cachedResponse || fetch(event.request).then(response => {
+  // Toujours rechercher la version la plus récente des pages HTML.
+  if (event.request.mode === "navigate" || url.pathname.endsWith(".html")) {
+    event.respondWith(
+      fetch(event.request).then(response => {
         if (response.ok) {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)));
         }
         return response;
-      });
-    })
+      }).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then(cached =>
+      cached || fetch(event.request).then(response => {
+        if (response.ok) {
+          const copy = response.clone();
+          event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)));
+        }
+        return response;
+      })
+    )
   );
 });
