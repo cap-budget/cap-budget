@@ -3759,7 +3759,36 @@ cloudBtn.onclick = async () => {
         const total=entries.reduce((sum,x)=>sum+x.pct,0);
         const first=entries.reduce((a,b)=>a.pct>=b.pct?a:b);
         const remaining=100-total;
-        output.textContent='Premier poste : '+first.label+' ('+first.pct+' % du revenu). Postes affichés : '+total+' % du revenu. '+(remaining>=0?'Part non représentée dans ces postes : '+remaining+' % du revenu.':'Attention : le total des postes dépasse 100 % du revenu.')+' Ces pourcentages proviennent du budget actuel, pas d’un historique bancaire.';
+        output.replaceChildren();
+        const intro=document.createElement('p');
+        intro.textContent='Répartition des postes du budget actuel, en pourcentage du revenu :';
+        intro.style.margin='0 0 12px';output.appendChild(intro);
+        const palette=['#34d399','#60a5fa','#fbbf24','#c4b5fd'];
+        entries.forEach((item,index)=>{
+          const wrap=document.createElement('div');wrap.style.margin='0 0 12px';
+          const line=document.createElement('div');line.style.cssText='display:flex;justify-content:space-between;gap:10px;margin-bottom:5px';
+          const name=document.createElement('span');name.textContent=item.label;
+          const amount=document.createElement('strong');amount.textContent=item.pct+' %';
+          line.append(name,amount);
+          const track=document.createElement('div');track.style.cssText='height:12px;border-radius:8px;background:#ffffff1b;overflow:hidden';
+          track.setAttribute('role','progressbar');track.setAttribute('aria-label',item.label);
+          track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');
+          track.setAttribute('aria-valuenow',String(Math.min(100,item.pct)));
+          const bar=document.createElement('div');bar.style.height='100%';bar.style.width=Math.min(100,item.pct)+'%';
+          bar.style.background=palette[index%palette.length];bar.style.borderRadius='8px';track.appendChild(bar);
+          wrap.append(line,track);output.appendChild(wrap);
+        });
+        const summary=document.createElement('p');summary.style.margin='12px 0 0';
+        summary.textContent='Poste principal : '+first.label+' ('+first.pct+' %). Les postes affichés totalisent '+total+' % du revenu. '+(remaining>=0?'Les '+remaining+' % restants ne sont pas représentés dans ces quatre postes.':'Attention : les postes affichés dépassent ensemble 100 % du revenu.');
+        output.appendChild(summary);
+        const advice=document.createElement('p');advice.style.cssText='margin:12px 0 0;padding:10px;border-radius:9px;background:#ffffff10';
+        advice.textContent=first.pct>=40
+          ?'Conseil CAP : '+first.label+' représente une part importante du revenu. Examinez ce poste en priorité si vous cherchez des économies, sans modifier automatiquement votre budget.'
+          :'Conseil CAP : '+first.label+' est votre poste le plus important parmi ceux affichés. Comparez-le aux autres postes avant de décider d’un ajustement.';
+        output.appendChild(advice);
+        const caveat=document.createElement('small');caveat.style.cssText='display:block;margin-top:9px;color:#a4b8af';
+        caveat.textContent='Analyse indicative calculée à partir du budget actuel : ce n’est ni un historique bancaire ni une estimation de votre argent disponible.';
+        output.appendChild(caveat);
       };
       render();
       if(source&&!source.dataset.capPremiumObserved){source.dataset.capPremiumObserved='1';new MutationObserver(render).observe(source,{childList:true,subtree:true,characterData:true});}
