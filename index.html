@@ -3992,4 +3992,38 @@ cloudBtn.onclick = async () => {
  });
 })();
 </script>
+<!-- CAP REAL EXPENSES READONLY V1 -->
+<script>
+(function(){
+ 'use strict';
+ function format(n){return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);}
+ function refresh(){
+   const root=document.getElementById('cap-real-expenses-panel');
+   if(!root)return;
+   let state;try{state=JSON.parse(localStorage.getItem('cap_state_v4')||'null');}catch(_){state=null;}
+   const now=new Date(), month=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+   const expenses=Array.isArray(state?.expenses)?state.expenses.filter(e=>typeof e.date==='string'&&e.date.slice(0,7)===month&&Number.isFinite(Number(e.amount))&&Number(e.amount)>0):[];
+   const total=expenses.reduce((sum,e)=>sum+Number(e.amount),0);
+   const value=root.querySelector('[data-real-total]'),count=root.querySelector('[data-real-count]'),items=root.querySelector('[data-real-items]');
+   value.textContent=format(total);
+   count.textContent=expenses.length+' opération'+(expenses.length>1?'s':'')+' réellement enregistrée'+(expenses.length>1?'s':'')+' ce mois';
+   items.replaceChildren();
+   if(!expenses.length){const p=document.createElement('p');p.textContent='Aucune dépense réelle enregistrée pour ce mois. Les charges prévues et les exemples ne sont pas comptés.';items.appendChild(p);return;}
+   expenses.slice(0,8).forEach(e=>{const row=document.createElement('div');row.style.cssText='display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #ffffff20';const name=document.createElement('span');name.textContent=(e.label||'Dépense')+' · '+e.date;const amount=document.createElement('strong');amount.textContent=format(Number(e.amount));row.append(name,amount);items.appendChild(row);});
+   if(expenses.length>8){const p=document.createElement('p');p.textContent='Les 8 dernières opérations sont affichées ici. Retrouvez la liste complète dans l’historique des dépenses.';items.appendChild(p);}
+ }
+ function init(){
+   const form=document.getElementById('expense-form');if(!form||document.getElementById('cap-real-expenses-panel'))return;
+   const panel=document.createElement('section');panel.id='cap-real-expenses-panel';panel.setAttribute('aria-label','Dépenses réellement enregistrées');
+   panel.style.cssText='padding:16px;margin:12px 0;border:1px solid #34d39966;border-radius:14px;background:#123027;color:#e5f9f0';
+   panel.innerHTML='<h2 style="margin:0 0 8px">📒 Mes dépenses réelles du mois</h2><p style="margin:0 0 8px">Uniquement les opérations ajoutées et enregistrées. Ce total est distinct du budget prévu et des charges mensuelles programmées.</p><p style="font-size:22px;font-weight:800;margin:8px 0" data-real-total>0 €</p><p data-real-count role="status"></p><div data-real-items></div>';
+   form.parentNode.insertBefore(panel,form);
+   refresh();
+   window.addEventListener('capBudgetChanged',refresh);
+   window.addEventListener('storage',e=>{if(e.key==='cap_state_v4')refresh();});
+   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body></html>
