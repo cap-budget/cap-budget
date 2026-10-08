@@ -3917,4 +3917,33 @@ cloudBtn.onclick = async () => {
   });
 })();
 </script>
+<script>
+/* CAP Budget : synthèse financière fiable, lecture seule, sans toucher aux données. */
+(function(){
+ function numberOf(id){const e=document.getElementById(id);if(!e)return null;const n=Number(e.textContent.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.'));return Number.isFinite(n)?n:null;}
+ const fmt=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+ function render(){
+  const income=numberOf('v8-income'),salary=numberOf('v-salary');
+  const section=document.getElementById('cap-financial-clarity');
+  if(!section)return;
+  if(income===null||income<=0){section.textContent='Synthèse disponible lorsque le budget principal est renseigné.';return;}
+  const planned=document.getElementById('v8-planned');
+  const mainMargin=numberOf('v8-margin');
+  section.replaceChildren();
+  const h=document.createElement('h3');h.textContent='🧭 Comprendre mes deux soldes';h.style.margin='0 0 10px';section.append(h);
+  const p=document.createElement('p');p.style.margin='0 0 8px';p.textContent='Revenu de référence : '+fmt(income)+'. '+(salary!==null&&Math.abs(salary-income)<.01?'Les deux modules utilisent le même revenu.':'Les revenus des modules sont différents : vérifiez la synchronisation.');section.append(p);
+  const a=document.createElement('p');a.style.margin='0 0 8px';a.textContent='Marge prévisionnelle du budget principal : revenus moins toutes les enveloppes prévues (charges, courses, loisirs, projets et autres). C’est le repère pour planifier de nouvelles dépenses.';section.append(a);
+  const b=document.createElement('p');b.style.margin='0 0 8px';b.textContent='Reste à vivre du cadran : revenu moins les charges et opérations suivies dans ce cadran. Ce chiffre ne tient pas forcément compte de toutes les enveloppes du budget principal.';section.append(b);
+  const warning=document.createElement('strong');warning.style.color='#fcd34d';warning.textContent='Important : ne pas additionner ces deux soldes et ne pas considérer le reste à vivre du cadran comme un montant entièrement disponible.';section.append(warning);
+ }
+ window.addEventListener('load',()=>{
+  const anchor=document.getElementById('cap-budget-reconciliation');
+  if(!anchor||document.getElementById('cap-financial-clarity'))return;
+  const panel=document.createElement('section');panel.id='cap-financial-clarity';panel.setAttribute('aria-label','Comprendre les soldes CAP Budget');panel.style.cssText='margin:12px;padding:16px;border:1px solid #34d39966;border-radius:14px;background:#123027;color:#e5f9f0;font-size:13px;line-height:1.55';
+  anchor.insertAdjacentElement('afterend',panel);render();
+  ['v8-income','v-salary'].forEach(id=>{const e=document.getElementById(id);if(e)new MutationObserver(render).observe(e,{childList:true,subtree:true,characterData:true});});
+  window.addEventListener('capBudgetChanged',render);
+ });
+})();
+</script>
 </body></html>
