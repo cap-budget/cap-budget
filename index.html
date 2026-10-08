@@ -3866,7 +3866,7 @@ cloudBtn.onclick = async () => {
     updateComparison();
     ['v8-income','v-salary'].forEach(id=>{
       const el=document.getElementById(id);
-      if(el)new MutationObserver(updateComparison).observe(el,{childList:true,subtree:true,characterData:true});
+      if(el)new MutationObserver(()=>{updateComparison();if(id==='v8-income')syncIncomeFromMain();}).observe(el,{childList:true,subtree:true,characterData:true});
     });
   });
   document.getElementById('cap-sync-main-income')?.addEventListener('click',()=>{
@@ -3884,9 +3884,10 @@ cloudBtn.onclick = async () => {
   // L'ancien salaire est sauvegardé par le gestionnaire capSyncMainIncome.
   function syncIncomeFromMain(){
     let raw;
-    try{raw=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){return;}
-    if(!raw||typeof raw!=='object'||raw.income===null||raw.income===undefined)return;
-    const amount=Number(raw.income);
+    try{raw=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){raw=null;}
+    // Le budget principal enregistré fait autorité ; l'affichage est un repli en lecture seule.
+    const stored=raw&&typeof raw==='object'&&raw.income!==null&&raw.income!==undefined?Number(raw.income):null;
+    const amount=stored!==null&&Number.isFinite(stored)?stored:parseEuro(document.getElementById('v8-income')?.textContent);
     if(!Number.isFinite(amount)||amount<=0||amount>100000000)return;
     const salary=document.getElementById('v-salary');
     const previous=parseEuro(salary?.textContent);
