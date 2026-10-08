@@ -3915,6 +3915,17 @@ cloudBtn.onclick = async () => {
     updateComparison();
     updateSyncExplanation();
   });
+  // Une page restaurée depuis le cache ou un retour d'onglet doit relire
+  // le revenu principal, sans toucher aux opérations et aux objectifs.
+  function reconcileOnReturn(){
+    syncIncomeFromMain();
+    updateComparison();
+    updateSyncExplanation();
+  }
+  window.addEventListener('pageshow',reconcileOnReturn);
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden)reconcileOnReturn();
+  });
 })();
 </script>
 <script>
