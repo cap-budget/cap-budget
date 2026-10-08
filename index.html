@@ -3781,11 +3781,38 @@ cloudBtn.onclick = async () => {
         const summary=document.createElement('p');summary.style.margin='12px 0 0';
         summary.textContent='Poste principal : '+first.label+' ('+first.pct+' %). Les postes affichés totalisent '+total+' % du revenu. '+(remaining>=0?'Les '+remaining+' % restants ne sont pas représentés dans ces quatre postes.':'Attention : les postes affichés dépassent ensemble 100 % du revenu.');
         output.appendChild(summary);
-        const advice=document.createElement('p');advice.style.cssText='margin:12px 0 0;padding:10px;border-radius:9px;background:#ffffff10';
-        advice.textContent=first.pct>=40
-          ?'Conseil CAP : '+first.label+' représente une part importante du revenu. Examinez ce poste en priorité si vous cherchez des économies, sans modifier automatiquement votre budget.'
-          :'Conseil CAP : '+first.label+' est votre poste le plus important parmi ceux affichés. Comparez-le aux autres postes avant de décider d’un ajustement.';
-        output.appendChild(advice);
+        const adviceTitle=document.createElement('strong');
+        adviceTitle.textContent='Conseils CAP par poste';
+        adviceTitle.style.cssText='display:block;margin:16px 0 8px;color:#a7f3d0';
+        output.appendChild(adviceTitle);
+        const adviceByLabel=(label,pct)=>{
+          const key=label.toLocaleLowerCase('fr');
+          if(key.includes('charge'))return pct>=40
+            ?'Charges fixes : comparez vos contrats et abonnements à leur renouvellement ; ne réduisez pas les dépenses indispensables.'
+            :'Charges fixes : gardez un œil sur les échéances de vos contrats et abonnements.';
+          if(key.includes('course')||key.includes('repas'))return pct>=20
+            ?'Courses / repas : planifiez quelques repas et comparez les prix pour limiter les achats imprévus.'
+            :'Courses / repas : une liste de courses et un suivi régulier peuvent aider à tenir votre enveloppe.';
+          if(key.includes('loisir'))return pct>=15
+            ?'Loisirs : fixez une limite adaptée à vos priorités et vérifiez les abonnements peu utilisés.'
+            :'Loisirs : préservez une enveloppe plaisir compatible avec vos autres priorités.';
+          if(key.includes('projet'))return pct>=15
+            ?'Projets : vérifiez que les versements prévus restent compatibles avec vos charges essentielles.'
+            :'Projets : même une petite épargne régulière peut aider à avancer vers vos objectifs.';
+          return label+' : vérifiez l’évolution de ce poste et son importance dans votre budget.';
+        };
+        entries.forEach(item=>{
+          const tip=document.createElement('p');
+          tip.style.cssText='margin:6px 0;padding:9px 11px;border-radius:9px;background:#ffffff0c';
+          tip.textContent=adviceByLabel(item.label,item.pct);
+          output.appendChild(tip);
+        });
+        const caution=document.createElement('p');
+        caution.style.cssText='margin:12px 0 0;color:#a7f3d0';
+        caution.textContent=remaining>=0
+          ?'À noter : les '+remaining+' % non représentés ne sont pas automatiquement une somme disponible à dépenser ou à épargner.'
+          :'À vérifier : les postes affichés dépassent 100 % du revenu ; contrôlez les montants saisis.';
+        output.appendChild(caution);
         const caveat=document.createElement('small');caveat.style.cssText='display:block;margin-top:9px;color:#a4b8af';
         caveat.textContent='Analyse indicative calculée à partir du budget actuel : ce n’est ni un historique bancaire ni une estimation de votre argent disponible.';
         output.appendChild(caveat);
