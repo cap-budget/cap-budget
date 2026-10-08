@@ -3625,4 +3625,50 @@ cloudBtn.onclick = async () => {
 })();
 </script>
 
+<script id="cap-supabase-click-rescue">
+(function(){
+  'use strict';
+  const btn=document.getElementById('cap-cloud-button');
+  if(!btn)return;
+  // Ce bouton est parfois visible alors que le grand script de l'application
+  // s'est interrompu avant d'y attacher son gestionnaire.
+  btn.style.setProperty('z-index','2147483647','important');
+  btn.style.setProperty('pointer-events','auto','important');
+  btn.addEventListener('click',function(){
+    if(typeof btn.onclick==='function')return; // fonctionnement historique intact
+    if(document.getElementById('cap-cloud-rescue-panel'))return;
+    const backdrop=document.createElement('div');
+    backdrop.id='cap-cloud-rescue-panel';
+    backdrop.style.cssText='position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.8);display:grid;place-items:center;padding:16px';
+    const panel=document.createElement('section');
+    panel.setAttribute('role','dialog');
+    panel.setAttribute('aria-modal','true');
+    panel.setAttribute('aria-label','Connexion Supabase');
+    panel.style.cssText='width:min(94vw,440px);background:#17191e;color:#fff;padding:24px;border:1px solid #4d6570;border-radius:18px;font:16px system-ui';
+    panel.innerHTML='<h2 style="margin:0 0 10px">☁️ Connexion CAP Budget</h2><p>Connectez-vous pour retrouver la synchronisation Supabase.</p><form id="cap-rescue-form"><input id="cap-rescue-email" type="email" autocomplete="email" required placeholder="Adresse e-mail" style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0;background:#252a32;color:#fff;border:1px solid #777;border-radius:8px"><input id="cap-rescue-password" type="password" autocomplete="current-password" required placeholder="Mot de passe" style="width:100%;box-sizing:border-box;padding:12px;margin:6px 0;background:#252a32;color:#fff;border:1px solid #777;border-radius:8px"><p id="cap-rescue-status" role="status"></p><button type="submit" style="padding:12px;border-radius:8px;cursor:pointer">Se connecter</button> <button id="cap-rescue-close" type="button" style="padding:12px;border-radius:8px;cursor:pointer">Fermer</button></form>';
+    backdrop.appendChild(panel);
+    document.body.appendChild(backdrop);
+    const close=()=>backdrop.remove();
+    panel.querySelector('#cap-rescue-close').onclick=close;
+    backdrop.addEventListener('click',e=>{if(e.target===backdrop)close();});
+    panel.querySelector('#cap-rescue-form').addEventListener('submit',async e=>{
+      e.preventDefault();
+      const status=panel.querySelector('#cap-rescue-status');
+      status.textContent='Connexion en cours…';
+      try{
+        if(!window.supabase?.createClient)throw Error('Supabase ne s’est pas chargé. Rechargez la page.');
+        const config=window.CAP_BUDGET_SUPABASE_SETUP;
+        if(!config?.defaultUrl||!config?.defaultKey)throw Error('Configuration Supabase indisponible.');
+        const client=window.supabase.createClient(config.defaultUrl,config.defaultKey);
+        const {error}=await client.auth.signInWithPassword({
+          email:panel.querySelector('#cap-rescue-email').value.trim(),
+          password:panel.querySelector('#cap-rescue-password').value
+        });
+        if(error)throw error;
+        status.textContent='Connecté. Rechargez la page pour retrouver vos données synchronisées.';
+      }catch(err){status.textContent='Connexion impossible : '+(err.message||err);}
+    });
+  });
+})();
+</script>
 </body></html>
