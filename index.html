@@ -3895,14 +3895,25 @@ cloudBtn.onclick = async () => {
     window.dispatchEvent(new CustomEvent('capSyncMainIncome',{detail:{amount}}));
     updateComparison();
   }
+  function updateSyncExplanation(){
+    const main=parseEuro(document.getElementById('v8-income')?.textContent);
+    const salary=parseEuro(document.getElementById('v-salary')?.textContent);
+    const note=document.getElementById('cap-budget-source-note');
+    if(!note)return;
+    if(main!==null&&salary!==null&&Math.abs(main-salary)<0.005){
+      note.textContent='Revenus synchronisés avec le budget principal. Ce cadran déduit uniquement les charges mensuelles et les dépenses enregistrées dans son propre module, ainsi que son épargne. Son reste à vivre n’est pas la marge prévisionnelle du budget principal : ne cumulez pas les deux montants.';
+    }
+  }
   window.addEventListener('load',()=>{
     syncIncomeFromMain();
+    updateSyncExplanation();
     const btn=document.getElementById('cap-sync-main-income');
     if(btn)btn.hidden=true;
   });
   window.addEventListener('capBudgetChanged',()=>{
     syncIncomeFromMain();
     updateComparison();
+    updateSyncExplanation();
   });
 })();
 </script>
