@@ -3912,6 +3912,16 @@ cloudBtn.onclick = async () => {
     updateSyncExplanation();
     const btn=document.getElementById('cap-sync-main-income');
     if(btn)btn.hidden=true;
+    // Le revenu est piloté par le budget principal : éviter une modification
+    // manuelle concurrente depuis le cadran, sans supprimer aucune donnée.
+    const salaryEdit=document.getElementById('edit-salary');
+    if(salaryEdit){
+      salaryEdit.disabled=true;
+      salaryEdit.setAttribute('aria-label','Revenus synchronisés avec le budget principal');
+      salaryEdit.title='Pour modifier les revenus, utilisez le budget principal.';
+      salaryEdit.style.cursor='default';
+      salaryEdit.style.opacity='0.9';
+    }
     // Relecture après l'initialisation des autres modules, sans boucle d'écriture.
     queueMicrotask(reconcileOnReturn);
   });
