@@ -3887,7 +3887,8 @@ cloudBtn.onclick = async () => {
     try{raw=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){raw=null;}
     // Le budget principal enregistré fait autorité ; l'affichage est un repli en lecture seule.
     const stored=raw&&typeof raw==='object'&&raw.income!==null&&raw.income!==undefined?Number(raw.income):null;
-    const amount=stored!==null&&Number.isFinite(stored)?stored:parseEuro(document.getElementById('v8-income')?.textContent);
+    const amount=stored!==null&&Number.isFinite(stored)?stored:null;
+    // Ne jamais écrire un revenu à partir d'un affichage provisoire ou d'une valeur par défaut.
     if(!Number.isFinite(amount)||amount<=0||amount>100000000)return;
     const salary=document.getElementById('v-salary');
     const previous=parseEuro(salary?.textContent);
