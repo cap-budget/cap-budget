@@ -2087,6 +2087,19 @@ body{font-size:19px!important;line-height:1.55}
     render();
   };
   document.getElementById('v8-advice').onclick=renderV8Advice;
+  // Les charges fixes de l'ancien formulaire sont conservées dans cap_state_v4.
+  // Actualiser uniquement leur détail évite une boucle avec render(),
+  // qui émet lui-même capBudgetChanged.
+  window.addEventListener('capBudgetChanged',()=>{
+    const state=getCoreState();
+    const recurring=Array.isArray(state.recurring)?state.recurring:[];
+    const total=recurring.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
+    const fixed=Number((budget()||{}).fixed)||0;
+    const unlisted=Math.max(0,fixed-total);
+    const rows=recurring.length?recurring.map(item=>`<div class="cap-v8-fixed-line"><span>${safeText(item.label||item.subcategory||'Charge fixe')} · ${safeText([item.category,item.subcategory].filter(Boolean).join(' / '))}</span><strong>${money(item.amount)}</strong></div>`).join(''):'<div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div>';
+    const target=document.getElementById('v8-fixed-detail');
+    if(target) target.innerHTML=`<h4>🏠 Détail des charges fixes enregistrées</h4>${rows}${unlisted?`<div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>${money(unlisted)}</strong></div>`:''}<div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>${money(total)} / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>${money(fixed)} / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a>`;
+  });
   render();
 })();
 </script>
