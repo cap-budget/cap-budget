@@ -3704,4 +3704,30 @@ cloudBtn.onclick = async () => {
   });
 })();
 </script>
+
+<script>
+/* Synchronisation de l'abonnement Premium TEST du compte connecté. */
+(function(){
+ async function refreshPremium(){
+  if(!window.supabase?.createClient)return;
+  const cfg=window.CAP_BUDGET_SUPABASE_SETUP;
+  if(!cfg?.defaultUrl||!cfg?.defaultKey)return;
+  let saved=null;try{saved=JSON.parse(localStorage.getItem('cap_supabase_config_v1')||'null');}catch(_){}
+  const url=saved?.url||cfg.defaultUrl,key=saved?.key||cfg.defaultKey;
+  const client=window.supabase.createClient(url,key);
+  const {data:{session}}=await client.auth.getSession();
+  if(!session)return;
+  const response=await fetch(url+'/functions/v1/sync-premium-access',{method:'POST',headers:{Authorization:'Bearer '+session.access_token,apikey:key,'Content-Type':'application/json'},body:'{}'});
+  const result=await response.json().catch(()=>null);
+  if(!response.ok||!result)return;
+  window.CAP_BUDGET_PREMIUM_TEST=!!result.premium;
+  window.dispatchEvent(new CustomEvent('cap-premium-status',{detail:result}));
+  let badge=document.getElementById('cap-premium-test-status');
+  if(!badge){badge=document.createElement('div');badge.id='cap-premium-test-status';badge.setAttribute('role','status');badge.style.cssText='position:fixed;bottom:14px;right:14px;z-index:9000;padding:9px 13px;border-radius:12px;background:#15251d;color:#d1fae5;font:600 13px system-ui;box-shadow:0 2px 12px #0005;max-width:260px';document.body.appendChild(badge);}
+  badge.textContent=result.premium?'CAP Budget Premium TEST actif':'CAP Budget : accès standard';
+ }
+ window.addEventListener('load',()=>{refreshPremium().catch(()=>{});});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshPremium().catch(()=>{});});
+})();
+</script>
 </body></html>
