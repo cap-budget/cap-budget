@@ -3939,12 +3939,12 @@ cloudBtn.onclick = async () => {
   const section=document.getElementById('cap-financial-clarity');
   if(!section)return;
   if(income===null||income<=0){section.textContent='Synthèse disponible lorsque le budget principal est renseigné.';return;}
-  const planned=document.getElementById('v8-planned');
+  const planned=numberOf('v8-planned');
   const mainMargin=numberOf('v8-margin');
   section.replaceChildren();
   const h=document.createElement('h3');h.textContent='🧭 Comprendre mes deux soldes';h.style.margin='0 0 10px';section.append(h);
   const p=document.createElement('p');p.style.margin='0 0 8px';p.textContent='Revenu de référence : '+fmt(income)+'. '+(salary!==null&&Math.abs(salary-income)<.01?'Les deux modules utilisent le même revenu.':'Les revenus des modules sont différents : vérifiez la synchronisation.');section.append(p);
-  const a=document.createElement('p');a.style.margin='0 0 8px';a.textContent='Marge prévisionnelle du budget principal : revenus moins toutes les enveloppes prévues (charges, courses, loisirs, projets et autres). C’est le repère pour planifier de nouvelles dépenses.';section.append(a);
+  const a=document.createElement('p');a.style.margin='0 0 8px';a.textContent='Budget principal : '+(planned!==null?'enveloppes prévues '+fmt(planned)+' ; ':'')+(mainMargin!==null?'marge prévisionnelle '+fmt(mainMargin)+'. ':'')+'Ce calcul retire toutes les enveloppes prévues (charges, courses, loisirs, projets et autres) du revenu. C’est le repère pour planifier de nouvelles dépenses.';section.append(a);
   const b=document.createElement('p');b.style.margin='0 0 8px';b.textContent='Reste à vivre du cadran : revenu moins les charges et opérations suivies dans ce cadran. Ce chiffre ne tient pas forcément compte de toutes les enveloppes du budget principal.';section.append(b);
   const warning=document.createElement('strong');warning.style.color='#fcd34d';warning.textContent='Important : ne pas additionner ces deux soldes et ne pas considérer le reste à vivre du cadran comme un montant entièrement disponible.';section.append(warning);
  }
