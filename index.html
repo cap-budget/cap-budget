@@ -3880,7 +3880,29 @@ cloudBtn.onclick = async () => {
     window.dispatchEvent(new CustomEvent('capSyncMainIncome',{detail:{amount}}));
     updateComparison();
   });
-  window.addEventListener('capBudgetChanged',updateComparison);
+  // Unification prudente des revenus : la source est le budget principal enregistré.
+  // L'ancien salaire est sauvegardé par le gestionnaire capSyncMainIncome.
+  function syncIncomeFromMain(){
+    let raw;
+    try{raw=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){return;}
+    if(!raw||typeof raw!=='object'||raw.income===null||raw.income===undefined)return;
+    const amount=Number(raw.income);
+    if(!Number.isFinite(amount)||amount<=0||amount>100000000)return;
+    const salary=document.getElementById('v-salary');
+    const previous=parseEuro(salary?.textContent);
+    if(previous===null||Math.abs(previous-amount)<0.005)return;
+    window.dispatchEvent(new CustomEvent('capSyncMainIncome',{detail:{amount}}));
+    updateComparison();
+  }
+  window.addEventListener('load',()=>{
+    syncIncomeFromMain();
+    const btn=document.getElementById('cap-sync-main-income');
+    if(btn)btn.hidden=true;
+  });
+  window.addEventListener('capBudgetChanged',()=>{
+    syncIncomeFromMain();
+    updateComparison();
+  });
 })();
 </script>
 </body></html>
