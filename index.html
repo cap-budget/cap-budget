@@ -1432,8 +1432,8 @@ body{font-size:19px!important;line-height:1.55}
       <h3 style="margin-top:8px">Choisissez votre formule Premium</h3>
       <p><strong>MODE TEST STRIPE :</strong> les boutons permettent de tester le parcours de paiement avec une carte fictive. Aucun débit réel. L'accès Premium automatique sera activé après vérification sécurisée dans Supabase.</p>
       <div class="cap-v6-plan">
-        <div><b>Mensuel — 3,99 € TTC/mois</b><span>7 jours d'essai gratuit avec carte bancaire obligatoire. À la fin des 7 jours, abonnement à 3,99 € TTC/mois avec prélèvement automatique, sauf résiliation avant la fin de l'essai.<br>CAP Conseil approfondi, objectifs multiples et statistiques avancées.<br><a href="https://buy.stripe.com/test_dRm7sN2KB34p29u8mm0sU00" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'essai 7 jours (Stripe test) ↗</a></span></div>
-        <div><b>Accès Premium à vie — 39,99 € TTC</b><span>Un seul paiement de 39,99 € TTC, sans abonnement ni renouvellement annuel.<br>Accès aux fonctionnalités Premium prévues pour cette offre.<br><a href="https://buy.stripe.com/test_cNi3cxgBrcEZg0k5aa0sU01" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'achat à vie (Stripe test) ↗</a></span></div>
+        <div><b>Mensuel — 3,99 € TTC/mois</b><span>7 jours d'essai gratuit avec carte bancaire obligatoire. À la fin des 7 jours, abonnement à 3,99 € TTC/mois avec prélèvement automatique, sauf résiliation avant la fin de l'essai.<br>CAP Conseil approfondi, objectifs multiples et statistiques avancées.<br><a href="#pricing" data-cap-checkout="monthly" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'essai 7 jours (Stripe TEST) ↗</a></span></div>
+        <div><b>Accès Premium à vie — 39,99 € TTC</b><span>Un seul paiement de 39,99 € TTC, sans abonnement ni renouvellement annuel.<br>Accès aux fonctionnalités Premium prévues pour cette offre.<br><a href="#pricing" data-cap-checkout="lifetime" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'achat à vie (Stripe TEST) ↗</a></span></div>
       </div>
       <div class="cap-v6-note">Paiements de démonstration uniquement : utilisez les numéros de carte de test Stripe, jamais votre vraie carte. La connexion entre Stripe et les droits Premium Supabase n'est pas encore finalisée : un paiement test ne débloque pas automatiquement les fonctionnalités. Les paiements réels restent désactivés.</div>
     </article>
@@ -3668,6 +3668,40 @@ cloudBtn.onclick = async () => {
         status.textContent='Connecté. Rechargez la page pour retrouver vos données synchronisées.';
       }catch(err){status.textContent='Connexion impossible : '+(err.message||err);}
     });
+  });
+})();
+</script>
+<script>
+/* CAP Budget Stripe TEST checkout: authenticated sessions only. */
+(function(){
+  document.addEventListener('click',async function(event){
+    const link=event.target.closest('[data-cap-checkout]');
+    if(!link)return;
+    event.preventDefault();
+    if(link.dataset.busy==='1')return;
+    const plan=link.getAttribute('data-cap-checkout');
+    if(plan!=='monthly'&&plan!=='lifetime')return;
+    if(!window.supabase?.createClient){alert('Supabase est indisponible. Rechargez la page.');return;}
+    const config=window.CAP_BUDGET_SUPABASE_SETUP;
+    if(!config?.defaultUrl||!config?.defaultKey){alert('Connexion Supabase indisponible.');return;}
+    link.dataset.busy='1';
+    const oldText=link.textContent;
+    link.textContent='Préparation du paiement TEST…';
+    try{
+      const client=window.supabase.createClient(config.defaultUrl,config.defaultKey);
+      const {data:{session},error:sessionError}=await client.auth.getSession();
+      if(sessionError||!session){alert('Connectez-vous à votre compte CAP Budget avant de tester Premium.');return;}
+      const {data:{user},error:userError}=await client.auth.getUser();
+      if(userError||!user){alert('Votre session a expiré. Reconnectez-vous.');return;}
+      const response=await fetch(config.defaultUrl+'/functions/v1/create-checkout-session',{
+        method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':config.defaultKey},
+        body:JSON.stringify({plan})
+      });
+      const result=await response.json();
+      if(!response.ok||!result.url||!result.url.startsWith('https://checkout.stripe.com/'))throw Error(result.error||'Paiement indisponible');
+      window.location.assign(result.url);
+    }catch(error){alert('Paiement TEST non lancé : '+(error.message||'Erreur inconnue'));}
+    finally{link.dataset.busy='0';link.textContent=oldText;}
   });
 })();
 </script>
