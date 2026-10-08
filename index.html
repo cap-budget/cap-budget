@@ -3958,4 +3958,38 @@ cloudBtn.onclick = async () => {
  });
 })();
 </script>
+<script>
+/* Sauvegarde commune CAP : export local sans écriture ni fusion risquée. */
+(function(){
+ 'use strict';
+ const keys=['capBudgetEngine','capBudgetGoals','capBudgetOperations','cap_state_v4'];
+ function exportAll(){
+  const payload={format:'cap-budget-sauvegarde-complete',version:1,createdAt:new Date().toISOString(),origin:location.origin,modules:{}};
+  let found=0;
+  keys.forEach(key=>{
+   const raw=localStorage.getItem(key);
+   if(raw===null)return;
+   try{payload.modules[key]=JSON.parse(raw);found++;}catch(_){payload.modules[key]={unparsedLocalValue:raw};found++;}
+  });
+  if(!found){alert('Aucune donnée locale trouvée à exporter sur cet appareil.');return;}
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download='CAP-Budget-sauvegarde-complete-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+  const status=document.getElementById('cap-unified-export-status');
+  if(status)status.textContent='Sauvegarde téléchargée : '+found+' module(s) local(aux). Les données de CAP Budget restent inchangées.';
+ }
+ window.addEventListener('load',()=>{
+  const anchor=document.getElementById('cap-financial-clarity')||document.getElementById('cap-budget-reconciliation');
+  if(!anchor||document.getElementById('cap-unified-export'))return;
+  const section=document.createElement('section');section.id='cap-unified-export';
+  section.style.cssText='margin:12px;padding:16px;border:1px solid #34d39966;border-radius:14px;background:#123027;color:#e5f9f0;font-size:13px;line-height:1.55';
+  const title=document.createElement('h3');title.textContent='💾 Sauvegarde commune de CAP Budget';title.style.margin='0 0 8px';
+  const explanation=document.createElement('p');explanation.textContent='Téléchargez dans un seul fichier les données locales du budget, des objectifs, des opérations et du cadran. Cette sauvegarde ne fusionne pas les calculs et ne remplace pas la sauvegarde cloud. Conservez ce fichier en lieu sûr : il contient vos informations financières.';
+  const button=document.createElement('button');button.type='button';button.textContent='Exporter une sauvegarde complète';button.style.cssText='border:1px solid #34d399;background:#14532d;color:white;border-radius:10px;padding:12px 14px;cursor:pointer;font:600 14px system-ui';button.addEventListener('click',exportAll);
+  const status=document.createElement('p');status.id='cap-unified-export-status';status.setAttribute('role','status');
+  section.append(title,explanation,button,status);anchor.insertAdjacentElement('afterend',section);
+ });
+})();
+</script>
 </body></html>
