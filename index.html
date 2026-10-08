@@ -1433,7 +1433,7 @@ body{font-size:19px!important;line-height:1.55}
 
     <article class="cap-v6-card" id="pricing">
       <span class="cap-v6-badge">💳 Offre Premium</span>
-      <h3 style="margin-top:8px">Choisissez votre formule Premium</h3>
+      <h3 id="cap-premium-pricing-title" style="margin-top:8px">Choisissez votre formule Premium</h3>
       <p id="cap-premium-pricing-status" role="status" hidden style="padding:10px;border:1px solid #34d39977;border-radius:10px;color:#a7f3d0;font-weight:700"></p>
       <p><strong>MODE TEST STRIPE :</strong> les boutons permettent de tester le parcours de paiement avec une carte fictive. Aucun débit réel. La vérification de l'accès Premium TEST s'effectue avec Stripe et Supabase après connexion au compte CAP Budget.</p>
       <div class="cap-v6-plan">
@@ -3726,6 +3726,12 @@ cloudBtn.onclick = async () => {
   const result=await response.json().catch(()=>null);
   if(!response.ok||!result)return;
   window.CAP_BUDGET_PREMIUM_TEST=!!result.premium;
+  const pricingTitle=document.getElementById('cap-premium-pricing-title');
+  if(pricingTitle)pricingTitle.textContent=result.premium?'Mon espace Premium':'Choisissez votre formule Premium';
+  const pricingIntro=document.querySelector('#pricing > p:not(#cap-premium-pricing-status)');
+  if(pricingIntro)pricingIntro.textContent=result.premium
+    ?'Bienvenue dans votre espace Premium TEST. Votre accès a été vérifié avec Stripe et Supabase. Retrouvez votre analyse approfondie dans la rubrique Statistiques.'
+    :'MODE TEST STRIPE : les boutons permettent de tester le paiement avec une carte fictive. Aucun débit réel. L’accès Premium TEST est vérifié avec Stripe et Supabase après connexion.';
   const pricingStatus=document.getElementById('cap-premium-pricing-status');
   if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Votre accès Premium TEST est actif. Profitez de votre analyse approfondie ci-dessus.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
   // Un compte Premium déjà actif ne doit pas être invité à payer une seconde fois.
