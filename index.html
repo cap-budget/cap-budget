@@ -3688,16 +3688,15 @@ cloudBtn.onclick = async () => {
     const oldText=link.textContent;
     link.textContent='Préparation du paiement TEST…';
     try{
-      const client=window.supabase.createClient(config.defaultUrl,config.defaultKey);
+      const savedConfig=JSON.parse(localStorage.getItem('cap_supabase_config_v1')||'null');
+      const client=window.supabase.createClient(savedConfig?.url||config.defaultUrl,savedConfig?.key||config.defaultKey);
       const {data:{session},error:sessionError}=await client.auth.getSession();
       if(sessionError||!session){alert('Connectez-vous à votre compte CAP Budget avant de tester Premium.');return;}
-      const {data:{user},error:userError}=await client.auth.getUser();
-      if(userError||!user){alert('Votre session a expiré. Reconnectez-vous.');return;}
-      const response=await fetch(config.defaultUrl+'/functions/v1/create-checkout-session',{
-        method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':config.defaultKey},
+      const response=await fetch((savedConfig?.url||config.defaultUrl)+'/functions/v1/create-checkout-session',{
+        method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token,'apikey':savedConfig?.key||config.defaultKey},
         body:JSON.stringify({plan})
       });
-      const result=await response.json();
+      const result=await response.json().catch(()=>({error:'Réponse serveur illisible (HTTP '+response.status+')'}));
       if(!response.ok||!result.url||!result.url.startsWith('https://checkout.stripe.com/'))throw Error(result.error||'Paiement indisponible');
       window.location.assign(result.url);
     }catch(error){alert('Paiement TEST non lancé : '+(error.message||'Erreur inconnue'));}
