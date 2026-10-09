@@ -1446,6 +1446,7 @@ body{font-size:19px!important;line-height:1.55}
     <article class="cap-v6-card">
       <span class="cap-v6-badge">💾 Données</span>
       <h3 style="margin-top:8px">Sauvegarde locale</h3>
+      <div class="cap-v6-note" style="margin-top:12px"><strong>🛡️ Sauvegarde de sécurité complète</strong><p>Avant de changer d’appareil ou de modifier l’application, télécharge une copie des données CAP enregistrées dans ce navigateur. Ce fichier peut contenir des informations personnelles : conserve-le dans un endroit privé. Cette sauvegarde ne comprend pas les données déjà stockées uniquement sur un serveur.</p><button type="button" id="cap-full-backup" class="btn">Télécharger ma sauvegarde CAP</button><p id="cap-full-backup-status" role="status" aria-live="polite"></p></div>
       <p>Dans cette version, les données sont enregistrées dans le navigateur utilisé. Elles ne se transfèrent pas automatiquement vers un autre téléphone ou ordinateur.</p>
       <div class="cap-v6-note"><strong>Exporter budget et objectifs</strong><br>Le bouton télécharge un fichier JSON contenant les revenus, les enveloppes du budget et les objectifs enregistrés dans cette partie. Garde ce fichier dans un endroit facile à retrouver.</div>
       <div class="cap-v6-actions">
@@ -4039,6 +4040,28 @@ cloudBtn.onclick = async () => {
    document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<script>
+/* Export local de sécurité : aucune suppression ni écriture des données existantes. */
+(function(){
+ document.addEventListener('click',function(event){
+  const button=event.target.closest('#cap-full-backup');if(!button)return;
+  const status=document.getElementById('cap-full-backup-status');
+  try{
+   const items={};for(let i=0;i<localStorage.length;i++){
+    const key=localStorage.key(i);
+    if(key&&(/^(cap[_-]|CAP[_-])/i.test(key))&&!/token|secret|auth|session|supabase_config|password|key/i.test(key))items[key]=localStorage.getItem(key);
+   }
+   if(!Object.keys(items).length){if(status)status.textContent='Aucune donnée CAP locale trouvée à sauvegarder.';return;}
+   const backup={format:'cap-local-backup-v1',created_at:new Date().toISOString(),scope:'Données CAP du navigateur uniquement ; hors authentification et données cloud',data:items};
+   const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+   const url=URL.createObjectURL(blob);const link=document.createElement('a');
+   link.href=url;link.download='cap-sauvegarde-locale-'+new Date().toISOString().slice(0,10)+'.json';
+   document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+   if(status)status.textContent='Sauvegarde locale téléchargée ('+Object.keys(items).length+' éléments). Conserve ce fichier en lieu sûr.';
+  }catch(error){if(status)status.textContent='Impossible de créer la sauvegarde : vérifie les autorisations du navigateur.';}
+ });
 })();
 </script>
 </body></html>
