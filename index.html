@@ -3939,6 +3939,11 @@ cloudBtn.onclick = async () => {
     updateSyncExplanation();
   }
   window.addEventListener('pageshow',reconcileOnReturn);
+  // Une modification du budget principal dans un autre onglet doit être relue.
+  // Aucun autre champ budgétaire n'est modifié par cette synchronisation.
+  window.addEventListener('storage',event=>{
+    if(event.key==='capBudgetEngine')reconcileOnReturn();
+  });
   document.addEventListener('visibilitychange',()=>{
     if(!document.hidden)reconcileOnReturn();
   });
