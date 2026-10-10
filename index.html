@@ -3909,11 +3909,11 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 <div id="cap-welcome" hidden role="dialog" aria-modal="true" aria-labelledby="cw-title">
   <div class="cw-panel">
     <h2 id="cw-title">Bienvenue sur CAP Budget ! 💚</h2>
-    <p>Votre compagnon simple et clair pour piloter vos dépenses, vos repas et vos projets de voyage en toute sérénité.</p>
+    <p>Bienvenue ! Choisissez comment vous souhaitez démarrer :</p>
     <div id="cw-choices">
-      <button type="button" class="cw-primary" id="cw-quick">⚡ Paramétrage rapide (recommandé)</button>
-      <button type="button" id="cw-detail">🛠️ Paramétrage détaillé</button>
-      <button type="button" class="cw-link" id="cw-demo">Découvrir la démo directe</button>
+      <button type="button" class="cw-primary" id="cw-quick">⚡ Paramétrage Rapide</button>
+      <button type="button" id="cw-detail">🛠️ Paramétrage Détaillé</button>
+      <button type="button" class="cw-link" id="cw-demo">👀 Découvrir la démo directe (Mode Test)</button>
     </div>
     <form id="cw-form" hidden>
       <div id="cw-fields"></div>
@@ -3932,13 +3932,12 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
  const stored=(()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(_){return null}})();
  const hasPriorData=(()=>{
    try{
-     for(let i=0;i<localStorage.length;i++){
-       const k=localStorage.key(i);
-       if(k===key||k==='capBudgetEngine'||k==='cap_supabase_config_v1')continue;
-       if(k&&/cap|budget|expense|operation|goal|charge|auth|supabase|sb-/i.test(k))return true;
-     }
-     return stored&&Object.keys(defaults).some(k=>Number(stored[k])!==defaults[k]);
-   }catch(_){return true}
+     // Seules les donnees utilisateur explicites comptent : les cles techniques
+     // creees automatiquement au chargement ne doivent pas masquer l'accueil.
+     const changedBudget=stored&&Object.keys(defaults).some(k=>Number(stored[k]??defaults[k])!==defaults[k]);
+     const nonEmpty=k=>{const value=JSON.parse(localStorage.getItem(k)||'null');return Array.isArray(value)?value.length>0:!!(value&&typeof value==='object'&&Object.keys(value).length);};
+     return !!changedBudget||nonEmpty('capBudgetGoals')||nonEmpty('capBudgetOperations');
+   }catch(_){return true;}
  })();
  if(localStorage.getItem(key)||hasPriorData)return;
  const show=(which)=>{
@@ -3980,10 +3979,12 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
      // Synchronise le moteur existant via ses champs et son bouton de calcul.
      for(const [k,v] of Object.entries(next)){const input=document.getElementById('cap-'+k);if(input)input.value=String(v);}
      document.getElementById('cap-calc-btn')?.click();
+     document.getElementById('cap-save-btn')?.click();
      if(goalName){
        const name=document.getElementById('v6-goal-name'),target=document.getElementById('v6-goal-target');
        if(name&&target){name.value=goalName;target.value=String(goalTarget);document.getElementById('v6-add-goal')?.click();}
      }
+     // Ne marquer l'accueil termine qu'apres enregistrement du budget.
      close();
      // Les vues existantes relisent le moteur au rechargement.
      location.reload();
