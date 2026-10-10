@@ -4098,5 +4098,13 @@ body :is(a,button,input,select,textarea,[role="button"]):focus-visible{outline:3
  body :is(.card,.cap-v6-card,.cap-v8-card){min-width:0;overflow-wrap:anywhere}
  body :is(.amount,.hero-amount,.big-number,.stat-value,.dial-value){font-size:clamp(28px,7vw,34px)}
 }
+
+/* CAP ACCESSIBILITÉ MOBILE : tailles minimales même dans les composants à styles dédiés. */
+body :is(.app,.card,.cap-v6-card,.cap-v8-card,.cap-v6-note,.cap-v6-plan,.cap-v6-row,.cap-v6-row strong,.cap-v6-row b,.tabbar,.tabbar-inner,.brand-sub,.muted,.hint,.help-text){font-size:18px;}
+body :is(p,label,li,small,summary,legend,td,th,dt,dd,figcaption,blockquote,caption,output,time){font-size:clamp(18px,1em,24px);}
+body :is(h2,h3,.cap-v6-card h3,.cap-v8-card h3){font-size:clamp(22px,3vw,30px);}
+body :is(button,.btn,[role="button"],input,select,textarea){font-size:18px;min-height:52px;}
+body :is(.amount,.hero-amount,.big-number,.stat-value,.dial-value,.cap-simple-summary strong,#cap-simple-income,#cap-simple-planned,#cap-simple-margin){font-size:clamp(28px,5vw,36px);font-weight:700;}
+@media(max-width:600px){body :is(button,.btn,[role="button"],input,select,textarea){min-height:54px}body :is(.app,.card,.cap-v6-card,.cap-v8-card){overflow-wrap:anywhere}body :is(.tabbar,.tabbar-inner){font-size:18px}}
 </style>
 </body></html>
