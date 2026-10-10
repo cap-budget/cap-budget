@@ -1402,7 +1402,7 @@ body{font-size:19px!important;line-height:1.55}
     <article class="cap-v6-card">
       <span class="cap-v6-badge">🎯 Objectifs</span>
       <h3 style="margin-top:8px">Mes projets</h3>
-      <div class="cap-v6-note" style="margin-top:8px">CAP Conseil affiche maintenant l’effort du projet et la marge restante directement ici.</div>
+      
       <p>Ajoutez plusieurs objectifs et suivez leur progression.</p>
       <div class="cap-v6-form">
         <div class="cap-v6-form-row">
@@ -3727,13 +3727,13 @@ cloudBtn.onclick = async () => {
   if(!response.ok||!result)return;
   window.CAP_BUDGET_PREMIUM_TEST=!!result.premium;
   const pricingTitle=document.getElementById('cap-premium-pricing-title');
-  if(pricingTitle)pricingTitle.textContent=result.premium?'Mon espace Premium':'Choisissez votre formule Premium';
+  if(pricingTitle){pricingTitle.hidden=!!result.premium;pricingTitle.textContent='Choisissez votre formule Premium';}
   const pricingIntro=document.querySelector('#pricing > p:not(#cap-premium-pricing-status)');
   if(pricingIntro)pricingIntro.textContent=result.premium
     ?'✓ Premium TEST actif · Analyse approfondie débloquée'
     :'MODE TEST STRIPE : les boutons permettent de tester le paiement avec une carte fictive. Aucun débit réel. L’accès Premium TEST est vérifié avec Stripe et Supabase après connexion.';
   const pricingStatus=document.getElementById('cap-premium-pricing-status');
-  if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Premium TEST déjà actif sur ce compte : les boutons « S’abonner » et « Acheter » sont masqués pour éviter un second paiement. Pour tester une nouvelle souscription, connectez-vous avec un autre compte CAP Budget sans abonnement. Aucun paiement réel n’est activé.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
+  if(pricingStatus){pricingStatus.hidden=!!result.premium;pricingStatus.textContent='Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
   // Un compte Premium déjà actif ne doit pas être invité à payer une seconde fois.
   document.querySelectorAll('[data-cap-checkout]').forEach(link=>{
     link.hidden=!!result.premium;
@@ -3742,9 +3742,7 @@ cloudBtn.onclick = async () => {
   });
   const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans)pricingPlans.hidden=!!result.premium;
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
-  if(pricingNote)pricingNote.textContent=result.premium
-    ?'Votre accès Premium TEST est confirmé. Les boutons de paiement sont volontairement masqués sur ce compte déjà abonné. Les paiements réels restent désactivés.'
-    :'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. L’accès Premium TEST est vérifié après connexion. Les paiements réels restent désactivés.';
+  if(pricingNote){pricingNote.hidden=!!result.premium;pricingNote.textContent=result.premium?'':'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. Les paiements réels restent désactivés.';}
   const insights=document.getElementById('cap-premium-insights');
   if(insights){
     insights.hidden=!result.premium;
@@ -3937,36 +3935,7 @@ cloudBtn.onclick = async () => {
   });
 })();
 </script>
-<script>
-/* CAP Budget : synthèse financière fiable, lecture seule, sans toucher aux données. */
-(function(){
- function numberOf(id){const e=document.getElementById(id);if(!e)return null;const n=Number(e.textContent.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.'));return Number.isFinite(n)?n:null;}
- const fmt=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
- function render(){
-  const income=numberOf('v8-income'),salary=numberOf('v-salary');
-  const section=document.getElementById('cap-financial-clarity');
-  if(!section)return;
-  if(income===null||income<=0){section.textContent='Synthèse disponible lorsque le budget principal est renseigné.';return;}
-  const planned=numberOf('v8-planned');
-  const mainMargin=numberOf('v8-margin');
-  section.replaceChildren();
-  const h=document.createElement('h3');h.textContent='🧭 Comprendre mes deux soldes';h.style.margin='0 0 10px';section.append(h);
-  const p=document.createElement('p');p.style.margin='0 0 8px';p.textContent='Revenu de référence : '+fmt(income)+'. '+(salary!==null&&Math.abs(salary-income)<.01?'Les deux modules utilisent le même revenu.':'Les revenus des modules sont différents : vérifiez la synchronisation.');section.append(p);
-  const a=document.createElement('p');a.style.margin='0 0 8px';a.textContent='Budget principal : '+(planned!==null?'enveloppes prévues '+fmt(planned)+' ; ':'')+(mainMargin!==null?'marge prévisionnelle '+fmt(mainMargin)+'. ':'')+'Ce calcul retire toutes les enveloppes prévues (charges, courses, loisirs, projets et autres) du revenu. C’est le repère pour planifier de nouvelles dépenses.';section.append(a);
-  const b=document.createElement('p');b.style.margin='0 0 8px';const dialRemain=numberOf('dial-value');b.textContent='Reste à vivre du cadran : '+(dialRemain!==null?fmt(dialRemain)+'. ':'')+'Il déduit les charges mensuelles, les opérations de ce module et son épargne, sans reprendre toutes les enveloppes prévues du budget principal.';section.append(b);
-  if(mainMargin!==null&&dialRemain!==null){const gap=document.createElement('p');gap.style.margin='0 0 8px';gap.textContent='Écart entre les deux soldes : '+fmt(Math.abs(dialRemain-mainMargin))+'. Cet écart ne représente ni une dépense manquante ni de l’argent supplémentaire : les charges prises en compte diffèrent.';section.append(gap);}
-  const warning=document.createElement('strong');warning.style.color='#fcd34d';warning.textContent='Important : ne pas additionner ces deux soldes et ne pas considérer le reste à vivre du cadran comme un montant entièrement disponible.';section.append(warning);
- }
- window.addEventListener('load',()=>{
-  const anchor=document.getElementById('cap-budget-reconciliation');
-  if(!anchor||document.getElementById('cap-financial-clarity'))return;
-  const panel=document.createElement('section');panel.id='cap-financial-clarity';panel.setAttribute('aria-label','Comprendre les soldes CAP Budget');panel.style.cssText='margin:12px;padding:16px;border:1px solid #34d39966;border-radius:14px;background:#123027;color:#e5f9f0;font-size:13px;line-height:1.55';
-  anchor.insertAdjacentElement('afterend',panel);render();
-  ['v8-income','v-salary','v8-planned','v8-margin' ,'dial-value'].forEach(id=>{const e=document.getElementById(id);if(e)new MutationObserver(render).observe(e,{childList:true,subtree:true,characterData:true});});
-  window.addEventListener('capBudgetChanged',render);
- });
-})();
-</script>
+
 <script>
 /* Sauvegarde commune CAP : export local sans écriture ni fusion risquée. */
 (function(){
@@ -4062,6 +4031,9 @@ cloudBtn.onclick = async () => {
 .cap-simple-summary>div{background:#102b23;border:1px solid #34d39955;border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:5px}
 .cap-simple-summary small{color:#c6e9dd;font-size:12px}.cap-simple-summary strong{font-size:clamp(19px,3vw,29px);color:#fff}
 .cap-v6-kpis,.cap-v8-kpis,#cap-financial-clarity,#cap-budget-reconciliation{display:none!important}
+/* Démonstration : masquer les anciens doublons visuels sans supprimer les moteurs de calcul. */
+.cap-v8>.cap-v8-card:first-child>.cap-v8-kpis{display:none!important}
+
 @media(max-width:600px){.cap-simple-summary{grid-template-columns:1fr;gap:8px}}
 </style>
 <script>
