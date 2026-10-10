@@ -993,10 +993,20 @@ body{font-size:19px!important;line-height:1.55}
   const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
   const readJSON=(k,f)=>{try{const v=JSON.parse(localStorage.getItem(k)||'');return v==null?f:v}catch(e){return f}};
   const E=()=>readJSON('capBudgetEngine',{})||{}; const G=()=>readJSON('capBudgetGoals',[]); const O=()=>readJSON('capBudgetOperations',[]); const el=id=>document.getElementById(id);
+  // Calcul commun des efforts mensuels : date cible incluse, même arrondi partout.
+  window.CAP_GOAL_MONTHLY_EFFORT=function(remaining,date){
+    const amount=Math.max(0,Number(remaining)||0);
+    if(!amount||!/^\d{4}-\d{2}-\d{2}$/.test(String(date||'')))return 0;
+    const now=new Date(),today=new Date(now.getFullYear(),now.getMonth(),now.getDate(),12);
+    const target=new Date(date+'T12:00:00');
+    if(Number.isNaN(target.getTime()))return 0;
+    const days=Math.max(0,Math.round((target-today)/86400000));
+    return Math.ceil(amount/Math.max(1,days/30.44));
+  };
   const dateFmt=d=>d?new Date(d+'T12:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'}):'—';
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   function budget(){const b=E();const v={income:+b.income||0,fixed:+b.fixed||0,food:+b.food||0,leisure:+b.leisure||0,projects:+b.projects||0,other:+b.other||0};v.total=v.fixed+v.food+v.leisure+v.projects+v.other;v.remain=v.income-v.total;v.week=v.income?Math.max(0,v.remain/4.33):0;v.rate=v.income?Math.round(v.total/v.income*100):0;return v}
-  function goal(){const g=G()[0];if(!g)return null;const target=+((g.target??g.amount)??0)||0,saved=+((g.saved??g.current)??0)||0,remaining=Math.max(0,target-saved),date=g.date||g.targetDate||'';let monthly=0;if(date&&remaining){const n=new Date(),d=new Date(date+'T12:00:00');const days=Math.max(0,Math.round((d-n)/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44))}return{g,target,saved,remaining,date,monthly,pct:target?Math.min(100,Math.round(saved/target*100)):0}}
+  function goal(){const g=G()[0];if(!g)return null;const target=+((g.target??g.amount)??0)||0,saved=+((g.saved??g.current)??0)||0,remaining=Math.max(0,target-saved),date=g.date||g.targetDate||'';let monthly=0;if(date&&remaining){monthly=window.CAP_GOAL_MONTHLY_EFFORT(remaining,date)}return{g,target,saved,remaining,date,monthly,pct:target?Math.min(100,Math.round(saved/target*100)):0}}
   function render(){const b=budget(),g=goal();const remain=Math.round(b.remain*100)/100;el('dash-margin').textContent=money(remain);el('dash-income-total').textContent=money(b.income);el('dash-planned-total').textContent=money(b.total);el('dash-margin-state').textContent=remain>=0?'Positive':'À surveiller';el('dash-margin-note').textContent=remain>=0?'Après les montants renseignés dans ton budget.':'Les dépenses dépassent les revenus renseignés.';el('dash-week').textContent=money(b.week);el('dash-rate').textContent=b.rate+' %';
     if(g){el('dash-goal-name').textContent=g.g.name||'Projet principal';el('dash-goal-saved').textContent=money(g.saved);el('dash-goal-target').textContent=money(g.target);el('dash-goal-pct').textContent=g.pct+'%';el('dash-goal-progress').style.width=g.pct+'%';el('dash-goal-remaining').textContent=money(g.remaining);el('dash-goal-date').textContent=dateFmt(g.date);el('dash-effort').textContent=g.monthly?money(g.monthly)+'/mois':'—';el('dash-counsel-project-name').textContent=g.g.name||'Projet principal';el('dash-counsel-project-meta').textContent=money(g.remaining)+' restent à financer'+(g.monthly?' · '+money(g.monthly)+'/mois':'');el('dash-counsel-text').textContent=remain>=0?'Votre budget conserve un solde positif et votre projet principal est pris en compte. Après l’effort indicatif du projet, il resterait '+money(Math.max(0,remain-g.monthly))+' de solde.':'Votre budget dépasse actuellement les revenus renseignés.'}
     else{el('dash-goal-name').textContent='Aucun projet principal';el('dash-goal-sub').textContent='Ajoutez un objectif pour suivre sa progression.';el('dash-goal-saved').textContent=money(0);el('dash-goal-target').textContent=money(0);el('dash-goal-pct').textContent='0%';el('dash-goal-progress').style.width='0%';el('dash-goal-remaining').textContent=money(0);el('dash-goal-date').textContent='—';el('dash-effort').textContent='—';el('dash-counsel-project-name').textContent='Aucun projet principal';el('dash-counsel-project-meta').textContent='—';el('dash-counsel-text').textContent='Ajoutez un objectif pour que CAP Conseil puisse suivre sa progression.'}
@@ -1534,8 +1544,7 @@ body{font-size:19px!important;line-height:1.55}
         const remaining=Math.max(0,(Number(g.target)||0)-(Number(g.saved)||0));
         let monthly=0;
         if(g.date){
-          const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
-          monthly=Math.ceil(remaining/Math.max(1,days/30.44));
+          monthly=window.CAP_GOAL_MONTHLY_EFFORT(remaining,g.date);
         }
         const marginAfter=monthly?Math.max(0,b.remain-monthly):b.remain;
         advice.textContent='Votre budget conserve un solde positif et votre projet principal est pris en compte.';
@@ -1566,8 +1575,7 @@ body{font-size:19px!important;line-height:1.55}
       const remaining=Math.max(0,target-saved);
       let monthly=0;
       if(g.date){
-        const days=Math.max(0,Math.round((new Date(g.date+'T00:00:00')-new Date())/86400000));
-        monthly=Math.ceil(remaining/Math.max(1,days/30.44));
+        monthly=window.CAP_GOAL_MONTHLY_EFFORT(remaining,g.date);
       }
       const marginAfter=monthly?b.remain-monthly:b.remain;
       const planTone=monthly && marginAfter<0 ? 'warn' : '';
