@@ -3729,4 +3729,30 @@ button, input, select, .btn, [role="button"] {
   min-height: 48px !important;
 }
 </style>
+
+<script id="cap-dashboard-actions-fix">
+/* Raccourcis fiables du tableau de bord : aucune écriture dans les données. */
+(function(){
+  document.addEventListener('click',function(event){
+    const button=event.target.closest('[data-dash-action]');
+    if(!button)return;
+    event.preventDefault();event.stopImmediatePropagation();
+    const action=button.dataset.dashAction;
+    const byId=id=>document.getElementById(id);
+    const jump=(id,focus)=>{const node=byId(id);if(!node)return false;node.scrollIntoView({behavior:'smooth',block:'center'});if(focus)node.focus({preventScroll:true});return true;};
+    const tab=(name)=>{const button=byId('nav-'+name);if(button)button.click();};
+    if(action==='budget'){tab('budget');setTimeout(()=>jump('tab-budget'),120);}
+    else if(action==='expense'){tab('budget');setTimeout(()=>jump('f-amount',true),120);}
+    else if(action==='goal'){jump('v6-goal-name',true);}
+    else if(action==='analyze'){byId('v6-refresh')?.click();jump('v6-advice');}
+    else if(action==='stats'){tab('stats');setTimeout(()=>jump('tab-stats'),120);}
+    else if(action==='advice'){jump('v6-advice');}
+    else if(action==='simulate'){
+      const field=byId('v7-sim-amount')||document.querySelector('.cap-v7-v2-sim input[type="number"]')||document.querySelector('[id*="sim"][type="number"]');
+      if(field){field.scrollIntoView({behavior:'smooth',block:'center'});field.focus({preventScroll:true});}
+      else {const area=document.querySelector('.cap-v7-v2-sim')||document.querySelector('[class*="sim-card"]');if(area)area.scrollIntoView({behavior:'smooth',block:'center'});else jump('v6-advice');}
+    }
+  },true);
+})();
+</script>
 </body></html>
