@@ -4,6 +4,13 @@
 <meta charset="UTF-8"><link rel="manifest" href="manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CAP Budget">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon.svg">
 <title>CAP Budget, repas et voyages</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3728,6 +3735,22 @@ button, input, select, .btn, [role="button"] {
   padding: 12px 18px !important;
   min-height: 48px !important;
 }
+
+/* CAP mobile : grille mono-colonne et cibles tactiles sans modifier les donnees */
+@media (max-width: 600px) {
+  html, body { width:100%; max-width:100%; overflow-x:clip; }
+  body :is(.app, main, .container, .cap-v6-shell, .cap-v7-shell, .cap-v8-shell, .cap-v9-shell) { max-width:100%; min-width:0; }
+  .app { padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); }
+  body :is(.top, .inline, .cap-v6-grid, .cap-v7-grid, .cap-v8-grid, .cap-v9-grid, .stats, .grid, .form-row) { min-width:0; }
+  body :is(.cap-v6-grid, .cap-v7-grid, .cap-v8-grid, .cap-v9-grid, .grid) { grid-template-columns:minmax(0,1fr) !important; }
+  body :is(.card, .cap-v6-card, .cap-v7-card, .cap-v8-card, .cap-v9-card, .hero) { max-width:100%; min-width:0; overflow-wrap:anywhere; }
+  body :is(input, select, textarea, button, .btn, [role="button"]) { min-height:48px; max-width:100%; touch-action:manipulation; }
+  body :is(input, select, textarea) { width:100%; min-width:0; font-size:16px; }
+  body :is(.inline, .form-row) { flex-wrap:wrap; }
+  body :is(.inline > *, .form-row > *) { min-width:0; }
+  body :is(h1,h2,h3,p,span,strong) { overflow-wrap:anywhere; }
+  body img, body svg { max-width:100%; }
+}
 </style>
 
 <script id="cap-dashboard-actions-fix">
@@ -3754,5 +3777,11 @@ button, input, select, .btn, [role="button"] {
     }
   },true);
 })();
+</script>
+<script>
+/* PWA: enregistrement dans le perimetre GitHub Pages de CAP Budget. */
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(() => {}));
+}
 </script>
 </body></html>
