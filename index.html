@@ -1601,351 +1601,6 @@ body{font-size:19px!important;line-height:1.55}
 </script>
 
 
-<section class="cap-v7" aria-label="CAP Décision v2">
-  <article class="cap-v7-card">
-    <div class="cap-v7-head">
-      <div>
-        <span class="cap-v6-badge">🧠 CAP Décision v2</span>
-        <h2 style="margin-top:8px">Décider avec ton vrai budget</h2>
-        <p>CAP calcule la situation à partir de tes revenus, charges fixes, dépenses réelles, épargne et projets enregistrés.</p>
-      </div>
-    </div>
-
-    <div class="cap-v7-v2-topline">
-      <button class="cap-v7-v2-tag" type="button" data-v7-insight="real" aria-pressed="true">💰 Calcul réel</button>
-      <button class="cap-v7-v2-tag" type="button" data-v7-insight="simulation" aria-pressed="false">🔮 Simulation « Et si ? »</button>
-      <button class="cap-v7-v2-tag" type="button" data-v7-insight="projects" aria-pressed="false">🎯 Impact projets</button>
-      <button class="cap-v7-v2-tag" type="button" data-v7-insight="data" aria-pressed="false">💾 Données locales</button>
-    </div>
-    <div class="cap-v7-insight" id="v7-insight" aria-live="polite"><h3>💰 Détail de ton calcul réel</h3><p>CAP compare ton revenu aux montants prévus dans ton budget.</p><div class="cap-v7-insight-grid"><div class="cap-v7-insight-item"><small>Revenus</small><strong>2 500,00&nbsp;€</strong></div><div class="cap-v7-insight-item"><small>Charges fixes</small><strong>1 100,00&nbsp;€</strong></div><div class="cap-v7-insight-item"><small>Dépenses prévues</small><strong>600,00&nbsp;€</strong></div><div class="cap-v7-insight-item"><small>Projets / épargne</small><strong>200,00&nbsp;€</strong></div></div><div class="cap-v7-insight-list"><div class="cap-v7-insight-row"><span>Total déjà prévu</span><strong>1 900,00&nbsp;€</strong></div><div class="cap-v7-insight-row"><span>Reste après ces montants</span><strong>600,00&nbsp;€</strong></div><div class="cap-v7-insight-row"><span>Repère par semaine</span><strong>168,00&nbsp;€</strong></div><div class="cap-v7-insight-row"><span>Part du revenu engagée</span><strong>76 %</strong></div></div></div>
-
-    <div class="cap-v7-grid">
-      <div>
-        <div class="cap-v7-question">
-          <label for="v7-question">Que veux-tu savoir ?</label>
-          <select id="v7-question">
-            <option value="spend">Puis-je me permettre cette dépense ?</option>
-            <option value="week">Combien puis-je dépenser cette semaine ?</option>
-            <option value="save">Combien puis-je mettre de côté ?</option>
-            <option value="goal">Comment avancer vers mon objectif ?</option>
-          </select>
-          <div id="v7-amount-wrap" style="margin-top:10px">
-            <label for="v7-amount">Montant de la dépense (€)</label>
-            <input id="v7-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 80">
-          </div>
-          <div class="cap-v7-actions">
-            <button class="cap-v7-btn primary" id="v7-analyze" type="button">Analyser</button>
-            <button class="cap-v7-btn" id="v7-clear" type="button">Effacer</button>
-          </div>
-        </div>
-        <div class="cap-v7-metrics">
-          <div class="cap-v7-metric"><small>Reste réel</small><strong id="v7-remain">600,00&nbsp;€</strong></div>
-          <div class="cap-v7-metric"><small>Enveloppe / semaine</small><strong id="v7-weekly">168,00&nbsp;€</strong></div>
-          <div class="cap-v7-metric"><small>Budget engagé</small><strong id="v7-rate">76 %</strong></div>
-        </div>
-      </div>
-
-      <div class="cap-v7-card cap-v7-answer" id="v7-answer">
-        <div class="icon">💡</div>
-        <h3>Que veux-tu vérifier ?</h3>
-        <p>Choisis une question dans le menu. CAP s'appuiera sur les montants de ton budget affichés à gauche.</p>
-        <div class="cap-v7-empty-guide">
-          <div class="cap-v7-guide-row"><b>1</b><span>Sélectionne ce que tu veux savoir.</span></div>
-          <div class="cap-v7-guide-row"><b>2</b><span>Pour une dépense, saisis son montant.</span></div>
-          <div class="cap-v7-guide-row"><b>3</b><span>Clique sur <strong>Analyser</strong> pour voir le résultat ici.</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cap-v7-v2-sim" aria-label="Simulateur Et si ?">
-      <div class="cap-v7-v2-sim-head">
-        <div>
-          <h3>🔮 Et si je dépensais… ?</h3>
-          <p>Teste une dépense avant de la faire. CAP montre immédiatement ce qu'il resterait et l'effet sur ton épargne et ton projet.</p>
-        </div>
-      </div>
-      <div class="cap-v7-v2-quick" aria-label="Montants rapides">
-        <button type="button" data-v2-quick="20">20 €</button>
-        <button type="button" data-v2-quick="50">50 €</button>
-        <button type="button" data-v2-quick="100">100 €</button>
-        <button type="button" data-v2-quick="200">200 €</button>
-      </div>
-      <div class="cap-v7-v2-sim-row">
-        <div>
-          <label for="v7-sim-amount" style="display:block;color:#9fb0c4;font-size:10px;margin-bottom:6px">Dépense simulée</label>
-          <input id="v7-sim-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 50">
-        </div>
-        <button class="cap-v7-v2-sim-btn" id="v7-sim-analyze" type="button">Simuler</button>
-      </div>
-      <div class="cap-v7-v2-answer" id="v7-sim-answer" data-tone="good">
-        <h4>Teste une dépense sans l’ajouter à tes dépenses</h4>
-        <p>Choisis un montant rapide ou saisis le tien, puis clique sur <strong>Simuler</strong>. Tu verras le solde qu’il te resterait et l’effet éventuel sur ton projet.</p>
-        <div class="cap-v7-sim-current">Solde disponible maintenant : <strong id="v7-sim-remain">600,00&nbsp;€</strong></div>
-        <div class="cap-v7-detail-foot" style="margin-top:8px">La simulation ne crée pas de dépense réelle.</div>
-      </div>
-    </div>
-
-    <div class="cap-v7-history">
-      <h3>Dernières analyses</h3>
-      <div id="v7-history"><div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div></div>
-    </div>
-    <div class="cap-v7-v2-source">Les calculs utilisent le budget principal et les données enregistrées dans le navigateur. Ils sont indicatifs et ne constituent pas un conseil financier personnalisé.</div>
-  </article>
-</section>
-
-<script>
-(function(){
-  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
-  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
-  const readJSON=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key)||'');return v==null?fallback:v}catch(e){return fallback}};
-  const currentMonth=()=>new Date().toISOString().slice(0,7);
-  const core=()=>readJSON('cap_state_v4',null);
-  const engine=()=>readJSON('capBudgetEngine',null);
-  const oldGoals=()=>readJSON('capBudgetGoals',[]);
-  const normalizeHistory=h=>{
-    const seen=new Set();
-    return (Array.isArray(h)?h:[]).filter(item=>item&&typeof item==='object').filter(item=>{
-      const key=String(item.q??'')+'\u0000'+String(item.a??'');
-      if(seen.has(key)) return false;
-      seen.add(key);
-      return true;
-    }).slice(0,8);
-  };
-  const HISTORY_KEY='capAdviceHistory';
-  const HASH_PREFIX='#CAP_HISTORY:';
-  const readHashHistory=()=>{
-    try{
-      if(typeof location==='undefined' || typeof location.hash!=='string' || !location.hash.startsWith(HASH_PREFIX)) return [];
-      const v=JSON.parse(decodeURIComponent(location.hash.slice(HASH_PREFIX.length)));
-      return Array.isArray(v)?v:[];
-    }catch(e){return []}
-  };
-  const writeHashHistory=h=>{
-    try{
-      const clean=normalizeHistory(h);
-      const hash=HASH_PREFIX+encodeURIComponent(JSON.stringify(clean));
-      if(location.hash!==hash) history.replaceState(null,'',hash);
-    }catch(e){}
-  };
-  const getHistory=()=>{
-    const local=normalizeHistory(readJSON(HISTORY_KEY,[]));
-    const hash=normalizeHistory(readHashHistory());
-    const merged=normalizeHistory([...hash,...local]);
-    try{localStorage.setItem(HISTORY_KEY,JSON.stringify(merged));}catch(e){}
-    writeHashHistory(merged);
-    return merged;
-  };
-  const saveHistory=h=>{
-    const clean=normalizeHistory(h);
-    try{localStorage.setItem(HISTORY_KEY,JSON.stringify(clean));}catch(e){}
-    writeHashHistory(clean);
-  };
-
-  function actualBudget(){
-    /* CAP Décision doit utiliser la même base budgétaire que le centre de pilotage.
-       On privilégie donc capBudgetEngine (source affichée dans CAP Budget) et on
-       conserve cap_state_v4 uniquement pour retrouver d’éventuelles informations
-       de voyage nécessaires à l’affichage du projet. */
-    const v=engine()||{};
-    const income=Number(v.income)||0;
-    const recurring=Number(v.fixed)||0;
-    const variable=(Number(v.food)||0)+(Number(v.leisure)||0)+(Number(v.other)||0);
-    const tripSaved=Number(v.projects)||0;
-    const committed=recurring+variable+tripSaved;
-    const remain=Math.round((income-committed)*100)/100;
-    const now=new Date(), lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-    const daysLeft=Math.max(1,lastDay-now.getDate()+1);
-    const weeksLeft=Math.max(1,daysLeft/7);
-    const s=core();
-    return {
-      source:'pilotage',
-      salary:income,
-      recurring,
-      variable,
-      tripSaved,
-      committed,
-      remain,
-      daysLeft,
-      weekly:Math.max(0,remain/weeksLeft),
-      rate:income?Math.round(committed/income*100):0,
-      state:(s && typeof s==='object')?s:null
-    };
-  }
-
-  function projectList(b){
-    const out=[];
-    if(b.state && b.state.trip){
-      const t=b.state.trip;
-      const saved=Array.isArray(t.contribs)?t.contribs.reduce((a,c)=>a+(Number(c.amount)||0),0):0;
-      out.push({name:t.dest||'Projet principal',target:Number(t.goal)||0,saved,date:t.date||'',type:'Voyage'});
-    }
-    oldGoals().forEach(g=>out.push({name:g&&g.name||'Objectif',target:Number(g&&g.target)||0,saved:Number(g&&g.saved)||0,date:g&&g.date||'',type:'Objectif'}));
-    return out.filter(x=>x.target>0);
-  }
-
-  function renderProjectImpact(b,after){
-    const el=document.getElementById('v7-project-impact');
-    if(!el) return;
-    const projects=projectList(b);
-    if(!projects.length){
-      el.innerHTML='<b>🎯 Aucun projet avec échéance disponible.</b><span>Ajoute un voyage ou un objectif pour que CAP calcule précisément l’impact d’une nouvelle dépense.</span>';
-      return;
-    }
-    const p=projects[0], remaining=Math.max(0,p.target-p.saved);
-    let monthly=0, fit='';
-    if(p.date){
-      const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));
-      const months=Math.max(1,days/30.44);
-      monthly=Math.ceil(remaining/months);
-      fit=after>=monthly?'Le solde simulé couvre encore l’effort mensuel indicatif nécessaire.':'Le solde simulé devient inférieure à l’effort mensuel indicatif nécessaire.';
-    } else fit='Aucune date cible : CAP conserve le montant restant sans inventer d’échéance.';
-    el.innerHTML=`<b>🎯 ${esc(p.type)} : ${esc(p.name)}</b><span>Reste à financer : <strong>${money(remaining)}</strong>${monthly?' · effort indicatif : <strong>'+money(monthly)+'/mois</strong>':''}<br>${esc(fit)}</span>`;
-  }
-
-  function setAnswer(title,body,icon,tone){
-    document.getElementById('v7-answer').innerHTML=`<div class="icon">${icon}</div><h3>${title}</h3><p>${body}</p>`;
-    document.getElementById('v7-answer').dataset.tone=tone||'';
-  }
-
-  let activeInsight='real';
-  function renderInsight(key){
-    activeInsight=key;
-    document.querySelectorAll('[data-v7-insight]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.v7Insight===key)));
-    const panel=document.getElementById('v7-insight'), b=actualBudget();
-    const metric=(label,value)=>`<div class="cap-v7-insight-item"><small>${label}</small><strong>${value}</strong></div>`;
-    if(key==='real'){
-      panel.innerHTML=`<h3>💰 Détail de ton calcul réel</h3><p>CAP compare ton revenu aux montants prévus dans ton budget.</p><div class="cap-v7-insight-grid">${metric('Revenus',money(b.salary))}${metric('Charges fixes',money(b.recurring))}${metric('Dépenses prévues',money(b.variable))}${metric('Projets / épargne',money(b.tripSaved))}</div><div class="cap-v7-insight-list"><div class="cap-v7-insight-row"><span>Total déjà prévu</span><strong>${money(b.committed)}</strong></div><div class="cap-v7-insight-row"><span>Reste après ces montants</span><strong>${money(b.remain)}</strong></div><div class="cap-v7-insight-row"><span>Repère par semaine</span><strong>${money(b.weekly)}</strong></div><div class="cap-v7-insight-row"><span>Part du revenu engagée</span><strong>${b.rate} %</strong></div></div>`;
-    }else if(key==='simulation'){
-      panel.innerHTML=`<h3>🔮 Détail de la simulation</h3><p>Choisis un montant dans le simulateur ci-dessous. CAP le soustrait temporairement à ton solde et affiche ce qu’il resterait. La simulation n’ajoute pas de dépense réelle.</p><div class="cap-v7-insight-grid">${metric('Solde maintenant',money(b.remain))}${metric('Repère par semaine',money(b.weekly))}${metric('Montants proposés','20 · 50 · 100 · 200 €')}${metric('Dépense enregistrée','Non')}</div><button class="cap-v7-insight-link" type="button" id="v7-insight-goto-sim">Aller au simulateur ↓</button>`;
-      document.getElementById('v7-insight-goto-sim').onclick=()=>{document.getElementById('v7-sim-amount').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('v7-sim-amount').focus({preventScroll:true});};
-    }else if(key==='projects'){
-      const projects=projectList(b);
-      const details=projects.length?projects.map(p=>{const remaining=Math.max(0,p.target-p.saved);let monthly=0;if(p.date){const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44));}return `<div class="cap-v7-insight-row"><span>🎯 ${esc(p.name)} · ${money(p.saved)} épargnés sur ${money(p.target)}${p.date?' · date cible '+new Date(p.date+'T00:00:00').toLocaleDateString('fr-FR'):''}</span><strong>Reste ${money(remaining)}${monthly?' · '+money(monthly)+'/mois':''}</strong></div>`;}).join(''):'<div class="cap-v7-insight-row"><span>Aucun projet enregistré.</span><strong>—</strong></div>';
-      panel.innerHTML=`<h3>🎯 Détail de l’impact sur tes projets</h3><p>La simulation compare ton solde avant et après l’achat. Elle estime aussi si l’effort mensuel du projet reste couvert, sans modifier l’argent déjà enregistré pour ce projet.</p><div class="cap-v7-insight-list">${details}</div>`;
-    }else{
-      const operations=readJSON('capBudgetOperations',[]), analyses=readJSON(HISTORY_KEY,[]);
-      panel.innerHTML=`<h3>💾 Détail des données utilisées</h3><p>Les informations de budget de cette version sont conservées dans le navigateur de cet appareil. Une simulation ne crée pas d’opération réelle. Tu peux exporter une copie depuis la partie Budget.</p><div class="cap-v7-insight-grid">${metric('Opérations réelles',String(Array.isArray(operations)?operations.length:0))}${metric('Analyses conservées',String(Array.isArray(analyses)?analyses.length:0))}${metric('Revenus pris en compte',money(b.salary))}${metric('Montants budgétés',money(b.committed))}</div><div class="cap-v7-insight-list"><div class="cap-v7-insight-row"><span>Revenu, charges, dépenses prévues et projets alimentent le calcul.</span><strong>CAP</strong></div><div class="cap-v7-insight-row"><span>Le bouton « Exporter mes données » est dans la partie Budget.</span><strong>Copie</strong></div></div>`;
-    }
-  }
-
-  function refresh(){
-    const b=actualBudget();
-    document.getElementById('v7-remain').textContent=money(b.remain);
-    document.getElementById('v7-weekly').textContent=money(b.weekly);
-    document.getElementById('v7-rate').textContent=b.rate+' %';
-    const simRemain=document.getElementById('v7-sim-remain');if(simRemain)simRemain.textContent=money(b.remain);
-    const history=getHistory();
-    document.getElementById('v7-history').innerHTML=history.length?history.map(x=>`<div class="cap-v7-history-item"><span>${esc(x.q)}</span><b>${esc(x.a)}</b></div>`).join(''):'<div class="cap-v7-history-item"><span>Aucune analyse pour le moment.</span><span>—</span></div>';
-  }
-
-  function analyze(){
-    const b=actualBudget(), type=document.getElementById('v7-question').value, amount=Math.max(0,Number(document.getElementById('v7-amount').value)||0);
-    let title='',body='',icon='💡',answer='';
-    if(!b.salary){title='Ton budget n’est pas encore renseigné';body='Renseigne ton salaire dans le budget principal pour que CAP puisse calculer un solde réel.';icon='📝';answer='À renseigner';}
-    else if(type==='spend'){
-      const after=b.remain-amount;
-      if(amount<=0){title='Indique un montant';body='Entre le montant de la dépense que tu envisages.';icon='💶';answer='Montant manquant';}
-      else if(after<0){title='Cette dépense dépasse ton solde actuel';body=`Après ${money(amount)}, ton reste passerait à ${money(after)}. Il manque ${money(Math.abs(after))} pour absorber la dépense sans dépasser le solde actuel.`;icon='⚠️';answer='À revoir';}
-      else if(after<b.weekly){title='Possible, mais elle consomme plus d’une semaine de solde';body=`Après ${money(amount)}, il resterait ${money(after)}. Ton enveloppe hebdomadaire actuelle est d’environ ${money(b.weekly)}.`;icon='🟠';answer='Prudence';}
-      else {title='La dépense entre dans ton solde actuel';body=`Après ${money(amount)}, il resterait ${money(after)}. Vérifie aussi l’effet sur ton épargne et ton projet avant de décider.`;icon='✅';answer='Possible';}
-      renderProjectImpact(b,after);
-    } else if(type==='week'){
-      const weeksRemaining=Math.max(1,b.daysLeft/7);
-      title='Ton enveloppe hebdomadaire actuelle';
-      body=`Il reste ${b.daysLeft} jour(s) dans le mois, soit environ ${weeksRemaining.toFixed(1).replace('.', ',')} semaines. Sur cette période, ton solde de ${money(b.remain)} représente environ ${money(b.weekly)} par semaine.`;
-      answer=money(b.weekly);icon='📅';
-    } else if(type==='save'){
-      const safe=Math.max(0,b.remain);
-      title='Ta capacité d’épargne disponible';body=`Ton solde réellement disponible est de ${money(safe)}. C’est le montant maximal qui reste après les charges, dépenses et versements déjà enregistrés ce mois-ci — sans prévoir de nouvelle dépense.`;answer=money(safe);icon='🎯';
-    } else {
-      const projects=projectList(b);
-      if(!projects.length){title='Ajoute d’abord un objectif';body=`Ton solde actuel est de ${money(b.remain)}. Ajoute un voyage ou un objectif pour que CAP calcule l’effort nécessaire.`;answer='Objectif';icon='🚀';}
-      else {const p=projects[0], remaining=Math.max(0,p.target-p.saved);let monthly=0;if(p.date){const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44));}title='Ton projet principal';body=`${p.name} : il reste ${money(remaining)} à financer.${monthly?' Effort indicatif : '+money(monthly)+' / mois.':''} Ton solde actuel est de ${money(b.remain)}.`;answer='Projet';icon='🚀';}
-    }
-    setAnswer(title,body,icon, type==='spend' && amount>0 ? (b.remain-amount<0?'bad':b.remain-amount<b.weekly?'warn':'good') : '');
-    const history=getHistory();history.unshift({q:document.getElementById('v7-question').selectedOptions[0].text,a:answer});saveHistory(history);refresh();
-  }
-
-  function simulate(){
-    const b=actualBudget(), amount=Math.max(0,Number(document.getElementById('v7-sim-amount').value)||0), box=document.getElementById('v7-sim-answer');
-    if(!b.salary){box.dataset.tone='warn';box.innerHTML='<h4>📝 Commence par renseigner ton budget</h4><p>CAP a besoin de ton revenu et de tes données réelles pour calculer une simulation fiable.</p>';return;}
-    if(amount<=0){box.dataset.tone='';box.innerHTML='<h4>💶 Entre un montant</h4><p>Choisis 20 €, 50 €, 100 €, 200 € ou saisis ton propre montant.</p>';return;}
-    const after=Math.round((b.remain-amount)*100)/100;
-    const impact=b.remain>0?Math.round(amount/b.remain*100):0;
-    const tone=after<0?'bad':after<b.weekly?'warn':'good';
-    const title=after<0?'🚫 Dépense au-dessus de ton solde':after<b.weekly?'⚠️ Dépense possible, mais elle réduit fortement ton solde':'✅ Dépense compatible avec ton solde actuel';
-    const savingAfter=Math.max(0,after);
-    let projectHtml='';
-    const projects=projectList(b);
-    if(projects.length){
-      const p=projects[0], remaining=Math.max(0,p.target-p.saved);
-      let monthly=0, projectStatus='', monthsCoveredBefore=0, monthsCoveredAfter=0;
-      if(p.date){
-        const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));
-        monthly=Math.ceil(remaining/Math.max(1,days/30.44));
-        monthsCoveredBefore=monthly?Math.max(0,b.remain/monthly):0;
-        monthsCoveredAfter=monthly?Math.max(0,after/monthly):0;
-        projectStatus=after>=monthly?'La dépense ne met pas en cause l’effort mensuel indicatif du projet.':'La dépense fait passer le solde simulé sous l’effort mensuel indicatif du projet.';
-      } else projectStatus='Aucune échéance n’est enregistrée.';
-      const deltaMargin=Math.round((b.remain-after)*100)/100;
-      const dateLabel=p.date?new Date(p.date+'T00:00:00').toLocaleDateString('fr-FR'):'';
-      const beforeMonths=monthsCoveredBefore.toFixed(1).replace('.',','), afterMonths=monthsCoveredAfter.toFixed(1).replace('.',',');
-      const beforeMargin=money(b.remain), afterMargin=money(after);
-      const projectRemaining=money(remaining);
-      const monthlyLabel=monthly?money(monthly)+'/mois':'—';
-      const projectChanged='non';
-      projectHtml=`<div class="cap-v7-v2-project">
-        <div class="cap-v7-v2-project-head">
-          <div><div class="cap-v7-v2-project-title">🎯 Impact sur ${esc(p.name)}</div><span class="cap-v7-v2-project-sub">La simulation porte sur ton solde, pas sur l’argent déjà enregistré dans le projet.</span></div>
-        </div>
-        <div class="cap-v7-v2-before-after">
-          <div class="cap-v7-v2-side"><small>Avant la dépense</small><strong>${beforeMargin}</strong><em>solde disponible</em></div>
-          <div class="cap-v7-v2-side"><small>Après la dépense</small><strong>${afterMargin}</strong><em>solde disponible</em></div>
-        </div>
-        <div class="cap-v7-v2-project-meta">
-          <div><small>Reste à financer</small><b>${projectRemaining}</b></div>
-          <div><small>Effort indicatif</small><b>${monthlyLabel}</b></div>
-          <div><small>Date cible</small><b>${dateLabel||'Non définie'}</b></div>
-          <div><small>Projet modifié</small><b>${projectChanged}</b></div>
-        </div>
-        <div class="cap-v7-v2-project-note">La dépense simulée retire ${money(deltaMargin)} de ton solde disponible, mais ne change pas les ${projectRemaining} qu’il reste à financer pour le projet. ${esc(projectStatus)} Ton solde couvre environ <strong>${beforeMonths} mensualités</strong> du projet avant la dépense, puis <strong>${afterMonths}</strong> après.</div>
-      </div>`;
-    } else projectHtml='<div class="cap-v7-v2-project"><b>🎯 Aucun projet actif</b><span>Ajoute un voyage ou un objectif pour que CAP mesure son impact.</span></div>';
-    box.dataset.tone=tone;
-    box.innerHTML=`<h4>${title}</h4><p>Reste avant : <strong>${money(b.remain)}</strong> · après : <strong>${money(after)}</strong>.<br>La dépense représente environ <strong>${impact}%</strong> de ton solde actuel. Capacité d’épargne disponible avant : <strong>${money(Math.max(0,b.remain))}</strong> · après : <strong>${money(savingAfter)}</strong>.</p>${projectHtml}`;
-
-    // Enregistrer aussi les simulations dans « Dernières analyses ».
-    const simulationHistory=getHistory();
-    simulationHistory.unshift({
-      q:`Simulation : dépense de ${money(amount)}`,
-      a:`${money(b.remain)} → ${money(after)} · ${after<0?'au-dessus de le solde':after<b.weekly?'solde fortement réduit':'dépense compatible'}`
-    });
-    saveHistory(simulationHistory);
-    refresh();
-  }
-
-  document.getElementById('v7-analyze').onclick=analyze;
-  document.getElementById('v7-sim-analyze').onclick=simulate;
-  document.querySelectorAll('[data-v7-insight]').forEach(btn=>btn.addEventListener('click',()=>renderInsight(btn.dataset.v7Insight)));
-  document.querySelectorAll('[data-v2-quick]').forEach(btn=>btn.addEventListener('click',()=>{document.getElementById('v7-sim-amount').value=btn.dataset.v2Quick;simulate()}));
-  document.getElementById('v7-clear').onclick=()=>{
-    document.getElementById('v7-amount').value='';
-    document.getElementById('v7-sim-amount').value='';
-    document.getElementById('v7-answer').dataset.tone='';
-    document.getElementById('v7-answer').innerHTML='<div class="icon">💡</div><h3>Que veux-tu vérifier ?</h3><p>Choisis une question dans le menu. CAP s’appuiera sur les montants de ton budget affichés à gauche.</p><div class="cap-v7-empty-guide"><div class="cap-v7-guide-row"><b>1</b><span>Sélectionne ce que tu veux savoir.</span></div><div class="cap-v7-guide-row"><b>2</b><span>Pour une dépense, saisis son montant.</span></div><div class="cap-v7-guide-row"><b>3</b><span>Clique sur <strong>Analyser</strong> pour voir le résultat ici.</span></div></div>';
-    document.getElementById('v7-sim-answer').dataset.tone='';
-    document.getElementById('v7-sim-answer').innerHTML='<h4>Teste une dépense sans l’ajouter à tes dépenses</h4><p>Choisis un montant rapide ou saisis le tien, puis clique sur <strong>Simuler</strong>. Tu verras le solde qu’il te resterait et l’effet éventuel sur ton projet.</p><div class="cap-v7-sim-current">Solde disponible maintenant : <strong id="v7-sim-remain">'+money(actualBudget().remain)+'</strong></div><div class="cap-v7-detail-foot" style="margin-top:8px">La simulation ne crée pas de dépense réelle.</div>';
-    renderInsight(activeInsight);
-  };
-  document.getElementById('v7-question').onchange=()=>{
-    document.getElementById('v7-amount-wrap').style.display=document.getElementById('v7-question').value==='spend'?'block':'none';
-  };
-  window.addEventListener('capBudgetChanged',()=>{refresh();renderInsight(activeInsight);const n=document.getElementById('v7-sim-amount').value;if(n) simulate();});
-  refresh();
-  renderInsight(activeInsight);
-})();
-</script>
-
 <section class="cap-v8" aria-label="Budget vivant et historique">
   <div class="cap-v8-card">
     <div class="cap-v8-kpis">
@@ -1993,13 +1648,13 @@ body{font-size:19px!important;line-height:1.55}
         <label>Date de l’opération<input id="v8-date" type="date"></label>
         <label>Note complémentaire (facultative)<textarea id="v8-note" maxlength="160" placeholder="Ex. achat pour la maison, courses du samedi…"></textarea></label>
       </div>
-      <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-add">Ajouter</button><button class="cap-v8-btn" id="v8-demo">Ajouter les 4 exemples</button></div>
+      <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-add">Ajouter</button></div>
     </article>
 
     <article class="cap-v8-card">
       <h3>📒 Historique des opérations</h3>
       <p>Modifiez ou supprimez une opération. Les chiffres sont recalculés immédiatement.</p>
-      <div class="cap-v8-list" id="v8-list"><div class="cap-v8-empty-state"><div class="cap-v8-empty-head"><span class="cap-v8-empty-icon">📒</span><div><h4>Ton historique est prêt</h4><p>Après avoir ajouté une opération, tu retrouveras ici son montant, sa catégorie, son détail, sa date et ta note.</p></div></div><div class="cap-v8-examples-title">Exemples complets · affichage seulement, rien n’est enregistré</div><div class="cap-v8-example"><span class="cap-v8-example-icon">🛒</span><div><b>Courses du samedi</b><small>Catégorie : Courses · Détail : Carrefour / Supermarché</small><small>Montant d’exemple : 42,50 € · Date d’exemple : 05/10/2026</small><small>Note : achats de la semaine, fruits et légumes</small></div><em>EXEMPLE</em></div><div class="cap-v8-example"><span class="cap-v8-example-icon">📱</span><div><b>Netflix</b><small>Catégorie : Abonnements · Détail : Netflix</small><small>Montant d’exemple : 14,00 € · Date d’exemple : 05/10/2026</small><small>Note : prélèvement mensuel</small></div><em>EXEMPLE</em></div><div class="cap-v8-example"><span class="cap-v8-example-icon">📦</span><div><b>Amazon Prime</b><small>Catégorie : Abonnements · Détail : Amazon Prime</small><small>Montant : à saisir · Date : jour du prélèvement</small><small>Note : abonnement à vérifier</small></div><em>EXEMPLE</em></div><div class="cap-v8-example"><span class="cap-v8-example-icon">🚗</span><div><b>Essence</b><small>Catégorie : Transport · Détail : Essence</small><small>Montant d’exemple : 65,00 € · Date d’exemple : 05/10/2026</small><small>Note : plein du mois</small></div><em>EXEMPLE</em></div></div></div>
+      <div class="cap-v8-list" id="v8-list"><div class="cap-v8-empty-state"><div class="cap-v8-empty-head"><span class="cap-v8-empty-icon">📒</span><div><h4>Ton historique est prêt</h4><p>Après avoir ajouté une opération, tu retrouveras ici son montant, sa catégorie, son détail, sa date et ta note.</p></div></div></div></div>
     </article>
 
     <article class="cap-v8-card">
@@ -2008,12 +1663,7 @@ body{font-size:19px!important;line-height:1.55}
       <div id="v8-stats"><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>🏠 Charges fixes</b><span>Réel 0,00&nbsp;€ / prévu 1 100,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 1 100,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>🛒 Courses et repas</b><span>Réel 0,00&nbsp;€ / prévu 350,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 350,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>🎮 Loisirs</b><span>Réel 0,00&nbsp;€ / prévu 150,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 150,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>✈️ Projets et voyages</b><span>Réel 0,00&nbsp;€ / prévu 200,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 200,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>📦 Autres dépenses</b><span>Réel 0,00&nbsp;€ / prévu 100,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 100,00&nbsp;€</span></div></div></div>
     </article>
 
-    <article class="cap-v8-card">
-      <h3>🧠 Impact sur CAP Conseil</h3>
-      <p>Voici ce que tes prévisions et tes dépenses réelles changent dans le solde estimé.</p>
-      <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-advice">Analyser ma situation</button></div>
-      <div id="v8-advice-box" style="margin-top:10px;color:#a9bacd;font-size:12px;line-height:1.55"><div class="cap-v8-advice-panel"><h4>✅ Voici ton solde après le budget prévu</h4><p>Aucune opération réelle n’est encore enregistrée. La comparaison part donc de tes enveloppes prévues. Le solde prévisionnel est calculée en retirant le budget prévu du revenu. Les dépenses réelles sont comparées aux enveloppes et ne sont pas soustraites une deuxième fois.</p><div class="cap-v8-advice-grid"><div><small>Revenus</small><strong>2 500,00&nbsp;€</strong></div><div><small>Budget prévu</small><strong>− 1 900,00&nbsp;€</strong></div><div><small>Dépenses réelles enregistrées</small><strong>0,00&nbsp;€</strong></div><div><small>Solde après budget prévu</small><strong>600,00&nbsp;€</strong></div></div><div class="cap-v8-advice-foot">Consulte la répartition réelle au-dessus pour voir les dépenses comparées à leur enveloppe, poste par poste.</div></div></div>
-    </article>
+    
   </div>
 </section>
 
@@ -2063,7 +1713,7 @@ body{font-size:19px!important;line-height:1.55}
     const recurringRows=recurring.length?recurring.map(item=>`<div class="cap-v8-fixed-line"><span>${safeText(item.label||item.subcategory||'Charge fixe')} · ${safeText([item.category,item.subcategory].filter(Boolean).join(' / '))}</span><strong>${money(item.amount)}</strong></div>`).join(''):'<div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div>';
     document.getElementById('v8-fixed-detail').innerHTML=`<h4>🏠 Détail des charges fixes enregistrées</h4>${recurringRows}${fixedUnlisted?`<div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>${money(fixedUnlisted)}</strong></div>`:''}<div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>${money(recurringTotal)} / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>${money(Number(b.fixed)||0)} / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a>`;
     const list=document.getElementById('v8-list');
-    list.innerHTML=ops.length?ops.slice().reverse().map((o,i)=>`<div class="cap-v8-item"><div><b>${safeText(o.label||o.subcategory||o.category)}</b><span>${safeText(o.category)}${o.subcategory?' · '+safeText(o.subcategory):''} · ${safeText(o.date||'Date non précisée')}${o.note?'<br><small>'+safeText(o.note)+'</small>':''}</span></div><strong class="cap-v8-negative">− ${money(o.amount)}</strong><button data-del="${ops.length-1-i}" aria-label="Supprimer ${safeText(o.label||o.category)}">✕</button></div>`).join(''):'<div class="cap-v8-empty-state"><div class="cap-v8-empty-head"><span class="cap-v8-empty-icon">📒</span><div><h4>Ton historique est prêt</h4><p>Après avoir ajouté une opération, tu retrouveras ici son montant, sa catégorie, son détail, sa date et ta note.</p></div></div><div class="cap-v8-examples-title">Exemples complets · affichage seulement, rien n’est enregistré</div><div class="cap-v8-example"><span class="cap-v8-example-icon">🛒</span><div><b>Courses du samedi</b><small>Catégorie : Courses · Détail : Carrefour / Supermarché</small><small>Montant d’exemple : 42,50 € · Date d’exemple : 05/10/2026</small><small>Note : achats de la semaine, fruits et légumes</small></div><em>EXEMPLE</em></div><div class="cap-v8-example"><span class="cap-v8-example-icon">📱</span><div><b>Netflix</b><small>Catégorie : Abonnements · Détail : Netflix</small><small>Montant d’exemple : 14,00 € · Date d’exemple : 05/10/2026</small><small>Note : prélèvement mensuel</small></div><em>EXEMPLE</em></div><div class="cap-v8-example"><span class="cap-v8-example-icon">📦</span><div><b>Amazon Prime</b><small>Catégorie : Abonnements · Détail : Amazon Prime</small><small>Montant : à saisir · Date : jour du prélèvement</small><small>Note : abonnement à vérifier</small></div><em>EXEMPLE</em></div><div class="cap-v8-example"><span class="cap-v8-example-icon">🚗</span><div><b>Essence</b><small>Catégorie : Transport · Détail : Essence</small><small>Montant d’exemple : 65,00 € · Date d’exemple : 05/10/2026</small><small>Note : plein du mois</small></div><em>EXEMPLE</em></div></div>';
+    list.innerHTML=ops.length?ops.slice().reverse().map((o,i)=>`<div class="cap-v8-item"><div><b>${safeText(o.label||o.subcategory||o.category)}</b><span>${safeText(o.category)}${o.subcategory?' · '+safeText(o.subcategory):''} · ${safeText(o.date||'Date non précisée')}${o.note?'<br><small>'+safeText(o.note)+'</small>':''}</span></div><strong class="cap-v8-negative">− ${money(o.amount)}</strong><button data-del="${ops.length-1-i}" aria-label="Supprimer ${safeText(o.label||o.category)}">✕</button></div>`).join(''):'<div class="cap-v8-empty-state"><div class="cap-v8-empty-head"><span class="cap-v8-empty-icon">📒</span><div><h4>Ton historique est prêt</h4><p>Après avoir ajouté une opération, tu retrouveras ici son montant, sa catégorie, son détail, sa date et ta note.</p></div></div></div>';
     list.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=()=>{const o=getOps();o.splice(Number(btn.dataset.del),1);saveOps(o);render()});
     document.getElementById('v8-stats').innerHTML=planGroups.map(g=>{const pct=g.amount?Math.min(100,Math.round(g.actual/g.amount*100)):0,left=g.amount-g.actual;return `<div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>${g.icon} ${g.name}</b><span>Réel ${money(g.actual)} / prévu ${money(g.amount)}</span></div><div class="cap-v8-bar"><i style="width:${pct}%"></i></div><div class="cap-v8-stat-note"><span>${g.actual?'Dépense enregistrée':'Aucune dépense réelle enregistrée'}</span><span>${left>=0?'Enveloppe restante : '+money(left):'Dépassement : '+money(Math.abs(left))}</span></div></div>`;}).join('');
     renderV8Advice();
@@ -2084,24 +1734,7 @@ body{font-size:19px!important;line-height:1.55}
   }
   document.getElementById('v8-date').value=today();
   document.getElementById('v8-add').onclick=()=>{const detail=subcategorySelect.value==='__custom'?customSubcategory.value.trim():subcategorySelect.value;add(document.getElementById('v8-label').value.trim()||detail,Number(document.getElementById('v8-amount').value),document.getElementById('v8-category').value,document.getElementById('v8-date').value,detail,document.getElementById('v8-note').value);};
-  document.getElementById('v8-demo').onclick=()=>{
-    const existing=getOps();
-    if(existing.some(o=>o&&o.demoExample)){
-      render();
-      return;
-    }
-    const demoDate=today();
-    const examples=[
-      {label:'Courses du samedi',amount:40,category:'Courses',subcategory:'Supermarché',note:'J’ai payé les courses de la semaine.'},
-      {label:'Restaurant',amount:28,category:'Repas',subcategory:'Restaurant',note:'J’ai payé le repas.'},
-      {label:'Essence',amount:50,category:'Transport',subcategory:'Essence',note:'J’ai payé le plein.'},
-      {label:'Netflix',amount:14,category:'Abonnements',subcategory:'Netflix',note:'Prélèvement mensuel payé.'}
-    ];
-    examples.forEach((x,i)=>existing.push({...x,id:Date.now()+i+Math.random(),date:demoDate,demoExample:true}));
-    saveOps(existing);
-    render();
-  };
-  document.getElementById('v8-advice').onclick=renderV8Advice;
+  /* Conseils redondants retirés de l'interface. */
   // Les charges fixes de l'ancien formulaire sont conservées dans cap_state_v4.
   // Actualiser uniquement leur détail évite une boucle avec render(),
   // qui émet lui-même capBudgetChanged.
