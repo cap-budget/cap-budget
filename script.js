@@ -37,11 +37,12 @@
    document.getElementById('cw-error').textContent='';
    fields.querySelector('input')?.focus();
  };
- const close=()=>{if(!preview){localStorage.setItem(key,'true');localStorage.setItem('cap_onboarding_v1','done');}modal.hidden=true;modal.style.display='none';document.body.style.overflow='';};
+ const close=()=>{modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
  document.getElementById('btn-quick-setup').onclick=()=>show('quick');
  document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
  document.getElementById('btn-demo-mode').onclick=close;
- document.getElementById('cw-back').onclick=()=>{form.hidden=true;choices.hidden=false;document.getElementById('btn-quick-setup').focus();};
+ document.getElementById('cw-close').onclick=close;
+ document.getElementById('cw-back').onclick=close;
  form.onsubmit=e=>{
    e.preventDefault();
    if(preview){document.getElementById('cw-error').textContent='Mode aperçu : aucune donnée modifiée. Ouvrez CAP Budget sans ?onboarding=preview pour utiliser le paramétrage lors du premier lancement.';return;}
@@ -69,5 +70,5 @@
      location.reload();
    }catch(_){document.getElementById('cw-error').textContent='Impossible d’enregistrer cette configuration. Réessayez.';}
  };
- modal.hidden=false;modal.style.display='flex';document.body.style.overflow='hidden';document.getElementById('btn-quick-setup').focus();
+ modal.removeAttribute('aria-hidden');modal.hidden=false;modal.style.display='flex';document.body.style.overflow='hidden';document.getElementById('btn-quick-setup').focus();
 })();
