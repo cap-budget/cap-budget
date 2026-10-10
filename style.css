@@ -1,0 +1,26 @@
+
+.onboarding-overlay{position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}
+.onboarding-overlay[hidden]{display:none}
+.onboarding-overlay .onboarding-card{background:#102033;color:#f5fbff;border:1px solid #60a5fa66;border-radius:22px;width:min(100%,560px);max-height:94vh;overflow:auto;padding:clamp(18px,4vw,30px);box-shadow:0 20px 90px #000b;font:17px/1.5 system-ui}
+.onboarding-overlay h2{font-size:clamp(26px,5vw,34px);margin:0 0 12px;color:#fff}
+.onboarding-overlay p{font-size:17px;line-height:1.5;color:#d9e8f7}
+.onboarding-overlay button{display:block;width:100%;min-height:56px;margin:12px 0;padding:12px 16px;border-radius:13px;border:1px solid #7dd3fc;background:#17456b;color:white;font-size:18px;font-weight:700;cursor:pointer}
+.onboarding-overlay button.cw-primary{background:#047857;border-color:#6ee7b7}
+.onboarding-overlay button.cw-link{background:transparent;border-color:#64748b;font-size:16px}
+.onboarding-overlay label{display:block;font-size:16px;font-weight:600;margin:12px 0 5px}
+.onboarding-overlay input{box-sizing:border-box;width:100%;min-height:50px;padding:10px;border:1px solid #93a4b8;border-radius:10px;background:#071523;color:white;font-size:18px}
+.onboarding-overlay .cw-error{color:#fecaca;font-size:15px;min-height:20px}
+
+/* Accueil du premier lancement : carte et choix accessibles. */
+.onboarding-overlay{z-index:2147483500;background:rgba(0,0,0,.8);padding:16px}
+.onboarding-overlay .onboarding-card{max-width:450px;width:100%;text-align:center;background:#fff;color:#1a202c;border-radius:20px;padding:24px}
+.onboarding-overlay .onboarding-title{font-size:1.8rem;color:#1a202c}
+.onboarding-overlay .onboarding-subtitle{font-size:1.1rem;color:#4a5568}
+.onboarding-overlay .onboarding-actions{display:flex;flex-direction:column;gap:12px}
+.onboarding-overlay .onboarding-btn{width:100%;min-height:60px;padding:12px;border-radius:12px;font-size:1.2rem;font-weight:bold;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.onboarding-overlay .onboarding-btn span{font-size:.85rem;font-weight:normal;margin-top:4px;opacity:.9}
+.onboarding-overlay button.btn-primary{background:#2e7d32;color:#fff;border:0}
+.onboarding-overlay button.btn-secondary{background:#1976d2;color:#fff;border:0}
+.onboarding-overlay button.btn-outline{background:#f0f0f0;color:#333;border:2px solid #ccc}
+.onboarding-overlay form label{text-align:left}
+.onboarding-overlay form input{background:#fff;color:#1a202c;border:1px solid #64748b}
