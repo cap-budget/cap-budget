@@ -158,6 +158,8 @@ dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
 .cap-dash-balance-metric span{font-size:12px;color:#bed4e5}
 .cap-dash-balance-metric strong{font-size:clamp(18px,3vw,24px);color:#fff;font-weight:800}
 @media(max-width:480px){.cap-dash-balance-first .cap-dash-margin{padding:18px}.cap-dash-balance-metric{padding:12px}.cap-dash-balance-metric strong{font-size:18px}}
+/* La marge reste en position #1, puis les indicateurs et les actions. */
+.cap-dash-balance-first .cap-dash-margin-value{font-size:clamp(36px,5vw,40px)!important}
 </style>
 <style>
 /* ===== CAP Budget — Professional polish layer ===== */
@@ -949,12 +951,6 @@ body{font-size:19px!important;line-height:1.55}
     </section>
     <div class="cap-dash-layout">
       <section class="cap-dash-left">
-        <article class="cap-dash-card cap-dash-hero">
-          <div class="cap-dash-hero-copy"><div class="cap-dash-kicker">Projet principal</div><h1 id="dash-goal-name">Voyage en Crète</h1><p id="dash-goal-sub">Un rêve à portée de main…</p><div class="cap-dash-goal-row"><div class="cap-dash-goal-fig"><strong id="dash-goal-saved">500,00 €</strong> / <span id="dash-goal-target">2 000,00 €</span></div><div class="cap-dash-goal-pct" id="dash-goal-pct">25%</div></div><div class="cap-dash-progress"><i id="dash-goal-progress"></i></div><div class="cap-dash-goal-meta"><span>Reste : <b id="dash-goal-remaining">1 500,00 €</b></span><span>Date cible : <b id="dash-goal-date">30/06/2027</b></span></div></div>
-          <div class="cap-dash-hero-photo"><div class="cap-dash-photo-tag">La Crète vous attend !</div></div>
-        </article>
-        <div class="cap-dash-mid">
-          <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Dépenses du mois</h2><span id="dash-expenses-month">Ce mois</span></div><div class="cap-dash-expenses" id="dash-expenses"></div><div class="cap-dash-statline"><span>Total dépenses prévues</span><b id="dash-total-out">—</b></div></article>
           <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Actions rapides</h2><span>Gagne du temps</span></div><div class="cap-dash-quick-grid">
             <button class="cap-dash-quick" style="--qc:#31d47c;--qc-bg:rgba(49,212,124,.11)" data-dash-action="expense"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><strong>Ajouter une dépense</strong><span>Enregistrer</span></button>
             <button class="cap-dash-quick" style="--qc:#48b4ff;--qc-bg:rgba(72,180,255,.11)" data-dash-action="goal"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 20V4"/><path d="m6 10 6-6 6 6"/></svg></span><strong>Nouvel objectif</strong><span>Projet</span></button>
@@ -963,6 +959,13 @@ body{font-size:19px!important;line-height:1.55}
             <button class="cap-dash-quick" style="--qc:#f8c84d;--qc-bg:rgba(248,200,77,.11)" data-dash-action="stats"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 20V10"/><path d="M12 20V5"/><path d="M19 20v-7"/></svg></span><strong>Voir mes stats</strong><span>Statistiques</span></button>
             <button class="cap-dash-quick" style="--qc:#19e0c1;--qc-bg:rgba(25,224,193,.11)" data-dash-action="advice"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M8.2 14.5A6 6 0 1 1 16 14c-.9.7-1.5 1.6-1.7 2.6H9.7c-.2-1-.7-1.7-1.5-2.1Z"/></svg></span><strong>Conseil</strong><span>Votre situation</span></button>
           </div></article>
+        <article class="cap-dash-card cap-dash-hero">
+          <div class="cap-dash-hero-copy"><div class="cap-dash-kicker">Projet principal</div><h1 id="dash-goal-name">Voyage en Crète</h1><p id="dash-goal-sub">Un rêve à portée de main…</p><div class="cap-dash-goal-row"><div class="cap-dash-goal-fig"><strong id="dash-goal-saved">500,00 €</strong> / <span id="dash-goal-target">2 000,00 €</span></div><div class="cap-dash-goal-pct" id="dash-goal-pct">25%</div></div><div class="cap-dash-progress"><i id="dash-goal-progress"></i></div><div class="cap-dash-goal-meta"><span>Reste : <b id="dash-goal-remaining">1 500,00 €</b></span><span>Date cible : <b id="dash-goal-date">30/06/2027</b></span></div></div>
+          <div class="cap-dash-hero-photo"><div class="cap-dash-photo-tag">La Crète vous attend !</div></div>
+        </article>
+        <div class="cap-dash-mid">
+          <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Dépenses du mois</h2><span id="dash-expenses-month">Ce mois</span></div><div class="cap-dash-expenses" id="dash-expenses"></div><div class="cap-dash-statline"><span>Total dépenses prévues</span><b id="dash-total-out">—</b></div></article>
+
         </div>
         <article class="cap-dash-card cap-dash-card-pad cap-dash-activities"><div class="cap-dash-section-head"><h2>Dernières activités</h2><span>Historique réel</span></div><div id="dash-activities"></div></article>
       </section>
