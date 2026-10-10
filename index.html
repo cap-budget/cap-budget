@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><link rel="manifest" href="manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>Cap – Budget, repas et voyages</title>
+<title>CAP Budget</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1779,10 +1779,8 @@ body{font-size:19px!important;line-height:1.55}
       </div>
       <div class="cap-v9-card">
         <h3>🧭 Comment remplir cette partie ?</h3>
-        <p id="v9-message">Aucune dépense n’a encore été ajoutée au registre. Clique sur « Aller à Ajouter une opération », puis indique le montant, la catégorie et son détail. L’ajout remplira automatiquement ce tableau.</p>
+        <p id="v9-message">Aucune dépense n’a encore été ajoutée au registre. Utilisez le formulaire « Ajouter une opération » pour saisir un montant, une catégorie et son détail. Le tableau se remplira automatiquement.</p>
         <div class="cap-v9-flow-note">Ces chiffres viennent de l’historique des opérations réelles. Le budget prévu est détaillé séparément dans « Détail du budget et des charges ».</div>
-        <a class="cap-v9-btn" id="v9-add-link" href="file:///C:/Users/kati4/Documents/Codex/2026-10-05/referenced-chatgpt-conversation-this-is-an/outputs/index.html#v8-label" style="display:block;box-sizing:border-box;text-align:center;text-decoration:none">Aller à « Ajouter une opération » ↓</a>
-        <button class="cap-v9-btn" id="v9-refresh">Actualiser les chiffres</button>
       </div>
     </div>
   </article>
@@ -1816,7 +1814,6 @@ body{font-size:19px!important;line-height:1.55}
     document.getElementById('v9-fixed').innerHTML=recurring.length?`<div class="cap-v9-fixed-summary">${recurring.length} charge${recurring.length>1?'s':''} fixe${recurring.length>1?'s':''} · Total : ${money(recurringTotal)} / mois</div>${recurring.map(item=>`<div class="cap-v9-fixed-row"><span>${esc(item.label||item.subcategory||'Charge fixe')}${item.category||item.subcategory?' · '+esc([item.category,item.subcategory].filter(Boolean).join(' / ')):''}</span><strong>${money(item.amount)} / mois</strong></div>`).join('')}`:'<div class="cap-v9-empty"><b>Aucune charge fixe détaillée enregistrée ici</b>Les charges fixes et abonnements apparaîtront après leur ajout dans la section Budget.<br><a href="#card-recurring">Voir la liste des charges fixes ↓</a></div>';
     document.getElementById('v9-message').innerHTML=ops.length?`<strong>${ops.length}</strong> dépense${ops.length>1?'s':''} enregistrée${ops.length>1?'s':''}, pour un total de <strong>${money(total)}</strong> dans <strong>${Object.keys(cats).length}</strong> catégorie${Object.keys(cats).length>1?'s':''}. Chaque ligne affiche le total, le nombre d’opérations, la date la plus récente et les détails disponibles.`:'Aucune dépense n’a encore été ajoutée au registre. Clique sur « Aller à Ajouter une opération », puis indique le montant, la catégorie et son détail. L’ajout remplira automatiquement ce tableau.';
   };
-  document.getElementById('v9-refresh').onclick=()=>{render();window.dispatchEvent(new CustomEvent('capBudgetChanged',{detail:{source:'unified-engine'}}));};
   window.addEventListener('capBudgetChanged',render);
   render();
 })();
