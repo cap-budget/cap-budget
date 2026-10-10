@@ -16,8 +16,11 @@
    }catch(_){return true;}
  })();
  if(!modal||!choices||!form||!fields)return;
+ // Placer le bandeau avant le tableau de bord, sans cacher le contenu.
+ const dashboard=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.body.firstElementChild;
+ if(dashboard&&dashboard!==modal)dashboard.parentNode.insertBefore(modal,dashboard);
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
- if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';return;}
+ if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){modal.hidden=true;return;}
  const show=(which)=>{
    mode=which;choices.hidden=true;form.hidden=false;fields.replaceChildren();
    const add=(id,title,value,required=true)=>{
@@ -37,7 +40,7 @@
    document.getElementById('cw-error').textContent='';
    fields.querySelector('input')?.focus();
  };
- const close=()=>{modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
+ const close=()=>{modal.hidden=true;try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
  document.getElementById('btn-quick-setup').onclick=()=>show('quick');
  document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
  const sharePanel=document.getElementById('cw-share-panel');
@@ -64,7 +67,7 @@
      shareStatus.textContent='Lien copié ! Vous pouvez le coller dans un message.';
    }catch(_){shareStatus.textContent='Copiez ce lien : '+appUrl;}
  };
- document.getElementById('btn-demo-mode').onclick=close;
+ 
  document.getElementById('cw-close').onclick=close;
  document.getElementById('cw-back').onclick=close;
  form.onsubmit=e=>{
@@ -94,5 +97,5 @@
      location.reload();
    }catch(_){document.getElementById('cw-error').textContent='Impossible d’enregistrer cette configuration. Réessayez.';}
  };
- modal.removeAttribute('aria-hidden');modal.hidden=false;modal.style.display='flex';document.body.style.overflow='hidden';document.getElementById('btn-quick-setup').focus();
+ modal.hidden=false;
 })();
