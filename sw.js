@@ -1,8 +1,10 @@
-const CACHE_NAME = "cap-budget-v4-mobile-pwa";
+const CACHE_NAME = "cap-budget-v5-onboarding";
 
 const APP_FILES = [
   "./",
   "./index.html",
+  "./script.js?v=onboarding-20261010",
+  "./style.css?v=onboarding-20261010",
   "./manifest.json",
   "./icon.svg"
 ];
