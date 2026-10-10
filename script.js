@@ -3,6 +3,7 @@
 (function(){
  const modal=document.getElementById('onboarding-modal'),choices=document.getElementById('cw-choices'),form=document.getElementById('cw-form'),fields=document.getElementById('cw-fields');
  const key='cap_visited';let mode='quick';
+ const preview=new URLSearchParams(location.search).get('onboarding')==='preview';
  const defaults={income:2500,fixed:1100,food:350,leisure:150,projects:200,other:100};
  const stored=(()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(_){return null}})();
  const hasPriorData=(()=>{
@@ -14,7 +15,9 @@
      return !!changedBudget||nonEmpty('capBudgetGoals')||nonEmpty('capBudgetOperations');
    }catch(_){return true;}
  })();
- if(localStorage.getItem(key)||localStorage.getItem('cap_onboarding_v1')||hasPriorData)return;
+ if(!modal||!choices||!form||!fields)return;
+ // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
+ if(!preview&&(localStorage.getItem(key)||localStorage.getItem('cap_onboarding_v1')||hasPriorData))return;
  const show=(which)=>{
    mode=which;choices.hidden=true;form.hidden=false;fields.replaceChildren();
    const add=(id,title,value,required=true)=>{
@@ -34,13 +37,14 @@
    document.getElementById('cw-error').textContent='';
    fields.querySelector('input')?.focus();
  };
- const close=()=>{localStorage.setItem(key,'true');localStorage.setItem('cap_onboarding_v1','done');modal.hidden=true;modal.style.display='none';document.body.style.overflow='';};
+ const close=()=>{if(!preview){localStorage.setItem(key,'true');localStorage.setItem('cap_onboarding_v1','done');}modal.hidden=true;modal.style.display='none';document.body.style.overflow='';};
  document.getElementById('btn-quick-setup').onclick=()=>show('quick');
  document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
  document.getElementById('btn-demo-mode').onclick=close;
  document.getElementById('cw-back').onclick=()=>{form.hidden=true;choices.hidden=false;document.getElementById('btn-quick-setup').focus();};
  form.onsubmit=e=>{
    e.preventDefault();
+   if(preview){document.getElementById('cw-error').textContent='Mode aperçu : aucune donnée modifiée. Ouvrez CAP Budget sans ?onboarding=preview pour utiliser le paramétrage lors du premier lancement.';return;}
    const read=id=>fields.querySelector('[name="'+id+'"]')?.value||'';
    const income=Number(read('income'));
    if(!Number.isFinite(income)||income<=0){document.getElementById('cw-error').textContent='Indiquez un revenu mensuel supérieur à zéro.';return;}
