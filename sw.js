@@ -1,9 +1,10 @@
-const CACHE_NAME = "cap-budget-v3-prix-3999";
+const CACHE_NAME = "cap-budget-v4-mobile-pwa";
 
 const APP_FILES = [
   "./",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./icon.svg"
 ];
 
 self.addEventListener("install", event => {
