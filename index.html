@@ -922,6 +922,10 @@ body{font-size:19px!important;line-height:1.55}
 }
 </style>
 
+<style id="cap-demo-cleanup-20261010">
+/* Nettoyage visuel prudent : conserver les modules historiques et leurs donnees. */
+#v8-detail-card,#v8-create-category,#expense-form,#cap-real-expenses-panel{display:none!important}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
@@ -1622,20 +1626,12 @@ body{font-size:19px!important;line-height:1.55}
         <div class="cap-v8-form-row">
           <label>Montant de l’opération (€)<input id="v8-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 42,50"></label>
           <label>Catégorie<select id="v8-category">
-            <option value="Courses">🛒 Courses</option>
-            <option value="Repas">🍽️ Repas</option>
-            <option value="Loisirs">🎮 Loisirs</option>
-            <option value="Voyages">✈️ Voyages</option>
-            <option value="Transport">🚗 Transport</option>
-            <option value="Logement">🏠 Logement</option>
-            <option value="Assurances">🛡️ Assurances</option>
-            <option value="Crédits">💳 Crédits</option>
-            <option value="Abonnements">📱 Abonnements</option>
-            <option value="Santé">💚 Santé</option>
-            <option value="Éducation">📚 Éducation</option>
-            <option value="Shopping">🛍️ Shopping</option>
-            <option value="Projets / voyages">✈️ Projets / voyages</option>
-            <option value="Autre">📦 Autre</option>
+            <option value="Logement">🏠 Logement &amp; Charges</option>
+            <option value="Courses">🛒 Courses &amp; Alimentation</option>
+            <option value="Transport">🚗 Transport &amp; Auto</option>
+            <option value="Loisirs">🎮 Loisirs &amp; Plaisirs</option>
+            <option value="Santé">💚 Santé &amp; Famille</option>
+            <option value="Voyages">✈️ Projets &amp; Épargne</option>
           </select></label>
         </div>
         <div class="cap-v8-detail" id="v8-detail-card" aria-live="polite">
