@@ -3899,16 +3899,28 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 }
 </script>
 
-<link rel="stylesheet" href="style.css?v=onboarding-20261010">
+<link rel="stylesheet" href="style.css?v=welcome-share-20261010">
 <div id="onboarding-modal" class="onboarding-overlay" style="display:none" hidden role="dialog" aria-modal="true" aria-labelledby="cw-title">
   <div class="onboarding-card" style="position:relative">
     <button type="button" id="cw-close" aria-label="Fermer et accéder à la démo" title="Fermer" style="position:absolute;top:12px;right:12px;z-index:10;border:1px solid #8888;border-radius:50%;width:38px;height:38px;cursor:pointer;background:#ffffff;color:#17251e;font-size:23px;line-height:1">✕</button>
     <h1 id="cw-title" class="onboarding-title">Bienvenue sur CAP Budget ! 👋</h1>
+    <p class="onboarding-intro">CAP Budget vous aide à organiser simplement les finances, les repas et les projets de voyage de toute la famille, à votre rythme.</p>
     <p class="onboarding-subtitle">Choisissez comment vous souhaitez démarrer votre expérience :</p>
     <div id="cw-choices" class="onboarding-actions">
       <button type="button" class="onboarding-btn btn-primary" id="btn-quick-setup">⚡ Paramétrage Rapide<span>Définir votre revenu et votre objectif principal</span></button>
       <button type="button" class="onboarding-btn btn-secondary" id="btn-detailed-setup">🛠️ Paramétrage Détaillé<span>Configurer chaque enveloppe poste par poste</span></button>
+      <button type="button" class="onboarding-btn btn-share" id="btn-share-cap">🤝 Parrainage / Inviter un proche<span>Partager CAP Budget par WhatsApp, SMS ou lien</span></button>
       <button type="button" class="onboarding-btn btn-outline" id="btn-demo-mode">👀 Découvrir la démo directe<span>Accéder au tableau de bord avec les données d’exemple (600 €)</span></button>
+    </div>
+    <div id="cw-share-panel" class="cw-share-panel" hidden aria-label="Partager CAP Budget">
+      <p>Invitez gratuitement un proche à découvrir CAP Budget. Seul le lien public est partagé, jamais vos données.</p>
+      <div class="cw-share-actions">
+        <a id="cw-whatsapp" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a id="cw-sms">SMS</a>
+        <button type="button" id="cw-copy-link">Copier le lien</button>
+      </div>
+      <p id="cw-share-status" role="status" aria-live="polite"></p>
+      <button type="button" id="cw-share-back" class="cw-link">← Retour aux choix</button>
     </div>
     <form id="cw-form" hidden>
       <div id="cw-fields"></div>
@@ -3918,6 +3930,6 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     </form>
   </div>
 </div>
-<script src="script.js?v=onboarding-unblock-v2-20261010" defer></script>
+<script src="script.js?v=welcome-share-20261010" defer></script>
 
 </body></html>
