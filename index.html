@@ -1378,8 +1378,7 @@ body{font-size:19px!important;line-height:1.55}
 
 
 <section class="cap-v6" aria-label="CAP Budget — fonctions avancées">
-  <h2>CAP Budget — centre de pilotage</h2>
-  <p>Le budget, la semaine, les objectifs et les décisions sont réunis dans une seule expérience.</p>
+  <div class="cap-simple-summary" aria-label="Synthèse du budget"><div><small>Revenus</small><strong id="cap-simple-income">—</strong></div><div><small>Budget prévu</small><strong id="cap-simple-planned">—</strong><small id="cap-simple-rate"></small></div><div><small>Marge disponible</small><strong id="cap-simple-margin">—</strong></div></div>
 
   <div class="cap-v6-kpis">
     <div class="cap-v6-kpi"><small>Reste disponible</small><b id="v6-remain">—</b></div>
@@ -1422,23 +1421,23 @@ body{font-size:19px!important;line-height:1.55}
     <article class="cap-v6-card">
       <span class="cap-v6-badge">📊 Statistiques</span>
       <h3 style="margin-top:8px">Lecture du budget</h3>
-      <p>Une vue simple des postes qui consomment le budget actuel.</p>
+      
       <div id="v6-stats"></div>
       <section id="cap-premium-insights" hidden aria-live="polite" style="margin-top:16px;padding:15px;border:1px solid #34d39955;border-radius:14px;background:#10261e">
         <strong style="color:#a7f3d0">✨ Analyse approfondie · Premium TEST</strong>
         <div id="cap-premium-insights-body" style="margin-top:10px;color:#e5f7ef;font-size:13px;line-height:1.65"></div>
       </section>
-      <div class="cap-v6-note">Cette première version calcule les statistiques à partir des données du moteur de budget. L'historique mensuel sera alimenté par les opérations réelles dans l'étape suivante.</div>
+      
     </article>
 
     <article class="cap-v6-card" id="pricing">
       <span class="cap-v6-badge">💳 Offre Premium</span>
       <h3 id="cap-premium-pricing-title" style="margin-top:8px">Choisissez votre formule Premium</h3>
       <p id="cap-premium-pricing-status" role="status" hidden style="padding:10px;border:1px solid #34d39977;border-radius:10px;color:#a7f3d0;font-weight:700"></p>
-      <p><strong>MODE TEST STRIPE :</strong> les boutons permettent de tester le parcours de paiement avec une carte fictive. Aucun débit réel. La vérification de l'accès Premium TEST s'effectue avec Stripe et Supabase après connexion au compte CAP Budget.</p>
+      <p>Stripe TEST uniquement · aucun paiement réel.</p>
       <div class="cap-v6-plan">
-        <div><b>Mensuel — 3,99 € TTC/mois</b><span>7 jours d'essai gratuit avec carte bancaire obligatoire. À la fin des 7 jours, abonnement à 3,99 € TTC/mois avec prélèvement automatique, sauf résiliation avant la fin de l'essai.<br>CAP Conseil approfondi, objectifs multiples et statistiques avancées.<br><a href="#pricing" data-cap-checkout="monthly" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'essai 7 jours (Stripe TEST) ↗</a></span></div>
-        <div><b>Accès Premium à vie — 39,99 € TTC</b><span>Un seul paiement de 39,99 € TTC, sans abonnement ni renouvellement annuel.<br>Accès aux fonctionnalités Premium prévues pour cette offre.<br><a href="#pricing" data-cap-checkout="lifetime" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'achat à vie (Stripe TEST) ↗</a></span></div>
+        <div><b>Mensuel — 3,99 € TTC/mois</b><span>7 jours d’essai gratuit, puis 3,99 € TTC/mois sauf résiliation. Carte de test requise.<br><a href="#pricing" data-cap-checkout="monthly" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'essai 7 jours (Stripe TEST) ↗</a></span></div>
+        <div><b>Accès Premium à vie — 39,99 € TTC</b><span>Paiement unique TEST, sans renouvellement.<br><a href="#pricing" data-cap-checkout="lifetime" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'achat à vie (Stripe TEST) ↗</a></span></div>
       </div>
       <div class="cap-v6-note">Paiements de démonstration uniquement : utilisez les numéros de carte de test Stripe, jamais votre vraie carte. La synchronisation de l'accès Premium TEST est en cours de vérification. Les fonctionnalités Premium ne sont pas garanties débloquées tant que le statut Premium TEST actif n'est pas confirmé. Les paiements réels restent désactivés.</div>
     </article>
@@ -1457,14 +1456,7 @@ body{font-size:19px!important;line-height:1.55}
       <div class="cap-v6-note">Les autres données de l’application (comme les opérations réelles et certaines charges) sont gérées dans d’autres parties et par leur propre sauvegarde. Il n’y a pas encore de synchronisation automatique entre appareils.</div>
     </article>
 
-    <article class="cap-v6-card">
-      <span class="cap-v6-badge">📱 Mobile</span>
-      <h3 style="margin-top:8px">Expérience téléphone</h3>
-      <p>La mise en page s’adapte à la largeur de l’écran pour rendre les cartes et les formulaires plus faciles à lire sur téléphone.</p>
-      <div class="cap-v6-note"><strong>Sur un petit écran</strong><br>Les grands tableaux de bord passent en une colonne, les champs des formulaires s’empilent et les boutons se réorganisent pour rester accessibles.</div>
-      <div class="cap-v6-note"><strong>Sur tablette et ordinateur</strong><br>Les cartes peuvent s’afficher côte à côte pour profiter de l’espace disponible.</div>
-      <div class="cap-v6-note"><strong>À savoir</strong><br>Cette adaptation concerne l’affichage. Elle ne synchronise pas les données du téléphone avec celles de l’ordinateur. L’affichage doit encore être vérifié sur les appareils utilisés.</div>
-    </article>
+
   </div>
 </section>
 
@@ -1933,11 +1925,6 @@ body{font-size:19px!important;line-height:1.55}
 
 <section class="cap-v8" aria-label="Budget vivant et historique">
   <div class="cap-v8-card">
-    <h2>🔄 Le budget vivant</h2>
-    <p>Un seul état budgétaire partagé par les dépenses enregistrées, CAP Conseil et les statistiques.</p>
-    <div class="cap-v8-flow">
-      <div><b>💰</b>Revenus<strong id="v8-flow-income">2 500,00&nbsp;€</strong></div><div><b>🏠</b>Charges fixes<strong id="v8-flow-fixed">1 100,00&nbsp;€</strong></div><div><b>🛒</b>Courses / repas<strong id="v8-flow-food">350,00&nbsp;€</strong></div><div><b>🎮</b>Loisirs<strong id="v8-flow-leisure">150,00&nbsp;€</strong></div><div><b>✈️</b>Projets<strong id="v8-flow-projects">200,00&nbsp;€</strong></div><div><b>📦</b>Autres<strong id="v8-flow-other">100,00&nbsp;€</strong></div>
-    </div>
     <div class="cap-v8-kpis">
       <div class="cap-v8-kpi"><small>Revenus</small><strong id="v8-income">2 500,00&nbsp;€</strong></div>
       <div class="cap-v8-kpi"><small>Dépenses réelles</small><strong id="v8-real">0,00&nbsp;€</strong></div>
@@ -3743,7 +3730,7 @@ cloudBtn.onclick = async () => {
   if(pricingTitle)pricingTitle.textContent=result.premium?'Mon espace Premium':'Choisissez votre formule Premium';
   const pricingIntro=document.querySelector('#pricing > p:not(#cap-premium-pricing-status)');
   if(pricingIntro)pricingIntro.textContent=result.premium
-    ?'Bienvenue dans votre espace Premium TEST. Votre accès a été vérifié avec Stripe et Supabase. Retrouvez votre analyse approfondie dans la rubrique Statistiques.'
+    ?'✓ Premium TEST actif · Analyse approfondie débloquée'
     :'MODE TEST STRIPE : les boutons permettent de tester le paiement avec une carte fictive. Aucun débit réel. L’accès Premium TEST est vérifié avec Stripe et Supabase après connexion.';
   const pricingStatus=document.getElementById('cap-premium-pricing-status');
   if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Premium TEST déjà actif sur ce compte : les boutons « S’abonner » et « Acheter » sont masqués pour éviter un second paiement. Pour tester une nouvelle souscription, connectez-vous avec un autre compte CAP Budget sans abonnement. Aucun paiement réel n’est activé.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
@@ -3753,6 +3740,7 @@ cloudBtn.onclick = async () => {
     link.setAttribute('aria-hidden',result.premium?'true':'false');
     link.tabIndex=result.premium?-1:0;
   });
+  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans)pricingPlans.hidden=!!result.premium;
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
   if(pricingNote)pricingNote.textContent=result.premium
     ?'Votre accès Premium TEST est confirmé. Les boutons de paiement sont volontairement masqués sur ce compte déjà abonné. Les paiements réels restent désactivés.'
@@ -4069,4 +4057,21 @@ cloudBtn.onclick = async () => {
  });
 })();
 </script>
-</body></html>
+<style>
+.cap-simple-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 18px}
+.cap-simple-summary>div{background:#102b23;border:1px solid #34d39955;border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:5px}
+.cap-simple-summary small{color:#c6e9dd;font-size:12px}.cap-simple-summary strong{font-size:clamp(19px,3vw,29px);color:#fff}
+.cap-v6-kpis,.cap-v8-kpis,#cap-financial-clarity,#cap-budget-reconciliation{display:none!important}
+@media(max-width:600px){.cap-simple-summary{grid-template-columns:1fr;gap:8px}}
+</style>
+<script>
+(function(){
+ function sync(){
+  for(const [from,to] of [['v8-income','cap-simple-income'],['v8-planned','cap-simple-planned'],['v8-margin','cap-simple-margin']]){const a=document.getElementById(from),b=document.getElementById(to);if(a&&b)b.textContent=a.textContent.trim()||'—';}
+  const num=id=>Number((document.getElementById(id)?.textContent||'').replace(/[^\\d,.-]/g,'').replace(',','.'));
+  const income=num('v8-income'),planned=num('v8-planned'),rate=document.getElementById('cap-simple-rate');
+  if(rate)rate.textContent=income>0&&Number.isFinite(planned)?Math.round(planned/income*100)+' % du revenu':'';
+ }
+ window.addEventListener('load',()=>{sync();for(const id of ['v8-income','v8-planned','v8-margin']){const el=document.getElementById(id);if(el)new MutationObserver(sync).observe(el,{childList:true,subtree:true,characterData:true});}});
+})();
+</script></body></html>
