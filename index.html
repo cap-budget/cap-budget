@@ -145,6 +145,19 @@ dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
 .dlg-actions .btn{flex:1}
 @media (prefers-reduced-motion: reduce){ *,*::before,*::after{transition:none!important;animation:none!important} }
 .trip-photo{min-height:190px;border-radius:var(--radius);margin:0 0 16px;overflow:hidden}.stats-recurring-group{border-top:1px solid var(--line)}.stats-recurring-group:last-child{border-bottom:1px solid var(--line)}.stats-recurring-group summary{display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none;cursor:pointer;padding:15px 4px;font-weight:700;color:var(--ink)}.stats-recurring-group summary::-webkit-details-marker{display:none}.stats-recurring-group summary:after{content:'⌄';color:var(--accent);font-size:18px;margin-left:auto}.stats-recurring-group[open] summary:after{content:'⌃'}.stats-recurring-group summary strong{font-variant-numeric:tabular-nums}.stats-recurring-group .rows{margin:0 0 8px 12px}.stats-recurring-group .row{padding:10px 0}
+
+/* CAP : solde disponible prioritaire, avant projets et autres cartes. */
+.cap-dash-balance-first{margin:0 0 18px;display:grid;gap:10px}
+.cap-dash-balance-first .cap-dash-margin{padding:22px 24px;border:2px solid rgba(52,211,153,.55);background:linear-gradient(130deg,#103d43,#0b263d);box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.cap-dash-balance-first .cap-dash-margin-label{font-size:14px;font-weight:800;letter-spacing:.02em;text-transform:none;color:#c5f7e7}
+.cap-dash-balance-first .cap-dash-margin-value{font-size:clamp(36px,6vw,54px)!important;line-height:1.16;margin:10px 0;color:#fff;overflow-wrap:anywhere}
+.cap-dash-balance-first .cap-dash-margin-note{font-size:12px;color:#c0d8e4}
+.cap-dash-balance-first .cap-dash-margin-btn{max-width:240px;font-size:13px}
+.cap-dash-balance-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cap-dash-balance-metric{padding:14px 18px;border:1px solid rgba(126,181,201,.35);border-radius:12px;background:rgba(10,35,55,.88);display:grid;gap:7px}
+.cap-dash-balance-metric span{font-size:12px;color:#bed4e5}
+.cap-dash-balance-metric strong{font-size:clamp(18px,3vw,24px);color:#fff;font-weight:800}
+@media(max-width:480px){.cap-dash-balance-first .cap-dash-margin{padding:18px}.cap-dash-balance-metric{padding:12px}.cap-dash-balance-metric strong{font-size:18px}}
 </style>
 <style>
 /* ===== CAP Budget — Professional polish layer ===== */
@@ -927,6 +940,13 @@ body{font-size:19px!important;line-height:1.55}
   </aside>
   <main class="cap-dash-main"><div class="cap-dash-shell">
     <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">Tableau de bord</div><div class="cap-dash-page-sub">Votre budget en un coup d'œil</div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+    <section class="cap-dash-balance-first" aria-label="Résumé du budget disponible">
+      <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Marge disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
+      <div class="cap-dash-balance-metrics">
+        <div class="cap-dash-balance-metric"><span>Revenus mensuels</span><strong id="dash-income-total">2 500,00 €</strong></div>
+        <div class="cap-dash-balance-metric"><span>Budget prévu / engagé</span><strong id="dash-planned-total">1 900,00 €</strong></div>
+      </div>
+    </section>
     <div class="cap-dash-layout">
       <section class="cap-dash-left">
         <article class="cap-dash-card cap-dash-hero">
@@ -947,7 +967,7 @@ body{font-size:19px!important;line-height:1.55}
         <article class="cap-dash-card cap-dash-card-pad cap-dash-activities"><div class="cap-dash-section-head"><h2>Dernières activités</h2><span>Historique réel</span></div><div id="dash-activities"></div></article>
       </section>
       <aside class="cap-dash-right">
-        <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Marge disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
+
         <article class="cap-dash-card cap-dash-counsel"><span class="cap-dash-counsel-badge">CAP Conseil</span><h3>Votre situation maintenant</h3><p id="dash-counsel-text">Votre budget conserve une marge positive et votre projet principal est pris en compte.</p><div class="cap-dash-counsel-project"><strong id="dash-counsel-project-name">Voyage en Crète</strong><span id="dash-counsel-project-meta">1 500,00 € restent à financer · 169,00 € / mois</span></div></article>
         <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Repères</h2><span>Calcul indicatif</span></div><div class="cap-dash-statline"><span>Marge / semaine</span><b id="dash-week">—</b></div><div class="cap-dash-statline"><span>Engagement budgétaire</span><b id="dash-rate">—</b></div><div class="cap-dash-statline"><span>Effort projet</span><b id="dash-effort">—</b></div></article>
       </aside>
@@ -965,7 +985,7 @@ body{font-size:19px!important;line-height:1.55}
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   function budget(){const b=E();const v={income:+b.income||0,fixed:+b.fixed||0,food:+b.food||0,leisure:+b.leisure||0,projects:+b.projects||0,other:+b.other||0};v.total=v.fixed+v.food+v.leisure+v.projects+v.other;v.remain=v.income-v.total;v.week=v.income?Math.max(0,v.remain/4.33):0;v.rate=v.income?Math.round(v.total/v.income*100):0;return v}
   function goal(){const g=G()[0];if(!g)return null;const target=+((g.target??g.amount)??0)||0,saved=+((g.saved??g.current)??0)||0,remaining=Math.max(0,target-saved),date=g.date||g.targetDate||'';let monthly=0;if(date&&remaining){const n=new Date(),d=new Date(date+'T12:00:00');const days=Math.max(0,Math.round((d-n)/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44))}return{g,target,saved,remaining,date,monthly,pct:target?Math.min(100,Math.round(saved/target*100)):0}}
-  function render(){const b=budget(),g=goal();const remain=Math.round(b.remain*100)/100;el('dash-margin').textContent=money(remain);el('dash-margin-state').textContent=remain>=0?'Positive':'À surveiller';el('dash-margin-note').textContent=remain>=0?'Après les montants renseignés dans ton budget.':'Les dépenses dépassent les revenus renseignés.';el('dash-week').textContent=money(b.week);el('dash-rate').textContent=b.rate+' %';
+  function render(){const b=budget(),g=goal();const remain=Math.round(b.remain*100)/100;el('dash-margin').textContent=money(remain);el('dash-income-total').textContent=money(b.income);el('dash-planned-total').textContent=money(b.total);el('dash-margin-state').textContent=remain>=0?'Positive':'À surveiller';el('dash-margin-note').textContent=remain>=0?'Après les montants renseignés dans ton budget.':'Les dépenses dépassent les revenus renseignés.';el('dash-week').textContent=money(b.week);el('dash-rate').textContent=b.rate+' %';
     if(g){el('dash-goal-name').textContent=g.g.name||'Projet principal';el('dash-goal-saved').textContent=money(g.saved);el('dash-goal-target').textContent=money(g.target);el('dash-goal-pct').textContent=g.pct+'%';el('dash-goal-progress').style.width=g.pct+'%';el('dash-goal-remaining').textContent=money(g.remaining);el('dash-goal-date').textContent=dateFmt(g.date);el('dash-effort').textContent=g.monthly?money(g.monthly)+'/mois':'—';el('dash-counsel-project-name').textContent=g.g.name||'Projet principal';el('dash-counsel-project-meta').textContent=money(g.remaining)+' restent à financer'+(g.monthly?' · '+money(g.monthly)+'/mois':'');el('dash-counsel-text').textContent=remain>=0?'Votre budget conserve une marge positive et votre projet principal est pris en compte. Après l’effort indicatif du projet, il resterait '+money(Math.max(0,remain-g.monthly))+' de marge.':'Votre budget dépasse actuellement les revenus renseignés.'}
     else{el('dash-goal-name').textContent='Aucun projet principal';el('dash-goal-sub').textContent='Ajoutez un objectif pour suivre sa progression.';el('dash-goal-saved').textContent=money(0);el('dash-goal-target').textContent=money(0);el('dash-goal-pct').textContent='0%';el('dash-goal-progress').style.width='0%';el('dash-goal-remaining').textContent=money(0);el('dash-goal-date').textContent='—';el('dash-effort').textContent='—';el('dash-counsel-project-name').textContent='Aucun projet principal';el('dash-counsel-project-meta').textContent='—';el('dash-counsel-text').textContent='Ajoutez un objectif pour que CAP Conseil puisse suivre sa progression.'}
     const cats=[['Logement',b.fixed,'#36a9ff'],['Alimentation',b.food,'#f8c84d'],['Transport',Math.min(b.other,100),'#6f8cff'],['Loisirs',b.leisure,'#d36cff'],['Projets',b.projects,'#ef63bd'],['Autres',Math.max(0,b.other-100),'#2bdac0']].filter(x=>x[1]>0), total=cats.reduce((s,x)=>s+x[1],0)||1;el('dash-expenses').innerHTML=cats.map(x=>{const p=Math.round(x[1]/total*100);return '<div class="cap-dash-expense"><div class="cap-dash-expense-name"><i style="--ec:'+x[2]+'"></i><span>'+esc(x[0])+'</span></div><div><div class="cap-dash-expense-bar"><i style="width:'+p+'%;--ec:'+x[2]+'"></i></div><span class="cap-dash-expense-pct">'+p+'%</span></div><div class="cap-dash-expense-amt">'+money(x[1])+'</div></div>'}).join('')||'<div style="font-size:9px;color:#6e879f">Aucune dépense planifiée pour le moment.</div>';el('dash-total-out').textContent=money(b.total);
