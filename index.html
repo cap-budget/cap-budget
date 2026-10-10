@@ -938,6 +938,62 @@ body{font-size:19px!important;line-height:1.55}
    mais retirés de la présentation au profit du budget unique et du formulaire v8. */
 #tab-budget { display:none !important; }
 </style>
+
+<style>
+/* CAP mobile senior accessibility v1 — zoom preserved */
+@media (max-width: 700px) {
+  html { font-size: 18px !important; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { font-size: 18px !important; line-height: 1.55 !important; }
+  main, section, article, .card, .cap-v6-card, .cap-v7-card { min-width: 0; }
+  p, li, label, summary, td, th, small, .muted, .hint, .caption,
+  [class*="note"], [class*="subtitle"], [class*="description"],
+  [class*="label"], [class*="helper"], [class*="muted"],
+  .cap-v6-row, .cap-v6-note, .cap-v6-plan, .cap-dash-margin-note,
+  .cap-dash-balance-metric span {
+    font-size: max(18px, 1em) !important;
+    line-height: 1.5 !important;
+  }
+  h1 { font-size: clamp(28px, 7vw, 36px) !important; line-height: 1.2 !important; }
+  h2, h3, .cap-v6-card h3, [class*="section-title"] {
+    font-size: 24px !important; line-height: 1.3 !important;
+  }
+  h4 { font-size: 22px !important; }
+  button, .btn, [role="button"], input[type="submit"], input[type="button"],
+  a[data-cap-checkout], .cap-dash-margin-btn, summary {
+    min-height: 55px !important;
+    font-size: 18px !important;
+    line-height: 1.35 !important;
+    touch-action: manipulation;
+  }
+  button, .btn, [role="button"], input[type="submit"], input[type="button"] {
+    padding: 12px 16px !important;
+  }
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select, textarea {
+    min-height: 55px !important;
+    font-size: 18px !important;
+    line-height: 1.4 !important;
+  }
+  input[type="checkbox"], input[type="radio"] { width: 22px; height: 22px; }
+  .cap-dash-balance-first .cap-dash-margin-value,
+  [class*="balance-value"], [class*="solde-value"] {
+    font-size: clamp(36px, 9vw, 44px) !important;
+    line-height: 1.18 !important;
+    font-weight: 800 !important;
+  }
+  .cap-dash-balance-first .cap-dash-margin-label,
+  .cap-dash-balance-first .cap-dash-margin-note,
+  .cap-dash-balance-metric span { color: #f1fff9 !important; }
+  .cap-dash-balance-metrics { grid-template-columns: minmax(0,1fr); }
+  :where(button, a, input, select, textarea, summary):focus-visible {
+    outline: 3px solid #34d399 !important; outline-offset: 3px;
+  }
+  /* Respecter les thèmes sombres et clairs ; renforcer la lisibilité sans imposer un fond inadapté. */
+  [data-theme="dark"] :is(.muted, .hint, small, [class*="muted"]) {
+    color: #e2e8f0 !important;
+  }
+}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
