@@ -3751,6 +3751,23 @@ button, input, select, .btn, [role="button"] {
   body :is(h1,h2,h3,p,span,strong) { overflow-wrap:anywhere; }
   body img, body svg { max-width:100%; }
 }
+
+/* CAP mobile compact : présentation uniquement, sans toucher aux données ni aux scripts. */
+@media (max-width:760px){
+ .cap-dash{display:block!important;min-height:0!important}
+ .cap-dash-sidebar{position:relative!important;top:auto!important;height:auto!important;min-height:0!important;width:100%!important;padding:10px 12px!important;border-right:0!important;border-bottom:1px solid rgba(148,163,184,.16)!important;z-index:5!important}
+ .cap-dash-brand{padding:0 4px 8px!important}
+ .cap-dash-nav{display:flex!important;flex-direction:row!important;gap:5px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;scrollbar-width:thin!important;padding:2px 0 6px!important;max-width:100%!important}
+ .cap-dash-nav button{flex:0 0 auto!important;width:auto!important;min-height:48px!important;padding:10px 12px!important;white-space:nowrap!important}
+ .cap-dash-main{width:100%!important;min-width:0!important;padding:0 12px 24px!important}
+ .cap-dash-topbar{height:auto!important;min-height:46px!important;padding:10px 0!important}
+ .cap-dash-page-sub{display:none!important}
+ .cap-dash-layout,.cap-dash-left,.cap-dash-right,.cap-dash-quick-grid,.cap-v9-grid{grid-template-columns:minmax(0,1fr)!important}
+ .cap-dash button,.cap-v9 button,.cap-v6 button,.cap-v9 input,.cap-v9 select,.cap-v9 textarea{min-height:48px}
+ .cap-v9-overview,.cap-v9-card{margin-top:10px}
+ /* Les analyses restent accessibles sur grand écran, mais ne rallongent pas la page mobile. */
+ #cap-premium-insights,.cap-v9-overview,.cap-v9-card:has(#v9-message){display:none!important}
+}
 </style>
 
 <script id="cap-dashboard-actions-fix">
