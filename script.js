@@ -17,7 +17,7 @@
  })();
  if(!modal||!choices||!form||!fields)return;
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
- if(!preview&&(localStorage.getItem(key)||localStorage.getItem('cap_onboarding_v1')||hasPriorData))return;
+ if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';return;}
  const show=(which)=>{
    mode=which;choices.hidden=true;form.hidden=false;fields.replaceChildren();
    const add=(id,title,value,required=true)=>{
@@ -45,7 +45,7 @@
  document.getElementById('cw-back').onclick=close;
  form.onsubmit=e=>{
    e.preventDefault();
-   if(preview){document.getElementById('cw-error').textContent='Mode aperçu : aucune donnée modifiée. Ouvrez CAP Budget sans ?onboarding=preview pour utiliser le paramétrage lors du premier lancement.';return;}
+   if(preview){close();return;}
    const read=id=>fields.querySelector('[name="'+id+'"]')?.value||'';
    const income=Number(read('income'));
    if(!Number.isFinite(income)||income<=0){document.getElementById('cw-error').textContent='Indiquez un revenu mensuel supérieur à zéro.';return;}
