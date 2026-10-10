@@ -24,3 +24,12 @@
 .onboarding-overlay button.btn-outline{background:#f0f0f0;color:#333;border:2px solid #ccc}
 .onboarding-overlay form label{text-align:left}
 .onboarding-overlay form input{background:#fff;color:#1a202c;border:1px solid #64748b}
+
+/* Présentation et partage du premier lancement, adapté au mobile. */
+.onboarding-overlay .onboarding-intro{font-size:1rem;line-height:1.55;color:#334155;margin:10px 0 16px}
+.onboarding-overlay button.btn-share{background:#e7f8ee;color:#14532d;border:2px solid #86efac}
+.onboarding-overlay .onboarding-card{max-height:min(92dvh,850px);overflow-y:auto}
+.onboarding-overlay .cw-share-panel{margin-top:14px;text-align:left;color:#1f2937;line-height:1.5}
+.onboarding-overlay .cw-share-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:10px;margin:14px 0}
+.onboarding-overlay .cw-share-actions a,.onboarding-overlay .cw-share-actions button{display:flex;align-items:center;justify-content:center;min-height:48px;border:1px solid #047857;border-radius:10px;background:#e7f8ee;color:#14532d;font-size:16px;font-weight:700;text-decoration:none;cursor:pointer;padding:8px}
+.onboarding-overlay #cw-share-status{min-height:24px;font-weight:600}
