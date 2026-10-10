@@ -4106,5 +4106,30 @@ body :is(h2,h3,.cap-v6-card h3,.cap-v8-card h3){font-size:clamp(22px,3vw,30px);}
 body :is(button,.btn,[role="button"],input,select,textarea){font-size:18px;min-height:52px;}
 body :is(.amount,.hero-amount,.big-number,.stat-value,.dial-value,.cap-simple-summary strong,#cap-simple-income,#cap-simple-planned,#cap-simple-margin){font-size:clamp(28px,5vw,36px);font-weight:700;}
 @media(max-width:600px){body :is(button,.btn,[role="button"],input,select,textarea){min-height:54px}body :is(.app,.card,.cap-v6-card,.cap-v8-card){overflow-wrap:anywhere}body :is(.tabbar,.tabbar-inner){font-size:18px}}
+
+/* --- ACCESSIBILITÉ & SENIORS : POLICES ET BOUTONS GRANDS --- */
+html, body, p, span, div, label, li, small, td, th {
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+}
+
+/* Titres des cartes et sections */
+h1, h2, h3, h4, .title, [class*="title"] {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+}
+
+/* Tous les montants (€), pourcentages et chiffres clés */
+strong, b, .amount, .price, .value, [class*="montant"], [class*="solde"], [class*="valeur"] {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+}
+
+/* Boutons, options et champs de texte */
+button, input, select, .btn, [role="button"] {
+  font-size: 18px !important;
+  padding: 12px 18px !important;
+  min-height: 48px !important;
+}
 </style>
 </body></html>
