@@ -158,7 +158,7 @@ dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
 .cap-dash-balance-metric span{font-size:12px;color:#bed4e5}
 .cap-dash-balance-metric strong{font-size:clamp(18px,3vw,24px);color:#fff;font-weight:800}
 @media(max-width:480px){.cap-dash-balance-first .cap-dash-margin{padding:18px}.cap-dash-balance-metric{padding:12px}.cap-dash-balance-metric strong{font-size:18px}}
-/* La marge reste en position #1, puis les indicateurs et les actions. */
+/* Le solde reste en position #1, puis les indicateurs et les actions. */
 .cap-dash-balance-first .cap-dash-margin-value{font-size:clamp(36px,5vw,40px)!important}
 </style>
 <style>
@@ -943,7 +943,7 @@ body{font-size:19px!important;line-height:1.55}
   <main class="cap-dash-main"><div class="cap-dash-shell">
     <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">Tableau de bord</div><div class="cap-dash-page-sub">Votre budget en un coup d'œil</div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
     <section class="cap-dash-balance-first" aria-label="Résumé du budget disponible">
-      <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Marge disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
+      <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Solde disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
       <div class="cap-dash-balance-metrics">
         <div class="cap-dash-balance-metric"><span>Revenus mensuels</span><strong id="dash-income-total">2 500,00 €</strong></div>
         <div class="cap-dash-balance-metric"><span>Budget prévu / engagé</span><strong id="dash-planned-total">1 900,00 €</strong></div>
@@ -971,8 +971,8 @@ body{font-size:19px!important;line-height:1.55}
       </section>
       <aside class="cap-dash-right">
 
-        <article class="cap-dash-card cap-dash-counsel"><span class="cap-dash-counsel-badge">CAP Conseil</span><h3>Votre situation maintenant</h3><p id="dash-counsel-text">Votre budget conserve une marge positive et votre projet principal est pris en compte.</p><div class="cap-dash-counsel-project"><strong id="dash-counsel-project-name">Voyage en Crète</strong><span id="dash-counsel-project-meta">1 500,00 € restent à financer · 169,00 € / mois</span></div></article>
-        <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Repères</h2><span>Calcul indicatif</span></div><div class="cap-dash-statline"><span>Marge / semaine</span><b id="dash-week">—</b></div><div class="cap-dash-statline"><span>Engagement budgétaire</span><b id="dash-rate">—</b></div><div class="cap-dash-statline"><span>Effort projet</span><b id="dash-effort">—</b></div></article>
+        <article class="cap-dash-card cap-dash-counsel"><span class="cap-dash-counsel-badge">CAP Conseil</span><h3>Votre situation maintenant</h3><p id="dash-counsel-text">Votre budget conserve un solde positif et votre projet principal est pris en compte.</p><div class="cap-dash-counsel-project"><strong id="dash-counsel-project-name">Voyage en Crète</strong><span id="dash-counsel-project-meta">1 500,00 € restent à financer · 169,00 € / mois</span></div></article>
+        <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Repères</h2><span>Calcul indicatif</span></div><div class="cap-dash-statline"><span>Solde / semaine</span><b id="dash-week">—</b></div><div class="cap-dash-statline"><span>Engagement budgétaire</span><b id="dash-rate">—</b></div><div class="cap-dash-statline"><span>Effort projet</span><b id="dash-effort">—</b></div></article>
       </aside>
     </div>
     <div class="cap-dash-details"><span class="cap-dash-details-label">Fonctions complètes</span></div>
@@ -989,7 +989,7 @@ body{font-size:19px!important;line-height:1.55}
   function budget(){const b=E();const v={income:+b.income||0,fixed:+b.fixed||0,food:+b.food||0,leisure:+b.leisure||0,projects:+b.projects||0,other:+b.other||0};v.total=v.fixed+v.food+v.leisure+v.projects+v.other;v.remain=v.income-v.total;v.week=v.income?Math.max(0,v.remain/4.33):0;v.rate=v.income?Math.round(v.total/v.income*100):0;return v}
   function goal(){const g=G()[0];if(!g)return null;const target=+((g.target??g.amount)??0)||0,saved=+((g.saved??g.current)??0)||0,remaining=Math.max(0,target-saved),date=g.date||g.targetDate||'';let monthly=0;if(date&&remaining){const n=new Date(),d=new Date(date+'T12:00:00');const days=Math.max(0,Math.round((d-n)/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44))}return{g,target,saved,remaining,date,monthly,pct:target?Math.min(100,Math.round(saved/target*100)):0}}
   function render(){const b=budget(),g=goal();const remain=Math.round(b.remain*100)/100;el('dash-margin').textContent=money(remain);el('dash-income-total').textContent=money(b.income);el('dash-planned-total').textContent=money(b.total);el('dash-margin-state').textContent=remain>=0?'Positive':'À surveiller';el('dash-margin-note').textContent=remain>=0?'Après les montants renseignés dans ton budget.':'Les dépenses dépassent les revenus renseignés.';el('dash-week').textContent=money(b.week);el('dash-rate').textContent=b.rate+' %';
-    if(g){el('dash-goal-name').textContent=g.g.name||'Projet principal';el('dash-goal-saved').textContent=money(g.saved);el('dash-goal-target').textContent=money(g.target);el('dash-goal-pct').textContent=g.pct+'%';el('dash-goal-progress').style.width=g.pct+'%';el('dash-goal-remaining').textContent=money(g.remaining);el('dash-goal-date').textContent=dateFmt(g.date);el('dash-effort').textContent=g.monthly?money(g.monthly)+'/mois':'—';el('dash-counsel-project-name').textContent=g.g.name||'Projet principal';el('dash-counsel-project-meta').textContent=money(g.remaining)+' restent à financer'+(g.monthly?' · '+money(g.monthly)+'/mois':'');el('dash-counsel-text').textContent=remain>=0?'Votre budget conserve une marge positive et votre projet principal est pris en compte. Après l’effort indicatif du projet, il resterait '+money(Math.max(0,remain-g.monthly))+' de marge.':'Votre budget dépasse actuellement les revenus renseignés.'}
+    if(g){el('dash-goal-name').textContent=g.g.name||'Projet principal';el('dash-goal-saved').textContent=money(g.saved);el('dash-goal-target').textContent=money(g.target);el('dash-goal-pct').textContent=g.pct+'%';el('dash-goal-progress').style.width=g.pct+'%';el('dash-goal-remaining').textContent=money(g.remaining);el('dash-goal-date').textContent=dateFmt(g.date);el('dash-effort').textContent=g.monthly?money(g.monthly)+'/mois':'—';el('dash-counsel-project-name').textContent=g.g.name||'Projet principal';el('dash-counsel-project-meta').textContent=money(g.remaining)+' restent à financer'+(g.monthly?' · '+money(g.monthly)+'/mois':'');el('dash-counsel-text').textContent=remain>=0?'Votre budget conserve un solde positif et votre projet principal est pris en compte. Après l’effort indicatif du projet, il resterait '+money(Math.max(0,remain-g.monthly))+' de solde.':'Votre budget dépasse actuellement les revenus renseignés.'}
     else{el('dash-goal-name').textContent='Aucun projet principal';el('dash-goal-sub').textContent='Ajoutez un objectif pour suivre sa progression.';el('dash-goal-saved').textContent=money(0);el('dash-goal-target').textContent=money(0);el('dash-goal-pct').textContent='0%';el('dash-goal-progress').style.width='0%';el('dash-goal-remaining').textContent=money(0);el('dash-goal-date').textContent='—';el('dash-effort').textContent='—';el('dash-counsel-project-name').textContent='Aucun projet principal';el('dash-counsel-project-meta').textContent='—';el('dash-counsel-text').textContent='Ajoutez un objectif pour que CAP Conseil puisse suivre sa progression.'}
     const cats=[['Logement',b.fixed,'#36a9ff'],['Alimentation',b.food,'#f8c84d'],['Transport',Math.min(b.other,100),'#6f8cff'],['Loisirs',b.leisure,'#d36cff'],['Projets',b.projects,'#ef63bd'],['Autres',Math.max(0,b.other-100),'#2bdac0']].filter(x=>x[1]>0), total=cats.reduce((s,x)=>s+x[1],0)||1;el('dash-expenses').innerHTML=cats.map(x=>{const p=Math.round(x[1]/total*100);return '<div class="cap-dash-expense"><div class="cap-dash-expense-name"><i style="--ec:'+x[2]+'"></i><span>'+esc(x[0])+'</span></div><div><div class="cap-dash-expense-bar"><i style="width:'+p+'%;--ec:'+x[2]+'"></i></div><span class="cap-dash-expense-pct">'+p+'%</span></div><div class="cap-dash-expense-amt">'+money(x[1])+'</div></div>'}).join('')||'<div style="font-size:9px;color:#6e879f">Aucune dépense planifiée pour le moment.</div>';el('dash-total-out').textContent=money(b.total);
     const ops=O().filter(x=>x&&+x.amount>0).slice().sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)||(+b.id||0)-(+a.id||0)).slice(0,5);el('dash-activities').innerHTML=ops.length?ops.map(o=>'<div class="cap-dash-activity"><div class="cap-dash-activity-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div><div class="cap-dash-activity-main"><strong>'+esc(o.label||'Dépense')+'</strong><span>'+esc(o.category||'Autre')+' · '+(o.date?dateFmt(o.date):'Aujourd’hui')+'</span></div><div class="cap-dash-activity-amt">− '+money(o.amount)+'</div></div>').join(''):'<div style="font-size:8px;color:#6e879f">Aucune opération réelle enregistrée.</div>';el('dash-expenses-month').textContent=new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}
@@ -1168,7 +1168,7 @@ body{font-size:19px!important;line-height:1.55}
 
     <article class="cap-decision-card">
       <h3>À retenir aujourd’hui</h3>
-      <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Votre marge</b><span>CAP calculera la marge disponible à partir de vos revenus et dépenses.</span></div></div>
+      <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Votre solde</b><span>CAP calculera le solde disponible à partir de vos revenus et dépenses.</span></div></div>
       <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Vos charges</b><span>Les dépenses récurrentes sont prises en compte séparément.</span></div></div>
       <div class="cap-decision"><i class="cap-decision-dot"></i><div><b>Votre objectif</b><span>Les projets d’épargne peuvent être suivis dans la section Voyages.</span></div></div>
     </article>
@@ -1247,7 +1247,7 @@ body{font-size:19px!important;line-height:1.55}
       <div class="cap-list">
         <div class="cap-list-row"><div><b>🎮 Loisirs</b><span>Budget semaine</span></div><strong>35 €</strong></div>
         <div class="cap-list-row"><div><b>✈️ Voyage</b><span>Épargne cette semaine</span></div><strong>25 €</strong></div>
-        <div class="cap-list-row"><div><b>💶 Marge</b><span>Prévu après engagements</span></div><strong>— €</strong></div>
+        <div class="cap-list-row"><div><b>💶 Solde</b><span>Prévu après engagements</span></div><strong>— €</strong></div>
       </div>
       <div class="cap-scenario"><b>💡 CAP vous aide à décider</b><span>Avant une dépense, l'application peut comparer la dépense prévue avec votre budget restant, vos objectifs et vos engagements de la semaine.</span></div>
     </article>
@@ -1259,7 +1259,7 @@ body{font-size:19px!important;line-height:1.55}
   <div class="cap-engine-head">
     <div>
       <h2>Mon calcul budget</h2>
-      <p>Renseignez vos montants : CAP Budget calcule immédiatement votre marge disponible.</p>
+      <p>Renseignez vos montants : CAP Budget calcule immédiatement votre solde disponible.</p>
     </div>
   </div>
 
@@ -1288,7 +1288,7 @@ body{font-size:19px!important;line-height:1.55}
     </article>
 
     <article class="cap-engine-card">
-      <h3>2. Votre marge réelle</h3>
+      <h3>2. Votre solde réel</h3>
       <p>Le calcul est transparent : revenus moins les postes renseignés.</p>
       <div class="cap-calc" id="cap-result">
         <div class="cap-calc-row"><span>Revenus</span><strong id="cap-r-income">2 500 €</strong></div>
@@ -1299,7 +1299,7 @@ body{font-size:19px!important;line-height:1.55}
         <div class="cap-calc-row"><span>Autres dépenses</span><strong id="cap-r-other">− 100 €</strong></div>
         <div class="cap-calc-row total"><span>Reste disponible</span><strong id="cap-r-total">600 €</strong></div>
       </div>
-      <div class="cap-rec"><b id="cap-rec-title">Votre marge est positive.</b><span id="cap-rec-text">Vous disposez encore d'une marge après les montants renseignés. Cette marge pourra ensuite être répartie entre épargne, dépenses imprévues et loisirs.</span></div>
+      <div class="cap-rec"><b id="cap-rec-title">Votre solde est positive.</b><span id="cap-rec-text">Vous disposez encore d'un solde après les montants renseignés. Ce solde pourra ensuite être répartie entre épargne, dépenses imprévues et loisirs.</span></div>
     </article>
   </div>
 
@@ -1335,8 +1335,8 @@ body{font-size:19px!important;line-height:1.55}
     document.getElementById('cap-goal-kpi').textContent=euro(v.projects);
     const title=document.getElementById('cap-rec-title'), body=document.getElementById('cap-rec-text');
     if(remain<0){title.textContent='Attention : le budget dépasse les revenus.';body.textContent='Réduisez ou réorganisez un ou plusieurs postes avant d’ajouter de nouvelles dépenses.'}
-    else if(remain<100){title.textContent='Marge très serrée.';body.textContent='Gardez une réserve pour les imprévus avant de prévoir des dépenses supplémentaires.'}
-    else {title.textContent='Votre marge est positive.';body.textContent='Vous disposez encore d’une marge après les montants renseignés. Une partie peut être affectée à l’épargne ou aux imprévus.'}
+    else if(remain<100){title.textContent='Solde très serrée.';body.textContent='Gardez une réserve pour les imprévus avant de prévoir des dépenses supplémentaires.'}
+    else {title.textContent='Votre solde est positive.';body.textContent='Vous disposez encore d’un solde après les montants renseignés. Une partie peut être affectée à l’épargne ou aux imprévus.'}
     localStorage.setItem('capBudgetEngine',JSON.stringify(v));
   }
   document.getElementById('cap-calc-btn').addEventListener('click',calc);
@@ -1380,7 +1380,7 @@ body{font-size:19px!important;line-height:1.55}
         <div class="cap-connected-row"><div><b>Projet / voyage</b><span>Épargne prévue</span></div><strong>25 €</strong></div>
         <div class="cap-connected-row"><div><b>Reste après engagements</b><span>À calculer selon vos données</span></div><strong id="cap-connected-remain">— €</strong></div>
       </div>
-      <div class="cap-impact"><strong>Décision assistée</strong><span>CAP Budget pourra signaler si une nouvelle dépense risque de réduire trop fortement la marge disponible.</span></div>
+      <div class="cap-impact"><strong>Décision assistée</strong><span>CAP Budget pourra signaler si une nouvelle dépense risque de réduire trop fortement le solde disponible.</span></div>
     </article>
   </div>
 </section>
@@ -1401,13 +1401,13 @@ body{font-size:19px!important;line-height:1.55}
 
 
 <section class="cap-v6" aria-label="CAP Budget — fonctions avancées">
-  <div class="cap-simple-summary" aria-label="Synthèse du budget"><div><small>Revenus</small><strong id="cap-simple-income">—</strong></div><div><small>Budget prévu</small><strong id="cap-simple-planned">—</strong><small id="cap-simple-rate"></small></div><div><small>Marge disponible</small><strong id="cap-simple-margin">—</strong></div></div>
+  <div class="cap-simple-summary" aria-label="Synthèse du budget"><div><small>Revenus</small><strong id="cap-simple-income">—</strong></div><div><small>Budget prévu</small><strong id="cap-simple-planned">—</strong><small id="cap-simple-rate"></small></div><div><small>Solde disponible</small><strong id="cap-simple-margin">—</strong></div></div>
 
   <div class="cap-v6-kpis">
     <div class="cap-v6-kpi"><small>Reste disponible</small><b id="v6-remain">—</b></div>
     <div class="cap-v6-kpi"><small>Budget engagé</small><b id="v6-rate">—</b></div>
     <div class="cap-v6-kpi"><small>Épargne projets</small><b id="v6-projects">—</b></div>
-    <div class="cap-v6-kpi"><small>Marge / semaine</small><b id="v6-week">—</b></div>
+    <div class="cap-v6-kpi"><small>Solde / semaine</small><b id="v6-week">—</b></div>
   </div>
 
   <div class="cap-v6-grid">
@@ -1517,7 +1517,7 @@ body{font-size:19px!important;line-height:1.55}
     const advice=document.getElementById('v6-advice'), detail=document.getElementById('v6-advice-detail');
     if(!b.income){advice.textContent='Commencez par renseigner vos revenus et dépenses dans le moteur de budget.'}
     else if(b.remain<0){advice.textContent='Votre budget dépasse actuellement vos revenus.';detail.textContent='CAP Conseil vous recommande de revoir les postes variables avant d’ajouter de nouvelles dépenses.'}
-    else if(b.remain<100){advice.textContent='Votre marge est très serrée.';detail.textContent='Gardez une réserve pour les imprévus et évitez de considérer toute la marge comme disponible.'}
+    else if(b.remain<100){advice.textContent='Votre solde est très serrée.';detail.textContent='Gardez une réserve pour les imprévus et évitez de considérer toute le solde comme disponible.'}
     else {
       const goals=getGoals().filter(g=>g&&Number(g.target)>0);
       if(goals.length){
@@ -1529,13 +1529,13 @@ body{font-size:19px!important;line-height:1.55}
           monthly=Math.ceil(remaining/Math.max(1,days/30.44));
         }
         const marginAfter=monthly?Math.max(0,b.remain-monthly):b.remain;
-        advice.textContent='Votre budget conserve une marge positive et votre projet principal est pris en compte.';
+        advice.textContent='Votre budget conserve un solde positif et votre projet principal est pris en compte.';
         detail.textContent=monthly
-          ? `${g.name} : ${money(remaining)} restent à financer · effort indicatif ${money(monthly)}/mois · sur ${money(b.remain)} de marge, il resterait ${money(marginAfter)} après cet effort.`
+          ? `${g.name} : ${money(remaining)} restent à financer · effort indicatif ${money(monthly)}/mois · sur ${money(b.remain)} de solde, il resterait ${money(marginAfter)} après cet effort.`
           : `${g.name} : ${money(remaining)} restent à financer. Renseigne une date cible pour calculer l’effort mensuel.`;
       } else {
-        advice.textContent='Votre budget conserve une marge positive.';
-        detail.textContent='Vous pouvez répartir cette marge entre épargne, imprévus et dépenses plaisir selon vos priorités.';
+        advice.textContent='Votre budget conserve un solde positif.';
+        detail.textContent='Vous pouvez répartir ce solde entre épargne, imprévus et dépenses plaisir selon vos priorités.';
       }
     }
     const stats=[
@@ -1563,9 +1563,9 @@ body{font-size:19px!important;line-height:1.55}
       const marginAfter=monthly?b.remain-monthly:b.remain;
       const planTone=monthly && marginAfter<0 ? 'warn' : '';
       const planText=monthly
-        ? `CAP repère : <b>${money(monthly)}</b> / mois pour ce projet · marge restante après cet effort : <strong class="${planTone}">${money(Math.max(0,marginAfter))}</strong>${marginAfter<0?' · marge insuffisante pour couvrir cet effort ce mois-ci.':''}`
-        : `CAP repère : <strong>${money(b.remain)}</strong> de marge disponible · renseigne une date cible pour calculer un effort mensuel.`;
-      return `<div class="cap-v6-item"><div><b>${g.name}</b><small>${money(saved)} / ${money(target)} · ${pct}%</small><div class="cap-v6-goal-meta"><span>Reste : ${money(remaining)}</span><span>${formatGoalDate(g.date)}</span></div><div class="cap-v6-goal-plan">${planText}</div><div class="cap-v6-goal-plan-v2"><div><span>Effort mensuel</span><strong>${monthly?money(monthly)+' / mois':'—'}</strong></div><div><span>Marge après effort</span><strong>${monthly?money(Math.max(0,marginAfter)):money(b.remain)}</strong></div></div><div class="cap-v6-bar"><i style="width:${pct}%"></i></div></div><button data-goal="${i}" aria-label="Supprimer ${String(g.name).replace(/"/g,'&quot;')}">✕</button></div>`;
+        ? `CAP repère : <b>${money(monthly)}</b> / mois pour ce projet · solde restant après cet effort : <strong class="${planTone}">${money(Math.max(0,marginAfter))}</strong>${marginAfter<0?' · solde insuffisant pour couvrir cet effort ce mois-ci.':''}`
+        : `CAP repère : <strong>${money(b.remain)}</strong> de solde disponible · renseigne une date cible pour calculer un effort mensuel.`;
+      return `<div class="cap-v6-item"><div><b>${g.name}</b><small>${money(saved)} / ${money(target)} · ${pct}%</small><div class="cap-v6-goal-meta"><span>Reste : ${money(remaining)}</span><span>${formatGoalDate(g.date)}</span></div><div class="cap-v6-goal-plan">${planText}</div><div class="cap-v6-goal-plan-v2"><div><span>Effort mensuel</span><strong>${monthly?money(monthly)+' / mois':'—'}</strong></div><div><span>Solde après effort</span><strong>${monthly?money(Math.max(0,marginAfter)):money(b.remain)}</strong></div></div><div class="cap-v6-bar"><i style="width:${pct}%"></i></div></div><button data-goal="${i}" aria-label="Supprimer ${String(g.name).replace(/"/g,'&quot;')}">✕</button></div>`;
     }).join(''):'<div class="cap-v6-note">Aucun objectif pour le moment.</div>';
     document.querySelectorAll('[data-goal]').forEach(btn=>btn.onclick=()=>{const g=getGoals();g.splice(Number(btn.dataset.goal),1);saveGoals(g);render()});
   }
@@ -1679,8 +1679,8 @@ body{font-size:19px!important;line-height:1.55}
       </div>
       <div class="cap-v7-v2-answer" id="v7-sim-answer" data-tone="good">
         <h4>Teste une dépense sans l’ajouter à tes dépenses</h4>
-        <p>Choisis un montant rapide ou saisis le tien, puis clique sur <strong>Simuler</strong>. Tu verras la marge qu’il te resterait et l’effet éventuel sur ton projet.</p>
-        <div class="cap-v7-sim-current">Marge disponible maintenant : <strong id="v7-sim-remain">600,00&nbsp;€</strong></div>
+        <p>Choisis un montant rapide ou saisis le tien, puis clique sur <strong>Simuler</strong>. Tu verras le solde qu’il te resterait et l’effet éventuel sur ton projet.</p>
+        <div class="cap-v7-sim-current">Solde disponible maintenant : <strong id="v7-sim-remain">600,00&nbsp;€</strong></div>
         <div class="cap-v7-detail-foot" style="margin-top:8px">La simulation ne crée pas de dépense réelle.</div>
       </div>
     </div>
@@ -1797,7 +1797,7 @@ body{font-size:19px!important;line-height:1.55}
       const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));
       const months=Math.max(1,days/30.44);
       monthly=Math.ceil(remaining/months);
-      fit=after>=monthly?'La marge simulée couvre encore l’effort mensuel indicatif nécessaire.':'La marge simulée devient inférieure à l’effort mensuel indicatif nécessaire.';
+      fit=after>=monthly?'Le solde simulé couvre encore l’effort mensuel indicatif nécessaire.':'Le solde simulé devient inférieure à l’effort mensuel indicatif nécessaire.';
     } else fit='Aucune date cible : CAP conserve le montant restant sans inventer d’échéance.';
     el.innerHTML=`<b>🎯 ${esc(p.type)} : ${esc(p.name)}</b><span>Reste à financer : <strong>${money(remaining)}</strong>${monthly?' · effort indicatif : <strong>'+money(monthly)+'/mois</strong>':''}<br>${esc(fit)}</span>`;
   }
@@ -1816,12 +1816,12 @@ body{font-size:19px!important;line-height:1.55}
     if(key==='real'){
       panel.innerHTML=`<h3>💰 Détail de ton calcul réel</h3><p>CAP compare ton revenu aux montants prévus dans ton budget.</p><div class="cap-v7-insight-grid">${metric('Revenus',money(b.salary))}${metric('Charges fixes',money(b.recurring))}${metric('Dépenses prévues',money(b.variable))}${metric('Projets / épargne',money(b.tripSaved))}</div><div class="cap-v7-insight-list"><div class="cap-v7-insight-row"><span>Total déjà prévu</span><strong>${money(b.committed)}</strong></div><div class="cap-v7-insight-row"><span>Reste après ces montants</span><strong>${money(b.remain)}</strong></div><div class="cap-v7-insight-row"><span>Repère par semaine</span><strong>${money(b.weekly)}</strong></div><div class="cap-v7-insight-row"><span>Part du revenu engagée</span><strong>${b.rate} %</strong></div></div>`;
     }else if(key==='simulation'){
-      panel.innerHTML=`<h3>🔮 Détail de la simulation</h3><p>Choisis un montant dans le simulateur ci-dessous. CAP le soustrait temporairement à ta marge et affiche ce qu’il resterait. La simulation n’ajoute pas de dépense réelle.</p><div class="cap-v7-insight-grid">${metric('Marge maintenant',money(b.remain))}${metric('Repère par semaine',money(b.weekly))}${metric('Montants proposés','20 · 50 · 100 · 200 €')}${metric('Dépense enregistrée','Non')}</div><button class="cap-v7-insight-link" type="button" id="v7-insight-goto-sim">Aller au simulateur ↓</button>`;
+      panel.innerHTML=`<h3>🔮 Détail de la simulation</h3><p>Choisis un montant dans le simulateur ci-dessous. CAP le soustrait temporairement à ton solde et affiche ce qu’il resterait. La simulation n’ajoute pas de dépense réelle.</p><div class="cap-v7-insight-grid">${metric('Solde maintenant',money(b.remain))}${metric('Repère par semaine',money(b.weekly))}${metric('Montants proposés','20 · 50 · 100 · 200 €')}${metric('Dépense enregistrée','Non')}</div><button class="cap-v7-insight-link" type="button" id="v7-insight-goto-sim">Aller au simulateur ↓</button>`;
       document.getElementById('v7-insight-goto-sim').onclick=()=>{document.getElementById('v7-sim-amount').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('v7-sim-amount').focus({preventScroll:true});};
     }else if(key==='projects'){
       const projects=projectList(b);
       const details=projects.length?projects.map(p=>{const remaining=Math.max(0,p.target-p.saved);let monthly=0;if(p.date){const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44));}return `<div class="cap-v7-insight-row"><span>🎯 ${esc(p.name)} · ${money(p.saved)} épargnés sur ${money(p.target)}${p.date?' · date cible '+new Date(p.date+'T00:00:00').toLocaleDateString('fr-FR'):''}</span><strong>Reste ${money(remaining)}${monthly?' · '+money(monthly)+'/mois':''}</strong></div>`;}).join(''):'<div class="cap-v7-insight-row"><span>Aucun projet enregistré.</span><strong>—</strong></div>';
-      panel.innerHTML=`<h3>🎯 Détail de l’impact sur tes projets</h3><p>La simulation compare ta marge avant et après l’achat. Elle estime aussi si l’effort mensuel du projet reste couvert, sans modifier l’argent déjà enregistré pour ce projet.</p><div class="cap-v7-insight-list">${details}</div>`;
+      panel.innerHTML=`<h3>🎯 Détail de l’impact sur tes projets</h3><p>La simulation compare ton solde avant et après l’achat. Elle estime aussi si l’effort mensuel du projet reste couvert, sans modifier l’argent déjà enregistré pour ce projet.</p><div class="cap-v7-insight-list">${details}</div>`;
     }else{
       const operations=readJSON('capBudgetOperations',[]), analyses=readJSON(HISTORY_KEY,[]);
       panel.innerHTML=`<h3>💾 Détail des données utilisées</h3><p>Les informations de budget de cette version sont conservées dans le navigateur de cet appareil. Une simulation ne crée pas d’opération réelle. Tu peux exporter une copie depuis la partie Budget.</p><div class="cap-v7-insight-grid">${metric('Opérations réelles',String(Array.isArray(operations)?operations.length:0))}${metric('Analyses conservées',String(Array.isArray(analyses)?analyses.length:0))}${metric('Revenus pris en compte',money(b.salary))}${metric('Montants budgétés',money(b.committed))}</div><div class="cap-v7-insight-list"><div class="cap-v7-insight-row"><span>Revenu, charges, dépenses prévues et projets alimentent le calcul.</span><strong>CAP</strong></div><div class="cap-v7-insight-row"><span>Le bouton « Exporter mes données » est dans la partie Budget.</span><strong>Copie</strong></div></div>`;
@@ -1841,26 +1841,26 @@ body{font-size:19px!important;line-height:1.55}
   function analyze(){
     const b=actualBudget(), type=document.getElementById('v7-question').value, amount=Math.max(0,Number(document.getElementById('v7-amount').value)||0);
     let title='',body='',icon='💡',answer='';
-    if(!b.salary){title='Ton budget n’est pas encore renseigné';body='Renseigne ton salaire dans le budget principal pour que CAP puisse calculer une marge réelle.';icon='📝';answer='À renseigner';}
+    if(!b.salary){title='Ton budget n’est pas encore renseigné';body='Renseigne ton salaire dans le budget principal pour que CAP puisse calculer un solde réel.';icon='📝';answer='À renseigner';}
     else if(type==='spend'){
       const after=b.remain-amount;
       if(amount<=0){title='Indique un montant';body='Entre le montant de la dépense que tu envisages.';icon='💶';answer='Montant manquant';}
-      else if(after<0){title='Cette dépense dépasse ta marge actuelle';body=`Après ${money(amount)}, ton reste passerait à ${money(after)}. Il manque ${money(Math.abs(after))} pour absorber la dépense sans dépasser la marge actuelle.`;icon='⚠️';answer='À revoir';}
-      else if(after<b.weekly){title='Possible, mais elle consomme plus d’une semaine de marge';body=`Après ${money(amount)}, il resterait ${money(after)}. Ton enveloppe hebdomadaire actuelle est d’environ ${money(b.weekly)}.`;icon='🟠';answer='Prudence';}
-      else {title='La dépense entre dans ta marge actuelle';body=`Après ${money(amount)}, il resterait ${money(after)}. Vérifie aussi l’effet sur ton épargne et ton projet avant de décider.`;icon='✅';answer='Possible';}
+      else if(after<0){title='Cette dépense dépasse ton solde actuel';body=`Après ${money(amount)}, ton reste passerait à ${money(after)}. Il manque ${money(Math.abs(after))} pour absorber la dépense sans dépasser le solde actuel.`;icon='⚠️';answer='À revoir';}
+      else if(after<b.weekly){title='Possible, mais elle consomme plus d’une semaine de solde';body=`Après ${money(amount)}, il resterait ${money(after)}. Ton enveloppe hebdomadaire actuelle est d’environ ${money(b.weekly)}.`;icon='🟠';answer='Prudence';}
+      else {title='La dépense entre dans ton solde actuel';body=`Après ${money(amount)}, il resterait ${money(after)}. Vérifie aussi l’effet sur ton épargne et ton projet avant de décider.`;icon='✅';answer='Possible';}
       renderProjectImpact(b,after);
     } else if(type==='week'){
       const weeksRemaining=Math.max(1,b.daysLeft/7);
       title='Ton enveloppe hebdomadaire actuelle';
-      body=`Il reste ${b.daysLeft} jour(s) dans le mois, soit environ ${weeksRemaining.toFixed(1).replace('.', ',')} semaines. Sur cette période, ta marge de ${money(b.remain)} représente environ ${money(b.weekly)} par semaine.`;
+      body=`Il reste ${b.daysLeft} jour(s) dans le mois, soit environ ${weeksRemaining.toFixed(1).replace('.', ',')} semaines. Sur cette période, ton solde de ${money(b.remain)} représente environ ${money(b.weekly)} par semaine.`;
       answer=money(b.weekly);icon='📅';
     } else if(type==='save'){
       const safe=Math.max(0,b.remain);
-      title='Ta capacité d’épargne disponible';body=`Ta marge réellement disponible est de ${money(safe)}. C’est le montant maximal qui reste après les charges, dépenses et versements déjà enregistrés ce mois-ci — sans prévoir de nouvelle dépense.`;answer=money(safe);icon='🎯';
+      title='Ta capacité d’épargne disponible';body=`Ton solde réellement disponible est de ${money(safe)}. C’est le montant maximal qui reste après les charges, dépenses et versements déjà enregistrés ce mois-ci — sans prévoir de nouvelle dépense.`;answer=money(safe);icon='🎯';
     } else {
       const projects=projectList(b);
-      if(!projects.length){title='Ajoute d’abord un objectif';body=`Ta marge actuelle est de ${money(b.remain)}. Ajoute un voyage ou un objectif pour que CAP calcule l’effort nécessaire.`;answer='Objectif';icon='🚀';}
-      else {const p=projects[0], remaining=Math.max(0,p.target-p.saved);let monthly=0;if(p.date){const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44));}title='Ton projet principal';body=`${p.name} : il reste ${money(remaining)} à financer.${monthly?' Effort indicatif : '+money(monthly)+' / mois.':''} Ta marge actuelle est de ${money(b.remain)}.`;answer='Projet';icon='🚀';}
+      if(!projects.length){title='Ajoute d’abord un objectif';body=`Ton solde actuel est de ${money(b.remain)}. Ajoute un voyage ou un objectif pour que CAP calcule l’effort nécessaire.`;answer='Objectif';icon='🚀';}
+      else {const p=projects[0], remaining=Math.max(0,p.target-p.saved);let monthly=0;if(p.date){const days=Math.max(0,Math.round((new Date(p.date+'T00:00:00')-new Date())/86400000));monthly=Math.ceil(remaining/Math.max(1,days/30.44));}title='Ton projet principal';body=`${p.name} : il reste ${money(remaining)} à financer.${monthly?' Effort indicatif : '+money(monthly)+' / mois.':''} Ton solde actuel est de ${money(b.remain)}.`;answer='Projet';icon='🚀';}
     }
     setAnswer(title,body,icon, type==='spend' && amount>0 ? (b.remain-amount<0?'bad':b.remain-amount<b.weekly?'warn':'good') : '');
     const history=getHistory();history.unshift({q:document.getElementById('v7-question').selectedOptions[0].text,a:answer});saveHistory(history);refresh();
@@ -1873,7 +1873,7 @@ body{font-size:19px!important;line-height:1.55}
     const after=Math.round((b.remain-amount)*100)/100;
     const impact=b.remain>0?Math.round(amount/b.remain*100):0;
     const tone=after<0?'bad':after<b.weekly?'warn':'good';
-    const title=after<0?'🚫 Dépense au-dessus de ta marge':after<b.weekly?'⚠️ Dépense possible, mais elle réduit fortement ta marge':'✅ Dépense compatible avec ta marge actuelle';
+    const title=after<0?'🚫 Dépense au-dessus de ton solde':after<b.weekly?'⚠️ Dépense possible, mais elle réduit fortement ton solde':'✅ Dépense compatible avec ton solde actuel';
     const savingAfter=Math.max(0,after);
     let projectHtml='';
     const projects=projectList(b);
@@ -1885,7 +1885,7 @@ body{font-size:19px!important;line-height:1.55}
         monthly=Math.ceil(remaining/Math.max(1,days/30.44));
         monthsCoveredBefore=monthly?Math.max(0,b.remain/monthly):0;
         monthsCoveredAfter=monthly?Math.max(0,after/monthly):0;
-        projectStatus=after>=monthly?'La dépense ne met pas en cause l’effort mensuel indicatif du projet.':'La dépense fait passer la marge simulée sous l’effort mensuel indicatif du projet.';
+        projectStatus=after>=monthly?'La dépense ne met pas en cause l’effort mensuel indicatif du projet.':'La dépense fait passer le solde simulé sous l’effort mensuel indicatif du projet.';
       } else projectStatus='Aucune échéance n’est enregistrée.';
       const deltaMargin=Math.round((b.remain-after)*100)/100;
       const dateLabel=p.date?new Date(p.date+'T00:00:00').toLocaleDateString('fr-FR'):'';
@@ -1896,11 +1896,11 @@ body{font-size:19px!important;line-height:1.55}
       const projectChanged='non';
       projectHtml=`<div class="cap-v7-v2-project">
         <div class="cap-v7-v2-project-head">
-          <div><div class="cap-v7-v2-project-title">🎯 Impact sur ${esc(p.name)}</div><span class="cap-v7-v2-project-sub">La simulation porte sur ta marge, pas sur l’argent déjà enregistré dans le projet.</span></div>
+          <div><div class="cap-v7-v2-project-title">🎯 Impact sur ${esc(p.name)}</div><span class="cap-v7-v2-project-sub">La simulation porte sur ton solde, pas sur l’argent déjà enregistré dans le projet.</span></div>
         </div>
         <div class="cap-v7-v2-before-after">
-          <div class="cap-v7-v2-side"><small>Avant la dépense</small><strong>${beforeMargin}</strong><em>marge disponible</em></div>
-          <div class="cap-v7-v2-side"><small>Après la dépense</small><strong>${afterMargin}</strong><em>marge disponible</em></div>
+          <div class="cap-v7-v2-side"><small>Avant la dépense</small><strong>${beforeMargin}</strong><em>solde disponible</em></div>
+          <div class="cap-v7-v2-side"><small>Après la dépense</small><strong>${afterMargin}</strong><em>solde disponible</em></div>
         </div>
         <div class="cap-v7-v2-project-meta">
           <div><small>Reste à financer</small><b>${projectRemaining}</b></div>
@@ -1908,17 +1908,17 @@ body{font-size:19px!important;line-height:1.55}
           <div><small>Date cible</small><b>${dateLabel||'Non définie'}</b></div>
           <div><small>Projet modifié</small><b>${projectChanged}</b></div>
         </div>
-        <div class="cap-v7-v2-project-note">La dépense simulée retire ${money(deltaMargin)} de ta marge disponible, mais ne change pas les ${projectRemaining} qu’il reste à financer pour le projet. ${esc(projectStatus)} Ta marge couvre environ <strong>${beforeMonths} mensualités</strong> du projet avant la dépense, puis <strong>${afterMonths}</strong> après.</div>
+        <div class="cap-v7-v2-project-note">La dépense simulée retire ${money(deltaMargin)} de ton solde disponible, mais ne change pas les ${projectRemaining} qu’il reste à financer pour le projet. ${esc(projectStatus)} Ton solde couvre environ <strong>${beforeMonths} mensualités</strong> du projet avant la dépense, puis <strong>${afterMonths}</strong> après.</div>
       </div>`;
     } else projectHtml='<div class="cap-v7-v2-project"><b>🎯 Aucun projet actif</b><span>Ajoute un voyage ou un objectif pour que CAP mesure son impact.</span></div>';
     box.dataset.tone=tone;
-    box.innerHTML=`<h4>${title}</h4><p>Reste avant : <strong>${money(b.remain)}</strong> · après : <strong>${money(after)}</strong>.<br>La dépense représente environ <strong>${impact}%</strong> de ta marge actuelle. Capacité d’épargne disponible avant : <strong>${money(Math.max(0,b.remain))}</strong> · après : <strong>${money(savingAfter)}</strong>.</p>${projectHtml}`;
+    box.innerHTML=`<h4>${title}</h4><p>Reste avant : <strong>${money(b.remain)}</strong> · après : <strong>${money(after)}</strong>.<br>La dépense représente environ <strong>${impact}%</strong> de ton solde actuel. Capacité d’épargne disponible avant : <strong>${money(Math.max(0,b.remain))}</strong> · après : <strong>${money(savingAfter)}</strong>.</p>${projectHtml}`;
 
     // Enregistrer aussi les simulations dans « Dernières analyses ».
     const simulationHistory=getHistory();
     simulationHistory.unshift({
       q:`Simulation : dépense de ${money(amount)}`,
-      a:`${money(b.remain)} → ${money(after)} · ${after<0?'au-dessus de la marge':after<b.weekly?'marge fortement réduite':'dépense compatible'}`
+      a:`${money(b.remain)} → ${money(after)} · ${after<0?'au-dessus de le solde':after<b.weekly?'solde fortement réduit':'dépense compatible'}`
     });
     saveHistory(simulationHistory);
     refresh();
@@ -1934,7 +1934,7 @@ body{font-size:19px!important;line-height:1.55}
     document.getElementById('v7-answer').dataset.tone='';
     document.getElementById('v7-answer').innerHTML='<div class="icon">💡</div><h3>Que veux-tu vérifier ?</h3><p>Choisis une question dans le menu. CAP s’appuiera sur les montants de ton budget affichés à gauche.</p><div class="cap-v7-empty-guide"><div class="cap-v7-guide-row"><b>1</b><span>Sélectionne ce que tu veux savoir.</span></div><div class="cap-v7-guide-row"><b>2</b><span>Pour une dépense, saisis son montant.</span></div><div class="cap-v7-guide-row"><b>3</b><span>Clique sur <strong>Analyser</strong> pour voir le résultat ici.</span></div></div>';
     document.getElementById('v7-sim-answer').dataset.tone='';
-    document.getElementById('v7-sim-answer').innerHTML='<h4>Teste une dépense sans l’ajouter à tes dépenses</h4><p>Choisis un montant rapide ou saisis le tien, puis clique sur <strong>Simuler</strong>. Tu verras la marge qu’il te resterait et l’effet éventuel sur ton projet.</p><div class="cap-v7-sim-current">Marge disponible maintenant : <strong id="v7-sim-remain">'+money(actualBudget().remain)+'</strong></div><div class="cap-v7-detail-foot" style="margin-top:8px">La simulation ne crée pas de dépense réelle.</div>';
+    document.getElementById('v7-sim-answer').innerHTML='<h4>Teste une dépense sans l’ajouter à tes dépenses</h4><p>Choisis un montant rapide ou saisis le tien, puis clique sur <strong>Simuler</strong>. Tu verras le solde qu’il te resterait et l’effet éventuel sur ton projet.</p><div class="cap-v7-sim-current">Solde disponible maintenant : <strong id="v7-sim-remain">'+money(actualBudget().remain)+'</strong></div><div class="cap-v7-detail-foot" style="margin-top:8px">La simulation ne crée pas de dépense réelle.</div>';
     renderInsight(activeInsight);
   };
   document.getElementById('v7-question').onchange=()=>{
@@ -1953,7 +1953,7 @@ body{font-size:19px!important;line-height:1.55}
       <div class="cap-v8-kpi"><small>Dépenses réelles</small><strong id="v8-real">0,00&nbsp;€</strong></div>
       <div class="cap-v8-kpi"><small>Budget planifié</small><strong id="v8-planned">1 900,00&nbsp;€</strong></div>
       <div class="cap-v8-kpi"><small>Reste après dépenses réelles</small><strong id="v8-remain">2 500,00&nbsp;€</strong></div>
-      <div class="cap-v8-kpi"><small>Marge après budget prévu</small><strong id="v8-margin">600,00&nbsp;€</strong></div>
+      <div class="cap-v8-kpi"><small>Solde après budget prévu</small><strong id="v8-margin">600,00&nbsp;€</strong></div>
     </div>
     <div class="cap-v8-breakdown"><h3>📋 Détail du budget et des charges</h3><p>Compare, pour chaque poste, le montant prévu et les dépenses réellement enregistrées.</p><div class="cap-v8-plan-list" id="v8-plan-list"><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">🏠 Charges fixes</span><span class="cap-v8-plan-budget">Prévu : 1 100,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 1 100,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">🛒 Courses et repas</span><span class="cap-v8-plan-budget">Prévu : 350,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 350,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">🎮 Loisirs</span><span class="cap-v8-plan-budget">Prévu : 150,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 150,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">✈️ Projets et voyages</span><span class="cap-v8-plan-budget">Prévu : 200,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 200,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">📦 Autres dépenses</span><span class="cap-v8-plan-budget">Prévu : 100,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 100,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div></div><div class="cap-v8-fixed-detail" id="v8-fixed-detail"><h4>🏠 Détail des charges fixes enregistrées</h4><div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div><div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>1 100,00&nbsp;€</strong></div><div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>0,00&nbsp;€ / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>1 100,00&nbsp;€ / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a></div></div>
   </div>
@@ -2010,9 +2010,9 @@ body{font-size:19px!important;line-height:1.55}
 
     <article class="cap-v8-card">
       <h3>🧠 Impact sur CAP Conseil</h3>
-      <p>Voici ce que tes prévisions et tes dépenses réelles changent dans la marge estimée.</p>
+      <p>Voici ce que tes prévisions et tes dépenses réelles changent dans le solde estimé.</p>
       <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-advice">Analyser ma situation</button></div>
-      <div id="v8-advice-box" style="margin-top:10px;color:#a9bacd;font-size:12px;line-height:1.55"><div class="cap-v8-advice-panel"><h4>✅ Voici ta marge après le budget prévu</h4><p>Aucune opération réelle n’est encore enregistrée. La comparaison part donc de tes enveloppes prévues. La marge prévisionnelle est calculée en retirant le budget prévu du revenu. Les dépenses réelles sont comparées aux enveloppes et ne sont pas soustraites une deuxième fois.</p><div class="cap-v8-advice-grid"><div><small>Revenus</small><strong>2 500,00&nbsp;€</strong></div><div><small>Budget prévu</small><strong>− 1 900,00&nbsp;€</strong></div><div><small>Dépenses réelles enregistrées</small><strong>0,00&nbsp;€</strong></div><div><small>Marge après budget prévu</small><strong>600,00&nbsp;€</strong></div></div><div class="cap-v8-advice-foot">Consulte la répartition réelle au-dessus pour voir les dépenses comparées à leur enveloppe, poste par poste.</div></div></div>
+      <div id="v8-advice-box" style="margin-top:10px;color:#a9bacd;font-size:12px;line-height:1.55"><div class="cap-v8-advice-panel"><h4>✅ Voici ton solde après le budget prévu</h4><p>Aucune opération réelle n’est encore enregistrée. La comparaison part donc de tes enveloppes prévues. Le solde prévisionnel est calculée en retirant le budget prévu du revenu. Les dépenses réelles sont comparées aux enveloppes et ne sont pas soustraites une deuxième fois.</p><div class="cap-v8-advice-grid"><div><small>Revenus</small><strong>2 500,00&nbsp;€</strong></div><div><small>Budget prévu</small><strong>− 1 900,00&nbsp;€</strong></div><div><small>Dépenses réelles enregistrées</small><strong>0,00&nbsp;€</strong></div><div><small>Solde après budget prévu</small><strong>600,00&nbsp;€</strong></div></div><div class="cap-v8-advice-foot">Consulte la répartition réelle au-dessus pour voir les dépenses comparées à leur enveloppe, poste par poste.</div></div></div>
     </article>
   </div>
 </section>
@@ -2072,10 +2072,10 @@ body{font-size:19px!important;line-height:1.55}
 
   function renderV8Advice(){
     const b=budget()||{}, ops=getOps(), income=Number(b.income)||0, planned=getPlan(), real=ops.reduce((sum,o)=>sum+(Number(o.amount)||0),0), margin=income-planned, box=document.getElementById('v8-advice-box');
-    if(!income){box.innerHTML='<div class="cap-v8-advice-panel"><h4>📝 Ton budget de départ manque</h4><p>Renseigne d’abord tes revenus et tes enveloppes dans le Budget. CAP pourra ensuite calculer la marge prévisionnelle et l’effet des opérations enregistrées.</p></div>';return;}
-    const title=margin<0?'⚠️ Le budget dépasse les revenus':'✅ Voici ta marge après le budget prévu';
+    if(!income){box.innerHTML='<div class="cap-v8-advice-panel"><h4>📝 Ton budget de départ manque</h4><p>Renseigne d’abord tes revenus et tes enveloppes dans le Budget. CAP pourra ensuite calculer le solde prévisionnel et l’effet des opérations enregistrées.</p></div>';return;}
+    const title=margin<0?'⚠️ Le budget dépasse les revenus':'✅ Voici ton solde après le budget prévu';
     const explanation=ops.length?`Tu as ${ops.length} opération${ops.length>1?'s':''} réelle${ops.length>1?'s':''} enregistrée${ops.length>1?'s':''} pour un total de ${money(real)}.`:'Aucune opération réelle n’est encore enregistrée. La comparaison part donc de tes enveloppes prévues.';
-    box.innerHTML=`<div class="cap-v8-advice-panel"><h4>${title}</h4><p>${explanation} La marge prévisionnelle est calculée en retirant le budget prévu du revenu. Les dépenses réelles sont comparées aux enveloppes et ne sont pas soustraites une deuxième fois.</p><div class="cap-v8-advice-grid"><div><small>Revenus</small><strong>${money(income)}</strong></div><div><small>Budget prévu</small><strong>− ${money(planned)}</strong></div><div><small>Dépenses réelles enregistrées</small><strong>${money(real)}</strong></div><div><small>Marge après budget prévu</small><strong>${money(margin)}</strong></div></div><div class="cap-v8-advice-foot">Consulte la répartition réelle au-dessus pour voir les dépenses comparées à leur enveloppe, poste par poste.</div></div>`;
+    box.innerHTML=`<div class="cap-v8-advice-panel"><h4>${title}</h4><p>${explanation} Le solde prévisionnel est calculée en retirant le budget prévu du revenu. Les dépenses réelles sont comparées aux enveloppes et ne sont pas soustraites une deuxième fois.</p><div class="cap-v8-advice-grid"><div><small>Revenus</small><strong>${money(income)}</strong></div><div><small>Budget prévu</small><strong>− ${money(planned)}</strong></div><div><small>Dépenses réelles enregistrées</small><strong>${money(real)}</strong></div><div><small>Solde après budget prévu</small><strong>${money(margin)}</strong></div></div><div class="cap-v8-advice-foot">Consulte la répartition réelle au-dessus pour voir les dépenses comparées à leur enveloppe, poste par poste.</div></div>`;
   }
 
   function add(label,amount,category,date,subcategory,note){
@@ -2212,7 +2212,7 @@ body{font-size:19px!important;line-height:1.55}
     </article>
     <article class="cap-v10-card">
       <h2>🧠 CAP Conseil</h2>
-      <div id="v10-advice" class="cap-v10-good">Votre marge actuelle est de 2 500,00&nbsp;€. Votre enveloppe hebdomadaire indicative est de 577,37&nbsp;€.</div>
+      <div id="v10-advice" class="cap-v10-good">Votre solde actuel est de 2 500,00&nbsp;€. Votre enveloppe hebdomadaire indicative est de 577,37&nbsp;€.</div>
       <button class="cap-v10-btn" id="v10-refresh">Actualiser</button>
     </article>
   </div>
@@ -2255,8 +2255,8 @@ body{font-size:19px!important;line-height:1.55}
     let advice='';
     if(!income) advice='Renseignez vos revenus pour obtenir une analyse complète.';
     else if(remain<0) advice=`Votre historique dépasse les revenus renseignés de ${money(Math.abs(remain))}. Il faut revoir les dépenses ou le budget prévu.`;
-    else if(remain<100) advice=`Votre marge est actuellement de ${money(remain)}. Une réserve pour les imprévus mérite d'être prise en compte.`;
-    else advice=`Votre marge actuelle est de ${money(remain)}. Votre enveloppe hebdomadaire indicative est de ${money(week)}.`;
+    else if(remain<100) advice=`Votre solde est actuellement de ${money(remain)}. Une réserve pour les imprévus mérite d'être prise en compte.`;
+    else advice=`Votre solde actuel est de ${money(remain)}. Votre enveloppe hebdomadaire indicative est de ${money(week)}.`;
     document.getElementById('v10-advice').textContent=advice;
 
     const alerts=[];
@@ -3541,7 +3541,7 @@ cloudBtn.onclick = async () => {
   const examples = [
     {q:'Exemple · Puis-je me permettre cette dépense ?',a:'50 € → il resterait 550 €'},
     {q:'Exemple · Combien puis-je dépenser cette semaine ?',a:'Repère : environ 168 € / semaine'},
-    {q:'Exemple · Combien puis-je mettre de côté ?',a:'Repère : jusqu’à 300 € en gardant 300 € de marge'},
+    {q:'Exemple · Combien puis-je mettre de côté ?',a:'Repère : jusqu’à 300 € en gardant 300 € de solde'},
     {q:'Exemple · Comment avancer vers mon objectif ?',a:'Crète : 1 500 € restant · environ 173 € / mois'}
   ];
 
@@ -3914,7 +3914,7 @@ cloudBtn.onclick = async () => {
     const note=document.getElementById('cap-budget-source-note');
     if(!note)return;
     if(main!==null&&salary!==null&&Math.abs(main-salary)<0.005){
-      note.textContent='Revenus synchronisés avec le budget principal. Ce cadran déduit uniquement les charges mensuelles et les dépenses enregistrées dans son propre module, ainsi que son épargne. Son reste à vivre n’est pas la marge prévisionnelle du budget principal : ne cumulez pas les deux montants.';
+      note.textContent='Revenus synchronisés avec le budget principal. Ce cadran déduit uniquement les charges mensuelles et les dépenses enregistrées dans son propre module, ainsi que son épargne. Son reste à vivre n’est pas le solde prévisionnel du budget principal : ne cumulez pas les deux montants.';
     }
   }
   window.addEventListener('load',()=>{
