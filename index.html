@@ -3593,11 +3593,17 @@ cloudBtn.onclick = async () => {
     syncIncomeFromMain();
     updateSyncExplanation();
     const btn=document.getElementById('cap-sync-main-income');
-    if(btn)btn.hidden=true;
-    // Le revenu est piloté par le budget principal : éviter une modification
-    // manuelle concurrente depuis le cadran, sans supprimer aucune donnée.
+    let primary=null;
+    try {
+      const saved=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');
+      if(saved&&saved.income!==null&&saved.income!==undefined)primary=Number(saved.income);
+    } catch(_) {}
+    const primaryReady=Number.isFinite(primary)&&primary>0&&primary<=100000000;
+    if(btn)btn.hidden=primaryReady;
+    // Ne verrouiller l'édition du salaire que si un revenu principal
+    // valide existe réellement dans la sauvegarde locale.
     const salaryEdit=document.getElementById('edit-salary');
-    if(salaryEdit){
+    if(salaryEdit&&primaryReady){
       salaryEdit.disabled=true;
       salaryEdit.setAttribute('aria-label','Revenus synchronisés avec le budget principal');
       salaryEdit.title='Pour modifier les revenus, utilisez le budget principal.';
