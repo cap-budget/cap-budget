@@ -4068,7 +4068,7 @@ cloudBtn.onclick = async () => {
 (function(){
  function sync(){
   for(const [from,to] of [['v8-income','cap-simple-income'],['v8-planned','cap-simple-planned'],['v8-margin','cap-simple-margin']]){const a=document.getElementById(from),b=document.getElementById(to);if(a&&b)b.textContent=a.textContent.trim()||'—';}
-  const num=id=>Number((document.getElementById(id)?.textContent||'').replace(/[^\\d,.-]/g,'').replace(',','.'));
+  const num=id=>Number((document.getElementById(id)?.textContent||'').replace(/[^\d,.-]/g,'').replace(',','.'));
   const income=num('v8-income'),planned=num('v8-planned'),rate=document.getElementById('cap-simple-rate');
   if(rate)rate.textContent=income>0&&Number.isFinite(planned)?Math.round(planned/income*100)+' % du revenu':'';
  }
