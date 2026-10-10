@@ -4046,4 +4046,30 @@ cloudBtn.onclick = async () => {
  }
  window.addEventListener('load',()=>{sync();for(const id of ['v8-income','v8-planned','v8-margin']){const el=document.getElementById(id);if(el)new MutationObserver(sync).observe(el,{childList:true,subtree:true,characterData:true});}});
 })();
-</script></body></html>
+</script>
+<style>
+/* CAP ACCESSIBILITÉ 2026 : lisibilité renforcée */
+/* Respect du thème sombre existant, avec textes et commandes agrandis. */
+html{font-size:18px}
+body{font-size:18px;line-height:1.65}
+:where(p,li,dd,dt,label,summary,blockquote,td,th){font-size:inherit;line-height:1.6}
+:where(h1,h2){font-size:clamp(24px,4vw,30px);font-weight:800;line-height:1.3}
+:where(h3,h4){font-size:clamp(22px,3vw,26px);font-weight:700;line-height:1.35}
+:where(button,input,select,textarea,.btn,[role="button"]){font-family:inherit;font-size:18px;line-height:1.4}
+:where(button,.btn,[role="button"]){min-height:48px;padding:12px 16px;touch-action:manipulation}
+:where(input,select,textarea){min-height:48px;padding:11px 13px;max-width:100%}
+:where(.card,.cap-v6-card,.cap-v8-card){overflow-wrap:anywhere}
+:where(.brand-sub,.pill,.cap-v6-badge,.cap-v6-note,.cap-simple-summary small,.cap-v6-row,.cap-v6-plan span,small){font-size:16px;line-height:1.5}
+:where(.amount,.hero-amount,.big-number,.stat-value,.cap-simple-summary strong,#cap-simple-income,#cap-simple-planned,#cap-simple-margin){font-size:clamp(28px,5vw,36px);line-height:1.25;font-variant-numeric:tabular-nums}
+:where(.cap-v6-card,.cap-v8-card,.card) :where(p,li){font-size:18px;line-height:1.6}
+:where(.cap-v6-card,.cap-v8-card,.card) :where(h2,h3){font-size:clamp(22px,3.5vw,26px);line-height:1.35}
+:where(.cap-v6-card,.cap-v8-card,.card) :where(button,input,select,textarea){font-size:18px}
+:where(a,button,input,select,textarea,[role="button"]):focus-visible{outline:3px solid #a5b4fc;outline-offset:3px}
+@media(max-width:600px){
+  body{font-size:18px}
+  :where(.app,.card,.cap-v6-card,.cap-v8-card){min-width:0}
+  :where(button,.btn,[role="button"]){min-height:48px}
+  :where(.cap-v6-plan,.cap-simple-summary){min-width:0}
+}
+</style>
+</body></html>
