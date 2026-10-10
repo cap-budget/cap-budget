@@ -3901,7 +3901,8 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 
 <link rel="stylesheet" href="style.css?v=onboarding-20261010">
 <div id="onboarding-modal" class="onboarding-overlay" style="display:none" hidden role="dialog" aria-modal="true" aria-labelledby="cw-title">
-  <div class="onboarding-card">
+  <div class="onboarding-card" style="position:relative">
+    <button type="button" id="cw-close" aria-label="Fermer et accéder à la démo" title="Fermer" style="position:absolute;top:12px;right:12px;z-index:10;border:1px solid #8888;border-radius:50%;width:38px;height:38px;cursor:pointer;background:#ffffff;color:#17251e;font-size:23px;line-height:1">✕</button>
     <h1 id="cw-title" class="onboarding-title">Bienvenue sur CAP Budget ! 👋</h1>
     <p class="onboarding-subtitle">Choisissez comment vous souhaitez démarrer votre expérience :</p>
     <div id="cw-choices" class="onboarding-actions">
@@ -3917,6 +3918,6 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     </form>
   </div>
 </div>
-<script src="script.js?v=onboarding-20261010" defer></script>
+<script src="script.js?v=onboarding-unblock-20261010" defer></script>
 
 </body></html>
