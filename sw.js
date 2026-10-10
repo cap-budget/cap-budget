@@ -1,9 +1,9 @@
-const CACHE_NAME = "cap-budget-v5-onboarding";
+const CACHE_NAME = "cap-budget-v6-onboarding-unblock";
 
 const APP_FILES = [
   "./",
   "./index.html",
-  "./script.js?v=onboarding-20261010",
+  "./script.js?v=onboarding-unblock-v2-20261010",
   "./style.css?v=onboarding-20261010",
   "./manifest.json",
   "./icon.svg"
