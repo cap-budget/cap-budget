@@ -3465,22 +3465,22 @@ cloudBtn.onclick = async () => {
   if(!response.ok||!result)return;
   window.CAP_BUDGET_PREMIUM_TEST=!!result.premium;
   const pricingTitle=document.getElementById('cap-premium-pricing-title');
-  if(pricingTitle){pricingTitle.hidden=!!result.premium;pricingTitle.textContent='Choisissez votre formule Premium';}
+  if(pricingTitle){pricingTitle.hidden=false;pricingTitle.textContent=result.premium?'Mon espace Premium — les formules':'Choisissez votre formule Premium';}
   const pricingIntro=document.querySelector('#pricing > p:not(#cap-premium-pricing-status)');
   if(pricingIntro)pricingIntro.textContent=result.premium
     ?'✓ Premium TEST actif · Analyse approfondie débloquée'
     :'MODE TEST STRIPE : les boutons permettent de tester le paiement avec une carte fictive. Aucun débit réel. L’accès Premium TEST est vérifié avec Stripe et Supabase après connexion.';
   const pricingStatus=document.getElementById('cap-premium-pricing-status');
-  if(pricingStatus){pricingStatus.hidden=!!result.premium;pricingStatus.textContent='Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
+  if(pricingStatus){pricingStatus.hidden=false;pricingStatus.textContent=result.premium?'✓ Votre accès Premium TEST est actif. Les tarifs restent visibles pour information ; aucun nouveau paiement nécessaire.':'Accès standard : aucun abonnement Premium TEST actif sur ce compte.';}
   // Un compte Premium déjà actif ne doit pas être invité à payer une seconde fois.
   document.querySelectorAll('[data-cap-checkout]').forEach(link=>{
     link.hidden=!!result.premium;
     link.setAttribute('aria-hidden',result.premium?'true':'false');
     link.tabIndex=result.premium?-1:0;
   });
-  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans)pricingPlans.hidden=!!result.premium;
+  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans)pricingPlans.hidden=false;
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
-  if(pricingNote){pricingNote.hidden=!!result.premium;pricingNote.textContent=result.premium?'':'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. Les paiements réels restent désactivés.';}
+  if(pricingNote){pricingNote.hidden=false;pricingNote.textContent=result.premium?'Formules affichées à titre informatif. Votre accès Premium TEST est déjà actif : aucun nouveau paiement nécessaire. Les paiements réels restent désactivés.':'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. Les paiements réels restent désactivés.';}
   const insights=document.getElementById('cap-premium-insights');
   if(insights){
     insights.hidden=!result.premium;
