@@ -3892,4 +3892,104 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(() => {}));
 }
 </script>
+
+<style>
+#cap-welcome{position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}
+#cap-welcome[hidden]{display:none}
+#cap-welcome .cw-panel{background:#102033;color:#f5fbff;border:1px solid #60a5fa66;border-radius:22px;width:min(100%,560px);max-height:94vh;overflow:auto;padding:clamp(18px,4vw,30px);box-shadow:0 20px 90px #000b;font:17px/1.5 system-ui}
+#cap-welcome h2{font-size:clamp(26px,5vw,34px);margin:0 0 12px;color:#fff}
+#cap-welcome p{font-size:17px;line-height:1.5;color:#d9e8f7}
+#cap-welcome button{display:block;width:100%;min-height:56px;margin:12px 0;padding:12px 16px;border-radius:13px;border:1px solid #7dd3fc;background:#17456b;color:white;font-size:18px;font-weight:700;cursor:pointer}
+#cap-welcome button.cw-primary{background:#047857;border-color:#6ee7b7}
+#cap-welcome button.cw-link{background:transparent;border-color:#64748b;font-size:16px}
+#cap-welcome label{display:block;font-size:16px;font-weight:600;margin:12px 0 5px}
+#cap-welcome input{box-sizing:border-box;width:100%;min-height:50px;padding:10px;border:1px solid #93a4b8;border-radius:10px;background:#071523;color:white;font-size:18px}
+#cap-welcome .cw-error{color:#fecaca;font-size:15px;min-height:20px}
+</style>
+<div id="cap-welcome" hidden role="dialog" aria-modal="true" aria-labelledby="cw-title">
+  <div class="cw-panel">
+    <h2 id="cw-title">Bienvenue sur CAP Budget ! 💚</h2>
+    <p>Votre compagnon simple et clair pour piloter vos dépenses, vos repas et vos projets de voyage en toute sérénité.</p>
+    <div id="cw-choices">
+      <button type="button" class="cw-primary" id="cw-quick">⚡ Paramétrage rapide (recommandé)</button>
+      <button type="button" id="cw-detail">🛠️ Paramétrage détaillé</button>
+      <button type="button" class="cw-link" id="cw-demo">Découvrir la démo directe</button>
+    </div>
+    <form id="cw-form" hidden>
+      <div id="cw-fields"></div>
+      <p class="cw-error" id="cw-error" role="alert"></p>
+      <button type="submit" class="cw-primary">Enregistrer et commencer</button>
+      <button type="button" class="cw-link" id="cw-back">← Retour aux choix</button>
+    </form>
+  </div>
+</div>
+<script>
+/* Accueil initial : n'efface jamais les données existantes, ne lance aucun paiement. */
+(function(){
+ const modal=document.getElementById('cap-welcome'),choices=document.getElementById('cw-choices'),form=document.getElementById('cw-form'),fields=document.getElementById('cw-fields');
+ const key='cap_onboarding_v1';let mode='quick';
+ const defaults={income:2500,fixed:1100,food:350,leisure:150,projects:200,other:100};
+ const stored=(()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(_){return null}})();
+ const hasPriorData=(()=>{
+   try{
+     for(let i=0;i<localStorage.length;i++){
+       const k=localStorage.key(i);
+       if(k===key||k==='capBudgetEngine'||k==='cap_supabase_config_v1')continue;
+       if(k&&/cap|budget|expense|operation|goal|charge|auth|supabase|sb-/i.test(k))return true;
+     }
+     return stored&&Object.keys(defaults).some(k=>Number(stored[k])!==defaults[k]);
+   }catch(_){return true}
+ })();
+ if(localStorage.getItem(key)||hasPriorData)return;
+ const show=(which)=>{
+   mode=which;choices.hidden=true;form.hidden=false;fields.replaceChildren();
+   const add=(id,title,value,required=true)=>{
+     const label=document.createElement('label');label.htmlFor='cw-'+id;label.textContent=title;
+     const input=document.createElement('input');input.id='cw-'+id;input.name=id;input.required=required;input.type=id==='goalName'?'text':'number';
+     if(input.type==='number'){input.min='0';input.step='0.01';}input.value=value;
+     fields.append(label,input);
+   };
+   add('income','Revenu mensuel (€)','');
+   if(which==='detail'){
+     add('fixed','Charges fixes (€)','0');add('food','Alimentation (€)','0');
+     add('other','Transport et autres (€)','0');add('leisure','Loisirs (€)','0');
+     add('projects','Projets / épargne (€)','0');
+   }
+   add('goalName','Nom de votre objectif principal (facultatif)','',false);
+   add('goalTarget','Montant cible de votre objectif (€)','',false);
+   document.getElementById('cw-error').textContent='';
+   fields.querySelector('input')?.focus();
+ };
+ const close=()=>{localStorage.setItem(key,'done');modal.hidden=true;document.body.style.overflow='';};
+ document.getElementById('cw-quick').onclick=()=>show('quick');
+ document.getElementById('cw-detail').onclick=()=>show('detail');
+ document.getElementById('cw-demo').onclick=close;
+ document.getElementById('cw-back').onclick=()=>{form.hidden=true;choices.hidden=false;document.getElementById('cw-quick').focus();};
+ form.onsubmit=e=>{
+   e.preventDefault();
+   const read=id=>fields.querySelector('[name="'+id+'"]')?.value||'';
+   const income=Number(read('income'));
+   if(!Number.isFinite(income)||income<=0){document.getElementById('cw-error').textContent='Indiquez un revenu mensuel supérieur à zéro.';return;}
+   const goalName=read('goalName').trim(),goalTarget=Number(read('goalTarget'));
+   if(goalName&&(!Number.isFinite(goalTarget)||goalTarget<=0)){document.getElementById('cw-error').textContent='Indiquez un montant cible supérieur à zéro pour cet objectif.';return;}
+   const next={income,fixed:0,food:0,leisure:0,projects:0,other:0};
+   if(mode==='detail')for(const k of ['fixed','food','leisure','projects','other']){
+     const n=Number(read(k));if(!Number.isFinite(n)||n<0){document.getElementById('cw-error').textContent='Vérifiez les montants du budget.';return;}next[k]=n;
+   }
+   try{
+     // Synchronise le moteur existant via ses champs et son bouton de calcul.
+     for(const [k,v] of Object.entries(next)){const input=document.getElementById('cap-'+k);if(input)input.value=String(v);}
+     document.getElementById('cap-calc-btn')?.click();
+     if(goalName){
+       const name=document.getElementById('v6-goal-name'),target=document.getElementById('v6-goal-target');
+       if(name&&target){name.value=goalName;target.value=String(goalTarget);document.getElementById('v6-add-goal')?.click();}
+     }
+     close();
+     // Les vues existantes relisent le moteur au rechargement.
+     location.reload();
+   }catch(_){document.getElementById('cw-error').textContent='Impossible d’enregistrer cette configuration. Réessayez.';}
+ };
+ modal.hidden=false;document.body.style.overflow='hidden';document.getElementById('cw-quick').focus();
+})();
+</script>
 </body></html>
