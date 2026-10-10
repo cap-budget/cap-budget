@@ -40,6 +40,30 @@
  const close=()=>{modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
  document.getElementById('btn-quick-setup').onclick=()=>show('quick');
  document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
+ const sharePanel=document.getElementById('cw-share-panel');
+ const appUrl='https://cap-budget.github.io/cap-budget/';
+ const invite='Découvrez CAP Budget : pour organiser budget, repas et projets de voyage en famille. '+appUrl;
+ const shareStatus=document.getElementById('cw-share-status');
+ const whatsapp=document.getElementById('cw-whatsapp');
+ const sms=document.getElementById('cw-sms');
+ if(whatsapp)whatsapp.href='https://wa.me/?text='+encodeURIComponent(invite);
+ if(sms)sms.href='sms:?body='+encodeURIComponent(invite);
+ document.getElementById('btn-share-cap').onclick=()=>{
+   if(!sharePanel)return;
+   choices.hidden=true;form.hidden=true;sharePanel.hidden=false;
+   document.getElementById('cw-copy-link')?.focus();
+ };
+ document.getElementById('cw-share-back').onclick=()=>{sharePanel.hidden=true;choices.hidden=false;document.getElementById('btn-share-cap')?.focus();};
+ document.getElementById('cw-copy-link').onclick=async()=>{
+   try{
+     if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(appUrl);}
+     else{
+       const input=document.createElement('textarea');input.value=appUrl;input.style.position='fixed';input.style.opacity='0';document.body.appendChild(input);input.select();
+       if(!document.execCommand('copy'))throw Error('copy unsupported');input.remove();
+     }
+     shareStatus.textContent='Lien copié ! Vous pouvez le coller dans un message.';
+   }catch(_){shareStatus.textContent='Copiez ce lien : '+appUrl;}
+ };
  document.getElementById('btn-demo-mode').onclick=close;
  document.getElementById('cw-close').onclick=close;
  document.getElementById('cw-back').onclick=close;
