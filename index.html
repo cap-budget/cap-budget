@@ -994,6 +994,41 @@ body{font-size:19px!important;line-height:1.55}
   }
 }
 </style>
+
+<style id="cap-mobile-accessibility-2026">
+/* CAP Budget : lecture et usage tactile. Uniquement presentation, aucune donnee modifiee. */
+@media (max-width:760px) {
+  html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body { font-size:16px; line-height:1.55; }
+  .cap-balance-value, #v6-remain, #cap-simple-margin {
+    font-size:clamp(36px,10vw,48px)!important;
+    line-height:1.15!important;
+    font-weight:900!important;
+    letter-spacing:-.035em!important;
+    font-variant-numeric:tabular-nums;
+  }
+  .cap-balance-card { padding:18px!important; }
+  .cap-balance-label, .cap-v6-kpi small { font-size:14px!important; }
+  .cap-dash-main :is(p,li,label,.cap-v6-note,.cap-v7-card p,.cap-v9-card p) {
+    font-size:max(14px,1em);
+    line-height:1.5;
+  }
+  .cap-dash-main :is(button,input,select,textarea,[role="button"]),
+  .cap-dash-sidebar button, .cap-mobile-bar button {
+    min-height:48px!important;
+    font-size:16px!important;
+    touch-action:manipulation;
+  }
+  .cap-dash-main :is(input,select,textarea) { padding:12px!important; }
+  .cap-dash-main :is(.cap-v6-card,.cap-v7-card,.cap-v9-card) { padding:14px!important; }
+  .cap-dash-main :is(.cap-v6-grid,.cap-v7-grid,.cap-v9-grid) { gap:12px!important; }
+  /* Les analyses payantes restent accessibles sur telephone aux comptes autorises. */
+  #cap-premium-insights:not([hidden]) { display:block!important; }
+  #cap-premium-insights[hidden] { display:none!important; }
+  /* Seuls les longs textes purement explicatifs sont raccourcis. */
+  .cap-balance-help { font-size:13px!important; }
+}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
