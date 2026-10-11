@@ -1059,12 +1059,37 @@ body{font-size:19px!important;line-height:1.55}
   <h1 style="font-size:clamp(28px,4vw,48px);line-height:1.12;margin:0 0 16px;color:#fff">Bienvenue sur CAP Budget, repas et voyages</h1>
   <p style="font-size:clamp(16px,2vw,19px);line-height:1.65;max-width:850px;margin:0 0 24px;color:#d1fae5">Une application pour organiser votre budget, préparer vos repas et faire avancer vos projets de voyage, simplement et à votre rythme.</p>
   <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px">
-    <span style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff22">💰 Budget · suivez vos dépenses</span>
-    <span style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff22">🍽️ Repas · organisez votre quotidien</span>
-    <span style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff22">✈️ Voyages · réalisez vos projets</span>
+    <button type="button" data-cap-welcome-nav="budget" style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff55;color:#f0fdf4;font:inherit;cursor:pointer;text-align:left">💰 Budget · suivez vos dépenses</button>
+    <button type="button" data-cap-welcome-nav="repas" style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff55;color:#f0fdf4;font:inherit;cursor:pointer;text-align:left">🍽️ Repas · organisez votre quotidien</button>
+    <button type="button" data-cap-welcome-nav="voyages" style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff55;color:#f0fdf4;font:inherit;cursor:pointer;text-align:left">✈️ Voyages · réalisez vos projets</button>
   </div>
   <p style="margin:0;color:#cbd5e1;font-size:14px">Votre tableau de bord et vos données restent accessibles juste en dessous.</p>
 </section>
+<script>
+/* Navigation accessible depuis les trois boutons de présentation. */
+(function(){
+  const banner=document.getElementById('cap-welcome-presentation');
+  if(!banner)return;
+  banner.querySelectorAll('[data-cap-welcome-nav]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const key=button.getAttribute('data-cap-welcome-nav');
+      const target={budget:'budget',repas:'repas',voyages:'voyages'}[key];
+      if(!target)return;
+      banner.style.setProperty('display','none','important');
+      banner.hidden=true;
+      const nav=document.getElementById('nav-'+target);
+      if(nav)nav.click();
+      const section=document.getElementById('tab-'+target);
+      if(section){
+        section.hidden=false;
+        section.scrollIntoView({behavior:'smooth',block:'start'});
+        section.setAttribute('tabindex','-1');
+        section.focus({preventScroll:true});
+      }
+    });
+  });
+})();
+</script>
 <div class="cap-dash" id="cap-dashboard-redesign" aria-label="Tableau de bord CAP Budget">
   <aside class="cap-dash-sidebar">
     <div class="cap-dash-brand"><div class="cap-dash-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 8 6h3l2.7 7L16 6h3l-2 12h-3l.9-5-2 5h-3l-1.8-5-.8 5H6Z"/></svg></div><div><strong>CAP</strong><span>Budget, repas et voyages</span></div></div>
