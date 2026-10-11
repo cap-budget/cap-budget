@@ -70,7 +70,7 @@
  const goDashboard=()=>{close();const target=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.querySelector('#dashboard')||document.querySelector('main');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}else{window.scrollTo({top:0,behavior:'smooth'});}};
  const quickStart=()=>{try{sessionStorage.setItem('cap_demo_mode','1');}catch(_){}goDashboard();};
  document.getElementById('btn-quick-setup').onclick=quickStart;
- document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
+ document.getElementById('btn-detailed-setup').onclick=()=>{goDashboard();const target=document.getElementById('cap-income')||document.querySelector('[id^="cap-budget"]');target?.scrollIntoView({behavior:'smooth',block:'center'});target?.focus?.({preventScroll:true});};
  const sharePanel=document.getElementById('cw-share-panel');
  const appUrl='https://cap-budget.github.io/cap-budget/';
  const invite='Découvrez CAP Budget : pour organiser budget, repas et projets de voyage en famille. '+appUrl;
@@ -80,9 +80,11 @@
  if(whatsapp)whatsapp.href='https://wa.me/?text='+encodeURIComponent(invite);
  if(sms)sms.href='sms:?body='+encodeURIComponent(invite);
  document.getElementById('btn-share-cap').onclick=()=>{
-   if(!sharePanel)return;
-   choices.hidden=true;form.hidden=true;sharePanel.hidden=false;
-   document.getElementById('cw-copy-link')?.focus();
+   goDashboard();
+   // Le partage est lancé après la fermeture ; jamais de données personnelles.
+   if(navigator.share){navigator.share({title:'CAP Budget',text:'Découvrez CAP Budget',url:appUrl}).catch(()=>{});}
+   else if(navigator.clipboard?.writeText){navigator.clipboard.writeText(appUrl).then(()=>{const status=document.getElementById('cap-share-feedback')||document.createElement('p');status.id='cap-share-feedback';status.setAttribute('role','status');status.textContent='Lien CAP Budget copié : vous pouvez le partager.';document.querySelector('main')?.prepend(status);}).catch(()=>{});}
+   else {window.prompt('Copiez le lien CAP Budget pour le partager :',appUrl);}
  };
  document.getElementById('cw-share-back').onclick=()=>{sharePanel.hidden=true;choices.hidden=false;document.getElementById('btn-share-cap')?.focus();};
  document.getElementById('cw-copy-link').onclick=async()=>{
