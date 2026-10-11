@@ -3725,7 +3725,8 @@ cloudBtn.onclick = async () => {
   function syncIncomeFromMain(){
     let raw;
     try{raw=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){raw=null;}
-    // Le budget principal enregistré fait autorité ; l'affichage est un repli en lecture seule.
+    // Le budget principal enregistré fait autorité. Ne jamais recopier un montant
+    // de démonstration depuis le HTML vers une sauvegarde utilisateur.
     const stored=raw&&typeof raw==='object'&&raw.income!==null&&raw.income!==undefined?Number(raw.income):null;
     const amount=stored!==null&&Number.isFinite(stored)?stored:null;
     // Ne jamais écrire un revenu à partir d'un affichage provisoire ou d'une valeur par défaut.
@@ -3779,6 +3780,14 @@ cloudBtn.onclick = async () => {
     syncIncomeFromMain();
     updateComparison();
     updateSyncExplanation();
+  });
+  // Une session restaurée ou un retour sur l'onglet peut réhydrater les données
+  // après le chargement initial. Réconcilier sans modifier les autres champs.
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden){syncIncomeFromMain();updateComparison();updateSyncExplanation();}
+  });
+  window.addEventListener('pageshow',()=>{
+    syncIncomeFromMain();updateComparison();updateSyncExplanation();
   });
   // Une page restaurée depuis le cache ou un retour d'onglet doit relire
   // le revenu principal, sans toucher aux opérations et aux objectifs.
