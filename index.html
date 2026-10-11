@@ -1054,14 +1054,21 @@ body{font-size:19px!important;line-height:1.55}
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
 
-<section id="cap-welcome-presentation" aria-label="Présentation de CAP Budget" style="display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:1;width:calc(100% - 32px);box-sizing:border-box;max-width:1320px;margin:18px auto 12px;padding:clamp(22px,4vw,48px);border:1px solid #28544d;border-radius:26px;background:linear-gradient(135deg,#E8F5E9,#d7efdc);color:#173b29;font-family:system-ui,sans-serif;box-shadow:0 14px 38px #0002">
+<style>
+/* Couleurs de la présentation CAP Budget. */
+section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; border-radius:16px; padding:20px; }
+.btn-budget { background-color:#E8F5E9; color:#2E7D32; border:1px solid #A5D6A7; }
+.btn-repas { background-color:#FFF3E0; color:#EF6C00; border:1px solid #FFCC80; }
+.btn-voyages { background-color:#E3F2FD; color:#1565C0; border:1px solid #90CAF9; }
+</style>
+<section id="cap-welcome-presentation" aria-label="Présentation de CAP Budget" style="display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:1;width:calc(100% - 32px);box-sizing:border-box;max-width:1320px;margin:18px auto 12px;padding:20px;border:1px solid #A5D6A7;border-radius:16px;background-color:#E8F5E9;color:#173b29;font-family:system-ui,sans-serif;box-shadow:0 14px 38px #0002">
   <div style="font-size:13px;font-weight:800;letter-spacing:.12em;color:#166534;margin-bottom:12px">💚 CAP BUDGET · REPAS · VOYAGES</div>
   <h1 style="font-size:clamp(28px,4vw,48px);line-height:1.12;margin:0 0 16px;color:#173b29">Bienvenue sur CAP Budget, repas et voyages</h1>
   <p style="font-size:clamp(16px,2vw,19px);line-height:1.65;max-width:850px;margin:0 0 24px;color:#365c46">Une application pour organiser votre budget, préparer vos repas et faire avancer vos projets de voyage, simplement et à votre rythme.</p>
   <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px">
-    <button type="button" data-cap-welcome-nav="budget" style="padding:12px 16px;border-radius:14px;background:#c7efce;border:2px solid #75bd86;color:#14532d;font-weight:750;box-shadow:0 3px 9px #00000012;font:inherit;cursor:pointer;text-align:left">💰 Budget · suivez vos dépenses</button>
-    <button type="button" data-cap-welcome-nav="repas" style="padding:12px 16px;border-radius:14px;background:#ffedb5;border:2px solid #efc56b;color:#754400;font-weight:750;box-shadow:0 3px 9px #00000012;font:inherit;cursor:pointer;text-align:left">🍽️ Repas · organisez votre quotidien</button>
-    <button type="button" data-cap-welcome-nav="voyages" style="padding:12px 16px;border-radius:14px;background:#cde9ff;border:2px solid #8ac8f3;color:#174d7c;font-weight:750;box-shadow:0 3px 9px #00000012;font:inherit;cursor:pointer;text-align:left">✈️ Voyages · réalisez vos projets</button>
+    <button type="button" data-cap-welcome-nav="budget" class="btn-budget" style="padding:12px 16px;border-radius:14px;background:#E8F5E9;border:1px solid #A5D6A7;color:#2E7D32;font:inherit;font-weight:750;box-shadow:0 3px 9px #00000012;cursor:pointer;text-align:left">💰 Budget · suivez vos dépenses</button>
+    <button type="button" data-cap-welcome-nav="repas" class="btn-repas" style="padding:12px 16px;border-radius:14px;background:#FFF3E0;border:1px solid #FFCC80;color:#EF6C00;font:inherit;font-weight:750;box-shadow:0 3px 9px #00000012;cursor:pointer;text-align:left">🍽️ Repas · organisez votre quotidien</button>
+    <button type="button" data-cap-welcome-nav="voyages" class="btn-voyages" style="padding:12px 16px;border-radius:14px;background:#E3F2FD;border:1px solid #90CAF9;color:#1565C0;font:inherit;font-weight:750;box-shadow:0 3px 9px #00000012;cursor:pointer;text-align:left">✈️ Voyages · réalisez vos projets</button>
   </div>
   <p style="margin:0;color:#365c46;font-size:14px">Votre tableau de bord et vos données restent accessibles juste en dessous.</p>
 </section>
