@@ -3985,6 +3985,25 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
  document.addEventListener('DOMContentLoaded',()=>{const target=document.querySelector('.cap-dash')||document.querySelector('.cap-v6')||document.body.firstElementChild;target?.parentNode?.insertBefore(box,target);render();});
 })();
 </script>
-<script src="script.js?v=guided-investment-20261011" defer></script>
+<style>
+/* CAP first-launch wizard: only covers the app while the welcome assistant is active. */
+body.cap-wizard-active {overflow:hidden!important;}
+body.cap-wizard-active #onboarding-modal.onboarding-banner {
+ display:flex!important;position:fixed!important;inset:0!important;z-index:2147483100!important;
+ overflow-y:auto!important;align-items:center!important;justify-content:center!important;
+ padding:20px!important;background:rgba(5,14,22,.96)!important;box-sizing:border-box!important;
+}
+body.cap-wizard-active #onboarding-modal .onboarding-card {
+ width:min(100%,560px)!important;max-height:calc(100dvh - 40px)!important;
+ overflow-y:auto!important;margin:auto!important;box-sizing:border-box!important;
+ border-radius:20px!important;padding:clamp(18px,4vw,32px)!important;
+}
+body.cap-wizard-active #cw-fields label {display:block!important;margin:14px 0 8px!important;font-weight:700!important;}
+body.cap-wizard-active #cw-fields input {width:100%!important;min-height:48px!important;box-sizing:border-box!important;font-size:18px!important;}
+body.cap-wizard-active #cw-form button[type=submit] {min-height:48px!important;}
+body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
+@media(max-width:600px){body.cap-wizard-active #onboarding-modal.onboarding-banner{padding:10px!important;align-items:flex-start!important}body.cap-wizard-active #onboarding-modal .onboarding-card{max-height:calc(100dvh - 20px)!important;}}
+</style>
+<script src="script.js?v=first-launch-wizard-20261011" defer></script>
 
 </body></html>
