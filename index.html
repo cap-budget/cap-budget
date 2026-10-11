@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="UTF-8"><link rel="manifest" href="manifest.json">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -12,11 +12,11 @@ html.cap-entry-locked body #onboarding-modal .onboarding-card{max-height:calc(10
 html.cap-entry-locked body{overflow:hidden!important}
 </style>
 
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f4f8f6">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="CAP Budget">
 <link rel="icon" type="image/svg+xml" href="./icon.svg">
 <link rel="apple-touch-icon" href="./icon.svg">
@@ -4826,60 +4826,73 @@ body{background-image:radial-gradient(ellipse at 85% 2%,rgba(80,216,190,.14),tra
 @media(max-width:540px){#cap-investment-summary .cap-reserve-controls>*{width:100%}}
 </style>
 
-<style id="cap-unified-background-20261011">
-/* CAP Budget : thème continu, sans surfaces blanches ni flash au défilement. */
-html,html[data-theme],body{
-  background:#101d1b!important;
-  color-scheme:dark!important;
+<style id="cap-global-light-20261012">
+/* CAP : thème clair unifié, appliqué en dernier à tous les modules. */
+:root,html,html[data-theme],body{
+ color-scheme:light!important;
+ --bg:#f4f8f6;--surface:#ffffff;--surface-card:#ffffff;--ink:#19352d;
+ --muted:#526a60;--line:#dce8e1;--field:#ffffff;--hero:#ffffff;
+ --hero-ink:#19352d;--hero-muted:#526a60;--accent:#147b59;
+ --accent-ink:#ffffff;--accent-soft:#e4f5eb;
+ --d-bg:#f4f8f6;--d-line:#dce8e1;--d-muted:#526a60;
 }
-html{min-height:100%;overscroll-behavior-y:none}
-body{
-  min-height:100vh;
-  background:linear-gradient(155deg,#142521 0%,#101d1b 48%,#1a2926 100%) fixed!important;
-  color:#e8f2ed!important;
+html,body{background:#f4f8f6!important;color:#19352d!important}
+body{background-image:linear-gradient(160deg,#f7fbf8,#edf5f0)!important;background-attachment:fixed!important}
+body :is(.app,.main,.content,.page,.panel,.section,.cap-v6,.cap-v7,.cap-v8,.cap-v9,
+ #cap-dashboard-redesign,#cap-dashboard-redesign .cap-dash-main,#cap-dashboard-redesign .cap-dash-topbar,
+ #cap-eco-v2,#cap-eco-v2 .eco-content,#cap-eco-v2 .eco-nav,#cap-guide-complet){
+ background-color:transparent!important;background-image:none!important;color:#19352d!important;
 }
-:root{--bg:#101d1b;--surface:#1b302b;--surface-card:#203730;--ink:#edf7f1;--muted:#b3c7bd;--line:#3a574c;--field:#233c34;--hero:#193029;--hero-ink:#f1faf5;--hero-muted:#b5cec0;--accent:#66d5aa;--accent-ink:#10251c}
-#cap-dashboard-redesign,#cap-dashboard-redesign .cap-dash-main,
-#cap-dashboard-redesign .cap-dash-topbar,
-#cap-eco-v2,#cap-eco-v2 .eco-content,#cap-eco-v2 .eco-nav,
-.cap-v6,#cap-guide-complet{
-  background:transparent!important;color:#e8f2ed!important;
+body :is(.card,.hero,.stats,.pill,.tabbar-inner,.modal-content,.onboarding-card,
+ .cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,
+ .cap-play-weather,.cap-play-badge,.eco-card,.eco-head,.eco-panel,.eco-stat,
+ .cap-connected-card,.cap-reserve-compact,#cap-investment-summary,#cap-premium-insights,
+ #cap-purchase-result,#pricing,.cap-v6-note,.cap-v6-plan,.cap-v6-row,
+ .cap-v6-grid>*,.cap-dash-card,.cap-dash-main article,.eco-content article,
+ section article,main article,aside article,table,thead,tbody,tr,th,td,
+ details,summary,fieldset,.input,.field,.toast,.dropdown,.popover){
+ background:#ffffff!important;background-image:none!important;color:#19352d!important;
+ border-color:#dce8e1!important;box-shadow:0 5px 22px rgba(30,71,52,.07)!important;
 }
-#cap-dashboard-redesign{--d-bg:#142521;--d-line:#3a574c;--d-muted:#b5c9bf;--d-shadow:0 8px 24px #07120e24}
-#cap-dashboard-redesign .cap-dash-card,
-#cap-dashboard-redesign .cap-dash-hero,
-#cap-dashboard-redesign .cap-play-weather,
-#cap-dashboard-redesign .cap-play-badge,
-#cap-dashboard-redesign .cap-clean-tile,
-#cap-eco-v2 .eco-card,
-#cap-investment-summary.cap-reserve-compact,
-#cap-premium-insights,#cap-purchase-result{
-  background:linear-gradient(145deg,#213b32,#192e28)!important;
-  color:#ecf7f0!important;
-  border-color:#3a594c!important;
-  box-shadow:0 8px 24px #07130d24!important;
+body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,
+ .cap-clean-tile,.eco-card,.card,.hero,.onboarding-card,.cap-connected-card,
+ #cap-premium-insights,#cap-investment-summary){border:1px solid #dce8e1!important;border-radius:16px}
+body :is(h1,h2,h3,h4,h5,h6,p,span,small,strong,b,label,li,dt,dd,legend,output,summary,
+ .muted,.sub,.hint,.help,.caption,.brand-name,.brand-sub,.cap-v6-badge,
+ .cap-v6-card p,.eco-card p,.cap-dash-card p){color:#19352d!important;text-shadow:none!important}
+body :is(.muted,.sub,.hint,.help,.caption,small,.brand-sub){color:#526a60!important}
+body :is(input,textarea,select,[contenteditable="true"]){
+ background:#ffffff!important;background-image:none!important;color:#19352d!important;
+ border:1px solid #a9c8b9!important;box-shadow:none!important;color-scheme:light!important;
 }
-#cap-dashboard-redesign :is(.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.cap-play-weather,.cap-play-badge) :is(h1,h2,h3,h4,p,span,small,strong,label,li),
-#cap-eco-v2 .eco-card :is(h1,h2,h3,h4,p,span,small,strong,label,li),
-#cap-investment-summary :is(h2,h3,p,span,small,strong,label),
-#cap-premium-insights :is(h2,h3,p,span,small,strong,label){
-  color:inherit!important;
+body :is(input,textarea)::placeholder{color:#647d70!important;opacity:1!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.eco-nav button){
+ background:#e8f5ed!important;background-image:none!important;color:#155b42!important;
+ border-color:#b6d8c5!important;text-shadow:none!important;
 }
-#cap-dashboard-redesign :is(input,textarea,select),
-#cap-eco-v2 :is(input,textarea,select),
-.cap-v6 :is(input,textarea,select),
-.cap-connected-card :is(input,textarea,select),
-#cap-investment-summary input{
-  background:#294338!important;color:#f1faf4!important;
-  border:1px solid #587a69!important;
+body :is(button,.btn,[role="button"],.tab,.tab-btn):hover{background:#d6ecdf!important}
+body :is(a){color:#12694d!important}
+body :is(a:hover){color:#0b503b!important}
+body :is(.badge,.chip,.tag,.cap-v6-badge){background:#e8f5ed!important;color:#155b42!important;border-color:#b6d8c5!important}
+body :is(.tabbar,.nav,.navbar,.sidebar,.footer,footer,header,.topbar){
+ background:#f4f8f6!important;background-image:none!important;color:#19352d!important;
+ border-color:#dce8e1!important;
 }
-#cap-dashboard-redesign :is(input,textarea)::placeholder,
-#cap-eco-v2 :is(input,textarea)::placeholder,
-.cap-v6 :is(input,textarea)::placeholder{color:#b6d0c2!important;opacity:1}
-#cap-eco-v2 .eco-nav{border-color:#3a574c!important}
-#cap-assistant-toggle{background:#244b3d!important;color:#e9fff3!important;border-color:#527c66!important}
-#cap-dashboard-redesign .cap-dash-topbar{border-color:#3a574c!important}
-#cap-investment-summary button{background:#27785a!important;color:#fff!important}
-body :is(.card,.hero){border-color:var(--line)}
+body :is(.tabbar-inner,.eco-nav,.cap-dash-topbar){background:#ffffff!important;background-image:none!important;color:#19352d!important}
+body :is(.progress,.track,.bar-track,[role="progressbar"]){background:#e4eee8!important;color:#19352d!important}
+body :is(.progress-fill,.bar-fill){background:#239b72!important}
+body :is(svg text){fill:#19352d!important}
+body :is(hr){border-color:#dce8e1!important}
+body :is(.onboarding-banner,#onboarding-modal){background:rgba(237,246,240,.96)!important;color:#19352d!important}
+html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:rgba(237,246,240,.97)!important}
+body :is(#cap-premium-test-status){background:#e6f5eb!important;color:#155b42!important;border:1px solid #b6d8c5!important}
+body :is(.cap-v6-row,.cap-v6-plan,.cap-v6-note) :is(div,p,span,strong,b){color:#19352d!important}
+body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,
+ #cap-premium-insights,#cap-investment-summary) :is(div,section,article,header,footer){
+ color:#19352d!important;
+}
+body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,
+ #cap-premium-insights,#cap-investment-summary) :is(input,textarea,select){background:#fff!important;color:#19352d!important}
+@media(prefers-color-scheme:dark){html,body{color-scheme:light!important;background:#f4f8f6!important}}
 </style>
 </body></html>
