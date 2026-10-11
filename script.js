@@ -20,7 +20,14 @@
  const dashboard=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.body.firstElementChild;
  if(dashboard&&dashboard!==modal)dashboard.parentNode.insertBefore(modal,dashboard);
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
- if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){modal.hidden=true;return;}
+ if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){
+  modal.hidden=true;
+  try{if(sessionStorage.getItem('cap_onboarding_open_dashboard')==='1'){
+    sessionStorage.removeItem('cap_onboarding_open_dashboard');
+    window.addEventListener('load',()=>{const target=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.querySelector('#dashboard')||document.querySelector('main');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});else window.scrollTo({top:0,behavior:'smooth'});},{once:true});
+  }}catch(_){}
+  return;
+ }
  const steps=[
   {title:'1 / 8 — Revenus',help:'Quel est votre revenu mensuel total ?',inputs:[['income','Revenus mensuels (€)']]},
   {title:'2 / 8 — Charges fixes',help:'Quel montant prévoyez-vous pour le logement, les factures et abonnements ?',inputs:[['fixed','Charges fixes mensuelles (€)']]},
@@ -110,6 +117,7 @@
     document.getElementById('cap-save-btn')?.click();
     localStorage.setItem('cap_investment_reserve_v1',JSON.stringify({monthly:investment,updatedAt:new Date().toISOString()}));
     if(answers.goalName.trim()){const name=document.getElementById('v6-goal-name'),target=document.getElementById('v6-goal-target');if(name&&target){name.value=answers.goalName.trim();target.value=String(Number(answers.goalTarget));document.getElementById('v6-add-goal')?.click();}}
+    try{sessionStorage.setItem('cap_onboarding_open_dashboard','1');}catch(_){}
     close();location.reload();
   }catch(_){error.textContent='Enregistrement impossible : vos données précédentes ont été conservées. Réessayez.';}
  };
