@@ -4567,4 +4567,89 @@ render();
   });
 })();
 </script>
+
+<!-- CAP ECONOMIES V2 MODULE -->
+<style>
+#cap-eco-v2{font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;color:#14272b;background:linear-gradient(135deg,#f4fbfa,#eaf5f2);padding:18px 12px 28px;margin:12px auto 22px;max-width:1040px;border-radius:24px;box-shadow:0 10px 36px #0002;isolation:isolate}
+#cap-eco-v2 *{box-sizing:border-box}
+#cap-eco-v2 .eco-head{background:linear-gradient(115deg,#087a77,#005c5b);color:#fff;border-radius:19px 19px 0 0;padding:17px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#cap-eco-v2 .eco-head strong{font-size:23px}#cap-eco-v2 .eco-head small{display:block;opacity:.9}
+#cap-eco-v2 .eco-nav{display:flex;overflow-x:auto;background:white;border-bottom:1px solid #d8e5e4;gap:4px;padding:5px}
+#cap-eco-v2 .eco-nav a{flex:1;text-align:center;color:#265358;text-decoration:none;min-width:90px;padding:10px 5px;border-radius:10px;font-weight:650}
+#cap-eco-v2 .eco-nav a:first-child{color:#007b75;border-bottom:3px solid #007b75}
+#cap-eco-v2 .eco-content{background:#fff;border-radius:0 0 19px 19px;padding:20px 14px}
+#cap-eco-v2 h2{font-size:clamp(23px,4vw,30px);text-align:center;color:#122527;margin:0 0 20px}
+#cap-eco-v2 .eco-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#cap-eco-v2 .eco-card{border:1px solid #d5e5e2;border-radius:18px;background:linear-gradient(145deg,#fff,#f9fcfb);overflow:hidden;box-shadow:0 4px 15px #0d4c4520}
+#cap-eco-v2 .eco-card h3{font-size:17px;margin:0;background:#dff4f2;padding:13px 15px;color:#173538}
+#cap-eco-v2 .eco-body{padding:15px}#cap-eco-v2 .eco-body p{margin:7px 0 12px;color:#1d3033}
+#cap-eco-v2 .eco-green{color:#078344;font-weight:750}
+#cap-eco-v2 button{border:0;border-radius:12px;padding:12px 13px;font:700 14px system-ui;cursor:pointer;background:#087c75;color:white;box-shadow:0 2px 7px #005f5830}
+#cap-eco-v2 button:focus-visible,#cap-eco-v2 input:focus-visible{outline:3px solid #e4aa30;outline-offset:2px}
+#cap-eco-v2 .eco-win{background:#108c40}
+#cap-eco-v2 input{width:100%;max-width:180px;border:1px solid #a8c6c2;border-radius:9px;padding:10px;color:#173538;background:white;font:inherit}
+#cap-eco-v2 .eco-full{grid-column:1/-1}
+#cap-eco-v2 .eco-track{height:16px;background:#d8e9e7;border-radius:30px;overflow:hidden;margin:8px 0}
+#cap-eco-v2 .eco-bar{height:100%;width:37.1%;background:linear-gradient(90deg,#008c80,#30a5a0);border-radius:30px;transition:width .3s}
+#cap-eco-v2 .eco-robot{margin-top:16px;padding:14px;border:1px solid #b4ddd6;background:#ecfaf7;border-radius:15px}
+#cap-eco-v2 .eco-robot p{margin:8px 0}#cap-eco-v2 .eco-muted{font-size:12px;color:#5b7474}
+#cap-eco-v2 .eco-label{display:block;margin:12px 0 5px;font-weight:650}
+@media(max-width:680px){#cap-eco-v2 .eco-grid{grid-template-columns:1fr}#cap-eco-v2 .eco-head strong{font-size:20px}#cap-eco-v2 .eco-nav a{font-size:12px;min-width:72px}}
+</style>
+<section id="cap-eco-v2" aria-labelledby="eco-title">
+ <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>CAP Budget V2</strong><small>Dashboard & Économies</small></div><div><small id="eco-date"></small><span>Solde disponible : <b id="eco-balance">542,10 €</b></span></div></header>
+ <nav class="eco-nav" aria-label="Navigation économies"><a href="#cap-eco-v2">▣ Aujourd'hui</a><a href="#v6-stats">▤ Budget</a><a href="#eco-paulaider">🤖 Paulaider</a><a href="#cap-eco-v2">🍲 Repas</a><a href="#cap-eco-v2">✈️ Voyages</a><a href="#pricing">◉ Compte</a></nav>
+ <div class="eco-content"><h2 id="eco-title">Cagnottes Économies</h2>
+ <div class="eco-grid">
+  <article class="eco-card"><h3>🛡️ Anti-Gaspillage Alimentaire</h3><div class="eco-body">
+   <p>🚀 Bravo ! Vous avez cuisiné un repas Frigo/Restes au lieu de commander.</p>
+   <p><b>Économie estimée : <span class="eco-green">12,00 €</span></b></p>
+   <button id="eco-add-meal" type="button">🐾 + Ajouter cette économie à la Réserve Urgences & Animaux</button>
+   <p><b>Détail Repas :</b> Poêlée Croquante (reste poulet & riz) — Coût : 2,80 €<br>Commande évitée : ≈ 14,80 €</p>
+  </div></article>
+  <article class="eco-card"><h3>💎 Les Petites Victoires</h3><div class="eco-body">
+   <p>Résistez à une dépense inutile et notez l'économie réalisée.</p>
+   <label class="eco-label" for="eco-win-amount">Montant économisé (€)</label><input id="eco-win-amount" type="number" min="0.01" max="100000" step="0.01" value="5.90">
+   <label class="eco-label" for="eco-win-label">Dépense évitée</label><input id="eco-win-label" type="text" maxlength="90" value="Café à emporter">
+   <p><button class="eco-win" id="eco-add-win" type="button">✓ J'ai résisté à une dépense inutile !</button></p>
+   <p>💰 Économies confirmées ce mois : <strong id="eco-month">0,00 €</strong></p>
+  </div></article>
+  <article class="eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inactifs ? (Ex. streaming, salle de sport) — économie annuelle potentielle : <strong>165,00 €</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
+  <article class="eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">185,50 € / 500 €</span> 🛡️</h3><div class="eco-body"><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="185.5" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Base illustrée : 185,50 €.</p></div></article>
+ </div>
+ <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Bravo ! Une Poêlée Croquante à 2,80 € au lieu d'une commande à 14,80 € : environ 12 € économisés. Souhaitez-vous les ajouter à la Réserve Animaux & Urgences ?</p><button id="eco-robot-add" type="button">Ajouter 12 € à la réserve</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
+ </div>
+</section>
+<script>
+(function(){
+ 'use strict';
+ const root=document.getElementById('cap-eco-v2');if(!root)return;
+ const by=id=>root.querySelector('#'+id);
+ const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+ const today=new Date();by('eco-date').textContent=new Intl.DateTimeFormat('fr-FR',{dateStyle:'medium'}).format(today);
+ const key='cap_eco_v2_savings_1';
+ let entries=[];try{const x=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(x))entries=x.filter(y=>y&&Number.isFinite(y.amount)&&y.amount>0&&typeof y.date==='string').slice(-500);}catch(_){}
+ const baseline=185.50,goal=500;
+ function refresh(){
+  const added=entries.reduce((n,e)=>n+e.amount,0),total=baseline+added;
+  by('eco-reserve-label').textContent=euro(total)+' / '+euro(goal);
+  by('eco-bar').style.width=Math.min(100,total/goal*100)+'%';
+  by('eco-progress').setAttribute('aria-valuenow',String(Math.min(goal,total)));
+  const ym=today.toISOString().slice(0,7);
+  by('eco-month').textContent=euro(entries.filter(e=>e.date.slice(0,7)===ym).reduce((n,e)=>n+e.amount,0));
+ }
+ function add(amount,label){
+  if(!Number.isFinite(amount)||amount<=0||amount>100000)return;
+  const entry={amount:Math.round(amount*100)/100,label,date:new Date().toISOString()};
+  const next=[...entries,entry].slice(-500);
+  try{localStorage.setItem(key,JSON.stringify(next));entries=next;}catch(_){by('eco-feedback').textContent='Enregistrement impossible : stockage du navigateur indisponible.';return;}
+  refresh();by('eco-feedback').textContent=euro(entry.amount)+' ajouté à la cagnotte de ce module : '+label+'.';
+  by('eco-robot-message').textContent='Bravo ! '+euro(entry.amount)+' ajouté à votre réserve d’économies confirmées.';
+ }
+ function meal(){add(12,'Poêlée Croquante — économie estimée confirmée');}
+ by('eco-add-meal').addEventListener('click',meal);by('eco-robot-add').addEventListener('click',meal);
+ by('eco-add-win').addEventListener('click',()=>{const amount=Number(by('eco-win-amount').value),label=by('eco-win-label').value.trim()||'Dépense évitée';if(!(amount>0&&amount<=100000)){by('eco-feedback').textContent='Saisissez un montant positif valide.';return;}add(amount,label);});
+ refresh();
+})();
+</script>
 </body></html>
