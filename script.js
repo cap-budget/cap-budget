@@ -21,7 +21,7 @@
  if(dashboard&&dashboard!==modal)dashboard.parentNode.insertBefore(modal,dashboard);
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
  if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){
-  modal.hidden=true;
+  modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.classList.remove('cap-wizard-active');
   try{if(sessionStorage.getItem('cap_onboarding_open_dashboard')==='1'){
     sessionStorage.removeItem('cap_onboarding_open_dashboard');
     window.addEventListener('load',()=>{const target=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.querySelector('#dashboard')||document.querySelector('main');if(target)target.scrollIntoView({behavior:'smooth',block:'start'});else window.scrollTo({top:0,behavior:'smooth'});},{once:true});
@@ -63,7 +63,7 @@
   if(which==='quick'){fields.replaceChildren();const p=document.createElement('p');p.textContent='Explorer avec un budget fictif de 2 500 € de revenus, sans enregistrer de nouvelles données. Les chiffres sont des exemples.';fields.append(p);nav.hidden=true;action.textContent='Explorer la démonstration';return;}
   nav.hidden=false;step=0;renderStep();
  };
- const close=()=>{modal.hidden=true;document.body.classList.remove('cap-wizard-active');try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
+ const close=()=>{modal.hidden=true;modal.style.setProperty('display','none','important');modal.setAttribute('aria-hidden','true');document.body.classList.remove('cap-wizard-active');document.body.style.removeProperty('overflow');try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* La fermeture fonctionne même si le stockage est indisponible. */}};
  const goDashboard=()=>{close();const target=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.querySelector('#dashboard')||document.querySelector('main');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}else{window.scrollTo({top:0,behavior:'smooth'});}};
  const quickStart=()=>{try{sessionStorage.setItem('cap_demo_mode','1');}catch(_){}goDashboard();};
  document.getElementById('btn-quick-setup').onclick=quickStart;
@@ -121,5 +121,5 @@
     close();location.reload();
   }catch(_){error.textContent='Enregistrement impossible : vos données précédentes ont été conservées. Réessayez.';}
  };
- document.body.classList.add('cap-wizard-active');modal.hidden=false;
+ modal.style.removeProperty('display');modal.removeAttribute('aria-hidden');document.body.classList.add('cap-wizard-active');modal.hidden=false;
 })();
