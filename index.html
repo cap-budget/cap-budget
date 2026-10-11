@@ -1050,6 +1050,20 @@ body{font-size:19px!important;line-height:1.55}
 
 .cap-dash-daily{font-size:12px;font-weight:750;color:#a7f3d0;margin:5px 0 9px;line-height:1.5}.cap-dash-expense-bar i.cap-traffic-green{background:#22c55e!important;opacity:1}.cap-dash-expense-bar i.cap-traffic-orange{background:#fb923c!important;opacity:1}.cap-dash-expense-bar i.cap-traffic-red{background:#ef4444!important;opacity:1}
 </style>
+<style>
+#cap-savings-module .cap-save-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:14px}
+#cap-savings-module .cap-save-panel{border:1px solid #34d39955;border-radius:14px;padding:15px;background:#ffffff09}
+#cap-savings-module .cap-save-panel h4{margin:0 0 9px;font-size:17px}
+#cap-savings-module label{display:block;font-size:13px;margin:9px 0 4px}
+#cap-savings-module input,#cap-savings-module select{box-sizing:border-box;width:100%;padding:10px;border-radius:9px;border:1px solid #7d9b8e;background:#10251e;color:#fff;font:inherit}
+#cap-savings-module button{padding:10px 13px;border:0;border-radius:10px;background:#16a34a;color:white;font-weight:700;cursor:pointer;margin-top:9px}
+#cap-savings-module button:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+#cap-savings-module .cap-save-muted{font-size:12px;opacity:.85;line-height:1.5}
+#cap-savings-module .cap-save-meter{height:13px;border-radius:9px;background:#ffffff22;overflow:hidden;margin:10px 0}
+#cap-savings-module .cap-save-meter>div{height:100%;background:#34d399;transition:width .2s}
+#cap-savings-module .cap-save-number{font-size:23px;font-weight:800}
+#cap-savings-module .cap-save-item{padding:8px 0;border-bottom:1px solid #ffffff22}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
@@ -1675,7 +1689,18 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       
     </article>
 
-    <article class="cap-v6-card" id="pricing">
+    <article class="cap-v6-card" id="cap-savings-module">
+<span class="cap-v6-badge">🌱 Économies & anti-gaspillage</span>
+<h3 style="margin-top:8px">Mes cagnottes et petites victoires</h3>
+<p class="cap-save-muted">Suivi local des économies estimées ou déclarées. Ces sommes ne sont pas de l'argent réellement mis de côté sur un compte.</p>
+<div class="cap-save-grid">
+<section class="cap-save-panel"><h4>🐾 Réserve Animaux & Urgences</h4><div class="cap-save-number" id="cap-reserve-value">0,00 € / 500,00 €</div><div class="cap-save-meter" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cap-reserve-progress"><div id="cap-reserve-bar"></div></div><label for="cap-reserve-target">Objectif (€)</label><input id="cap-reserve-target" type="number" min="1" step="0.01" value="500"><button type="button" id="cap-reserve-save-target">Enregistrer l'objectif</button><p class="cap-save-muted">Réserve virtuelle : aucun virement bancaire n'est effectué.</p></section>
+<section class="cap-save-panel"><h4>🥕 Anti-gaspillage Frigo & Repas</h4><label for="cap-meal-name">Repas préparé avec les restes ou le Frigo</label><input id="cap-meal-name" maxlength="90" placeholder="Ex. Poêlée croquante"><label for="cap-meal-saved">Économie estimée par rapport à une alternative (€)</label><input id="cap-meal-saved" type="number" min="0.01" step="0.01" value="12"><p class="cap-save-muted">Estimation à adapter à votre repas : aucune économie n'est calculée automatiquement à partir des ingrédients.</p><button type="button" id="cap-meal-add">+ Ajouter cette économie à la Réserve Urgences & Animaux</button></section>
+<section class="cap-save-panel"><h4>🟩 La boîte aux petites victoires</h4><button type="button" id="cap-victory-toggle">🟩 J'ai résisté à une dépense inutile !</button><div id="cap-victory-form" hidden><label for="cap-victory-name">Dépense évitée</label><input id="cap-victory-name" maxlength="90" placeholder="Ex. Café ou snack"><label for="cap-victory-amount">Montant évité (€)</label><input id="cap-victory-amount" type="number" min="0.01" step="0.01" placeholder="5,90"><button type="button" id="cap-victory-add">Enregistrer ma victoire</button></div><p id="cap-victory-totals" aria-live="polite">Ce mois : 0,00 € · Total : 0,00 €</p><p class="cap-save-muted">Les victoires sont comptées séparément de la réserve pour éviter les doubles comptes.</p></section>
+<section class="cap-save-panel"><h4>👻 Abonnements fantômes</h4><label for="cap-ghost-name">Abonnement peu ou pas utilisé</label><input id="cap-ghost-name" maxlength="90" placeholder="Ex. Streaming, salle de sport"><label for="cap-ghost-price">Coût mensuel (€)</label><input id="cap-ghost-price" type="number" min="0.01" step="0.01" placeholder="13,75"><button type="button" id="cap-ghost-add">Ajouter à vérifier</button><div id="cap-ghost-list"></div><p><strong>Économie annuelle potentielle : <span id="cap-ghost-total">0,00 €</span></strong></p><p class="cap-save-muted">Simulation si les abonnements listés sont résiliés. Aucune résiliation automatique, aucun montant ajouté à la réserve.</p></section>
+</div><p id="cap-savings-status" role="status" aria-live="polite" class="cap-save-muted"></p>
+</article>
+<article class="cap-v6-card" id="pricing">
       <span class="cap-v6-badge">💳 Offre Premium</span>
       <h3 id="cap-premium-pricing-title" style="margin-top:8px">Choisissez votre formule Premium</h3>
       <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
@@ -4292,7 +4317,41 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     if(!rows){if(status)status.textContent='Le planning de repas est introuvable.';return;}
     const popup=window.open('','_blank');
     if(!popup){if(status)status.textContent='Autorisez les fenêtres pop-up pour imprimer ou enregistrer en PDF.';return;}
-    const html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget - Planning de repas</title><style>@page{size:A4;margin:15mm}body{font:14px Arial,sans-serif;color:#17352c}h1{color:#126449;font-size:23px}section{border:1px solid #bad9cb;border-radius:9px;padding:10px 14px;margin:9px 0;break-inside:avoid}h2{font-size:16px;margin:0 0 8px}small{font-size:12px;color:#52665f}p{margin:5px 0;line-height:1.5}.note{font-size:12px;color:#52665f}</style></head><body><h1>🍽️ CAP Budget — Mon planning de repas</h1><p class="note">Repas saisis dans le planning de la semaine · les cases vides restent non renseignées.</p>'+rows+'<p class="note">Pour créer un PDF : dans la fenêtre d’impression, choisir « Enregistrer au format PDF ».</p></body></html>';
+    const html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget - Planning de repas</title><style>@page{size:A4;margin:15mm}body{font:14px Arial,sans-serif;color:#17352c}h1{color:#126449;font-size:23px}section{border:1px solid #bad9cb;border-radius:9px;padding:10px 14px;margin:9px 0;break-inside:avoid}h2{font-size:16px;margin:0 0 8px}small{font-size:12px;color:#52665f}p{margin:5px 0;line-height:1.5}.note{font-size:12px;color:#52665f}</style></head><body><h1>🍽️ CAP Budget — Mon planning de repas</h1><p class="note">Repas saisis dans le planning de la semaine · les cases vides restent non renseignées.</p>'+rows+'<p class="note">Pour créer un PDF : dans la fenêtre d’impression, choisir « Enregistrer au format PDF ».</p><script>
+/* CAP Cagnottes v1 : données locales isolées, sans mutation des budgets existants. */
+(function(){
+'use strict';
+const KEY='cap_savings_cagnottes_v1';
+const $=id=>document.getElementById(id);
+const eur=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+const valid=n=>Number.isFinite(n)&&n>0&&n<=1000000;
+const cents=n=>Math.round(n*100)/100;
+let state={target:500,meals:[],victories:[],ghosts:[]};
+try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'){state.target=valid(Number(x.target))?Number(x.target):500;for(const k of ['meals','victories','ghosts'])state[k]=Array.isArray(x[k])?x[k].filter(y=>y&&typeof y==='object').slice(-1000):[];}}catch(_){}
+const sum=(arr)=>cents(arr.reduce((a,x)=>a+(Number.isFinite(Number(x.amount))&&Number(x.amount)>0?Number(x.amount):0),0));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));return true;}catch(_){$('cap-savings-status').textContent='Stockage local indisponible : cette modification ne peut pas être enregistrée.';return false;}};
+const status=t=>{$('cap-savings-status').textContent=t;};
+const getAmount=id=>{const input=$(id);const n=Number(input.value);if(!input.value.trim()||!valid(n)){status('Indiquez un montant valide, supérieur à zéro.');input.focus();return null;}return cents(n);};
+const render=()=>{
+const reserve=sum(state.meals),pct=Math.min(100,Math.round(reserve/state.target*100));
+$('cap-reserve-value').textContent=eur(reserve)+' / '+eur(state.target);
+$('cap-reserve-bar').style.width=pct+'%';$('cap-reserve-progress').setAttribute('aria-valuenow',String(pct));$('cap-reserve-target').value=state.target;
+const month=new Date().toISOString().slice(0,7);
+$('cap-victory-totals').textContent='Ce mois : '+eur(sum(state.victories.filter(v=>typeof v.date==='string'&&v.date.slice(0,7)===month)))+' · Total cumulé : '+eur(sum(state.victories));
+const list=$('cap-ghost-list');list.replaceChildren();
+state.ghosts.forEach(g=>{const row=document.createElement('div');row.className='cap-save-item';const name=document.createElement('span');name.textContent=String(g.name||'Abonnement')+' — '+eur(Number(g.amount)||0)+'/mois';const del=document.createElement('button');del.type='button';del.textContent='Retirer';del.style.marginLeft='8px';del.addEventListener('click',()=>{state.ghosts=state.ghosts.filter(x=>x.id!==g.id);if(save())render();});row.append(name,del);list.appendChild(row);});
+$('cap-ghost-total').textContent=eur(cents(sum(state.ghosts)*12));
+};
+const add=(key,name,amount)=>{const item={id:Date.now()+'-'+Math.random().toString(36).slice(2),name,amount,date:new Date().toISOString()};state[key].push(item);if(!save()){state[key].pop();return false;}render();return true;};
+$('cap-reserve-save-target').addEventListener('click',()=>{const n=getAmount('cap-reserve-target');if(n===null)return;const old=state.target;state.target=n;if(!save()){state.target=old;return;}render();status('Objectif de la réserve enregistré sur cet appareil.');});
+$('cap-meal-add').addEventListener('click',()=>{const amount=getAmount('cap-meal-saved');if(amount===null)return;const name=$('cap-meal-name').value.trim()||'Repas anti-gaspillage';if(add('meals',name,amount)){status(eur(amount)+' d’économie estimée ajoutés à la réserve virtuelle.');$('cap-meal-name').value='';}});
+$('cap-victory-toggle').addEventListener('click',()=>{$('cap-victory-form').hidden=!$('cap-victory-form').hidden;});
+$('cap-victory-add').addEventListener('click',()=>{const amount=getAmount('cap-victory-amount');if(amount===null)return;const name=$('cap-victory-name').value.trim()||'Dépense évitée';if(add('victories',name,amount)){status('Petite victoire enregistrée : '+eur(amount));$('cap-victory-name').value='';$('cap-victory-amount').value='';$('cap-victory-form').hidden=true;}});
+$('cap-ghost-add').addEventListener('click',()=>{const amount=getAmount('cap-ghost-price');if(amount===null)return;const name=$('cap-ghost-name').value.trim();if(!name){status('Indiquez le nom de l’abonnement.');$('cap-ghost-name').focus();return;}if(add('ghosts',name,amount)){status('Abonnement ajouté à la liste de vérification.');$('cap-ghost-name').value='';$('cap-ghost-price').value='';}});
+render();
+})();
+</script>
+</body></html>';
     popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
     popup.setTimeout(()=>popup.print(),350);
     if(status)status.textContent='Planning ouvert : choisissez Imprimer ou Enregistrer au format PDF.';
