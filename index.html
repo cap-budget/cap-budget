@@ -4547,6 +4547,35 @@ body :is(.cap-v6-card,.eco-card) p{line-height:1.55}
 }
 @media(prefers-reduced-motion:reduce){body :is(button,.btn,.cap-v6-btn,.eco-card button){transition:none!important;transform:none!important}}
 </style>
+
+<style id="cap-unified-glass-light-2026">
+/* CAP Budget — harmonie lumineuse, uniquement présentation ; aucune donnée modifiée. */
+:root{color-scheme:light;--bg:#f3f9f6;--surface:#ffffff;--surface-card:#ffffffd9;--ink:#18382f;--muted:#526c62;--line:#d9e8e0;--field:#ffffff;--hero:#f4faf7;--hero-ink:#173e32;--hero-muted:#547368}
+html[data-theme],html{background:#f3f9f6!important;color-scheme:light!important}
+body{background:linear-gradient(145deg,#f0faf6 0%,#f8fbff 52%,#eef8f2 100%) fixed!important;color:#18382f!important;font-family:"Plus Jakarta Sans",system-ui,sans-serif!important}
+.cap-v6,.cap-connected,.cap-connected-section{color:#18382f!important}
+.cap-v6 :is(.cap-v6-card,.cap-v6-kpi,.cap-simple-summary,.cap-v6-note,.cap-v6-item,.cap-v6-result),
+.cap-connected-card{background:rgba(255,255,255,.86)!important;color:#18382f!important;border:1px solid #d5e7de!important;border-radius:20px!important;box-shadow:0 9px 28px #234e3710!important;backdrop-filter:blur(12px)}
+.cap-v6 :is(h2,h3,h4,h5,strong,b,label),.cap-connected-card :is(h2,h3,h4,strong,b,label){color:#173f33!important}
+.cap-v6 :is(p,small,span,li),.cap-connected-card :is(p,small,span,li){color:#48695c!important;line-height:1.55}
+.cap-v6 .cap-v6-row,.cap-v6 .cap-v6-item{border-color:#dbe9e2!important}
+.cap-v6 :is(input,select,textarea),.cap-connected-card :is(input,select,textarea){background:#fff!important;color:#18382f!important;border:1px solid #bbd5c8!important;border-radius:12px!important;min-height:42px}
+.cap-v6 :is(input,textarea)::placeholder{color:#657f73!important;opacity:1}
+.cap-v6 :is(button,.cap-v6-btn),.cap-connected-card button{border-radius:12px!important;min-height:42px}
+.cap-v6 .cap-v6-btn:not(.primary){background:#eaf6f0!important;color:#145642!important;border:1px solid #c4dfd0!important}
+.cap-v6 .cap-v6-btn.primary{background:linear-gradient(100deg,#16835d,#267f96)!important;color:#fff!important}
+.cap-v6 .cap-v6-btn.primary :is(span,b,strong){color:#fff!important}
+.cap-v6 .cap-v6-badge{background:#e5f5ec!important;color:#176144!important;border:1px solid #cde7d8!important}
+.cap-v6 .cap-v6-bar{background:#e5efe9!important}
+.cap-v6 .cap-v6-bar i{background:linear-gradient(90deg,#34a87b,#59a6b1)!important}
+.cap-v6 [role="progressbar"]{background:#e5efe9!important}
+#cap-premium-insights,#cap-purchase-result{background:#f5fbf8!important;color:#173f33!important;border-color:#d1e6d9!important}
+#cap-premium-insights :is(p,div,span,strong),#cap-purchase-result :is(p,div,span,strong){color:#234d3c!important}
+#cap-guide-complet,#cap-guide-complet article{color:#173f33!important}
+#cap-guide-complet :is(p,li,span,strong,small,label){color:#365c4b!important}
+.cap-v6 :is(a,button,input,select,textarea):focus-visible{outline:3px solid #218565!important;outline-offset:2px}
+@media(max-width:640px){.cap-v6{padding-inline:14px!important}.cap-v6 .cap-v6-card{padding:18px!important}.cap-v6 .cap-v6-grid,.cap-v6 .cap-v6-form-row{grid-template-columns:1fr!important}}
+</style>
 </body></html>';
     popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
     popup.setTimeout(()=>popup.print(),350);
