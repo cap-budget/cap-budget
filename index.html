@@ -3649,6 +3649,10 @@ cloudBtn.onclick = async () => {
       salaryEdit.title='Pour modifier les revenus, utilisez le budget principal.';
       salaryEdit.style.cursor='default';
       salaryEdit.style.opacity='0.9';
+      const salaryLabel=salaryEdit.querySelector('.stat-label');
+      if(salaryLabel){const svg=salaryLabel.querySelector('svg');salaryLabel.textContent='Revenus du budget principal ';if(svg)salaryLabel.appendChild(svg);}
+      const sourceNote=document.getElementById('cap-budget-source-note');
+      if(sourceNote)sourceNote.setAttribute('data-cap-income-source','main-budget');
     }
     // Relecture après l'initialisation des autres modules, sans boucle d'écriture.
     queueMicrotask(reconcileOnReturn);
