@@ -22,11 +22,14 @@
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
  if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){modal.hidden=true;return;}
  const steps=[
-  {title:'1 / 5 — Vos revenus',help:'Combien recevez-vous chaque mois ?',inputs:[['income','Revenus mensuels (€)']]},
-  {title:'2 / 5 — Charges fixes',help:'Loyer, factures et abonnements mensuels.',inputs:[['fixed','Charges fixes (€)']]},
-  {title:'3 / 5 — Enveloppes quotidiennes',help:'Prévoyez vos dépenses sans les enregistrer comme déjà payées.',inputs:[['food','Courses / repas (€)'],['leisure','Loisirs (€)'],['other','Transports et autres (€)']]},
-  {title:'4 / 5 — Épargne et projets',help:'La réserve investissement est séparée de votre budget voyages.',inputs:[['investment','📈 Réserve investissement / épargne (€)'],['projects','Projets / voyages (€)'],['goalName','Nom du projet (facultatif)'],['goalTarget','Montant cible (€), facultatif']]},
-  {title:'5 / 5 — Confirmation',help:'Vérifiez vos montants. Rien ne sera enregistré avant votre confirmation.',inputs:[]}
+  {title:'1 / 8 — Revenus',help:'Quel est votre revenu mensuel total ?',inputs:[['income','Revenus mensuels (€)']]},
+  {title:'2 / 8 — Charges fixes',help:'Quel montant prévoyez-vous pour le logement, les factures et abonnements ?',inputs:[['fixed','Charges fixes mensuelles (€)']]},
+  {title:'3 / 8 — Courses et repas',help:'Quel budget mensuel prévoyez-vous pour les courses et repas ?',inputs:[['food','Courses et repas (€)']]},
+  {title:'4 / 8 — Loisirs',help:'Quel budget mensuel souhaitez-vous consacrer aux loisirs ?',inputs:[['leisure','Loisirs (€)']]},
+  {title:'5 / 8 — Transports et autres',help:'Quel budget prévoyez-vous pour le transport et les autres dépenses ?',inputs:[['other','Transports et autres (€)']]},
+  {title:'6 / 8 — Réserve investissement',help:'Combien souhaitez-vous mettre de côté chaque mois ? Cette réserve reste une prévision, sans placement automatique.',inputs:[['investment','Réserve investissement / épargne (€)']]},
+  {title:'7 / 8 — Projets et voyages',help:'Quel montant mensuel prévoyez-vous pour vos projets ou voyages ?',inputs:[['projects','Projets et voyages (€)']]},
+  {title:'8 / 8 — Vérification',help:'Vérifiez votre budget avant de l’enregistrer. Aucun montant n’est modifié avant confirmation.',inputs:[]}
  ];
  let step=0;const answers={income:'',fixed:'0',food:'0',leisure:'0',other:'0',investment:'0',projects:'0',goalName:'',goalTarget:''};
  const action=form.querySelector('button[type="submit"]');
@@ -37,7 +40,7 @@
  function validate(){
   collect();const current=steps[step];
   for(const [id] of current.inputs){if(id==='goalName'||id==='goalTarget')continue;const n=Number(answers[id]);if(!answers[id]||!Number.isFinite(n)||n<0||(id==='income'&&n<=0)){document.getElementById('cw-error').textContent='Saisissez un montant valide'+(id==='income'?' supérieur à zéro':'')+'.';return false;}}
-  if(step===3&&answers.goalName.trim()&&!(Number(answers.goalTarget)>0)){document.getElementById('cw-error').textContent='Indiquez le montant cible du projet.';return false;}
+  if(step===6&&answers.goalName.trim()&&!(Number(answers.goalTarget)>0)){document.getElementById('cw-error').textContent='Indiquez le montant cible du projet.';return false;}
   return true;
  }
  function renderStep(){
@@ -45,15 +48,15 @@
   const heading=document.createElement('h2');heading.textContent=current.title;fields.appendChild(heading);
   const help=document.createElement('p');help.textContent=current.help;fields.appendChild(help);
   current.inputs.forEach(([id,title])=>{const label=document.createElement('label');label.htmlFor='cw-'+id;label.textContent=title;const input=document.createElement('input');input.id='cw-'+id;input.name=id;input.type=id==='goalName'?'text':'number';if(input.type==='number'){input.min='0';input.step='0.01';}input.value=answers[id];input.required=!['goalName','goalTarget'].includes(id);fields.append(label,input);});
-  if(step===4){const total=['fixed','food','leisure','other','investment','projects'].reduce((sum,k)=>sum+Number(answers[k]||0),0);const recap=document.createElement('p');recap.textContent='Revenus : '+Number(answers.income).toLocaleString('fr-FR')+' € · Budget et épargne prévus : '+total.toLocaleString('fr-FR')+' € · Marge prévisionnelle : '+(Number(answers.income)-total).toLocaleString('fr-FR')+' €';fields.append(recap);}
-  previous.hidden=step===0;action.textContent=step===4?'✓ Confirmer et ouvrir mon tableau de bord':'Continuer →';
+  if(step===7){const total=['fixed','food','leisure','other','investment','projects'].reduce((sum,k)=>sum+Number(answers[k]||0),0);const recap=document.createElement('p');recap.textContent='Revenus : '+Number(answers.income).toLocaleString('fr-FR')+' € · Budget et épargne prévus : '+total.toLocaleString('fr-FR')+' € · Marge prévisionnelle : '+(Number(answers.income)-total).toLocaleString('fr-FR')+' €';fields.append(recap);}
+  previous.hidden=step===0;action.textContent=step===7?'✓ Confirmer et ouvrir mon tableau de bord':'Continuer →';
   document.getElementById('cw-error').textContent='';fields.querySelector('input')?.focus();
  }
  const show=(which)=>{mode=which;choices.hidden=true;form.hidden=false;
   if(which==='quick'){fields.replaceChildren();const p=document.createElement('p');p.textContent='Explorer avec un budget fictif de 2 500 € de revenus, sans enregistrer de nouvelles données. Les chiffres sont des exemples.';fields.append(p);nav.hidden=true;action.textContent='Explorer la démonstration';return;}
   nav.hidden=false;step=0;renderStep();
  };
- const close=()=>{modal.hidden=true;try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
+ const close=()=>{modal.hidden=true;document.body.classList.remove('cap-wizard-active');try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
  document.getElementById('btn-quick-setup').onclick=()=>show('quick');
  document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
  const sharePanel=document.getElementById('cw-share-panel');
@@ -90,7 +93,7 @@
     close();const banner=document.createElement('div');banner.textContent='⚡ Exploration : les montants affichés peuvent être des exemples. Aucune donnée personnelle modifiée.';banner.style.cssText='position:sticky;top:0;z-index:9999;padding:12px;background:#14532d;color:white;text-align:center;font-weight:700';document.body.prepend(banner);return;
   }
   if(!validate())return;
-  if(step<4){step++;renderStep();return;}
+  if(step<7){step++;renderStep();return;}
   if(preview){close();return;}
   const income=Number(answers.income),investment=Number(answers.investment);
   const total=['fixed','food','leisure','other','projects','investment'].reduce((n,k)=>n+Number(answers[k]),0);
@@ -107,5 +110,5 @@
     close();location.reload();
   }catch(_){error.textContent='Enregistrement impossible : vos données précédentes ont été conservées. Réessayez.';}
  };
- modal.hidden=false;
+ document.body.classList.add('cap-wizard-active');modal.hidden=false;
 })();
