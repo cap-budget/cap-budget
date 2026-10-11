@@ -4181,7 +4181,8 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
 <section id="cap-assistant-panel" role="dialog" aria-modal="false" aria-label="CAP Assistant" hidden>
   <button type="button" class="cap-assistant-close" id="cap-assistant-close" aria-label="Fermer CAP Assistant">✕</button>
   <h2>🤖 CAP Assistant</h2>
-  <p id="cap-assistant-message" aria-live="polite">Bonjour ! Je suis ton guide CAP. Je peux t'aider à découvrir l'application, sans toucher à tes données.</p>
+  <p id="cap-assistant-message" aria-live="polite">Bonjour ! Je suis ton guide CAP. Je peux t'aider à découvrir l'application.</p>
+  <button type="button" id="cap-assistant-reserve-add" hidden style="margin:8px 0 14px;min-height:44px;background:#047857;color:white;border:0;border-radius:10px;padding:10px;font-weight:700">+ Ajouter 12 € à la Réserve</button>
   <div class="cap-assistant-actions">
     <button type="button" data-cap-assist="welcome">🏠 Présentation</button>
     <button type="button" data-cap-assist="summary">💬 Mon bilan</button>
@@ -4191,6 +4192,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     <button type="button" data-cap-assist="expenses">🧾 Dépenses</button>
     <button type="button" data-cap-assist="goals">🎯 Objectifs</button>
     <button type="button" data-cap-assist="savings">🐷 Épargne</button>
+    <button type="button" data-cap-assist="fridge-reserve">🍳 Économie du frigo</button>
     <button type="button" data-cap-assist="stats">📊 Statistiques</button>
     <button type="button" data-cap-assist="premium">✨ Premium</button>
     <button type="button" data-cap-assist="meals">🍽️ Repas</button>
@@ -4230,7 +4232,10 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
   };
   let index=-1;
   const bubble=document.getElementById('cap-robot-bubble');
+  const reserveButton=document.getElementById('cap-assistant-reserve-add');
+  const reserveQuestion='💡 Vous avez cuisiné avec les restes du frigo ? Vous venez peut-être d’économiser environ 12 € ! Voulez-vous les ajouter à votre Réserve Urgences & Animaux ? (Estimation à confirmer, cagnotte virtuelle.)';
   function message(text){
+    if(reserveButton)reserveButton.hidden=true;
     msg.textContent=text;
     if(bubble){bubble.textContent='💬 '+text;bubble.hidden=panel.hidden;}
   }
@@ -4284,7 +4289,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     open();
     if(!presented){
       presented=true;index=-1;stepBox.hidden=true;
-      message('Bienvenue sur CAP Budget ! Je suis là pour vous guider. Ici, vous pouvez gérer vos dépenses simplement, planifier vos repas et concrétiser vos projets de voyage sans prise de tête.');
+      message(reserveQuestion);reserveButton.hidden=false;
     }else{message(msg.textContent);}
   });
   document.getElementById('cap-assistant-close').addEventListener('click',close);
@@ -4293,11 +4298,14 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     const key=b.dataset.capAssist;
     if(key==='start'){index=0;showStep();return;}
     index=-1;stepBox.hidden=true;
+    if(key==='fridge-reserve'){message(reserveQuestion);reserveButton.hidden=false;return;}
     if(key==='summary'){message(budgetSummary());return;}
     if(key==='reconciliation'){message(reconciliationSummary());return;}
     if(key==='welcome'){message('Bienvenue sur CAP Budget ! Je suis là pour vous guider. Ici, vous pouvez gérer vos dépenses simplement, planifier vos repas et concrétiser vos projets de voyage sans prise de tête.');return;}
     message(help[key]||help.welcome);
   });
+  reserveButton.addEventListener('click',()=>{reserveButton.disabled=true;window.dispatchEvent(new CustomEvent('cap-reserve-add-from-robot',{detail:{amount:12,name:'Économie estimée · restes du frigo'}}));window.setTimeout(()=>{reserveButton.disabled=false;},600);});
+  window.addEventListener('cap-reserve-robot-result',event=>{const detail=event.detail||{};message(detail.ok?'🎉 Bravo ! 12,00 € ont été ajoutés à votre Réserve Urgences & Animaux (cagnotte virtuelle, sans virement bancaire). Total : '+detail.total+'.':'Impossible d’enregistrer cette économie pour le moment. Aucune somme n’a été ajoutée.');});
   document.getElementById('cap-assistant-next').addEventListener('click',()=>{index++;showStep();});
   document.getElementById('cap-assistant-stop').addEventListener('click',()=>{index=-1;stepBox.hidden=true;message('Tu peux reprendre le guide quand tu veux avec « Me guider ».');});
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden)close();});
@@ -4366,6 +4374,7 @@ const list=$('cap-ghost-list');list.replaceChildren();
 state.ghosts.forEach(g=>{const row=document.createElement('div');row.className='cap-save-item';const name=document.createElement('span');name.textContent=String(g.name||'Abonnement')+' — '+eur(Number(g.amount)||0)+'/mois';const del=document.createElement('button');del.type='button';del.textContent='Retirer';del.style.marginLeft='8px';del.addEventListener('click',()=>{state.ghosts=state.ghosts.filter(x=>x.id!==g.id);if(save())render();});row.append(name,del);list.appendChild(row);});
 $('cap-ghost-total').textContent=eur(cents(sum(state.ghosts)*12));
 };
+window.addEventListener('cap-reserve-add-from-robot',event=>{const amount=Number(event.detail?.amount);if(!valid(amount)||amount!==12)return;const ok=add('meals','Économie estimée · restes du frigo',cents(amount));window.dispatchEvent(new CustomEvent('cap-reserve-robot-result',{detail:{ok,total:eur(sum(state.meals))}}));if(ok)status('12,00 € ajoutés à la réserve virtuelle depuis CAP Assistant.');});
 const add=(key,name,amount)=>{const item={id:Date.now()+'-'+Math.random().toString(36).slice(2),name,amount,date:new Date().toISOString()};state[key].push(item);if(!save()){state[key].pop();return false;}render();return true;};
 $('cap-reserve-save-target').addEventListener('click',()=>{const n=getAmount('cap-reserve-target');if(n===null)return;const old=state.target;state.target=n;if(!save()){state.target=old;return;}render();status('Objectif de la réserve enregistré sur cet appareil.');});
 const mealAmountInput=$('cap-meal-saved');
