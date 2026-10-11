@@ -1064,6 +1064,16 @@ body{font-size:19px!important;line-height:1.55}
 #cap-savings-module .cap-save-number{font-size:23px;font-weight:800}
 #cap-savings-module .cap-save-item{padding:8px 0;border-bottom:1px solid #ffffff22}
 </style>
+<style>
+/* CAP V2 : cartes douces et gamification, sans changer les données. */
+.cap-play-panel{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin:14px 0}
+.cap-play-weather,.cap-play-badge{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid rgba(20,184,166,.25);border-radius:24px;background:linear-gradient(135deg,rgba(236,253,245,.97),rgba(204,251,241,.93));color:#134e4a;box-shadow:0 10px 28px rgba(15,118,110,.12)}
+.cap-play-weather>span,.cap-play-badge>span{font-size:34px;flex:none}
+.cap-play-panel strong{font-size:15px}.cap-play-panel p{margin:5px 0 0;font-size:13px;line-height:1.5;color:#285d57}
+.cap-play-badge:not(.is-unlocked){background:linear-gradient(135deg,#f5f7fa,#e8eef1);border-color:#cbd5e1;color:#475569}
+.cap-play-badge:not(.is-unlocked)>span{filter:grayscale(1);opacity:.5}
+.cap-play-badge:not(.is-unlocked) p{color:#64748b}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
@@ -1127,6 +1137,10 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   </aside>
   <main class="cap-dash-main"><div class="cap-dash-shell">
     <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">CAP Budget, repas et voyages</div><div class="cap-dash-page-sub">Tableau de bord vivant</div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+    <section class="cap-play-panel" aria-label="Météo et réussites CAP">
+      <div class="cap-play-weather" role="status" aria-live="polite"><span id="cap-weather-icon" aria-hidden="true">🌤️</span><div><strong>Météo de mon budget · CAP Conseil</strong><p id="cap-weather-message">Analyse de votre marge prévisionnelle en cours…</p></div></div>
+      <div class="cap-play-badge" id="cap-anti-gaspi-badge" aria-live="polite"><span aria-hidden="true">🏅</span><div><strong>Chef Anti-Gaspi</strong><p id="cap-anti-gaspi-badge-status">À débloquer : enregistrez une économie anti-gaspillage dans votre cagnotte.</p></div></div>
+    </section>
     <section id="cap-dash-savings-preview" aria-label="Cagnottes économies et anti-gaspillage" style="margin:14px 0;padding:18px;border:1px solid #34d39966;border-radius:18px;background:#102820;color:#e5f7ef">
       <h2 style="font-size:20px;margin:0 0 8px">🌱 Cagnottes Économies & Anti-Gaspillage</h2>
       <p style="margin:0 0 12px;font-size:13px">🥕 Repas avec les restes du Frigo : économie estimée de 12 € à personnaliser avant validation.</p>
@@ -4409,6 +4423,39 @@ render();
    document.getElementById('cap-savings-module')?.scrollIntoView({behavior:'smooth',block:'start'});
    window.setTimeout(()=>document.getElementById('cap-meal-name')?.focus({preventScroll:true}),350);
   });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
+})();
+</script>
+<script>
+/* CAP Conseil : météo calculée sur la marge du tableau principal, jamais sur un solde bancaire. */
+(function(){
+ 'use strict';
+ const byId=id=>document.getElementById(id);
+ function updateWeather(){
+  const source=byId('dash-margin'),icon=byId('cap-weather-icon'),message=byId('cap-weather-message');
+  if(!source||!icon||!message)return;
+  const raw=source.textContent.replace(/[\u00a0\u202f\s€]/g,'').replace(',','.');
+  const amount=Number(raw);
+  if(!Number.isFinite(amount)){icon.textContent='🌤️';message.textContent='Marge prévisionnelle indisponible pour le moment.';return;}
+  if(amount<0){icon.textContent='🌧️';message.textContent='CAP Conseil : votre budget prévu dépasse vos revenus. Regardons les postes ajustables ensemble.';}
+  else if(amount<150){icon.textContent='🌤️';message.textContent='CAP Conseil : votre marge prévue est serrée. Gardez un œil sur les dépenses non essentielles.';}
+  else{icon.textContent='☀️';message.textContent='CAP Conseil : votre marge prévisionnelle est positive. Continuez à avancer à votre rythme !';}
+ }
+ function updateBadge(){
+  const badge=byId('cap-anti-gaspi-badge'),status=byId('cap-anti-gaspi-badge-status');
+  if(!badge||!status)return;
+  let unlocked=false;
+  try{const saved=JSON.parse(localStorage.getItem('cap_savings_cagnottes_v1')||'null');unlocked=Array.isArray(saved?.meals)&&saved.meals.some(x=>Number(x?.amount)>0);}catch(_){}
+  badge.classList.toggle('is-unlocked',unlocked);
+  status.textContent=unlocked?'Badge débloqué ! Vous avez enregistré une économie anti-gaspillage. Bravo !':'À débloquer : enregistrez une économie anti-gaspillage dans votre cagnotte.';
+ }
+ function init(){
+  updateWeather();updateBadge();
+  const margin=byId('dash-margin'),reserve=byId('cap-reserve-value');
+  if(margin)new MutationObserver(updateWeather).observe(margin,{childList:true,characterData:true,subtree:true});
+  if(reserve)new MutationObserver(updateBadge).observe(reserve,{childList:true,characterData:true,subtree:true});
+  window.addEventListener('storage',e=>{if(e.key==='cap_savings_cagnottes_v1')updateBadge();});
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
