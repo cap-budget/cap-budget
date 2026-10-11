@@ -57,7 +57,9 @@
   nav.hidden=false;step=0;renderStep();
  };
  const close=()=>{modal.hidden=true;document.body.classList.remove('cap-wizard-active');try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
- document.getElementById('btn-quick-setup').onclick=()=>show('quick');
+ const goDashboard=()=>{close();const target=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.querySelector('#dashboard')||document.querySelector('main');if(target){target.scrollIntoView({behavior:'smooth',block:'start'});}else{window.scrollTo({top:0,behavior:'smooth'});}};
+ const quickStart=()=>{try{sessionStorage.setItem('cap_demo_mode','1');}catch(_){}goDashboard();};
+ document.getElementById('btn-quick-setup').onclick=quickStart;
  document.getElementById('btn-detailed-setup').onclick=()=>show('detail');
  const sharePanel=document.getElementById('cw-share-panel');
  const appUrl='https://cap-budget.github.io/cap-budget/';
@@ -84,17 +86,18 @@
    }catch(_){shareStatus.textContent='Copiez ce lien : '+appUrl;}
  };
  
- document.getElementById('cw-close').onclick=close;
+ document.getElementById('cw-close').onclick=goDashboard;
+ document.getElementById('cw-dashboard-access')?.addEventListener('click',goDashboard);
  document.getElementById('cw-back').onclick=()=>{form.hidden=true;choices.hidden=false;};
  form.onsubmit=e=>{
   e.preventDefault();const error=document.getElementById('cw-error');
   if(mode==='quick'){
     try{sessionStorage.setItem('cap_demo_mode','1');}catch(_){}
-    close();const banner=document.createElement('div');banner.textContent='⚡ Exploration : les montants affichés peuvent être des exemples. Aucune donnée personnelle modifiée.';banner.style.cssText='position:sticky;top:0;z-index:9999;padding:12px;background:#14532d;color:white;text-align:center;font-weight:700';document.body.prepend(banner);return;
+    goDashboard();return;
   }
   if(!validate())return;
   if(step<7){step++;renderStep();return;}
-  if(preview){close();return;}
+  if(preview){goDashboard();return;}
   const income=Number(answers.income),investment=Number(answers.investment);
   const total=['fixed','food','leisure','other','projects','investment'].reduce((n,k)=>n+Number(answers[k]),0);
   if(total>income){error.textContent='Attention : vos enveloppes et votre épargne dépassent vos revenus. Revenez corriger les montants avant de continuer.';return;}
