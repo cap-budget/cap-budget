@@ -4150,7 +4150,6 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
   <h2>🤖 CAP Assistant</h2>
   <p id="cap-assistant-message" aria-live="polite">Bonjour ! Je suis ton guide CAP. Je peux t'aider à découvrir l'application, sans toucher à tes données.</p>
   <div class="cap-assistant-actions">
-    <button type="button" id="cap-assistant-voice" aria-pressed="true" title="Activer ou couper la lecture vocale">🔊 Écouter</button>
     <button type="button" data-cap-assist="welcome">🏠 Présentation</button>
     <button type="button" data-cap-assist="summary">💬 Mon bilan</button>
     <button type="button" data-cap-assist="start">🧭 Me guider</button>
@@ -4197,31 +4196,9 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
   };
   let index=-1;
   const bubble=document.getElementById('cap-robot-bubble');
-  const voiceButton=document.getElementById('cap-assistant-voice');
-  const speechAvailable=('speechSynthesis' in window)&&('SpeechSynthesisUtterance' in window);
-  let voiceEnabled=true;
-  try{voiceEnabled=localStorage.getItem('cap_assistant_voice_muted_v1')!=='1';}catch(_){}
-  function syncVoiceButton(){
-    if(!voiceButton)return;
-    voiceButton.textContent=voiceEnabled?'🔊 Écouter / Mute':'🔇 Voix coupée · Activer';
-    voiceButton.setAttribute('aria-pressed',String(voiceEnabled));
-    voiceButton.disabled=!speechAvailable;
-    if(!speechAvailable)voiceButton.title='Synthèse vocale non disponible dans ce navigateur';
-  }
-  function stopSpeech(){if(speechAvailable)window.speechSynthesis.cancel();}
-  function say(text){
-    stopSpeech();
-    if(!voiceEnabled||!speechAvailable||!text)return;
-    const utterance=new SpeechSynthesisUtterance(String(text));
-    utterance.lang='fr-FR';utterance.rate=0.95;utterance.pitch=1;
-    const french=window.speechSynthesis.getVoices().find(v=>/^fr[-_]/i.test(v.lang));
-    if(french)utterance.voice=french;
-    window.speechSynthesis.speak(utterance);
-  }
-  function message(text,read=true){
+  function message(text){
     msg.textContent=text;
     if(bubble){bubble.textContent='💬 '+text;bubble.hidden=panel.hidden;}
-    if(read)say(text);
   }
   function budgetSummary(){
     let data=null;
@@ -4246,7 +4223,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     return intro+result+project+'Ce bilan repose sur les montants prévus, pas sur le solde de ton compte bancaire.';
   }
   function open(){panel.hidden=false;toggle.setAttribute('aria-expanded','true');if(bubble)bubble.hidden=false;document.getElementById('cap-assistant-close').focus();}
-  function close(){stopSpeech();panel.hidden=true;toggle.setAttribute('aria-expanded','false');if(bubble)bubble.hidden=true;toggle.focus();}
+  function close(){panel.hidden=true;toggle.setAttribute('aria-expanded','false');if(bubble)bubble.hidden=true;toggle.focus();}
   function showStep(){
     if(index<0||index>=guide.length){index=-1;stepBox.hidden=true;message('Bravo ! Tu connais maintenant les quatre premières étapes. Tu peux avancer à ton rythme.');return;}
     stepBox.hidden=false;
@@ -4262,13 +4239,6 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
       message('Bienvenue sur CAP Budget ! Je suis là pour vous guider. Ici, vous pouvez gérer vos dépenses simplement, planifier vos repas et concrétiser vos projets de voyage sans prise de tête.');
     }else{message(msg.textContent);}
   });
-  syncVoiceButton();
-  voiceButton?.addEventListener('click',()=>{
-    voiceEnabled=!voiceEnabled;
-    try{localStorage.setItem('cap_assistant_voice_muted_v1',voiceEnabled?'0':'1');}catch(_){}
-    syncVoiceButton();
-    if(voiceEnabled)say(msg.textContent);else stopSpeech();
-  });
   document.getElementById('cap-assistant-close').addEventListener('click',close);
   panel.addEventListener('click',event=>{
     const b=event.target.closest('[data-cap-assist]');if(!b)return;
@@ -4282,14 +4252,14 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
   document.getElementById('cap-assistant-next').addEventListener('click',()=>{index++;showStep();});
   document.getElementById('cap-assistant-stop').addEventListener('click',()=>{index=-1;stepBox.hidden=true;message('Tu peux reprendre le guide quand tu veux avec « Me guider ».');});
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden)close();});
-  // Première visite : ouvrir le guide sans déclencher automatiquement la voix.
+  // Première visite : ouvrir le guide visuel sans lecture audio.
   let first=false;try{first=!localStorage.getItem('cap_assistant_intro_seen_v1');}catch(_){}
   if(first){
     let shown=false;
     const maybeShow=()=>{
       if(shown||document.documentElement.classList.contains('cap-entry-locked'))return;
       shown=true;open();
-      message('Bienvenue ! Je suis CAP Assistant 🤖. Clique sur « Présentation » pour m’écouter, ou sur « Me guider » pour commencer.',false);
+      message('Bienvenue ! Je suis CAP Assistant 🤖. Clique sur « Présentation » pour lire mes conseils, ou sur « Me guider » pour commencer.');
       try{localStorage.setItem('cap_assistant_intro_seen_v1','1');}catch(_){}
       observer.disconnect();
     };
