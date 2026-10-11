@@ -21,24 +21,37 @@
  if(dashboard&&dashboard!==modal)dashboard.parentNode.insertBefore(modal,dashboard);
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
  if(!preview&&((()=>{try{return localStorage.getItem(key)==='true'||!!localStorage.getItem('cap_onboarding_v1');}catch(_){return false;}})()||hasPriorData)){modal.hidden=true;return;}
- const show=(which)=>{
-   mode=which;choices.hidden=true;form.hidden=false;fields.replaceChildren();
-   const add=(id,title,value,required=true)=>{
-     const label=document.createElement('label');label.htmlFor='cw-'+id;label.textContent=title;
-     const input=document.createElement('input');input.id='cw-'+id;input.name=id;input.required=required;input.type=id==='goalName'?'text':'number';
-     if(input.type==='number'){input.min='0';input.step='0.01';}input.value=value;
-     fields.append(label,input);
-   };
-   add('income','Revenu mensuel (€)','');
-   if(which==='detail'){
-     add('fixed','Charges fixes (€)','0');add('food','Alimentation (€)','0');
-     add('other','Transport et autres (€)','0');add('leisure','Loisirs (€)','0');
-     add('projects','Projets / épargne (€)','0');
-   }
-   add('goalName','Nom de votre objectif principal (facultatif)','',false);
-   add('goalTarget','Montant cible de votre objectif (€)','',false);
-   document.getElementById('cw-error').textContent='';
-   fields.querySelector('input')?.focus();
+ const steps=[
+  {title:'1 / 5 — Vos revenus',help:'Combien recevez-vous chaque mois ?',inputs:[['income','Revenus mensuels (€)']]},
+  {title:'2 / 5 — Charges fixes',help:'Loyer, factures et abonnements mensuels.',inputs:[['fixed','Charges fixes (€)']]},
+  {title:'3 / 5 — Enveloppes quotidiennes',help:'Prévoyez vos dépenses sans les enregistrer comme déjà payées.',inputs:[['food','Courses / repas (€)'],['leisure','Loisirs (€)'],['other','Transports et autres (€)']]},
+  {title:'4 / 5 — Épargne et projets',help:'La réserve investissement est séparée de votre budget voyages.',inputs:[['investment','📈 Réserve investissement / épargne (€)'],['projects','Projets / voyages (€)'],['goalName','Nom du projet (facultatif)'],['goalTarget','Montant cible (€), facultatif']]},
+  {title:'5 / 5 — Confirmation',help:'Vérifiez vos montants. Rien ne sera enregistré avant votre confirmation.',inputs:[]}
+ ];
+ let step=0;const answers={income:'',fixed:'0',food:'0',leisure:'0',other:'0',investment:'0',projects:'0',goalName:'',goalTarget:''};
+ const action=form.querySelector('button[type="submit"]');
+ const nav=document.createElement('div');nav.style.cssText='display:flex;gap:10px;align-items:center;justify-content:space-between;margin:12px 0';
+ const previous=document.createElement('button');previous.type='button';previous.textContent='← Étape précédente';previous.className='cw-link';previous.onclick=()=>{collect();if(step>0){step--;renderStep();}else{form.hidden=true;choices.hidden=false;}};
+ nav.append(previous);fields.after(nav);
+ function collect(){fields.querySelectorAll('input').forEach(input=>{answers[input.name]=input.value;});}
+ function validate(){
+  collect();const current=steps[step];
+  for(const [id] of current.inputs){if(id==='goalName'||id==='goalTarget')continue;const n=Number(answers[id]);if(!answers[id]||!Number.isFinite(n)||n<0||(id==='income'&&n<=0)){document.getElementById('cw-error').textContent='Saisissez un montant valide'+(id==='income'?' supérieur à zéro':'')+'.';return false;}}
+  if(step===3&&answers.goalName.trim()&&!(Number(answers.goalTarget)>0)){document.getElementById('cw-error').textContent='Indiquez le montant cible du projet.';return false;}
+  return true;
+ }
+ function renderStep(){
+  const current=steps[step];fields.replaceChildren();
+  const heading=document.createElement('h2');heading.textContent=current.title;fields.appendChild(heading);
+  const help=document.createElement('p');help.textContent=current.help;fields.appendChild(help);
+  current.inputs.forEach(([id,title])=>{const label=document.createElement('label');label.htmlFor='cw-'+id;label.textContent=title;const input=document.createElement('input');input.id='cw-'+id;input.name=id;input.type=id==='goalName'?'text':'number';if(input.type==='number'){input.min='0';input.step='0.01';}input.value=answers[id];input.required=!['goalName','goalTarget'].includes(id);fields.append(label,input);});
+  if(step===4){const total=['fixed','food','leisure','other','investment','projects'].reduce((sum,k)=>sum+Number(answers[k]||0),0);const recap=document.createElement('p');recap.textContent='Revenus : '+Number(answers.income).toLocaleString('fr-FR')+' € · Budget et épargne prévus : '+total.toLocaleString('fr-FR')+' € · Marge prévisionnelle : '+(Number(answers.income)-total).toLocaleString('fr-FR')+' €';fields.append(recap);}
+  previous.hidden=step===0;action.textContent=step===4?'✓ Confirmer et ouvrir mon tableau de bord':'Continuer →';
+  document.getElementById('cw-error').textContent='';fields.querySelector('input')?.focus();
+ }
+ const show=(which)=>{mode=which;choices.hidden=true;form.hidden=false;
+  if(which==='quick'){fields.replaceChildren();const p=document.createElement('p');p.textContent='Explorer avec un budget fictif de 2 500 € de revenus, sans enregistrer de nouvelles données. Les chiffres sont des exemples.';fields.append(p);nav.hidden=true;action.textContent='Explorer la démonstration';return;}
+  nav.hidden=false;step=0;renderStep();
  };
  const close=()=>{modal.hidden=true;try{localStorage.setItem('cap_visited','true');localStorage.setItem('cap_onboarding_v1','done');}catch(_){/* Le navigateur peut interdire le stockage, mais la fermeture reste possible. */}};
  document.getElementById('btn-quick-setup').onclick=()=>show('quick');
@@ -69,33 +82,30 @@
  };
  
  document.getElementById('cw-close').onclick=close;
- document.getElementById('cw-back').onclick=close;
+ document.getElementById('cw-back').onclick=()=>{form.hidden=true;choices.hidden=false;};
  form.onsubmit=e=>{
-   e.preventDefault();
-   if(preview){close();return;}
-   const read=id=>fields.querySelector('[name="'+id+'"]')?.value||'';
-   const income=Number(read('income'));
-   if(!Number.isFinite(income)||income<=0){document.getElementById('cw-error').textContent='Indiquez un revenu mensuel supérieur à zéro.';return;}
-   const goalName=read('goalName').trim(),goalTarget=Number(read('goalTarget'));
-   if(goalName&&(!Number.isFinite(goalTarget)||goalTarget<=0)){document.getElementById('cw-error').textContent='Indiquez un montant cible supérieur à zéro pour cet objectif.';return;}
-   const next={income,fixed:0,food:0,leisure:0,projects:0,other:0};
-   if(mode==='detail')for(const k of ['fixed','food','leisure','projects','other']){
-     const n=Number(read(k));if(!Number.isFinite(n)||n<0){document.getElementById('cw-error').textContent='Vérifiez les montants du budget.';return;}next[k]=n;
-   }
-   try{
-     // Synchronise le moteur existant via ses champs et son bouton de calcul.
-     for(const [k,v] of Object.entries(next)){const input=document.getElementById('cap-'+k);if(input)input.value=String(v);}
-     document.getElementById('cap-calc-btn')?.click();
-     document.getElementById('cap-save-btn')?.click();
-     if(goalName){
-       const name=document.getElementById('v6-goal-name'),target=document.getElementById('v6-goal-target');
-       if(name&&target){name.value=goalName;target.value=String(goalTarget);document.getElementById('v6-add-goal')?.click();}
-     }
-     // Ne marquer l'accueil termine qu'apres enregistrement du budget.
-     close();
-     // Les vues existantes relisent le moteur au rechargement.
-     location.reload();
-   }catch(_){document.getElementById('cw-error').textContent='Impossible d’enregistrer cette configuration. Réessayez.';}
+  e.preventDefault();const error=document.getElementById('cw-error');
+  if(mode==='quick'){
+    try{sessionStorage.setItem('cap_demo_mode','1');}catch(_){}
+    close();const banner=document.createElement('div');banner.textContent='⚡ Exploration : les montants affichés peuvent être des exemples. Aucune donnée personnelle modifiée.';banner.style.cssText='position:sticky;top:0;z-index:9999;padding:12px;background:#14532d;color:white;text-align:center;font-weight:700';document.body.prepend(banner);return;
+  }
+  if(!validate())return;
+  if(step<4){step++;renderStep();return;}
+  if(preview){close();return;}
+  const income=Number(answers.income),investment=Number(answers.investment);
+  const total=['fixed','food','leisure','other','projects','investment'].reduce((n,k)=>n+Number(answers[k]),0);
+  if(total>income){error.textContent='Attention : vos enveloppes et votre épargne dépassent vos revenus. Revenez corriger les montants avant de continuer.';return;}
+  try{
+    const next={income,fixed:Number(answers.fixed),food:Number(answers.food),leisure:Number(answers.leisure),other:Number(answers.other),projects:Number(answers.projects)+investment};
+    // Le moteur historique ne possède qu'une enveloppe projets : on y inclut la réserve,
+    // mais on conserve son détail séparément pour éviter de la compter deux fois.
+    for(const [k,v] of Object.entries(next)){const input=document.getElementById('cap-'+k);if(!input)throw Error('Champ absent : '+k);input.value=String(v);}
+    document.getElementById('cap-calc-btn')?.click();
+    document.getElementById('cap-save-btn')?.click();
+    localStorage.setItem('cap_investment_reserve_v1',JSON.stringify({monthly:investment,updatedAt:new Date().toISOString()}));
+    if(answers.goalName.trim()){const name=document.getElementById('v6-goal-name'),target=document.getElementById('v6-goal-target');if(name&&target){name.value=answers.goalName.trim();target.value=String(Number(answers.goalTarget));document.getElementById('v6-add-goal')?.click();}}
+    close();location.reload();
+  }catch(_){error.textContent='Enregistrement impossible : vos données précédentes ont été conservées. Réessayez.';}
  };
  modal.hidden=false;
 })();
