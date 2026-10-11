@@ -4137,19 +4137,17 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
  const storageKey='cap_investment_reserve_v1';
  const box=document.createElement('aside');
  box.id='cap-investment-summary';
- box.style.cssText='margin:16px auto;padding:20px;max-width:1100px;border:2px solid #7ac89b;border-radius:16px;background:#e8f5e9;color:#173b29;font:inherit;box-sizing:border-box';
- box.innerHTML='<h2 style="font-size:21px;margin:0 0 8px;color:#14532d">📈 Réserve investissement / épargne</h2>'+
- '<p style="margin:0 0 14px;color:#365c46">Prévoyez une somme mensuelle pour les imprévus et les chiens 🐶, l’investissement 📈 ou les projets ✈️.</p>'+
- '<form id="cap-reserve-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">'+
- '<label for="cap-reserve-monthly" style="display:grid;gap:5px;font-weight:700">Ma réserve chaque mois (€)<input id="cap-reserve-monthly" name="reserve" type="number" min="0" max="99999999" step="0.01" inputmode="decimal" required style="min-height:44px;width:190px;max-width:100%;box-sizing:border-box;padding:9px;border:2px solid #79ae8a;border-radius:9px;background:#fff;color:#173b29;font:inherit"></label>'+
- '<button type="submit" style="min-height:44px;padding:10px 18px;border:0;border-radius:10px;background:#166534;color:white;font-weight:800;cursor:pointer">💾 Enregistrer ma réserve</button></form>'+
- '<p id="cap-reserve-result" role="status" aria-live="polite" style="margin:12px 0 6px;font-weight:700"></p>'+
- '<p style="margin:6px 0 0;font-size:13px;color:#365c46">Cette réserve est une <strong>part de l’enveloppe Projets / voyages</strong>, et non une dépense en plus. Elle ne réduit pas une seconde fois le solde disponible. Ce champ ne transfère pas d’argent et ne modifie pas automatiquement le montant de l’enveloppe Projets.</p>';
+ box.className='cap-reserve-compact';
+ box.innerHTML='<form id="cap-reserve-form" aria-label="Réserve investissement et épargne">'+
+ '<label for="cap-reserve-monthly">📈 Réserve investissement / épargne (€)</label>'+
+ '<div class="cap-reserve-controls"><input id="cap-reserve-monthly" name="reserve" type="number" min="0" max="99999999" step="0.01" inputmode="decimal" required aria-describedby="cap-reserve-result">'+
+ '<button type="submit">Enregistrer</button></div></form>'+
+ '<p id="cap-reserve-result" role="status" aria-live="polite" class="cap-reserve-status"></p>';
  const field=box.querySelector('#cap-reserve-monthly');
  const result=box.querySelector('#cap-reserve-result');
  const format=v=>v.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
  function read(){try{const data=JSON.parse(localStorage.getItem(storageKey)||'null');return Number.isFinite(Number(data?.monthly))&&Number(data.monthly)>=0?Number(data.monthly):0;}catch(_){return 0;}}
- function render(){const amount=read();field.value=String(amount);result.textContent='Réserve prévue : '+format(amount)+' par mois, incluse dans les projets (sans seconde déduction).';}
+ function render(){const amount=read();field.value=String(amount);result.textContent='Réserve enregistrée : '+format(amount)+' / mois';}
  box.querySelector('form').addEventListener('submit',event=>{
    event.preventDefault();
    const value=Number(field.value);
@@ -4777,5 +4775,25 @@ body{background-image:radial-gradient(ellipse at 85% 2%,rgba(80,216,190,.14),tra
 #cap-assistant-toggle{width:42px!important;height:42px!important;background:#fff!important;color:#087e67!important;border:1px solid #cde9dd!important;box-shadow:0 5px 18px #145c4320!important}
 #cap-robot-bubble{display:none!important}
 @media(max-width:680px){#cap-eco-v2 .eco-grid{grid-template-columns:1fr!important;gap:16px!important}#cap-eco-v2 .eco-head{gap:12px!important;flex-wrap:wrap!important}#cap-dashboard-redesign .cap-clean-savings{gap:14px!important}}
+</style>
+
+<style>
+/* CAP : réserve compacte et contrastes cohérents des panneaux inférieurs. */
+#cap-investment-summary.cap-reserve-compact{box-sizing:border-box;max-width:1100px;margin:14px auto;padding:16px 20px;border:1px solid #b9dfd0;border-radius:16px;background:#f5fcf8;color:#173e32;box-shadow:0 5px 18px #123f2912;font:inherit}
+#cap-investment-summary label{display:block;margin:0 0 9px;color:#173e32;font-weight:750}
+#cap-investment-summary .cap-reserve-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#cap-investment-summary input{box-sizing:border-box;min-height:46px;width:min(100%,210px);padding:10px 12px;border:1px solid #7da998;border-radius:10px;background:#fff;color:#173e32;font:inherit}
+#cap-investment-summary button{min-height:46px;padding:10px 18px;border:0;border-radius:10px;background:#166534;color:#fff;font:inherit;font-weight:750;cursor:pointer}
+#cap-investment-summary button:focus-visible,#cap-investment-summary input:focus-visible{outline:3px solid #0e7490;outline-offset:2px}
+#cap-investment-summary .cap-reserve-status{margin:8px 0 0;color:#315c4b;font-size:13px;line-height:1.4}
+#cap-guide-complet,#cap-guide-complet article{color:#eefcf5}
+#cap-guide-complet :is(p,li,span,strong,small,label){color:inherit}
+#cap-eco-v2 .eco-card,#cap-dashboard-redesign .cap-clean-tile{background:#fff!important;color:#183f35!important;border-color:#d4e8df!important}
+#cap-eco-v2 .eco-card :is(p,li,span,small,label,strong),#cap-dashboard-redesign .cap-clean-tile :is(p,li,span,small,label,strong){color:#244b3e!important}
+#cap-eco-v2 .eco-card :is(h2,h3,h4),#cap-dashboard-redesign .cap-clean-tile :is(h2,h3,h4){color:#14543e!important}
+#cap-eco-v2 :is(input,textarea,select),#cap-dashboard-redesign :is(input,textarea,select){background:#fff!important;color:#183f35!important;border:1px solid #a5c5b7!important}
+#cap-eco-v2 :is(input,textarea)::placeholder,#cap-dashboard-redesign :is(input,textarea)::placeholder{color:#526e63!important;opacity:1}
+#cap-eco-v2 :is(button,.eco-card button),#cap-dashboard-redesign .cap-clean-tile button{color:#fff!important}
+@media(max-width:540px){#cap-investment-summary .cap-reserve-controls>*{width:100%}}
 </style>
 </body></html>
