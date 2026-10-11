@@ -4981,5 +4981,35 @@ body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn){min-height:54px!im
 body :is(input,textarea,select,.input,.amount){min-height:52px!important;font-size:18px!important;border-radius:10px!important}
 body :is(.dial-value,.stat-value,.cap-v6-number){font-weight:800!important}
 @media(max-width:600px){body{font-size:17px!important}body :is(button,.btn,[role="button"],.tab,.tab-btn){min-height:56px!important}}
+
+/* CAP accessibilité senior : surfaces claires intégrales, octobre 2026. */
+/* Surcharge finale : ne change ni les calculs ni les données. */
+html,body,body .app,body main,body section,body article,body aside,body header,body footer,body nav,body form,body fieldset,body details,body dialog,body .panel,body .container,body .content,body .dashboard,body .sidebar,body .modal,body .modal-body,body .modal-header,body .modal-footer,body .sheet,body .drawer,body .list,body .list-item,body .row,body .tile,body .summary,body .chart,body .chart-card,body .cap-dash-main,body .eco-content{
+  color-scheme:light!important;
+}
+html,body{background-color:#f7f8f7!important;color:#17221c!important}
+body :is(main,section,article,aside,header,footer,nav,form,fieldset,details,dialog,.panel,.container,.content,.dashboard,.sidebar,.modal,.modal-body,.modal-header,.modal-footer,.sheet,.drawer,.list,.list-item,.row,.tile,.summary,.chart,.chart-card,.cap-dash-main,.eco-content,.cap-v6-plan,.cap-v6-row,.cap-v8-card,.cap-v9-card,.cap-dash-card,.eco-card,.eco-panel,.eco-stat,.eco-head,.cap-clean-tile,.cap-connected-card,.onboarding-card,.onboarding-banner,.tabbar,.tabbar-inner,.hero,.card,.stats,.stat){
+  background-color:#fff!important;background-image:none!important;
+}
+body :is(.overlay,.modal-backdrop,.backdrop){background-color:rgba(247,248,247,.94)!important}
+body :is(h1,h2,h3,h4,h5,h6){color:#075638!important;font-weight:800!important}
+body :is(p,li,dt,dd,legend,label,summary,small,output,th,td,blockquote,.muted,.hint,.help,.caption){color:#17221c!important}
+body :is(input,textarea,select,[contenteditable="true"]){background:#fff!important;color:#17221c!important;border:2px solid #52645a!important}
+body :is(input,textarea)::placeholder{color:#3d4a42!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn){background:#075638!important;color:#fff!important;border-color:#06452e!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,small){color:#fff!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn):disabled{background:#52645a!important;color:#fff!important}
+body :is(a,.link){color:#075638!important;text-decoration-thickness:2px}
+body :is(.badge,.pill,.tag,.cap-v6-badge){background:#fff!important;color:#075638!important;border-color:#075638!important}
+body :is(.progress-fill,.bar-fill){background:#075638!important}
+body :is(.track,.progress,.bar-track){background:#d8dfda!important}
+body :is(.cap-v6-note,.cap-v6-plan,.cap-v6-row,.cap-dash-card,.eco-card,.onboarding-card,.modal-content,.card){border-color:#9aa9a0!important}
+body :is(.cap-v6-note,.cap-v6-plan,.cap-v6-row) :is(span,p,strong,b,small,div){color:#17221c!important}
+body #cap-premium-test-status{background:#075638!important;color:#fff!important}
+html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f7f8f7!important}
+body{font-size:18px!important;line-height:1.65!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn){min-height:54px!important}
+body :focus-visible{outline:3px solid #075638!important;outline-offset:3px!important}
+@media(max-width:600px){body{font-size:17px!important}}
 </style>
 </body></html>
