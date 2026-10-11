@@ -1127,6 +1127,14 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   </aside>
   <main class="cap-dash-main"><div class="cap-dash-shell">
     <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">CAP Budget, repas et voyages</div><div class="cap-dash-page-sub">Tableau de bord vivant</div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+    <section id="cap-dash-savings-preview" aria-label="Cagnottes économies et anti-gaspillage" style="margin:14px 0;padding:18px;border:1px solid #34d39966;border-radius:18px;background:#102820;color:#e5f7ef">
+      <h2 style="font-size:20px;margin:0 0 8px">🌱 Cagnottes Économies & Anti-Gaspillage</h2>
+      <p style="margin:0 0 12px;font-size:13px">🥕 Repas avec les restes du Frigo : économie estimée de 12 € à personnaliser avant validation.</p>
+      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><strong>🐾 Réserve Urgences & Animaux</strong><strong id="cap-dash-reserve-value">Chargement…</strong></div>
+      <div role="progressbar" aria-label="Progression de la cagnotte" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cap-dash-reserve-meter" style="height:12px;border-radius:9px;overflow:hidden;background:#ffffff26;margin:9px 0 12px"><div id="cap-dash-reserve-bar" style="height:100%;width:0;background:#34d399"></div></div>
+      <button type="button" id="cap-dash-meal-save" style="padding:11px 14px;border:0;border-radius:10px;background:#0d9488;color:#fff;font-weight:700;cursor:pointer">+ Ajouter cette économie à la Réserve Urgences & Animaux</button>
+      <p style="font-size:12px;opacity:.85;margin:9px 0 0">Aucun ajout automatique : confirmez votre repas et le montant. Réserve virtuelle, sans virement bancaire.</p>
+    </section>
     <section class="cap-dash-balance-first" aria-label="Résumé du budget disponible">
       <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Solde disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-daily" id="dash-daily-repere" role="status">Repère journalier en cours de calcul…</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
       <div class="cap-dash-balance-metrics">
@@ -4355,6 +4363,29 @@ $('cap-victory-toggle').addEventListener('click',()=>{$('cap-victory-form').hidd
 $('cap-victory-add').addEventListener('click',()=>{const amount=getAmount('cap-victory-amount');if(amount===null)return;const name=$('cap-victory-name').value.trim()||'Dépense évitée';if(add('victories',name,amount)){status('Petite victoire enregistrée : '+eur(amount));$('cap-victory-name').value='';$('cap-victory-amount').value='';$('cap-victory-form').hidden=true;}});
 $('cap-ghost-add').addEventListener('click',()=>{const amount=getAmount('cap-ghost-price');if(amount===null)return;const name=$('cap-ghost-name').value.trim();if(!name){status('Indiquez le nom de l’abonnement.');$('cap-ghost-name').focus();return;}if(add('ghosts',name,amount)){status('Abonnement ajouté à la liste de vérification.');$('cap-ghost-name').value='';$('cap-ghost-price').value='';}});
 render();
+})();
+</script>
+<script>
+(function(){
+ function sync(){
+  const original=document.getElementById('cap-reserve-value'),meter=document.getElementById('cap-reserve-progress');
+  const label=document.getElementById('cap-dash-reserve-value'),preview=document.getElementById('cap-dash-reserve-meter'),bar=document.getElementById('cap-dash-reserve-bar');
+  if(!original||!meter||!label||!preview||!bar)return;
+  label.textContent=original.textContent;
+  const pct=Math.max(0,Math.min(100,Number(meter.getAttribute('aria-valuenow'))||0));
+  preview.setAttribute('aria-valuenow',String(pct));bar.style.width=pct+'%';
+ }
+ function init(){
+  sync();
+  const original=document.getElementById('cap-reserve-value'),meter=document.getElementById('cap-reserve-progress');
+  if(original)new MutationObserver(sync).observe(original,{childList:true,characterData:true,subtree:true});
+  if(meter)new MutationObserver(sync).observe(meter,{attributes:true,attributeFilter:['aria-valuenow']});
+  document.getElementById('cap-dash-meal-save')?.addEventListener('click',()=>{
+   document.getElementById('cap-savings-module')?.scrollIntoView({behavior:'smooth',block:'start'});
+   window.setTimeout(()=>document.getElementById('cap-meal-name')?.focus({preventScroll:true}),350);
+  });
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>';
