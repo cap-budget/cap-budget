@@ -4185,6 +4185,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
   <div class="cap-assistant-actions">
     <button type="button" data-cap-assist="welcome">🏠 Présentation</button>
     <button type="button" data-cap-assist="summary">💬 Mon bilan</button>
+    <button type="button" data-cap-assist="reconciliation">🔄 Cohérence du budget</button>
     <button type="button" data-cap-assist="start">🧭 Me guider</button>
     <button type="button" data-cap-assist="budget">💰 Budget</button>
     <button type="button" data-cap-assist="expenses">🧾 Dépenses</button>
@@ -4255,6 +4256,20 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
       :'Tu peux aussi définir une enveloppe pour tes projets si ton budget le permet. ';
     return intro+result+project+'Ce bilan repose sur les montants prévus, pas sur le solde de ton compte bancaire.';
   }
+  function reconciliationSummary(){
+    const fmt=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+    let data=null;
+    try{data=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){}
+    const income=Number(data?.income);
+    if(!data||!Number.isFinite(income)||income<=0)return 'Pour comparer les deux modules, renseigne et enregistre d’abord les revenus du budget principal. Je ne modifie aucune donnée.';
+    const salaryText=document.getElementById('v-salary')?.textContent||'';
+    const salary=Number(salaryText.replace(/[\\u00a0\\u202f\\s€]/g,'').replace(',','.'));
+    if(!salaryText.trim()||!Number.isFinite(salary))return 'Le budget principal indique '+fmt(income)+'. Le cadran « Reste à vivre » n’est pas disponible pour le moment. Aucune donnée n’est modifiée.';
+    const compare=Math.abs(income-salary)<0.005
+      ?'Les revenus sont cohérents dans les deux modules : '+fmt(income)+'. '
+      :'Attention : le budget principal indique '+fmt(income)+' et le cadran '+fmt(salary)+', soit '+fmt(Math.abs(income-salary))+' d’écart. ';
+    return compare+'Le budget principal calcule une marge après les enveloppes prévues. Le cadran calcule son propre reste à vivre avec ses charges et dépenses. Ne cumule pas ces deux soldes. Une charge prévue, comme un abonnement, ne prouve pas qu’un paiement réel a été enregistré. Je ne change aucun montant.';
+  }
   function open(){panel.hidden=false;toggle.setAttribute('aria-expanded','true');if(bubble)bubble.hidden=false;document.getElementById('cap-assistant-close').focus();}
   function close(){panel.hidden=true;toggle.setAttribute('aria-expanded','false');if(bubble)bubble.hidden=true;toggle.focus();}
   function showStep(){
@@ -4279,6 +4294,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     if(key==='start'){index=0;showStep();return;}
     index=-1;stepBox.hidden=true;
     if(key==='summary'){message(budgetSummary());return;}
+    if(key==='reconciliation'){message(reconciliationSummary());return;}
     if(key==='welcome'){message('Bienvenue sur CAP Budget ! Je suis là pour vous guider. Ici, vous pouvez gérer vos dépenses simplement, planifier vos repas et concrétiser vos projets de voyage sans prise de tête.');return;}
     message(help[key]||help.welcome);
   });
