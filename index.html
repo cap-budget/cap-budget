@@ -4939,4 +4939,37 @@ body :is(:focus-visible){outline:3px solid #0b6b49!important;outline-offset:3px!
 @media(max-width:600px){body{font-size:17px!important}body :is(.app,.cap-dash-main,.eco-content){padding-left:14px!important;padding-right:14px!important}body :is(.card,.cap-v6-card,.eco-card,.cap-dash-card){padding:20px!important}body :is(button,.btn,[role="button"]){min-height:52px!important}}
 @media(prefers-color-scheme:dark){html,body{color-scheme:light!important;background:#f8fbf9!important}}
 </style>
+
+<!-- CAP CONTRASTE FORT 2026-10-12 -->
+<style id="cap-contraste-fort-20261012">
+/* Palette accessible : fonds blancs, texte sombre, émeraude profond.
+   Correctif de présentation uniquement ; aucune donnée ni logique modifiée. */
+:root,html,body{--bg:#f5f7f6!important;--surface:#fff!important;--surface-card:#fff!important;--field:#fff!important;--ink:#111827!important;--muted:#334155!important;--line:#64748b!important;--accent:#006b45!important;--accent-ink:#fff!important;--accent-soft:#fff!important;--good:#006b45!important;--hero:#fff!important;--hero-ink:#111827!important;--hero-muted:#334155!important;color-scheme:light!important}
+html,body{background:#f5f7f6!important;color:#111827!important}
+body :is(.hero,.card,.stats,.stat,.onboarding-card,.modal-content,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.eco-card,.eco-panel,.eco-stat,.eco-head,.cap-connected-card,#cap-premium-insights,#cap-investment-summary,#pricing,.cap-v6-note,.cap-v6-plan,.cap-v6-row,.tabbar,.tabbar-inner,.eco-nav,.cap-dash-topbar,.dropdown,.popover,.toast){background:#fff!important;background-image:none!important;color:#111827!important;border-color:#64748b!important;text-shadow:none!important;filter:none!important}
+body :is(.hero,.card,.onboarding-card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-clean-tile,.eco-card){border:1.5px solid #64748b!important}
+body :is(h1,h2,h3,h4,h5,h6,.brand-name){color:#005c3b!important;font-weight:800!important;text-shadow:none!important}
+body :is(p,li,dt,dd,label,legend,output,summary,small,span,strong,b,.muted,.hint,.help,.caption,.brand-sub,.stat-label,.row-sub,.field-label,.expense-field-help,.expense-form-intro,.hero-msg,.dial-label,.dial-value,.stat-value){color:#111827!important;text-shadow:none!important}
+body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card,#cap-premium-insights,#cap-investment-summary) :is(div,p,span,small,strong,b,label,li){color:#111827!important}
+body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card,#cap-premium-insights,#cap-investment-summary) :is(h1,h2,h3,h4){color:#005c3b!important}
+body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn){background:#006b45!important;background-image:none!important;color:#fff!important;border:2px solid #004d32!important;font-weight:800!important;text-shadow:none!important;box-shadow:none!important;opacity:1!important}
+body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn):is(:hover,:focus-visible){background:#004d32!important;color:#fff!important}
+body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn) :is(span,strong,b,small,svg){color:#fff!important}
+body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn) svg{stroke:currentColor!important}
+body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn):disabled{background:#475569!important;border-color:#334155!important;color:#fff!important;opacity:1!important}
+body :is(input,textarea,select,.input,.amount,[contenteditable="true"]){background:#fff!important;color:#111827!important;border:2px solid #475569!important;opacity:1!important}
+body :is(input,textarea)::placeholder{color:#334155!important;opacity:1!important}
+body :is(a,.link){color:#005c3b!important;font-weight:750!important}
+body :is(.badge,.pill,.tag,.cap-v6-badge){background:#fff!important;color:#005c3b!important;border:2px solid #006b45!important;font-weight:800!important}
+body :is(.track,.progress,.bar-track,[role="progressbar"]){background:#cbd5e1!important;filter:none!important}
+body :is(.progress-fill,.bar-fill){background:#006b45!important}
+body :is(.arc){stroke:#006b45!important;filter:none!important}
+body :is(.tick){stroke:#64748b!important}
+body :is(.tick.major){stroke:#334155!important}
+body :is(.onboarding-banner,#onboarding-modal){background:#f5f7f6!important}
+html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f5f7f6!important}
+body #cap-premium-test-status{background:#006b45!important;color:#fff!important;border:2px solid #004d32!important}
+body :focus-visible{outline:3px solid #005c3b!important;outline-offset:3px!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
 </body></html>
