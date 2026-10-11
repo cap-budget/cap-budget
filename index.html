@@ -4100,4 +4100,95 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
 </div>
 <p style="margin-top:22px"><a href="#cap-dashboard-redesign">↑ Revenir à l'accueil</a></p>
 </section>
+
+<!-- CAP Assistant : guide local sans IA payante, sans écriture des données financières. -->
+<style>
+#cap-assistant-toggle{position:fixed;right:20px;bottom:94px;z-index:2147482990;width:58px;height:58px;border-radius:50%;border:2px solid #a7f3d0;background:#064e3b;color:white;font-size:28px;cursor:pointer;box-shadow:0 8px 28px #0008}
+#cap-assistant-panel{position:fixed;right:16px;bottom:164px;z-index:2147482991;width:min(380px,calc(100vw - 32px));max-height:min(65dvh,590px);overflow:auto;background:#10241f;color:#f0fdf4;border:1px solid #34d399;border-radius:18px;padding:18px;box-shadow:0 15px 45px #000a;font:15px/1.5 system-ui,sans-serif}
+#cap-assistant-panel[hidden]{display:none!important}
+#cap-assistant-panel h2{margin:0 0 8px;font-size:20px;color:#a7f3d0}
+#cap-assistant-panel p{margin:8px 0 12px}
+#cap-assistant-panel .cap-assistant-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+#cap-assistant-panel button{background:#174d3c;border:1px solid #68d9aa;color:#f0fdf4;border-radius:10px;padding:9px 11px;font:inherit;cursor:pointer}
+#cap-assistant-panel button:focus-visible,#cap-assistant-toggle:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+#cap-assistant-panel .cap-assistant-close{float:right;padding:3px 9px}
+@media(max-width:480px){#cap-assistant-toggle{right:12px;bottom:88px}#cap-assistant-panel{right:8px;width:calc(100vw - 16px);bottom:154px;max-height:58dvh;box-sizing:border-box}}
+</style>
+<button id="cap-assistant-toggle" type="button" aria-label="Ouvrir CAP Assistant" aria-controls="cap-assistant-panel" aria-expanded="false" title="CAP Assistant">🤖</button>
+<section id="cap-assistant-panel" role="dialog" aria-modal="false" aria-label="CAP Assistant" hidden>
+  <button type="button" class="cap-assistant-close" id="cap-assistant-close" aria-label="Fermer CAP Assistant">✕</button>
+  <h2>🤖 CAP Assistant</h2>
+  <p id="cap-assistant-message" aria-live="polite">Bonjour ! Je suis ton guide CAP. Je peux t'aider à découvrir l'application, sans toucher à tes données.</p>
+  <div class="cap-assistant-actions">
+    <button type="button" data-cap-assist="welcome">🏠 Présentation</button>
+    <button type="button" data-cap-assist="start">🧭 Me guider</button>
+    <button type="button" data-cap-assist="budget">💰 Budget</button>
+    <button type="button" data-cap-assist="expenses">🧾 Dépenses</button>
+    <button type="button" data-cap-assist="goals">🎯 Objectifs</button>
+    <button type="button" data-cap-assist="savings">🐷 Épargne</button>
+    <button type="button" data-cap-assist="stats">📊 Statistiques</button>
+    <button type="button" data-cap-assist="premium">✨ Premium</button>
+    <button type="button" data-cap-assist="meals">🍽️ Repas</button>
+    <button type="button" data-cap-assist="backup">💾 Sauvegarde</button>
+  </div>
+  <div id="cap-assistant-step" hidden>
+    <p id="cap-assistant-step-text"></p>
+    <div class="cap-assistant-actions"><button type="button" id="cap-assistant-next">Étape suivante →</button><button type="button" id="cap-assistant-stop">Terminer</button></div>
+  </div>
+  <p style="font-size:12px;opacity:.85">Guide gratuit intégré. Aucun montant n'est enregistré ou modifié par cet assistant.</p>
+</section>
+<script>
+(function(){
+  'use strict';
+  const toggle=document.getElementById('cap-assistant-toggle');
+  const panel=document.getElementById('cap-assistant-panel');
+  const msg=document.getElementById('cap-assistant-message');
+  const stepBox=document.getElementById('cap-assistant-step');
+  const stepText=document.getElementById('cap-assistant-step-text');
+  if(!toggle||!panel)return;
+  const guide=[
+    ['1/4 · Revenus','Commence par indiquer tes revenus dans la partie Budget. Vérifie les montants avant de les enregistrer.'],
+    ['2/4 · Dépenses','Renseigne tes charges fixes et tes enveloppes prévues. Ajoute séparément les dépenses réellement payées pour ne pas les compter deux fois.'],
+    ['3/4 · Objectifs','Crée un objectif avec un montant cible et, si tu le souhaites, une date. CAP pourra afficher la progression de ton projet.'],
+    ['4/4 · Épargne','Précise ton épargne prévue et vérifie ta marge. Le guide ne déplace pas d’argent et ne change aucun chiffre.']
+  ];
+  const help={
+    welcome:'Bienvenue dans CAP Budget ! Tu peux suivre ton budget, préparer tes repas et organiser tes voyages. Choisis une rubrique ou utilise « Me guider » pour commencer.',
+    budget:'Le budget regroupe tes revenus, tes charges et tes enveloppes prévues. Vérifie les montants avant de les enregistrer.',
+    expenses:'Une dépense prévue n’est pas forcément payée. Utilise « Ajouter une opération » seulement pour les achats réellement effectués.',
+    goals:'Dans « Objectifs », tu peux suivre le montant déjà épargné, le montant cible et la date de ton projet.',
+    savings:'L’épargne est une somme que tu prévois de mettre de côté. Vérifie la marge de ton budget avant de décider du montant.',
+    stats:'Les statistiques montrent la répartition de ton budget. Les pourcentages prévus ne remplacent pas un historique bancaire.',
+    premium:'L’espace Premium propose des analyses plus détaillées. Si « Premium TEST » est indiqué, il s’agit de paiements de démonstration, sans débit réel.',
+    meals:'La rubrique Repas sert à organiser tes repas. Pour suivre l’argent réellement dépensé en courses, enregistre les achats dans les opérations.',
+    backup:'Tes données peuvent être stockées dans ce navigateur. Utilise « Exporter » pour garder une sauvegarde JSON avant de changer d’appareil.'
+  };
+  let index=-1;
+  function open(){panel.hidden=false;toggle.setAttribute('aria-expanded','true');document.getElementById('cap-assistant-close').focus();}
+  function close(){panel.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.focus();}
+  function showStep(){if(index<0||index>=guide.length){index=-1;stepBox.hidden=true;msg.textContent='Bravo ! Tu connais maintenant les quatre premières étapes. Tu peux avancer à ton rythme.';return;}stepBox.hidden=false;stepText.textContent=guide[index][0]+' — '+guide[index][1];msg.textContent='Configuration guidée : aucune modification automatique.';}
+  toggle.addEventListener('click',()=>panel.hidden?open():close());
+  document.getElementById('cap-assistant-close').addEventListener('click',close);
+  panel.addEventListener('click',event=>{const b=event.target.closest('[data-cap-assist]');if(!b)return;const key=b.dataset.capAssist;if(key==='start'){index=0;showStep();return;}index=-1;stepBox.hidden=true;msg.textContent=help[key]||help.welcome;});
+  document.getElementById('cap-assistant-next').addEventListener('click',()=>{index++;showStep();});
+  document.getElementById('cap-assistant-stop').addEventListener('click',()=>{index=-1;stepBox.hidden=true;msg.textContent='Tu peux reprendre le guide quand tu veux avec « Me guider ».';});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden)close();});
+  // Première visite : proposer le guide uniquement après fermeture de l'accueil initial.
+  let first=false;try{first=!localStorage.getItem('cap_assistant_intro_seen_v1');}catch(_){}
+  if(first){
+    let shown=false;
+    const maybeShow=()=>{
+      if(shown||document.documentElement.classList.contains('cap-entry-locked'))return;
+      shown=true;open();
+      msg.textContent='Bienvenue ! Je suis CAP Assistant 🤖. Clique sur « Me guider » pour configurer ton budget en quatre étapes, ou choisis une rubrique.';
+      try{localStorage.setItem('cap_assistant_intro_seen_v1','1');}catch(_){}
+      observer.disconnect();
+    };
+    const observer=new MutationObserver(maybeShow);
+    observer.observe(document.documentElement,{attributes:true,attributeFilter:['class']});
+    window.addEventListener('load',maybeShow,{once:true});
+    maybeShow();
+  }
+})();
+</script>
 </body></html>
