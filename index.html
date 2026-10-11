@@ -3621,7 +3621,7 @@ cloudBtn.onclick = async () => {
     link.setAttribute('aria-hidden',result.premium?'true':'false');
     link.tabIndex=result.premium?-1:0;
   });
-  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans)pricingPlans.hidden=false;
+  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans){pricingPlans.hidden=!!result.premium;pricingPlans.setAttribute('aria-hidden',result.premium?'true':'false');}
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
   if(pricingNote){pricingNote.hidden=false;pricingNote.textContent=result.premium?'Tarifs affichés pour information. Paiements réels désactivés.':'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. Les paiements réels restent désactivés.';}
   const insights=document.getElementById('cap-premium-insights');
