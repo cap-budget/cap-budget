@@ -1054,16 +1054,16 @@ body{font-size:19px!important;line-height:1.55}
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
 
-<section id="cap-welcome-presentation" aria-label="Présentation de CAP Budget" style="display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:1;width:calc(100% - 32px);box-sizing:border-box;max-width:1320px;margin:18px auto 12px;padding:clamp(22px,4vw,48px);border:1px solid #28544d;border-radius:26px;background:linear-gradient(130deg,#102b2b,#111b2c 65%,#192338);color:#f0fdf4;font-family:system-ui,sans-serif;box-shadow:0 14px 38px #0003">
-  <div style="font-size:13px;font-weight:800;letter-spacing:.12em;color:#86efac;margin-bottom:12px">💚 CAP BUDGET · REPAS · VOYAGES</div>
-  <h1 style="font-size:clamp(28px,4vw,48px);line-height:1.12;margin:0 0 16px;color:#fff">Bienvenue sur CAP Budget, repas et voyages</h1>
-  <p style="font-size:clamp(16px,2vw,19px);line-height:1.65;max-width:850px;margin:0 0 24px;color:#d1fae5">Une application pour organiser votre budget, préparer vos repas et faire avancer vos projets de voyage, simplement et à votre rythme.</p>
+<section id="cap-welcome-presentation" aria-label="Présentation de CAP Budget" style="display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:1;width:calc(100% - 32px);box-sizing:border-box;max-width:1320px;margin:18px auto 12px;padding:clamp(22px,4vw,48px);border:1px solid #28544d;border-radius:26px;background:linear-gradient(135deg,#E8F5E9,#d7efdc);color:#173b29;font-family:system-ui,sans-serif;box-shadow:0 14px 38px #0002">
+  <div style="font-size:13px;font-weight:800;letter-spacing:.12em;color:#166534;margin-bottom:12px">💚 CAP BUDGET · REPAS · VOYAGES</div>
+  <h1 style="font-size:clamp(28px,4vw,48px);line-height:1.12;margin:0 0 16px;color:#173b29">Bienvenue sur CAP Budget, repas et voyages</h1>
+  <p style="font-size:clamp(16px,2vw,19px);line-height:1.65;max-width:850px;margin:0 0 24px;color:#365c46">Une application pour organiser votre budget, préparer vos repas et faire avancer vos projets de voyage, simplement et à votre rythme.</p>
   <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px">
-    <button type="button" data-cap-welcome-nav="budget" style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff55;color:#f0fdf4;font:inherit;cursor:pointer;text-align:left">💰 Budget · suivez vos dépenses</button>
-    <button type="button" data-cap-welcome-nav="repas" style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff55;color:#f0fdf4;font:inherit;cursor:pointer;text-align:left">🍽️ Repas · organisez votre quotidien</button>
-    <button type="button" data-cap-welcome-nav="voyages" style="padding:12px 16px;border-radius:14px;background:#ffffff12;border:1px solid #ffffff55;color:#f0fdf4;font:inherit;cursor:pointer;text-align:left">✈️ Voyages · réalisez vos projets</button>
+    <button type="button" data-cap-welcome-nav="budget" style="padding:12px 16px;border-radius:14px;background:#c7efce;border:2px solid #75bd86;color:#14532d;font-weight:750;box-shadow:0 3px 9px #00000012;font:inherit;cursor:pointer;text-align:left">💰 Budget · suivez vos dépenses</button>
+    <button type="button" data-cap-welcome-nav="repas" style="padding:12px 16px;border-radius:14px;background:#ffedb5;border:2px solid #efc56b;color:#754400;font-weight:750;box-shadow:0 3px 9px #00000012;font:inherit;cursor:pointer;text-align:left">🍽️ Repas · organisez votre quotidien</button>
+    <button type="button" data-cap-welcome-nav="voyages" style="padding:12px 16px;border-radius:14px;background:#cde9ff;border:2px solid #8ac8f3;color:#174d7c;font-weight:750;box-shadow:0 3px 9px #00000012;font:inherit;cursor:pointer;text-align:left">✈️ Voyages · réalisez vos projets</button>
   </div>
-  <p style="margin:0;color:#cbd5e1;font-size:14px">Votre tableau de bord et vos données restent accessibles juste en dessous.</p>
+  <p style="margin:0;color:#365c46;font-size:14px">Votre tableau de bord et vos données restent accessibles juste en dessous.</p>
 </section>
 <script>
 /* Navigation accessible depuis les trois boutons de présentation. */
@@ -4013,13 +4013,33 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   </div>
 </section>
 <script>
+/* Réserve mensuelle : ventilation informative de l'enveloppe Projets, jamais une dépense supplémentaire. */
 (function(){
- const box=document.createElement('aside');box.id='cap-investment-summary';box.style.cssText='margin:16px auto;padding:16px;max-width:1100px;border:1px solid #34d39966;border-radius:16px;background:#10251d;color:#ecfdf5';
- const title=document.createElement('strong');title.textContent='📈 Réserve investissement / épargne';box.append(title);
- const amount=document.createElement('p');amount.style.cssText='font-size:20px;font-weight:700;margin:8px 0';box.append(amount);
- const note=document.createElement('p');note.textContent='Cette réserve est comprise dans l’enveloppe « Projets / voyages » du moteur existant ; elle n’est jamais déduite une seconde fois. Il s’agit d’une prévision, pas d’un placement automatique.';box.append(note);
- function render(){let value=0;try{value=Number(JSON.parse(localStorage.getItem('cap_investment_reserve_v1')||'null')?.monthly)||0;}catch(_){}amount.textContent=value.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})+' / mois';}
- document.addEventListener('DOMContentLoaded',()=>{const target=document.querySelector('.cap-dash')||document.querySelector('.cap-v6')||document.body.firstElementChild;target?.parentNode?.insertBefore(box,target);render();});
+ const storageKey='cap_investment_reserve_v1';
+ const box=document.createElement('aside');
+ box.id='cap-investment-summary';
+ box.style.cssText='margin:16px auto;padding:20px;max-width:1100px;border:2px solid #7ac89b;border-radius:16px;background:#e8f5e9;color:#173b29;font:inherit;box-sizing:border-box';
+ box.innerHTML='<h2 style="font-size:21px;margin:0 0 8px;color:#14532d">📈 Réserve investissement / épargne</h2>'+
+ '<p style="margin:0 0 14px;color:#365c46">Prévoyez une somme mensuelle pour les imprévus et les chiens 🐶, l’investissement 📈 ou les projets ✈️.</p>'+
+ '<form id="cap-reserve-form" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">'+
+ '<label for="cap-reserve-monthly" style="display:grid;gap:5px;font-weight:700">Ma réserve chaque mois (€)<input id="cap-reserve-monthly" name="reserve" type="number" min="0" max="99999999" step="0.01" inputmode="decimal" required style="min-height:44px;width:190px;max-width:100%;box-sizing:border-box;padding:9px;border:2px solid #79ae8a;border-radius:9px;background:#fff;color:#173b29;font:inherit"></label>'+
+ '<button type="submit" style="min-height:44px;padding:10px 18px;border:0;border-radius:10px;background:#166534;color:white;font-weight:800;cursor:pointer">💾 Enregistrer ma réserve</button></form>'+
+ '<p id="cap-reserve-result" role="status" aria-live="polite" style="margin:12px 0 6px;font-weight:700"></p>'+
+ '<p style="margin:6px 0 0;font-size:13px;color:#365c46">Cette réserve est une <strong>part de l’enveloppe Projets / voyages</strong>, et non une dépense en plus. Elle ne réduit pas une seconde fois le solde disponible. Ce champ ne transfère pas d’argent et ne modifie pas automatiquement le montant de l’enveloppe Projets.</p>';
+ const field=box.querySelector('#cap-reserve-monthly');
+ const result=box.querySelector('#cap-reserve-result');
+ const format=v=>v.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+ function read(){try{const data=JSON.parse(localStorage.getItem(storageKey)||'null');return Number.isFinite(Number(data?.monthly))&&Number(data.monthly)>=0?Number(data.monthly):0;}catch(_){return 0;}}
+ function render(){const amount=read();field.value=String(amount);result.textContent='Réserve prévue : '+format(amount)+' par mois, incluse dans les projets (sans seconde déduction).';}
+ box.querySelector('form').addEventListener('submit',event=>{
+   event.preventDefault();
+   const value=Number(field.value);
+   if(!Number.isFinite(value)||value<0||value>99999999){result.textContent='Indiquez un montant valide, positif ou égal à zéro.';return;}
+   try{localStorage.setItem(storageKey,JSON.stringify({monthly:Math.round(value*100)/100,updated_at:new Date().toISOString()}));render();result.textContent+=' Enregistrée sur cet appareil.';}
+   catch(_){result.textContent='Impossible de sauvegarder sur cet appareil. Vérifiez les paramètres de stockage.';}
+ });
+ function mount(){if(box.isConnected)return;const target=document.querySelector('.cap-dash')||document.querySelector('.cap-v6')||document.getElementById('pricing');if(target?.parentNode)target.parentNode.insertBefore(box,target);else document.body.appendChild(box);render();}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
 })();
 </script>
 <style>
