@@ -16,9 +16,10 @@
    }catch(_){return true;}
  })();
  if(!modal||!choices||!form||!fields)return;
- // Placer le bandeau avant le tableau de bord, sans cacher le contenu.
- const dashboard=document.querySelector('.cap-dash')||document.querySelector('.cap-dash-main')||document.body.firstElementChild;
- if(dashboard&&dashboard!==modal)dashboard.parentNode.insertBefore(modal,dashboard);
+ // Le panneau doit être un enfant DIRECT de body : la règle de verrouillage
+ // masque tous ses frères, y compris les tableaux et panneaux historiques.
+ // Le déplacer ne modifie aucune donnée et évite qu'un conteneur parent soit masqué.
+ if(modal.parentElement!==document.body)document.body.appendChild(modal);
  // Le mode aperçu permet de vérifier l'accueil sans modifier les données existantes.
  // L'accueil est la vue initiale à chaque ouverture. Une configuration guidée
  // validée recharge exceptionnellement directement le tableau de bord.
