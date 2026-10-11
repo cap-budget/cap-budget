@@ -1,4 +1,4 @@
-const CACHE_NAME = "cap-budget-v6-onboarding-unblock";
+const CACHE_NAME = "cap-budget-v7-premium-20261011";
 
 const APP_FILES = [
   "./",
@@ -31,7 +31,7 @@ self.addEventListener("fetch", event => {
   // Toujours rechercher la version la plus récente des pages HTML.
   if (event.request.mode === "navigate" || url.pathname.endsWith(".html")) {
     event.respondWith(
-      fetch(event.request).then(response => {
+      fetch(event.request, {cache: "no-store"}).then(response => {
         if (response.ok) {
           const copy = response.clone();
           event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)));
