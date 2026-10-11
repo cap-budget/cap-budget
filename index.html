@@ -1397,6 +1397,8 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     </div>
   </div>
 
+  <div style="display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px"><button type="button" id="cap-frigo-print" class="primary" style="padding:12px 18px;border-radius:12px;cursor:pointer">📄 Imprimer / Export Frigo</button><span id="cap-frigo-status" role="status" style="align-self:center;font-size:12px">Repas de la semaine et résumé du budget · impression ou PDF</span></div>
+
   <div class="cap-week-grid">
     <article class="cap-day today"><div class="cap-day-name">Lundi</div><div class="cap-day-date">Aujourd'hui</div>
       <div class="cap-meal"><div class="cap-meal-label">Midi</div><strong>Poulet & légumes</strong><span>≈ 4,50 €</span></div>
@@ -4188,6 +4190,54 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     window.addEventListener('load',maybeShow,{once:true});
     maybeShow();
   }
+})();
+</script>
+
+<!-- CAP : export Frigo en impression / PDF, sans écriture de données. -->
+<script>
+(function(){
+  const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function makeSheet(){
+    const days=Array.from(document.querySelectorAll('.cap-week-grid .cap-day'));
+    const meals=days.map(day=>{
+      const name=day.querySelector('.cap-day-name')?.textContent?.trim()||'Jour';
+      const lines=Array.from(day.querySelectorAll('.cap-meal')).map(meal=>{
+        const slot=meal.querySelector('.cap-meal-label')?.textContent?.trim()||'Repas';
+        const food=meal.querySelector('strong')?.textContent?.trim()||'Non renseigné';
+        const cost=meal.querySelector('span')?.textContent?.trim()||'';
+        return '<div class="meal"><b>'+escapeHtml(slot)+'</b> : '+escapeHtml(food)+' <small>'+escapeHtml(cost)+'</small></div>';
+      }).join('');
+      return '<section class="day"><h3>'+escapeHtml(name)+'</h3>'+lines+'</section>';
+    }).join('');
+    const get=id=>document.getElementById(id)?.textContent?.trim()||'Non renseigné';
+    const stats=Array.from(document.querySelectorAll('#v6-stats .cap-v6-row')).map(row=>{
+      const label=row.querySelector('strong')?.textContent?.trim()||'Poste';
+      const pct=row.querySelector('b')?.textContent?.trim()||'';
+      return '<li>'+escapeHtml(label)+' : '+escapeHtml(pct)+'</li>';
+    }).join('');
+    return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget — Mon frigo</title><style>'+
+      '@page{size:A4;margin:13mm}*{box-sizing:border-box}body{font:13px Arial,sans-serif;color:#17352c;margin:0}h1{font-size:23px;margin:0 0 4px;color:#126449}h2{font-size:17px;border-bottom:2px solid #16835e;padding-bottom:5px;margin:20px 0 10px}h3{font-size:13px;margin:0 0 8px}.sub{color:#52665f}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.day{border:1px solid #b9d9cb;border-radius:8px;padding:10px;break-inside:avoid}.meal{margin:5px 0}.meal small{color:#53665f}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.kpi{border:1px solid #b9d9cb;padding:9px;border-radius:8px}.kpi strong{display:block;font-size:18px;margin-top:4px}ul{columns:2;padding-left:18px}.note{font-size:11px;color:#59645f;margin-top:12px}@media print{.day,.kpi{print-color-adjust:exact}}'+
+      '</style></head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
+      '<h2>🍽️ Repas de la semaine</h2><div class="grid">'+meals+'</div>'+
+      '<p class="note">Les repas affichés peuvent être des exemples de présentation : vérifiez-les avant impression.</p>'+
+      '<h2>💶 Mon budget prévisionnel</h2><div class="kpis">'+
+      '<div class="kpi">Marge après budget prévu<strong>'+escapeHtml(get('v6-remain'))+'</strong></div>'+
+      '<div class="kpi">Budget engagé<strong>'+escapeHtml(get('v6-rate'))+'</strong></div>'+
+      '<div class="kpi">Épargne projets<strong>'+escapeHtml(get('v6-projects'))+'</strong></div>'+
+      '<div class="kpi">Repère par semaine<strong>'+escapeHtml(get('v6-week'))+'</strong></div></div>'+
+      (stats?'<h2>Répartition prévue</h2><ul>'+stats+'</ul>':'')+
+      '<p class="note">Chiffres indicatifs du budget prévisionnel, pas un solde bancaire. Ne pas additionner au cadran « Reste à vivre ».</p>'+
+      '</body></html>';
+  }
+  document.addEventListener('click',event=>{
+    const button=event.target.closest('#cap-frigo-print');if(!button)return;
+    const status=document.getElementById('cap-frigo-status');
+    const popup=window.open('','_blank');
+    if(!popup){if(status)status.textContent='Autorisez les fenêtres pop-up pour imprimer la fiche.';return;}
+    popup.document.open();popup.document.write(makeSheet());popup.document.close();
+    popup.focus();popup.setTimeout(()=>popup.print(),350);
+    if(status)status.textContent='Fiche ouverte : choisissez Imprimer ou Enregistrer au format PDF.';
+  });
 })();
 </script>
 </body></html>
