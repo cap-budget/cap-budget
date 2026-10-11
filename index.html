@@ -1641,6 +1641,8 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
           <input id="v6-goal-date" type="date">
         </div>
         <button class="cap-v6-btn primary" id="v6-add-goal">Ajouter l'objectif</button>
+        <button class="cap-v6-btn" type="button" id="cap-goal-animals-template" style="margin-top:8px">🐶 Modèle : Réserve Animaux &amp; Imprévus</button>
+        <p id="cap-goal-animals-help" role="status" style="font-size:12px;margin:6px 0 0">Prépare un objectif pour les frais vétérinaires et les imprévus, sans enregistrer de montant automatiquement.</p>
       </div>
       <div class="cap-v6-list" id="v6-goals"></div>
     </article>
@@ -1783,6 +1785,14 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       }
     });
   }
+  document.getElementById('cap-goal-animals-template').addEventListener('click',()=>{
+    document.getElementById('v6-goal-name').value='Réserve Animaux & Imprévus';
+    document.getElementById('v6-goal-target').value='';
+    document.getElementById('v6-goal-saved').value='';
+    document.getElementById('v6-goal-date').value='';
+    document.getElementById('cap-goal-animals-help').textContent='Modèle préparé : indiquez votre montant cible et, si besoin, la somme déjà épargnée, puis cliquez sur « Ajouter l’objectif ». Rien n’est enregistré avant votre confirmation.';
+    document.getElementById('v6-goal-target').focus();
+  });
   document.getElementById('v6-add-goal').onclick=()=>{
     const name=document.getElementById('v6-goal-name').value.trim(), target=Number(document.getElementById('v6-goal-target').value)||0, saved=Number(document.getElementById('v6-goal-saved').value)||0, date=document.getElementById('v6-goal-date').value;
     if(!name||target<=0){alert('Indiquez un nom et un montant cible.');return}
