@@ -1731,9 +1731,9 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       <h3 style="margin-top:8px">Lecture du budget</h3>
       
       <div id="v6-stats"></div>
-      <section id="cap-premium-insights" hidden aria-live="polite" style="margin-top:16px;padding:15px;border:1px solid #34d39955;border-radius:14px;background:#10261e">
-        <strong style="color:#a7f3d0">✨ Analyse approfondie · Premium TEST</strong>
-        <div id="cap-premium-insights-body" style="margin-top:10px;color:#e5f7ef;font-size:13px;line-height:1.65"></div>
+      <section id="cap-premium-insights" hidden aria-live="polite" style="margin-top:16px;padding:15px;border:1px solid #86cbb0;border-radius:14px;background:#f0fdf4">
+        <strong style="color:#166534">✨ Analyse approfondie · Premium TEST</strong>
+        <div id="cap-premium-insights-body" style="margin-top:10px;color:#173b2a;font-size:14px;line-height:1.7"></div>
       </section>
       
     </article>
@@ -3650,7 +3650,7 @@ cloudBtn.onclick = async () => {
           const name=document.createElement('span');name.textContent=item.label;
           const amount=document.createElement('strong');amount.textContent=item.pct+' %';
           line.append(name,amount);
-          const track=document.createElement('div');track.style.cssText='height:12px;border-radius:8px;background:#ffffff1b;overflow:hidden';
+          const track=document.createElement('div');track.style.cssText='height:12px;border-radius:8px;background:#dcece3;overflow:hidden';
           track.setAttribute('role','progressbar');track.setAttribute('aria-label',item.label);
           track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');
           track.setAttribute('aria-valuenow',String(Math.min(100,item.pct)));
@@ -3663,7 +3663,7 @@ cloudBtn.onclick = async () => {
         output.appendChild(summary);
         const adviceTitle=document.createElement('strong');
         adviceTitle.textContent='Conseils CAP par poste';
-        adviceTitle.style.cssText='display:block;margin:16px 0 8px;color:#a7f3d0';
+        adviceTitle.style.cssText='display:block;margin:16px 0 8px;color:#166534';
         output.appendChild(adviceTitle);
         const adviceByLabel=(label,pct)=>{
           const key=label.toLocaleLowerCase('fr');
@@ -3683,17 +3683,17 @@ cloudBtn.onclick = async () => {
         };
         entries.forEach(item=>{
           const tip=document.createElement('p');
-          tip.style.cssText='margin:6px 0;padding:9px 11px;border-radius:9px;background:#ffffff0c';
+          tip.style.cssText='margin:6px 0;padding:9px 11px;border-radius:9px;background:#ffffff;border:1px solid #d9e9df';
           tip.textContent=adviceByLabel(item.label,item.pct);
           output.appendChild(tip);
         });
         const caution=document.createElement('p');
-        caution.style.cssText='margin:12px 0 0;color:#a7f3d0';
+        caution.style.cssText='margin:12px 0 0;color:#166534';
         caution.textContent=remaining>=0
           ?'À noter : les '+remaining+' % non représentés ne sont pas automatiquement une somme disponible à dépenser ou à épargner.'
           :'À vérifier : les postes affichés dépassent 100 % du revenu ; contrôlez les montants saisis.';
         output.appendChild(caution);
-        const caveat=document.createElement('small');caveat.style.cssText='display:block;margin-top:9px;color:#a4b8af';
+        const caveat=document.createElement('small');caveat.style.cssText='display:block;margin-top:9px;color:#526b5d';
         caveat.textContent='Analyse indicative calculée à partir du budget actuel : ce n’est ni un historique bancaire ni une estimation de votre argent disponible.';
         output.appendChild(caveat);
       };
