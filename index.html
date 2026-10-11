@@ -3950,10 +3950,10 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     <h1 id="cw-title" class="onboarding-title">Bienvenue sur CAP Budget ! 👋</h1>
     <p class="onboarding-intro">CAP Budget vous aide à organiser simplement les finances, les repas et les projets de voyage de toute la famille, à votre rythme.</p>
     <p style="margin:10px 0 16px"><a href="#cap-welcome-presentation" id="cap-view-presentation" style="display:inline-block;padding:11px 16px;border-radius:12px;background:#14532d;color:#fff;font-weight:700;text-decoration:none;border:1px solid #86efac">💚 Voir la présentation de CAP Budget ↓</a></p>
-    <p class="onboarding-subtitle">Choisissez comment vous souhaitez démarrer, sans quitter votre tableau de bord :</p>
+    <p class="onboarding-subtitle">Choisissez votre parcours. Votre budget existant ne sera jamais remplacé par des exemples :</p>
     <div id="cw-choices" class="onboarding-actions">
-      <button type="button" class="onboarding-btn btn-primary" id="btn-quick-setup">⚡ Paramétrage Rapide<span>Définir votre revenu et votre objectif principal</span></button>
-      <button type="button" class="onboarding-btn btn-secondary" id="btn-detailed-setup">🛠️ Paramétrage Détaillé<span>Configurer chaque enveloppe poste par poste</span></button>
+      <button type="button" class="onboarding-btn btn-primary" id="btn-quick-setup">⚡ Démarrage rapide (2 min)<span>Explorer avec des exemples fictifs, sans modifier votre budget</span></button>
+      <button type="button" class="onboarding-btn btn-secondary" id="btn-detailed-setup">🛠️ Configuration guidée (5 min)<span>Une étape à la fois : revenus, charges, enveloppes, épargne et confirmation</span></button>
       <button type="button" class="onboarding-btn btn-share" id="btn-share-cap">🤝 Parrainage / Inviter un proche<span>Partager CAP Budget par WhatsApp, SMS ou lien</span></button>
 
     </div>
@@ -3975,6 +3975,16 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     </form>
   </div>
 </section>
-<script src="script.js?v=welcome-banner-20261010" defer></script>
+<script>
+(function(){
+ const box=document.createElement('aside');box.id='cap-investment-summary';box.style.cssText='margin:16px auto;padding:16px;max-width:1100px;border:1px solid #34d39966;border-radius:16px;background:#10251d;color:#ecfdf5';
+ const title=document.createElement('strong');title.textContent='📈 Réserve investissement / épargne';box.append(title);
+ const amount=document.createElement('p');amount.style.cssText='font-size:20px;font-weight:700;margin:8px 0';box.append(amount);
+ const note=document.createElement('p');note.textContent='Cette réserve est comprise dans l’enveloppe « Projets / voyages » du moteur existant ; elle n’est jamais déduite une seconde fois. Il s’agit d’une prévision, pas d’un placement automatique.';box.append(note);
+ function render(){let value=0;try{value=Number(JSON.parse(localStorage.getItem('cap_investment_reserve_v1')||'null')?.monthly)||0;}catch(_){}amount.textContent=value.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})+' / mois';}
+ document.addEventListener('DOMContentLoaded',()=>{const target=document.querySelector('.cap-dash')||document.querySelector('.cap-v6')||document.body.firstElementChild;target?.parentNode?.insertBefore(box,target);render();});
+})();
+</script>
+<script src="script.js?v=guided-investment-20261011" defer></script>
 
 </body></html>
