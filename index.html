@@ -2248,6 +2248,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <span class="muted" id="meal-count">0 sur 14 prévus</span>
 </div>
 <div class="meter" aria-hidden="true"><i id="meal-meter" style="width: 0%;"></i></div>
+<div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:12px 0"><button type="button" id="cap-meal-planner-print" class="btn">🖨️ Imprimer / Enregistrer le planning PDF</button><span id="cap-meal-planner-print-status" role="status" class="muted">Imprime les repas saisis dans cette rubrique.</span></div>
 <div id="days"><div class="day"><div><div class="day-name">Lundi</div><div class="day-date">5 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Lundi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Lundi soir"></label></div></div><div class="day"><div><div class="day-name">Mardi</div><div class="day-date">6 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Mardi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Mardi soir"></label></div></div><div class="day today"><div><div class="day-name">Mercredi</div><div class="day-date">7 oct.</div><span class="tag">Aujourd'hui</span></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Mercredi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Mercredi soir"></label></div></div><div class="day"><div><div class="day-name">Jeudi</div><div class="day-date">8 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Jeudi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Jeudi soir"></label></div></div><div class="day"><div><div class="day-name">Vendredi</div><div class="day-date">9 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Vendredi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Vendredi soir"></label></div></div><div class="day"><div><div class="day-name">Samedi</div><div class="day-date">10 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Samedi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Samedi soir"></label></div></div><div class="day"><div><div class="day-name">Dimanche</div><div class="day-date">11 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Dimanche midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Dimanche soir"></label></div></div></div>
 <div class="foot"><button class="link" id="clear-meals" type="button">Vider la semaine</button></div>
 <datalist id="ideas">
@@ -4205,6 +4206,34 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
 })();
 </script>
 
+<!-- CAP : impression du planning de repas saisi, sans modifier les données. -->
+<script>
+(function(){
+  'use strict';
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  document.addEventListener('click',event=>{
+    if(!event.target.closest('#cap-meal-planner-print'))return;
+    const status=document.getElementById('cap-meal-planner-print-status');
+    const rows=Array.from(document.querySelectorAll('#tab-repas #days .day')).map(day=>{
+      const name=day.querySelector('.day-name')?.textContent?.trim()||'Jour';
+      const date=day.querySelector('.day-date')?.textContent?.trim()||'';
+      const meals=Array.from(day.querySelectorAll('.slots .slot')).map(slot=>{
+        const label=slot.querySelector('span')?.textContent?.trim()||'Repas';
+        const value=slot.querySelector('input')?.value?.trim()||'Non renseigné';
+        return '<p><strong>'+esc(label)+' :</strong> '+esc(value)+'</p>';
+      }).join('');
+      return '<section><h2>'+esc(name)+' <small>'+esc(date)+'</small></h2>'+meals+'</section>';
+    }).join('');
+    if(!rows){if(status)status.textContent='Le planning de repas est introuvable.';return;}
+    const popup=window.open('','_blank');
+    if(!popup){if(status)status.textContent='Autorisez les fenêtres pop-up pour imprimer ou enregistrer en PDF.';return;}
+    const html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget - Planning de repas</title><style>@page{size:A4;margin:15mm}body{font:14px Arial,sans-serif;color:#17352c}h1{color:#126449;font-size:23px}section{border:1px solid #bad9cb;border-radius:9px;padding:10px 14px;margin:9px 0;break-inside:avoid}h2{font-size:16px;margin:0 0 8px}small{font-size:12px;color:#52665f}p{margin:5px 0;line-height:1.5}.note{font-size:12px;color:#52665f}</style></head><body><h1>🍽️ CAP Budget — Mon planning de repas</h1><p class="note">Repas saisis dans le planning de la semaine · les cases vides restent non renseignées.</p>'+rows+'<p class="note">Pour créer un PDF : dans la fenêtre d’impression, choisir « Enregistrer au format PDF ».</p></body></html>';
+    popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
+    popup.setTimeout(()=>popup.print(),350);
+    if(status)status.textContent='Planning ouvert : choisissez Imprimer ou Enregistrer au format PDF.';
+  });
+})();
+</script>
 <!-- CAP : export Frigo en impression / PDF, sans écriture de données. -->
 <script>
 (function(){
