@@ -1661,7 +1661,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
       <div class="cap-v6-plan">
         <div><b>Mensuel — 3,99 € TTC/mois</b><span>7 jours d’essai gratuit, puis 3,99 € TTC/mois sauf résiliation. Carte de test requise.<br><a href="#pricing" data-cap-checkout="monthly" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'essai 7 jours (Stripe TEST) ↗</a></span></div>
-        <div><b>Accès Premium à vie — 39,99 € TTC</b><span>Paiement unique TEST, sans renouvellement.<br><a href="#pricing" data-cap-checkout="lifetime" style="display:inline-block;margin-top:12px;padding:12px 16px;border-radius:12px;background:#34d399;color:#071b16;font-weight:800;text-decoration:none">Tester l'achat à vie (Stripe TEST) ↗</a></span></div>
       </div>
       <div class="cap-v6-note">Paiements de démonstration uniquement : utilisez les numéros de carte de test Stripe, jamais votre vraie carte. La synchronisation de l'accès Premium TEST est en cours de vérification. Les fonctionnalités Premium ne sont pas garanties débloquées tant que le statut Premium TEST actif n'est pas confirmé. Les paiements réels restent désactivés.</div>
     </article>
@@ -3464,7 +3463,7 @@ cloudBtn.onclick = async () => {
     event.preventDefault();
     if(link.dataset.busy==='1')return;
     const plan=link.getAttribute('data-cap-checkout');
-    if(plan!=='monthly'&&plan!=='lifetime')return;
+    if(plan!=='monthly')return;
     if(!window.supabase?.createClient){alert('Supabase est indisponible. Rechargez la page.');return;}
     const config=window.CAP_BUDGET_SUPABASE_SETUP;
     if(!config?.defaultUrl||!config?.defaultKey){alert('Connexion Supabase indisponible.');return;}
