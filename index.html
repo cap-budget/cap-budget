@@ -4705,7 +4705,28 @@ body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,
     }).join('');
     return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget — Mon frigo</title><style>'+
       '@page{size:A4;margin:13mm}*{box-sizing:border-box}body{font:13px Arial,sans-serif;color:#17352c;margin:0}h1{font-size:23px;margin:0 0 4px;color:#126449}h2{font-size:17px;border-bottom:2px solid #16835e;padding-bottom:5px;margin:20px 0 10px}h3{font-size:13px;margin:0 0 8px}.sub{color:#52665f}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.day{border:1px solid #b9d9cb;border-radius:8px;padding:10px;break-inside:avoid}.meal{margin:5px 0}.meal small{color:#53665f}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.kpi{border:1px solid #b9d9cb;padding:9px;border-radius:8px}.kpi strong{display:block;font-size:18px;margin-top:4px}ul{columns:2;padding-left:18px}.note{font-size:11px;color:#59645f;margin-top:12px}@media print{.day,.kpi{print-color-adjust:exact}}'+
-      '</style></head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
+      '</style>
+<style id="cap-welcome-contrast-final-20261012">
+/* Accueil avant tableau de bord : contraste clair, sans effet sur les données. */
+html.cap-entry-locked body #onboarding-modal.onboarding-banner,
+body #onboarding-modal.onboarding-banner {background:#edf8f1!important;color:#173428!important;}
+body #onboarding-modal.onboarding-banner .onboarding-card {background:#ffffff!important;color:#173428!important;border:2px solid #9bd7b3!important;box-shadow:0 8px 32px rgba(20,70,44,.16)!important;}
+body #onboarding-modal .cw-brand-header {background:#e6f8eb!important;border-radius:14px!important;padding:12px!important;}
+body #onboarding-modal .cw-brand-logo {background:#d1fae5!important;color:#14532d!important;border:2px solid #4ade80!important;}
+body #onboarding-modal .cw-brand-name,
+body #onboarding-modal .onboarding-title {color:#12452b!important;text-shadow:none!important;}
+body #onboarding-modal .cw-brand-tagline,
+body #onboarding-modal .onboarding-intro,
+body #onboarding-modal .onboarding-subtitle,
+body #onboarding-modal .onboarding-card p {color:#263d32!important;opacity:1!important;text-shadow:none!important;}
+body #onboarding-modal .onboarding-btn.btn-primary {background:#166534!important;color:#fff!important;}
+body #onboarding-modal .onboarding-btn.btn-secondary {background:#1d4ed8!important;color:#fff!important;}
+body #onboarding-modal .onboarding-btn.btn-share {background:#dcfce7!important;color:#14532d!important;border:2px solid #15803d!important;}
+body #onboarding-modal .onboarding-btn span {color:inherit!important;opacity:1!important;}
+body #onboarding-modal #cap-view-presentation {background:#dcfce7!important;color:#14532d!important;border:2px solid #15803d!important;}
+body #onboarding-modal :focus-visible {outline:3px solid #eab308!important;outline-offset:3px!important;}
+</style>
+</head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
       '<h2>🍽️ Repas de la semaine</h2><div class="grid">'+meals+'</div>'+
       '<p class="note">Les repas affichés peuvent être des exemples de présentation : vérifiez-les avant impression.</p>'+
       '<h2>💶 Mon budget prévisionnel</h2><div class="kpis">'+
