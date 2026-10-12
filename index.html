@@ -1165,6 +1165,26 @@ body{font-size:19px!important;line-height:1.55}
   font-weight: 800 !important;
 }
 </style>
+<!-- CAP : contraste ciblé des surfaces vert clair, sans altérer le thème sombre. -->
+<style id="cap-green-surface-contrast-fix">
+/* Le texte foncé ne s'applique qu'aux surfaces explicitement vert clair. */
+#cw-dashboard-access,
+.cap-dash-balance-first .cap-dash-balance-metric {
+  color:#0a3812!important;
+}
+#cw-dashboard-access strong,
+#cw-dashboard-access b,
+.cap-dash-balance-first .cap-dash-balance-metric strong,
+.cap-dash-balance-first .cap-dash-balance-metric b {
+  color:#05240a!important;
+  font-weight:700!important;
+}
+/* Les cartes sombres et leurs titres gardent un texte clair. */
+#pricing h3,#cap-premium-insights h3,
+#pricing strong,#cap-premium-insights strong {
+  color:#fff!important;
+}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
