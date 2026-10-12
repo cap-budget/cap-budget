@@ -4604,6 +4604,17 @@ render();
       '@page{size:A4;margin:13mm}*{box-sizing:border-box}body{font:13px Arial,sans-serif;color:#17352c;margin:0}h1{font-size:23px;margin:0 0 4px;color:#126449}h2{font-size:17px;border-bottom:2px solid #16835e;padding-bottom:5px;margin:20px 0 10px}h3{font-size:13px;margin:0 0 8px}.sub{color:#52665f}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.day{border:1px solid #b9d9cb;border-radius:8px;padding:10px;break-inside:avoid}.meal{margin:5px 0}.meal small{color:#53665f}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.kpi{border:1px solid #b9d9cb;padding:9px;border-radius:8px}.kpi strong{display:block;font-size:18px;margin-top:4px}ul{columns:2;padding-left:18px}.note{font-size:11px;color:#59645f;margin-top:12px}@media print{.day,.kpi{print-color-adjust:exact}}'+
       '</style>
 <!-- Ancienne présentation CAP restaurée : surcharge cap-welcome-contrast-final-20261012 désactivée. -->
+
+<style id="cap-premium-price-contrast-20261012">
+/* Tarifs Premium visibles, y compris lorsque l'accès TEST est actif. */
+#pricing{background:#111b20!important;color:#f4f4f5!important;border:1px solid #3e655d!important}
+#pricing .cap-v6-plan{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;margin:16px 0!important;visibility:visible!important;opacity:1!important}
+#pricing .cap-v6-plan>div{display:block!important;background:#192b33!important;border:1px solid #426c70!important;border-radius:14px!important;padding:17px!important;color:#f4f4f5!important}
+#pricing .cap-v6-plan b{display:block!important;color:#ffffff!important;font-size:clamp(17px,2.5vw,23px)!important;line-height:1.4!important}
+#pricing .cap-v6-plan span{display:block!important;color:#d9e7eb!important;font-size:14px!important;line-height:1.6!important;margin-top:9px!important}
+#pricing .cap-v6-note{color:#d9e7eb!important;font-size:13px!important}
+@media(max-width:650px){#pricing .cap-v6-plan{grid-template-columns:1fr!important}}
+</style>
 </head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
       '<h2>🍽️ Repas de la semaine</h2><div class="grid">'+meals+'</div>'+
       '<p class="note">Les repas affichés peuvent être des exemples de présentation : vérifiez-les avant impression.</p>'+
