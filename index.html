@@ -1127,6 +1127,23 @@ body{font-size:19px!important;line-height:1.55}
 }
 #cap-premium-insights [role="progressbar"] {background:#ffffff36!important;}
 </style>
+
+<style id="cap-budget-metrics-contrast-fix">
+/* Lisibilité des deux indicateurs sous « Voir mon budget ». */
+.cap-dash-balance-first .cap-dash-balance-metric {
+  background: #eaf8f2 !important;
+  border: 2px solid #67b79a !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.12);
+}
+.cap-dash-balance-first .cap-dash-balance-metric span {
+  color: #174b3a !important;
+  font-weight: 700 !important;
+}
+.cap-dash-balance-first .cap-dash-balance-metric strong {
+  color: #092f24 !important;
+  font-weight: 800 !important;
+}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
