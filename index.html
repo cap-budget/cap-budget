@@ -1185,6 +1185,28 @@ body{font-size:19px!important;line-height:1.55}
   color:#fff!important;
 }
 </style>
+
+<style id="cap-dashboard-fullwidth-fix-20261012">
+/* Tableau de bord : occuper la largeur du viewport sans modifier les données. */
+#cap-dashboard-redesign{width:100%;max-width:none;min-width:0;margin:0;box-sizing:border-box}
+#cap-dashboard-redesign .cap-dash-main{width:100%;min-width:0;box-sizing:border-box}
+#cap-dashboard-redesign .cap-dash-shell{width:100%;max-width:none;min-width:0;margin:0 auto}
+#cap-dashboard-redesign .cap-dash-layout{width:100%;min-width:0;grid-template-columns:minmax(0,1fr) minmax(250px,300px)}
+#cap-dashboard-redesign :is(.cap-dash-left,.cap-dash-right,.cap-dash-card){min-width:0;max-width:100%}
+@media(min-width:761px){
+  #cap-dashboard-redesign{display:grid;grid-template-columns:clamp(190px,17vw,226px) minmax(0,1fr)}
+  #cap-dashboard-redesign .cap-dash-main{padding-left:clamp(16px,2vw,32px);padding-right:clamp(16px,2vw,32px)}
+}
+@media(min-width:761px) and (max-width:1150px){
+  #cap-dashboard-redesign .cap-dash-layout{grid-template-columns:minmax(0,1fr)}
+  #cap-dashboard-redesign .cap-dash-right{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  #cap-dashboard-redesign{display:block;width:100%}
+  #cap-dashboard-redesign .cap-dash-main{width:100%;padding-left:12px;padding-right:12px}
+  #cap-dashboard-redesign .cap-dash-layout,#cap-dashboard-redesign .cap-dash-right{grid-template-columns:minmax(0,1fr)}
+}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
