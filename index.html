@@ -4958,5 +4958,21 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 /* Les cartes claires conservent un texte sombre ; les boutons verts gardent un texte blanc contrasté. */
 #cap-dashboard-redesign .cap-clean-tile{color:#172c37}
 #cap-dashboard-redesign #cap-dash-meal-save{color:#fff!important}
+
+/* CAP : sidebar accessible et contrastes ciblés (sans modifier les données). */
+@media (min-width:761px){
+ #cap-dashboard-redesign .cap-dash-sidebar{
+  position:sticky;top:0;height:100vh;height:100dvh;max-height:100dvh;
+  min-height:0;box-sizing:border-box;overflow-y:auto;overflow-x:hidden;
+  padding-bottom:max(32px,env(safe-area-inset-bottom,0px));
+  justify-content:flex-start;
+ }
+}
+/* Les cartes claires gardent un texte sombre ; les cartes sombres conservent leurs couleurs. */
+#cap-dashboard-redesign .cap-clean-tile,
+#cap-dashboard-redesign .cap-clean-tile h2,
+#cap-dashboard-redesign .cap-clean-tile strong{color:#172c37}
+#cap-dashboard-redesign .cap-clean-tile .cap-clean-eyebrow{color:#126453}
+#cap-dashboard-redesign .cap-clean-tile p{color:#425466}
 </style>
 </body></html>
