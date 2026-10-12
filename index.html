@@ -4818,7 +4818,7 @@ render();
 @media(max-width:680px){#cap-eco-v2 .eco-grid{grid-template-columns:1fr}#cap-eco-v2 .eco-head strong{font-size:20px}#cap-eco-v2 .eco-nav a{font-size:12px;min-width:72px}}
 </style>
 <section id="cap-eco-v2" aria-labelledby="eco-title">
- <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>CAP Budget V2</strong><small>Dashboard & Économies</small></div><div><small id="eco-date"></small><span>Solde disponible : <b id="eco-balance">542,10 €</b></span></div></header>
+ <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>CAP Budget V2</strong><small>Dashboard & Économies</small></div><div><small id="eco-date"></small><span>Budget principal : <b id="eco-balance">voir le solde ci-dessus</b></span></div></header>
  <nav class="eco-nav" aria-label="Navigation économies"><a href="#cap-eco-v2">▣ Aujourd'hui</a><a href="#v6-stats">▤ Budget</a><a href="#eco-paulaider">🤖 Paulaider</a><a href="#cap-eco-v2">🍲 Repas</a><a href="#cap-eco-v2">✈️ Voyages</a><a href="#pricing">◉ Compte</a></nav>
  <div class="eco-content"><h2 id="eco-title">Cagnottes Économies</h2>
  <div class="eco-grid">
@@ -4836,7 +4836,7 @@ render();
    <p>💰 Économies confirmées ce mois : <strong id="eco-month">0,00 €</strong></p>
   </div></article>
   <article class="eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inactifs ? (Ex. streaming, salle de sport) — économie annuelle potentielle : <strong>165,00 €</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
-  <article class="eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">185,50 € / 500 €</span> 🛡️</h3><div class="eco-body"><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="185.5" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Base illustrée : 185,50 €.</p></div></article>
+  <article class="eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">Calcul en cours…</span> 🛡️</h3><div class="eco-body"><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Seuls les montants confirmés et enregistrés dans ce module sont comptés.</p></div></article>
  </div>
  <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Bravo ! Une Poêlée Croquante à 2,80 € au lieu d'une commande à 14,80 € : environ 12 € économisés. Souhaitez-vous les ajouter à la Réserve Animaux & Urgences ?</p><button id="eco-robot-add" type="button">Ajouter 12 € à la réserve</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
  </div>
@@ -4850,7 +4850,7 @@ render();
  const today=new Date();by('eco-date').textContent=new Intl.DateTimeFormat('fr-FR',{dateStyle:'medium'}).format(today);
  const key='cap_eco_v2_savings_1';
  let entries=[];try{const x=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(x))entries=x.filter(y=>y&&Number.isFinite(y.amount)&&y.amount>0&&typeof y.date==='string').slice(-500);}catch(_){}
- const baseline=185.50,goal=500;
+ const baseline=0,goal=500;
  function refresh(){
   const added=entries.reduce((n,e)=>n+e.amount,0),total=baseline+added;
   by('eco-reserve-label').textContent=euro(total)+' / '+euro(goal);
