@@ -4955,5 +4955,27 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 #cap-dashboard-redesign .cap-clean-tile strong{color:#172c37}
 #cap-dashboard-redesign .cap-clean-tile .cap-clean-eyebrow{color:#126453}
 #cap-dashboard-redesign .cap-clean-tile p{color:#425466}
+
+/* CAP : correction ciblée de la largeur du tableau de bord (ordinateur). */
+@media (min-width:761px){
+  #cap-dashboard-redesign.cap-dash{
+    display:grid!important;
+    grid-template-columns:240px minmax(0,1fr)!important;
+    width:100%!important;
+    max-width:none!important;
+    min-height:100dvh;
+    box-sizing:border-box;
+  }
+  #cap-dashboard-redesign > .cap-dash-sidebar{
+    width:240px!important;
+    min-width:0;
+    max-width:240px;
+    box-sizing:border-box;
+  }
+  #cap-dashboard-redesign > .cap-dash-main{
+    width:100%;min-width:0;max-width:none;box-sizing:border-box;
+  }
+}
+/* Conserver le mode mobile et les couleurs de chaque carte existante. */
 </style>
 </body></html>
