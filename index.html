@@ -1128,6 +1128,27 @@ body{font-size:19px!important;line-height:1.55}
 #cap-premium-insights [role="progressbar"] {background:#ffffff36!important;}
 </style>
 
+<style id="cap-onboarding-access-contrast-fix">
+/* Bouton d'accès au tableau de bord : contraste fort et lisibilité clavier. */
+#cw-dashboard-access {
+  background:#dcfce7 !important;
+  color:#123b2a !important;
+  border:3px solid #15803d !important;
+  box-shadow:0 4px 16px rgba(0,0,0,.24) !important;
+  opacity:1 !important;
+  text-shadow:none !important;
+  cursor:pointer !important;
+}
+#cw-dashboard-access:hover,
+#cw-dashboard-access:focus-visible {
+  background:#bbf7d0 !important;
+  color:#052e16 !important;
+  outline:3px solid #facc15 !important;
+  outline-offset:3px;
+}
+#cw-dashboard-access:disabled {opacity:.75 !important;color:#123b2a !important;}
+</style>
+
 <style id="cap-budget-metrics-contrast-fix">
 /* Lisibilité des deux indicateurs sous « Voir mon budget ». */
 .cap-dash-balance-first .cap-dash-balance-metric {
