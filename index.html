@@ -4941,5 +4941,22 @@ html body #cap-premium-insights-body div[style*="background"]{background-color:#
 html body #cap-premium-insights-body p,
 html body #cap-premium-insights-body strong,
 html body #cap-premium-insights-body span{color:#f1fff8!important}
+
+/* CAP FIX CIBLE : SIDEBAR ET CONTRASTE SANS EFFET GLOBAL */
+@media (min-width:761px){
+  #cap-dashboard-redesign .cap-dash-sidebar{
+    position:sticky!important;top:0!important;height:100vh!important;height:100dvh!important;
+    max-height:100dvh!important;min-height:0!important;box-sizing:border-box!important;
+    overflow-y:auto!important;overflow-x:hidden!important;
+    padding-bottom:max(32px,env(safe-area-inset-bottom,0px))!important;
+    display:flex!important;flex-direction:column!important;
+    justify-content:flex-start!important;
+  }
+}
+/* Garder les libellés discrets lisibles, sans recolorer tous les badges de l'application. */
+#cap-dashboard-redesign .cap-dash-sidebar [role="status"]{color:#86efac;font-weight:600}
+/* Les cartes claires conservent un texte sombre ; les boutons verts gardent un texte blanc contrasté. */
+#cap-dashboard-redesign .cap-clean-tile{color:#172c37}
+#cap-dashboard-redesign #cap-dash-meal-save{color:#fff!important}
 </style>
 </body></html>
