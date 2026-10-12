@@ -4981,20 +4981,24 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 @media (min-width:761px){
   #cap-dashboard-redesign.cap-dash{
     display:grid!important;
-    grid-template-columns:240px minmax(0,1fr)!important;
+    grid-template-columns:250px minmax(0,1fr)!important;
     width:100%!important;
     max-width:none!important;
     min-height:100dvh;
     box-sizing:border-box;
   }
   #cap-dashboard-redesign > .cap-dash-sidebar{
-    width:240px!important;
+    width:250px!important;
     min-width:0;
-    max-width:240px;
+    max-width:250px;
     box-sizing:border-box;
   }
   #cap-dashboard-redesign > .cap-dash-main{
     width:100%;min-width:0;max-width:none;box-sizing:border-box;
+  }
+  #cap-dashboard-redesign > .cap-dash-sidebar{
+    height:100dvh!important;max-height:100dvh!important;
+    position:sticky!important;top:0!important;overflow-y:auto!important;
   }
 }
 /* Conserver le mode mobile et les couleurs de chaque carte existante. */
