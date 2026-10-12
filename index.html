@@ -4623,6 +4623,19 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f6faf
 body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.eco-card) :is(.cap-v6-row,.cap-v6-plan){background:#fff!important}
 @media(max-width:600px){body{font-size:17px!important;line-height:1.6!important}}
 </style>
+
+<style id="cap-final-light-fix-20261012">
+/* Priorité finale au thème clair : neutralise les anciens panneaux glass sombres. */
+html,html[data-theme],body{color-scheme:light!important;background:#fff!important;background-image:none!important}
+:root,html,body{--bg:#fff!important;--surface:#fff!important;--surface-card:#fff!important;--field:#fff!important;--ink:#111827!important;--muted:#334155!important;--hero:#fff!important;--hero-ink:#111827!important;--hero-muted:#334155!important;--line:#b7c9bd!important}
+body :is(.card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dashboard-card,.cap-balance-card,.cap-mini-card,.eco-card,.cap-v6-plan,.cap-v9-overview,.cap-v9-chip,.hero,.cap-dashboard-head,.cap-v6-header,.cap-v8-head,#pricing,#cap-premium-insights,#cap-dashboard-redesign,#cap-eco-v2){background:#fff!important;background-image:none!important;color:#111827!important;border-color:#b7c9bd!important;box-shadow:0 2px 10px rgba(0,0,0,.06)!important;backdrop-filter:none!important}
+body #pricing{background:#fff!important;background-image:none!important;color:#111827!important;border:2px solid #008c3a!important;box-shadow:0 2px 10px rgba(0,0,0,.06)!important}
+body #pricing::before,body #pricing::after{display:none!important}
+body :is(.hero,.cap-dashboard-head,.cap-v6-header,.cap-v8-head) :is(p,span,small){color:#111827!important}
+body :is(.cap-v6-badge,.cap-v8-badge){background:#e6f8eb!important;color:#006e30!important;border-color:#008c3a!important}
+body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.eco-card,#pricing) :is(h1,h2,h3,h4,p,span,small,strong,b,li){color:#111827!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,small){color:#fff!important}
+</style>
 </body></html>';
     popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
     popup.setTimeout(()=>popup.print(),350);
