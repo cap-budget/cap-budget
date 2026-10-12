@@ -4674,6 +4674,74 @@ body :is(.cap-v6-badge,.cap-v8-badge){background:#e6f8eb!important;color:#006e30
 body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.eco-card,#pricing) :is(h1,h2,h3,h4,p,span,small,strong,b,li){color:#111827!important}
 body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,small){color:#fff!important}
 </style>
+
+<style id="cap-accessibilite-claire-integrale-20261012">
+/* CAP Budget : finition claire globale. CSS seulement, aucune mutation de données. */
+:root,html,html[data-theme],body{
+ color-scheme:light!important;
+ --bg:#FFFFFF;--surface:#FFFFFF;--surface-card:#FFFFFF;--field:#FFFFFF;
+ --ink:#0F172A;--muted:#334155;--line:#CBD5E1;
+ --hero:#FFFFFF;--hero-ink:#0F172A;--hero-muted:#334155;
+ --accent:#047857;--accent-ink:#0F172A;--accent-soft:#F8FAFC;
+ --d-bg:#FFFFFF;--d-muted:#334155;
+}
+html,body{background:#FFFFFF!important;color:#0F172A!important}
+body,body *:not(svg):not(path):not(circle):not(rect):not(line):not(polyline):not(polygon):not(stop):not(canvas){
+ color-scheme:light!important;
+ border-color:#CBD5E1!important;
+ text-shadow:none!important;
+}
+body :is(div,main,section,article,aside,header,footer,nav,form,fieldset,details,dialog,
+ p,span,strong,b,small,summary,ul,ol,li,dl,dt,dd,table,thead,tbody,tr,td,th,
+ .card,.panel,.modal,.modal-content,.modal-body,.modal-header,.modal-footer,
+ .overlay,.backdrop,.modal-backdrop,.toast,.popover,.dropdown,.tooltip,
+ .onboarding-banner,.onboarding-card,.cap-v6-card,.cap-v6-plan,.cap-v6-row,
+ .cap-v6-note,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,
+ .eco-card,.eco-panel,.eco-stat,.eco-head,.cap-clean-tile,.cap-connected-card,
+ .summary,.stat,.stats,.hero,.tile,.sheet,.drawer,.tabbar,.tabbar-inner,
+ [role="dialog"],[role="alertdialog"],[role="tooltip"],[role="status"]){
+ background-color:#FFFFFF!important;
+ background-image:none!important;
+ color:#0F172A!important;
+}
+body :is(h1,h2,h3,h4,h5,h6,p,span,strong,b,small,label,legend,summary,li,dt,dd,
+ th,td,output,blockquote,.muted,.hint,.help,.caption){color:#0F172A!important}
+body :is(input,textarea,select,[contenteditable="true"]){
+ background:#FFFFFF!important;color:#0F172A!important;
+ border:2px solid #94A3B8!important;
+}
+body :is(input,textarea)::placeholder{color:#475569!important;opacity:1!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn,.eco-nav button){
+ background:#FFFFFF!important;background-image:none!important;
+ color:#0F172A!important;border:2px solid #047857!important;
+ box-shadow:none!important;
+}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn,.eco-nav button)
+ :is(span,strong,b,small){color:#0F172A!important}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn):hover,
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn):focus-visible{
+ background:#F8FAFC!important;color:#0F172A!important
+}
+body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn):disabled{
+ background:#F8FAFC!important;color:#475569!important;border-color:#CBD5E1!important
+}
+body a{color:#065F46!important}
+body :is(.badge,.pill,.tag,.cap-v6-badge,#cap-premium-test-status){
+ background:#FFFFFF!important;color:#0F172A!important;border:1px solid #94A3B8!important
+}
+body :is(.track,.progress,.bar-track){background:#F8FAFC!important}
+body :is(.progress-fill,.bar-fill){background:#047857!important}
+body :is(.card,.panel,.modal-content,.onboarding-card,.cap-v6-card,.cap-v8-card,.cap-v9-card,
+ .cap-dash-card,.eco-card,.eco-panel,.cap-clean-tile,.cap-connected-card,
+ .summary,.stat,.tile,.sheet,.drawer){
+ border:1px solid #CBD5E1!important;box-shadow:0 2px 10px rgba(15,23,42,.05)!important
+}
+body :is(.overlay,.modal-backdrop,.backdrop),html.cap-entry-locked body #onboarding-modal.onboarding-banner{
+ background:#F8FAFC!important;background-image:none!important
+}
+body :focus-visible{outline:3px solid #047857!important;outline-offset:3px!important}
+@media(prefers-color-scheme:dark){html,body{background:#FFFFFF!important;color:#0F172A!important}}
+</style>
 </body></html>';
     popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
     popup.setTimeout(()=>popup.print(),350);
