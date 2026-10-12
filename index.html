@@ -4676,6 +4676,55 @@ body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,
 </style>
 
 
+
+<style id="cap-correction-lisibilite-20261012">
+/* Correction accessible : surfaces claires, grandes cartes et contraste fort. */
+html,body,body::before,body::after{background-color:#fff!important;background-image:none!important;color:#111827!important}
+html.cap-entry-locked body #onboarding-modal.onboarding-banner,
+body #onboarding-modal.onboarding-banner,
+body #onboarding-modal .onboarding-card,
+body #onboarding-modal .onboarding-card :is(div,section,article,p,h1,h2,h3,span){
+ background-color:#fff!important;background-image:none!important;color:#111827!important;
+}
+body #onboarding-modal .onboarding-card{border:2px solid #cbd5e1!important;border-radius:22px!important;box-shadow:0 8px 30px #0f172a18!important;padding:clamp(18px,4vw,32px)!important}
+body #onboarding-modal :is(.onboarding-title,.onboarding-intro,.onboarding-subtitle,.cw-brand-name,.cw-brand-tagline){color:#111827!important;opacity:1!important}
+body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing,#cap-eco-v2,#cap-dashboard-redesign),
+body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing,#cap-eco-v2,#cap-dashboard-redesign) :is(section,article,aside,div,.card,.panel,.cap-v6-card,.cap-save-panel){
+ background-color:#fff!important;background-image:none!important;color:#111827!important;
+}
+body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) :is(h1,h2,h3,h4,p,span,b,strong,small,li,label){color:#111827!important;opacity:1!important;text-shadow:none!important}
+body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) :is(article,.cap-save-panel,.cap-v6-card,.cap-v6-note){
+ border:1px solid #cbd5e1!important;border-radius:16px!important;
+}
+body #pricing .cap-v6-plan{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:stretch!important;gap:22px!important;margin:24px 0!important;
+ background:#fff!important;width:100%!important;min-width:0!important;
+}
+body #pricing .cap-v6-plan>div{
+ display:flex!important;flex-direction:column!important;justify-content:flex-start!important;
+ align-items:center!important;text-align:center!important;min-width:0!important;width:auto!important;
+ max-width:100%!important;overflow-wrap:anywhere!important;word-break:normal!important;
+ padding:clamp(22px,3vw,36px)!important;box-sizing:border-box!important;
+ border:2px solid #cbd5e1!important;border-radius:22px!important;
+ background:#fff!important;background-image:none!important;box-shadow:0 6px 20px #0f172a0c!important;
+}
+body #pricing .cap-v6-plan>div>b{
+ display:block!important;color:#111827!important;font-size:clamp(20px,2.3vw,26px)!important;
+ font-weight:800!important;line-height:1.35!important;margin:0 0 16px!important;
+ max-width:100%!important;white-space:normal!important;
+}
+body #pricing .cap-v6-plan>div>span{
+ display:block!important;color:#334155!important;font-size:clamp(16px,1.5vw,18px)!important;
+ line-height:1.7!important;margin:0!important;max-width:100%!important;white-space:normal!important;
+}
+body #pricing .cap-v6-plan a{display:inline-block!important;max-width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;font-size:16px!important;line-height:1.5!important}
+body #pricing #cap-premium-pricing-status{background:#ecfdf5!important;color:#064e3b!important;border:2px solid #059669!important;font-size:17px!important;line-height:1.6!important}
+body #pricing .cap-v6-note{background:#f8fafc!important;color:#334155!important;font-size:16px!important;line-height:1.7!important;padding:18px!important}
+body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights) :is(hr,.divider){border-color:#94a3b8!important;background:#94a3b8!important;opacity:1!important}
+body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) :is(input,textarea,select){background:#fff!important;color:#111827!important;border:2px solid #64748b!important}
+@media(max-width:760px){body #pricing .cap-v6-plan{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}body #pricing .cap-v6-plan>div{padding:24px 18px!important}}
+</style>
 </body></html>';
     popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
     popup.setTimeout(()=>popup.print(),350);
