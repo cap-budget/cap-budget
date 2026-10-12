@@ -4557,174 +4557,20 @@ render();
 })();
 </script>
 
-<style id="cap-glass-design-20261011">
-/* CAP GLASS DESIGN 2026-10-11 */
-:root{--bg:#07111e!important;--surface:#0f2031!important;--surface-card:#13273a!important;--ink:#f1f7ff!important;--muted:#b4c7d9!important;--line:rgba(185,217,245,.18)!important;--field:rgba(15,35,53,.8)!important;--accent:#42e2bd!important;--accent-soft:rgba(66,226,189,.13)!important;--hero:#0b1b2c!important;--hero-ink:#f5fbff!important;--hero-muted:#bfd1df!important}
-html{background:#07111e!important;color-scheme:dark;scroll-behavior:smooth}
-body{background:radial-gradient(ellipse 70% 35% at 85% 0%,rgba(52,121,171,.24),transparent 70%),radial-gradient(ellipse 50% 35% at 0% 25%,rgba(30,183,154,.13),transparent 72%),#07111e!important;color:#f1f7ff!important;font-family:"Plus Jakarta Sans",system-ui,sans-serif}
-body :is(h1,h2,h3,h4){letter-spacing:-.025em}
-body :is(.card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dashboard-card,.cap-balance-card,.cap-mini-card,.eco-card,.cap-v6-plan,.cap-v9-overview,.cap-v9-chip){background:linear-gradient(145deg,rgba(30,57,79,.84),rgba(13,31,48,.87))!important;border:1px solid rgba(177,221,242,.17)!important;box-shadow:0 12px 36px rgba(0,0,0,.19),inset 0 1px rgba(255,255,255,.055)!important;border-radius:20px!important;color:#f1f7ff!important}
-body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.eco-card){backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-body :is(.hero,.cap-dashboard-head,.cap-v6-header,.cap-v8-head){background:linear-gradient(125deg,rgba(26,61,84,.84),rgba(13,32,48,.7))!important;border-color:rgba(167,224,240,.14)!important;border-radius:18px!important;box-shadow:none!important}
-body :is(.hero,.cap-dashboard-head){padding-top:14px!important;padding-bottom:14px!important;min-height:0!important}
-body :is(.hero h1,.hero h2,.cap-dashboard-head h2){font-size:clamp(19px,3vw,27px)!important;line-height:1.2!important;margin:0 0 4px!important}
-body :is(.hero p,.cap-dashboard-head p){font-size:12px!important;line-height:1.4!important;margin:3px 0!important;color:#b6ccda!important}
-body :is(.cap-v6-badge,.cap-v8-badge){background:rgba(66,226,189,.13)!important;color:#93f8dd!important;border:1px solid rgba(66,226,189,.3)!important;border-radius:999px!important}
-body :is(button,.btn,.cap-v6-btn,.eco-card button){border-radius:12px!important;transition:transform .16s ease,filter .16s ease,box-shadow .16s ease}
-body :is(button,.btn,.cap-v6-btn,.eco-card button):hover{filter:brightness(1.13);transform:translateY(-1px)}
-body :is(input,select,textarea){border-radius:12px!important}
-body :is(.cap-v6-card,.eco-card) p{line-height:1.55}
-#pricing{position:relative!important;overflow:hidden!important;border:1px solid rgba(66,226,189,.44)!important;background:linear-gradient(125deg,rgba(19,66,73,.94),rgba(16,36,63,.94))!important;box-shadow:0 15px 42px rgba(0,0,0,.24),0 0 0 1px rgba(66,226,189,.08)!important}
-#pricing:before{content:"";position:absolute;right:-80px;top:-110px;width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,rgba(64,224,188,.17),transparent 68%);pointer-events:none}
-#pricing #cap-premium-pricing-title{font-size:clamp(22px,3vw,30px)!important;color:#effffb!important}
-#pricing .cap-v6-plan{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))!important;gap:12px!important}
-#pricing .cap-v6-plan>div{background:rgba(6,24,39,.42)!important;border:1px solid rgba(155,229,218,.19)!important;border-radius:15px!important;padding:16px!important}
-#pricing .cap-v6-plan b{color:#eafff8!important}
-#cap-premium-insights:not([hidden]){display:block!important;background:linear-gradient(135deg,rgba(21,67,74,.92),rgba(14,35,57,.94))!important;border:1px solid rgba(66,226,189,.35)!important;border-radius:18px!important;padding:18px!important}
-#cap-eco-v2{background:transparent!important;color:#f1f7ff!important;max-width:1180px!important;margin:20px auto!important;padding:0 14px!important}
-#cap-eco-v2 .eco-head{padding:13px 18px!important;min-height:0!important;background:linear-gradient(120deg,rgba(22,65,78,.93),rgba(13,38,61,.92))!important;border:1px solid rgba(147,232,218,.24)!important;border-radius:18px!important;box-shadow:0 10px 30px #0003!important}
-#cap-eco-v2 .eco-head strong{font-size:clamp(18px,3vw,24px)!important}
-#cap-eco-v2 .eco-content{background:transparent!important;padding:14px 0!important}
-#cap-eco-v2 .eco-content>h2{font-size:clamp(21px,3vw,27px)!important;margin:8px 0 13px!important}
-#cap-eco-v2 .eco-grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))!important;gap:14px!important}
-#cap-eco-v2 .eco-card{padding:18px!important;overflow:hidden!important}
-#cap-eco-v2 .eco-card h3{font-size:18px!important;margin:0 0 9px!important;color:#e8fff8!important}
-#cap-eco-v2 .eco-card .eco-body{font-size:13px!important;line-height:1.45!important}
-#cap-eco-v2 .eco-card .eco-body p{margin:7px 0!important;line-height:1.5!important}
-#cap-eco-v2 .eco-card button{min-height:43px!important;background:linear-gradient(110deg,#0f9c88,#1b7b9c)!important;color:#fff!important;font-weight:750!important;border:1px solid rgba(195,255,242,.23)!important}
-#cap-eco-v2 .eco-nav{background:rgba(12,32,49,.75)!important;border:1px solid rgba(157,219,231,.16)!important;border-radius:14px!important;padding:6px!important;gap:5px!important}
-#cap-eco-v2 .eco-nav a{border-radius:10px!important;color:#d7f4f1!important}
-#onboarding-modal .onboarding-card{background:linear-gradient(145deg,#152b40,#0b1c2d)!important;color:#f1f7ff!important;border:1px solid rgba(136,224,213,.3)!important;border-radius:22px!important;box-shadow:0 22px 75px #0008!important}
-#onboarding-modal .cw-brand-header{padding:8px 0!important;margin-bottom:8px!important;min-height:0!important;background:transparent!important}
-#onboarding-modal .onboarding-title{font-size:clamp(20px,4vw,28px)!important;line-height:1.2!important;margin:6px 0!important}
-#onboarding-modal .onboarding-intro{font-size:13px!important;line-height:1.5!important;margin:6px 0 10px!important}
-#onboarding-modal .onboarding-card{padding:clamp(14px,3vw,24px)!important}
-@media(max-width:650px){
- body :is(.hero,.cap-dashboard-head){padding:11px 13px!important}
- #cap-eco-v2{padding:0 10px!important;margin:12px auto!important}
- #cap-eco-v2 .eco-head{padding:11px 13px!important}
- #cap-eco-v2 .eco-content{padding:8px 0!important}
- #pricing{padding:16px!important}
- #onboarding-modal .onboarding-card{max-height:calc(100dvh - 24px)!important}
-}
-@media(prefers-reduced-motion:reduce){body :is(button,.btn,.cap-v6-btn,.eco-card button){transition:none!important;transform:none!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-glass-design-20261011 désactivée. -->
 
-<style id="cap-unified-glass-light-2026">
-/* CAP Budget — harmonie lumineuse, uniquement présentation ; aucune donnée modifiée. */
-:root{color-scheme:light;--bg:#f3f9f6;--surface:#ffffff;--surface-card:#ffffffd9;--ink:#18382f;--muted:#526c62;--line:#d9e8e0;--field:#ffffff;--hero:#f4faf7;--hero-ink:#173e32;--hero-muted:#547368}
-html[data-theme],html{background:#f3f9f6!important;color-scheme:light!important}
-body{background:linear-gradient(145deg,#f0faf6 0%,#f8fbff 52%,#eef8f2 100%) fixed!important;color:#18382f!important;font-family:"Plus Jakarta Sans",system-ui,sans-serif!important}
-.cap-v6,.cap-connected,.cap-connected-section{color:#18382f!important}
-.cap-v6 :is(.cap-v6-card,.cap-v6-kpi,.cap-simple-summary,.cap-v6-note,.cap-v6-item,.cap-v6-result),
-.cap-connected-card{background:rgba(255,255,255,.86)!important;color:#18382f!important;border:1px solid #d5e7de!important;border-radius:20px!important;box-shadow:0 9px 28px #234e3710!important;backdrop-filter:blur(12px)}
-.cap-v6 :is(h2,h3,h4,h5,strong,b,label),.cap-connected-card :is(h2,h3,h4,strong,b,label){color:#173f33!important}
-.cap-v6 :is(p,small,span,li),.cap-connected-card :is(p,small,span,li){color:#48695c!important;line-height:1.55}
-.cap-v6 .cap-v6-row,.cap-v6 .cap-v6-item{border-color:#dbe9e2!important}
-.cap-v6 :is(input,select,textarea),.cap-connected-card :is(input,select,textarea){background:#fff!important;color:#18382f!important;border:1px solid #bbd5c8!important;border-radius:12px!important;min-height:42px}
-.cap-v6 :is(input,textarea)::placeholder{color:#657f73!important;opacity:1}
-.cap-v6 :is(button,.cap-v6-btn),.cap-connected-card button{border-radius:12px!important;min-height:42px}
-.cap-v6 .cap-v6-btn:not(.primary){background:#eaf6f0!important;color:#145642!important;border:1px solid #c4dfd0!important}
-.cap-v6 .cap-v6-btn.primary{background:linear-gradient(100deg,#16835d,#267f96)!important;color:#fff!important}
-.cap-v6 .cap-v6-btn.primary :is(span,b,strong){color:#fff!important}
-.cap-v6 .cap-v6-badge{background:#e5f5ec!important;color:#176144!important;border:1px solid #cde7d8!important}
-.cap-v6 .cap-v6-bar{background:#e5efe9!important}
-.cap-v6 .cap-v6-bar i{background:linear-gradient(90deg,#34a87b,#59a6b1)!important}
-.cap-v6 [role="progressbar"]{background:#e5efe9!important}
-#cap-premium-insights,#cap-purchase-result{background:#f5fbf8!important;color:#173f33!important;border-color:#d1e6d9!important}
-#cap-premium-insights :is(p,div,span,strong),#cap-purchase-result :is(p,div,span,strong){color:#234d3c!important}
-#cap-guide-complet,#cap-guide-complet article{color:#173f33!important}
-#cap-guide-complet :is(p,li,span,strong,small,label){color:#365c4b!important}
-.cap-v6 :is(a,button,input,select,textarea):focus-visible{outline:3px solid #218565!important;outline-offset:2px}
-@media(max-width:640px){.cap-v6{padding-inline:14px!important}.cap-v6 .cap-v6-card{padding:18px!important}.cap-v6 .cap-v6-grid,.cap-v6 .cap-v6-form-row{grid-template-columns:1fr!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-unified-glass-light-2026 désactivée. -->
 
 
 
 <!-- CAP LISIBILITE BLANCHE 2026-10-12 -->
-<style id="cap-lisibilite-blanche-20261012">
-/* Correctif ciblé de lisibilité : affichage uniquement, données inchangées. */
-html,html[data-theme],body{color-scheme:light!important;background:#fff!important;color:#17251e!important}
-body{background-image:none!important}
-body :is(#cap-dashboard-redesign,#cap-eco-v2,.cap-v6,.cap-v7,.cap-v8,.cap-v9,.app,.main,.content,.page){background:#fff!important;color:#17251e!important}
-body :is(.hero,.card,.stats,.stat,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.eco-card,.eco-panel,.eco-stat,.eco-head,.cap-connected-card,.onboarding-card,.modal-content,.cap-v6-plan,.cap-v6-note,#cap-premium-insights,#pricing){background:#fff!important;background-image:none!important;color:#17251e!important;border:1px solid #9aafa3!important;box-shadow:0 2px 9px #17251e12!important}
-body :is(.hero,.card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.eco-card,.onboarding-card,.modal-content) :is(p,span,small,strong,b,label,li,div){text-shadow:none!important}
-body :is(h1,h2,h3,h4,h5,h6){color:#075638!important}
-body :is(p,li,small,label,legend,summary,.muted,.hint,.hero-msg,.dial-label,.stat-label,.cap-dash-subtitle,.cap-v6-note){color:#24372d!important}
-body :is(.dial-value,.stat-value,.cap-v6-number,.cap-dash-number){color:#13251a!important}
-body :is(input,select,textarea){background:#fff!important;color:#17251e!important;border:2px solid #728b7c!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn){background:#075638!important;color:#fff!important;border:2px solid #075638!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn) :is(span,strong,b){color:#fff!important}
-body :is(a,.link){color:#075638!important}
-body :is(.onboarding-banner,.modal-backdrop,.overlay,.backdrop){background-color:#f6faf7!important}
-html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f6faf7!important}
-body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.eco-card) :is(.cap-v6-row,.cap-v6-plan){background:#fff!important}
-@media(max-width:600px){body{font-size:17px!important;line-height:1.6!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-lisibilite-blanche-20261012 désactivée. -->
 
-<style id="cap-final-light-fix-20261012">
-/* Priorité finale au thème clair : neutralise les anciens panneaux glass sombres. */
-html,html[data-theme],body{color-scheme:light!important;background:#fff!important;background-image:none!important}
-:root,html,body{--bg:#fff!important;--surface:#fff!important;--surface-card:#fff!important;--field:#fff!important;--ink:#111827!important;--muted:#334155!important;--hero:#fff!important;--hero-ink:#111827!important;--hero-muted:#334155!important;--line:#b7c9bd!important}
-body :is(.card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dashboard-card,.cap-balance-card,.cap-mini-card,.eco-card,.cap-v6-plan,.cap-v9-overview,.cap-v9-chip,.hero,.cap-dashboard-head,.cap-v6-header,.cap-v8-head,#pricing,#cap-premium-insights,#cap-dashboard-redesign,#cap-eco-v2){background:#fff!important;background-image:none!important;color:#111827!important;border-color:#b7c9bd!important;box-shadow:0 2px 10px rgba(0,0,0,.06)!important;backdrop-filter:none!important}
-body #pricing{background:#fff!important;background-image:none!important;color:#111827!important;border:2px solid #008c3a!important;box-shadow:0 2px 10px rgba(0,0,0,.06)!important}
-body #pricing::before,body #pricing::after{display:none!important}
-body :is(.hero,.cap-dashboard-head,.cap-v6-header,.cap-v8-head) :is(p,span,small){color:#111827!important}
-body :is(.cap-v6-badge,.cap-v8-badge){background:#e6f8eb!important;color:#006e30!important;border-color:#008c3a!important}
-body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.eco-card,#pricing) :is(h1,h2,h3,h4,p,span,small,strong,b,li){color:#111827!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,small){color:#fff!important}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-final-light-fix-20261012 désactivée. -->
 
 
 
-<style id="cap-correction-lisibilite-20261012">
-/* Correction accessible : surfaces claires, grandes cartes et contraste fort. */
-html,body,body::before,body::after{background-color:#fff!important;background-image:none!important;color:#111827!important}
-html.cap-entry-locked body #onboarding-modal.onboarding-banner,
-body #onboarding-modal.onboarding-banner,
-body #onboarding-modal .onboarding-card,
-body #onboarding-modal .onboarding-card :is(div,section,article,p,h1,h2,h3,span){
- background-color:#fff!important;background-image:none!important;color:#111827!important;
-}
-body #onboarding-modal .onboarding-card{border:2px solid #cbd5e1!important;border-radius:22px!important;box-shadow:0 8px 30px #0f172a18!important;padding:clamp(18px,4vw,32px)!important}
-body #onboarding-modal :is(.onboarding-title,.onboarding-intro,.onboarding-subtitle,.cw-brand-name,.cw-brand-tagline){color:#111827!important;opacity:1!important}
-body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing,#cap-eco-v2,#cap-dashboard-redesign),
-body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing,#cap-eco-v2,#cap-dashboard-redesign) :is(section,article,aside,div,.card,.panel,.cap-v6-card,.cap-save-panel){
- background-color:#fff!important;background-image:none!important;color:#111827!important;
-}
-body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) :is(h1,h2,h3,h4,p,span,b,strong,small,li,label){color:#111827!important;opacity:1!important;text-shadow:none!important}
-body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) :is(article,.cap-save-panel,.cap-v6-card,.cap-v6-note){
- border:1px solid #cbd5e1!important;border-radius:16px!important;
-}
-body #pricing .cap-v6-plan{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
- align-items:stretch!important;gap:22px!important;margin:24px 0!important;
- background:#fff!important;width:100%!important;min-width:0!important;
-}
-body #pricing .cap-v6-plan>div{
- display:flex!important;flex-direction:column!important;justify-content:flex-start!important;
- align-items:center!important;text-align:center!important;min-width:0!important;width:auto!important;
- max-width:100%!important;overflow-wrap:anywhere!important;word-break:normal!important;
- padding:clamp(22px,3vw,36px)!important;box-sizing:border-box!important;
- border:2px solid #cbd5e1!important;border-radius:22px!important;
- background:#fff!important;background-image:none!important;box-shadow:0 6px 20px #0f172a0c!important;
-}
-body #pricing .cap-v6-plan>div>b{
- display:block!important;color:#111827!important;font-size:clamp(20px,2.3vw,26px)!important;
- font-weight:800!important;line-height:1.35!important;margin:0 0 16px!important;
- max-width:100%!important;white-space:normal!important;
-}
-body #pricing .cap-v6-plan>div>span{
- display:block!important;color:#334155!important;font-size:clamp(16px,1.5vw,18px)!important;
- line-height:1.7!important;margin:0!important;max-width:100%!important;white-space:normal!important;
-}
-body #pricing .cap-v6-plan a{display:inline-block!important;max-width:100%!important;white-space:normal!important;overflow-wrap:anywhere!important;font-size:16px!important;line-height:1.5!important}
-body #pricing #cap-premium-pricing-status{background:#ecfdf5!important;color:#064e3b!important;border:2px solid #059669!important;font-size:17px!important;line-height:1.6!important}
-body #pricing .cap-v6-note{background:#f8fafc!important;color:#334155!important;font-size:16px!important;line-height:1.7!important;padding:18px!important}
-body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights) :is(hr,.divider){border-color:#94a3b8!important;background:#94a3b8!important;opacity:1!important}
-body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) :is(input,textarea,select){background:#fff!important;color:#111827!important;border:2px solid #64748b!important}
-@media(max-width:760px){body #pricing .cap-v6-plan{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}body #pricing .cap-v6-plan>div{padding:24px 18px!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-correction-lisibilite-20261012 désactivée. -->
 </body></html>';
     popup.document.open();popup.document.write(html);popup.document.close();popup.focus();
     popup.setTimeout(()=>popup.print(),350);
@@ -4757,26 +4603,7 @@ body :is(#cap-guide-complet,#cap-savings-module,#cap-premium-insights,#pricing) 
     return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget — Mon frigo</title><style>'+
       '@page{size:A4;margin:13mm}*{box-sizing:border-box}body{font:13px Arial,sans-serif;color:#17352c;margin:0}h1{font-size:23px;margin:0 0 4px;color:#126449}h2{font-size:17px;border-bottom:2px solid #16835e;padding-bottom:5px;margin:20px 0 10px}h3{font-size:13px;margin:0 0 8px}.sub{color:#52665f}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.day{border:1px solid #b9d9cb;border-radius:8px;padding:10px;break-inside:avoid}.meal{margin:5px 0}.meal small{color:#53665f}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.kpi{border:1px solid #b9d9cb;padding:9px;border-radius:8px}.kpi strong{display:block;font-size:18px;margin-top:4px}ul{columns:2;padding-left:18px}.note{font-size:11px;color:#59645f;margin-top:12px}@media print{.day,.kpi{print-color-adjust:exact}}'+
       '</style>
-<style id="cap-welcome-contrast-final-20261012">
-/* Accueil avant tableau de bord : contraste clair, sans effet sur les données. */
-html.cap-entry-locked body #onboarding-modal.onboarding-banner,
-body #onboarding-modal.onboarding-banner {background:#edf8f1!important;color:#173428!important;}
-body #onboarding-modal.onboarding-banner .onboarding-card {background:#ffffff!important;color:#173428!important;border:2px solid #9bd7b3!important;box-shadow:0 8px 32px rgba(20,70,44,.16)!important;}
-body #onboarding-modal .cw-brand-header {background:#e6f8eb!important;border-radius:14px!important;padding:12px!important;}
-body #onboarding-modal .cw-brand-logo {background:#d1fae5!important;color:#14532d!important;border:2px solid #4ade80!important;}
-body #onboarding-modal .cw-brand-name,
-body #onboarding-modal .onboarding-title {color:#12452b!important;text-shadow:none!important;}
-body #onboarding-modal .cw-brand-tagline,
-body #onboarding-modal .onboarding-intro,
-body #onboarding-modal .onboarding-subtitle,
-body #onboarding-modal .onboarding-card p {color:#263d32!important;opacity:1!important;text-shadow:none!important;}
-body #onboarding-modal .onboarding-btn.btn-primary {background:#166534!important;color:#fff!important;}
-body #onboarding-modal .onboarding-btn.btn-secondary {background:#1d4ed8!important;color:#fff!important;}
-body #onboarding-modal .onboarding-btn.btn-share {background:#dcfce7!important;color:#14532d!important;border:2px solid #15803d!important;}
-body #onboarding-modal .onboarding-btn span {color:inherit!important;opacity:1!important;}
-body #onboarding-modal #cap-view-presentation {background:#dcfce7!important;color:#14532d!important;border:2px solid #15803d!important;}
-body #onboarding-modal :focus-visible {outline:3px solid #eab308!important;outline-offset:3px!important;}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-welcome-contrast-final-20261012 désactivée. -->
 </head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
       '<h2>🍽️ Repas de la semaine</h2><div class="grid">'+meals+'</div>'+
       '<p class="note">Les repas affichés peuvent être des exemples de présentation : vérifiez-les avant impression.</p>'+
@@ -4939,42 +4766,7 @@ body #onboarding-modal :focus-visible {outline:3px solid #eab308!important;outli
 })();
 </script>
 
-<style id="cap-premium-airy-20261011">
-/* CAP : refonte visuelle claire, sans changement de logique métier. */
-html,body{background:#f5faf8!important;color:#173b35!important}
-body{background-image:radial-gradient(ellipse at 85% 2%,rgba(80,216,190,.14),transparent 36%),radial-gradient(ellipse at 5% 25%,rgba(125,211,252,.12),transparent 42%)!important}
-#cap-dashboard-redesign{--d-bg:#f5faf8;--d-line:#e0ede8;--d-muted:#5d7971;--d-shadow:0 10px 30px rgba(28,99,79,.07);background:transparent!important;color:#173b35!important}
-#cap-dashboard-redesign .cap-dash-main{background:transparent!important}
-#cap-dashboard-redesign .cap-dash-topbar{position:relative;min-height:58px!important;padding:10px 16px!important;margin:12px 0 22px!important;border:1px solid rgba(197,225,215,.8)!important;border-radius:18px!important;background:rgba(255,255,255,.82)!important;box-shadow:0 6px 22px #205d4510!important;backdrop-filter:blur(18px)}
-#cap-dashboard-redesign .cap-dash-page-title{font-size:19px!important;color:#155c4d!important}
-#cap-dashboard-redesign .cap-dash-card,#cap-dashboard-redesign .cap-clean-tile,#cap-dashboard-redesign .cap-play-weather,#cap-dashboard-redesign .cap-play-badge{background:rgba(255,255,255,.9)!important;border:1px solid #e1eee8!important;border-radius:22px!important;box-shadow:0 10px 28px rgba(20,95,72,.065)!important;color:#173b35!important}
-#cap-dashboard-redesign .cap-dash-card{padding:clamp(18px,2.5vw,28px)!important}
-#cap-dashboard-redesign .cap-clean-savings{gap:20px!important;margin:20px 0 28px!important}
-#cap-dashboard-redesign .cap-clean-tile{padding:24px!important}
-#cap-dashboard-redesign .cap-clean-tile h2{color:#164f42!important}
-#cap-dashboard-redesign .cap-clean-figure,#cap-dashboard-redesign .cap-clean-eyebrow{color:#087f67!important}
-#cap-eco-v2{color:#183c35!important;max-width:1180px!important;padding:0 clamp(14px,3vw,28px)!important}
-#cap-eco-v2 .eco-head{min-height:64px!important;padding:12px 20px!important;background:linear-gradient(115deg,rgba(255,255,255,.96),rgba(225,251,243,.92))!important;color:#174c40!important;border:1px solid #dcefe8!important;border-radius:20px!important;box-shadow:0 8px 24px #18594313!important;backdrop-filter:blur(16px)}
-#cap-eco-v2 .eco-head strong{color:#11664f!important;font-size:clamp(17px,2.8vw,22px)!important}
-#cap-eco-v2 .eco-head small,#cap-eco-v2 .eco-head span{color:#416a60!important}
-#cap-eco-v2 .eco-content{padding:24px 0!important;background:transparent!important}
-#cap-eco-v2 .eco-content>h2{color:#154d41!important;margin:8px 0 22px!important}
-#cap-eco-v2 .eco-grid{gap:22px!important}
-#cap-eco-v2 .eco-card{padding:clamp(20px,2.8vw,28px)!important;background:rgba(255,255,255,.94)!important;color:#264940!important;border:1px solid #e0eee8!important;border-radius:24px!important;box-shadow:0 12px 32px rgba(24,91,69,.075)!important}
-#cap-eco-v2 .eco-card h3{font-size:19px!important;color:#14634f!important;margin:0 0 14px!important}
-#cap-eco-v2 .eco-card .eco-body{font-size:14px!important;line-height:1.7!important;color:#315b50!important}
-#cap-eco-v2 .eco-card .eco-body p{margin:12px 0!important}
-#cap-eco-v2 .eco-nav{background:rgba(255,255,255,.8)!important;border:1px solid #e1eee9!important;box-shadow:0 4px 18px #165a4310!important;gap:8px!important}
-#cap-eco-v2 .eco-nav a{color:#206956!important}
-#cap-eco-v2 .eco-nav a:hover{background:#e2f7ef!important}
-#cap-eco-v2 .eco-card button,#cap-dashboard-redesign .cap-clean-tile button{background:linear-gradient(110deg,#059669,#0891b2)!important;color:white!important;border:0!important;border-radius:13px!important;box-shadow:0 5px 15px #05966922!important}
-#cap-eco-v2 input,#cap-eco-v2 select{background:#f9fdfb!important;color:#183f35!important;border:1px solid #cfe5da!important;border-radius:12px!important}
-#cap-eco-v2 .eco-robot{padding:12px 16px!important;margin-top:18px!important;background:rgba(235,250,245,.8)!important;border:1px solid #d9eee5!important;border-radius:18px!important;box-shadow:none!important}
-#cap-eco-v2 .eco-robot p{font-size:13px!important;line-height:1.55!important}
-#cap-assistant-toggle{width:42px!important;height:42px!important;background:#fff!important;color:#087e67!important;border:1px solid #cde9dd!important;box-shadow:0 5px 18px #145c4320!important}
-#cap-robot-bubble{display:none!important}
-@media(max-width:680px){#cap-eco-v2 .eco-grid{grid-template-columns:1fr!important;gap:16px!important}#cap-eco-v2 .eco-head{gap:12px!important;flex-wrap:wrap!important}#cap-dashboard-redesign .cap-clean-savings{gap:14px!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-premium-airy-20261011 désactivée. -->
 
 <style>
 /* CAP : réserve compacte et contrastes cohérents des panneaux inférieurs. */
@@ -4996,189 +4788,10 @@ body{background-image:radial-gradient(ellipse at 85% 2%,rgba(80,216,190,.14),tra
 @media(max-width:540px){#cap-investment-summary .cap-reserve-controls>*{width:100%}}
 </style>
 
-<style id="cap-global-light-20261012">
-/* CAP : thème clair unifié, appliqué en dernier à tous les modules. */
-:root,html,html[data-theme],body{
- color-scheme:light!important;
- --bg:#f4f8f6;--surface:#ffffff;--surface-card:#ffffff;--ink:#19352d;
- --muted:#526a60;--line:#dce8e1;--field:#ffffff;--hero:#ffffff;
- --hero-ink:#19352d;--hero-muted:#526a60;--accent:#147b59;
- --accent-ink:#ffffff;--accent-soft:#e4f5eb;
- --d-bg:#f4f8f6;--d-line:#dce8e1;--d-muted:#526a60;
-}
-html,body{background:#f4f8f6!important;color:#19352d!important}
-body{background-image:linear-gradient(160deg,#f7fbf8,#edf5f0)!important;background-attachment:fixed!important}
-body :is(.app,.main,.content,.page,.panel,.section,.cap-v6,.cap-v7,.cap-v8,.cap-v9,
- #cap-dashboard-redesign,#cap-dashboard-redesign .cap-dash-main,#cap-dashboard-redesign .cap-dash-topbar,
- #cap-eco-v2,#cap-eco-v2 .eco-content,#cap-eco-v2 .eco-nav,#cap-guide-complet){
- background-color:transparent!important;background-image:none!important;color:#19352d!important;
-}
-body :is(.card,.hero,.stats,.pill,.tabbar-inner,.modal-content,.onboarding-card,
- .cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,
- .cap-play-weather,.cap-play-badge,.eco-card,.eco-head,.eco-panel,.eco-stat,
- .cap-connected-card,.cap-reserve-compact,#cap-investment-summary,#cap-premium-insights,
- #cap-purchase-result,#pricing,.cap-v6-note,.cap-v6-plan,.cap-v6-row,
- .cap-v6-grid>*,.cap-dash-card,.cap-dash-main article,.eco-content article,
- section article,main article,aside article,table,thead,tbody,tr,th,td,
- details,summary,fieldset,.input,.field,.toast,.dropdown,.popover){
- background:#ffffff!important;background-image:none!important;color:#19352d!important;
- border-color:#dce8e1!important;box-shadow:0 5px 22px rgba(30,71,52,.07)!important;
-}
-body :is(.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,
- .cap-clean-tile,.eco-card,.card,.hero,.onboarding-card,.cap-connected-card,
- #cap-premium-insights,#cap-investment-summary){border:1px solid #dce8e1!important;border-radius:16px}
-body :is(h1,h2,h3,h4,h5,h6,p,span,small,strong,b,label,li,dt,dd,legend,output,summary,
- .muted,.sub,.hint,.help,.caption,.brand-name,.brand-sub,.cap-v6-badge,
- .cap-v6-card p,.eco-card p,.cap-dash-card p){color:#19352d!important;text-shadow:none!important}
-body :is(.muted,.sub,.hint,.help,.caption,small,.brand-sub){color:#526a60!important}
-body :is(input,textarea,select,[contenteditable="true"]){
- background:#ffffff!important;background-image:none!important;color:#19352d!important;
- border:1px solid #a9c8b9!important;box-shadow:none!important;color-scheme:light!important;
-}
-body :is(input,textarea)::placeholder{color:#647d70!important;opacity:1!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.eco-nav button){
- background:#e8f5ed!important;background-image:none!important;color:#155b42!important;
- border-color:#b6d8c5!important;text-shadow:none!important;
-}
-body :is(button,.btn,[role="button"],.tab,.tab-btn):hover{background:#d6ecdf!important}
-body :is(a){color:#12694d!important}
-body :is(a:hover){color:#0b503b!important}
-body :is(.badge,.chip,.tag,.cap-v6-badge){background:#e8f5ed!important;color:#155b42!important;border-color:#b6d8c5!important}
-body :is(.tabbar,.nav,.navbar,.sidebar,.footer,footer,header,.topbar){
- background:#f4f8f6!important;background-image:none!important;color:#19352d!important;
- border-color:#dce8e1!important;
-}
-body :is(.tabbar-inner,.eco-nav,.cap-dash-topbar){background:#ffffff!important;background-image:none!important;color:#19352d!important}
-body :is(.progress,.track,.bar-track,[role="progressbar"]){background:#e4eee8!important;color:#19352d!important}
-body :is(.progress-fill,.bar-fill){background:#239b72!important}
-body :is(svg text){fill:#19352d!important}
-body :is(hr){border-color:#dce8e1!important}
-body :is(.onboarding-banner,#onboarding-modal){background:rgba(237,246,240,.96)!important;color:#19352d!important}
-html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:rgba(237,246,240,.97)!important}
-body :is(#cap-premium-test-status){background:#e6f5eb!important;color:#155b42!important;border:1px solid #b6d8c5!important}
-body :is(.cap-v6-row,.cap-v6-plan,.cap-v6-note) :is(div,p,span,strong,b){color:#19352d!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,
- #cap-premium-insights,#cap-investment-summary) :is(div,section,article,header,footer){
- color:#19352d!important;
-}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,
- #cap-premium-insights,#cap-investment-summary) :is(input,textarea,select){background:#fff!important;color:#19352d!important}
-@media(prefers-color-scheme:dark){html,body{color-scheme:light!important;background:#f4f8f6!important}}
-</style>
-<style id="cap-accessibilite-seniors-20261012">
-/* CAP Budget : accessibilité renforcée, aucun panneau sombre. */
-:root,html,body{color-scheme:light!important;--bg:#f8fbf9;--surface:#fff;--surface-card:#fff;--field:#fff;--ink:#172b22;--muted:#354b40;--line:#b9d3c5;--accent:#126444;--accent-soft:#e6f5ed;--hero:#fff;--hero-ink:#172b22;--hero-muted:#354b40}
-html{font-size:17px!important;-webkit-text-size-adjust:100%}
-body{background:#f8fbf9!important;background-image:none!important;color:#172b22!important;font-size:1rem!important;line-height:1.65!important}
-body :is(.app,.main,.page,.content,#cap-dashboard-redesign,#cap-eco-v2){background-color:transparent!important;color:#172b22!important}
-body :is(.hero,.card,.stats,.stat,.onboarding-card,.modal-content,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.eco-card,.eco-panel,.eco-stat,.eco-head,.cap-connected-card,#cap-premium-insights,#cap-investment-summary,#pricing,.cap-v6-note,.cap-v6-plan,.cap-v6-row,.cap-play-weather,.cap-play-badge,.tabbar,.tabbar-inner,.eco-nav,.cap-dash-topbar,.dropdown,.popover,.toast){
- background:#fff!important;background-image:none!important;color:#172b22!important;border-color:#b9d3c5!important;text-shadow:none!important;box-shadow:0 3px 12px #173c2812!important
-}
-body :is(.hero,.card,.onboarding-card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-clean-tile,.eco-card){padding:clamp(20px,3vw,30px)!important}
-body :is(h1,h2,h3,h4,h5,h6){color:#115d42!important;line-height:1.3!important;letter-spacing:normal!important;overflow-wrap:anywhere}
-body h1{font-size:clamp(1.7rem,3vw,2.3rem)!important}
-body h2{font-size:clamp(1.4rem,2.5vw,1.85rem)!important}
-body h3{font-size:clamp(1.22rem,2vw,1.55rem)!important}
-body :is(p,li,dt,dd,label,legend,output,summary,small,.muted,.hint,.help,.caption,.brand-sub,.stat-label,.row-sub,.field-label,.expense-field-help,.expense-form-intro,.hero-msg,.dial-label){color:#263e32!important;line-height:1.6!important}
-body :is(p,li,dt,dd,label,legend,output,summary,.hint,.help,.muted,.row-sub,.field-label,.expense-field-help,.expense-form-intro,.hero-msg){font-size:max(16px,0.97rem)!important}
-body :is(small,.caption,.stat-label,.brand-sub,.dial-label){font-size:max(15px,.88rem)!important}
-body :is(.dial-value,.stat-value,.row-amount,.cap-clean-figure){color:#142f23!important;font-weight:800!important}
-body :is(input,textarea,select,.input,.amount,[contenteditable="true"]){background:#fff!important;color:#172b22!important;border:2px solid #8aaf9a!important;border-radius:12px!important;font-size:17px!important;min-height:52px!important;line-height:1.4!important}
-body :is(input,textarea)::placeholder{color:#425e4f!important;opacity:1!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn,.link){min-height:48px!important;font-size:16px!important;font-weight:750!important;border-radius:12px!important;line-height:1.35!important;white-space:normal!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn){background:#e6f5ed!important;background-image:none!important;color:#114e36!important;border:2px solid #9fcbb4!important;box-shadow:none!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn):hover{background:#d2eddf!important}
-body :is(a,.link){color:#115c40!important;text-decoration-thickness:2px;text-underline-offset:3px}
-body :is(.badge,.pill,.tag,.cap-v6-badge){background:#e6f5ed!important;color:#114e36!important;border:1px solid #9fcbb4!important}
-body :is(.track,.progress,.bar-track,[role="progressbar"]){background:#e2efe7!important;filter:none!important}
-body :is(.tick){stroke:#9bb6a8!important}
-body :is(.tick.major){stroke:#668c77!important}
-body :is(.arc){filter:none!important}
-body :is(.knob circle){fill:#fff!important}
-body :is(.stats,.stat){border-color:#b9d3c5!important}
-body :is(.onboarding-banner,#onboarding-modal){background:#f4faf6!important;color:#172b22!important}
-html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f4faf6!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card,#cap-premium-insights,#cap-investment-summary) :is(div,p,span,small,strong,b,label,li){color:#172b22!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card,#cap-premium-insights,#cap-investment-summary) :is(h1,h2,h3,h4){color:#115d42!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card) :is(button,[role="button"]){background:#e6f5ed!important;background-image:none!important;color:#114e36!important;border:2px solid #9fcbb4!important;min-height:48px!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card) :is(input,textarea,select){background:#fff!important;color:#172b22!important}
-body :is(#cap-premium-test-status){background:#e6f5ed!important;color:#114e36!important;border:1px solid #9fcbb4!important}
-body :is(:focus-visible){outline:3px solid #0b6b49!important;outline-offset:3px!important}
-@media(max-width:600px){body{font-size:17px!important}body :is(.app,.cap-dash-main,.eco-content){padding-left:14px!important;padding-right:14px!important}body :is(.card,.cap-v6-card,.eco-card,.cap-dash-card){padding:20px!important}body :is(button,.btn,[role="button"]){min-height:52px!important}}
-@media(prefers-color-scheme:dark){html,body{color-scheme:light!important;background:#f8fbf9!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-global-light-20261012 désactivée. -->
+<!-- Ancienne présentation CAP restaurée : surcharge cap-accessibilite-seniors-20261012 désactivée. -->
 
 <!-- CAP CONTRASTE FORT 2026-10-12 -->
-<style id="cap-contraste-fort-20261012">
-/* Palette accessible : fonds blancs, texte sombre, émeraude profond.
-   Correctif de présentation uniquement ; aucune donnée ni logique modifiée. */
-:root,html,body{--bg:#f5f7f6!important;--surface:#fff!important;--surface-card:#fff!important;--field:#fff!important;--ink:#111827!important;--muted:#334155!important;--line:#64748b!important;--accent:#006b45!important;--accent-ink:#fff!important;--accent-soft:#fff!important;--good:#006b45!important;--hero:#fff!important;--hero-ink:#111827!important;--hero-muted:#334155!important;color-scheme:light!important}
-html,body{background:#f5f7f6!important;color:#111827!important}
-body :is(.hero,.card,.stats,.stat,.onboarding-card,.modal-content,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.eco-card,.eco-panel,.eco-stat,.eco-head,.cap-connected-card,#cap-premium-insights,#cap-investment-summary,#pricing,.cap-v6-note,.cap-v6-plan,.cap-v6-row,.tabbar,.tabbar-inner,.eco-nav,.cap-dash-topbar,.dropdown,.popover,.toast){background:#fff!important;background-image:none!important;color:#111827!important;border-color:#64748b!important;text-shadow:none!important;filter:none!important}
-body :is(.hero,.card,.onboarding-card,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-clean-tile,.eco-card){border:1.5px solid #64748b!important}
-body :is(h1,h2,h3,h4,h5,h6,.brand-name){color:#005c3b!important;font-weight:800!important;text-shadow:none!important}
-body :is(p,li,dt,dd,label,legend,output,summary,small,span,strong,b,.muted,.hint,.help,.caption,.brand-sub,.stat-label,.row-sub,.field-label,.expense-field-help,.expense-form-intro,.hero-msg,.dial-label,.dial-value,.stat-value){color:#111827!important;text-shadow:none!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card,#cap-premium-insights,#cap-investment-summary) :is(div,p,span,small,strong,b,label,li){color:#111827!important}
-body :is(.cap-v6-card,.eco-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.onboarding-card,#cap-premium-insights,#cap-investment-summary) :is(h1,h2,h3,h4){color:#005c3b!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn){background:#006b45!important;background-image:none!important;color:#fff!important;border:2px solid #004d32!important;font-weight:800!important;text-shadow:none!important;box-shadow:none!important;opacity:1!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn):is(:hover,:focus-visible){background:#004d32!important;color:#fff!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn) :is(span,strong,b,small,svg){color:#fff!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn) svg{stroke:currentColor!important}
-body :is(button,.btn,[role="button"],.chip,.tab,.tab-btn,.icon-btn):disabled{background:#475569!important;border-color:#334155!important;color:#fff!important;opacity:1!important}
-body :is(input,textarea,select,.input,.amount,[contenteditable="true"]){background:#fff!important;color:#111827!important;border:2px solid #475569!important;opacity:1!important}
-body :is(input,textarea)::placeholder{color:#334155!important;opacity:1!important}
-body :is(a,.link){color:#005c3b!important;font-weight:750!important}
-body :is(.badge,.pill,.tag,.cap-v6-badge){background:#fff!important;color:#005c3b!important;border:2px solid #006b45!important;font-weight:800!important}
-body :is(.track,.progress,.bar-track,[role="progressbar"]){background:#cbd5e1!important;filter:none!important}
-body :is(.progress-fill,.bar-fill){background:#006b45!important}
-body :is(.arc){stroke:#006b45!important;filter:none!important}
-body :is(.tick){stroke:#64748b!important}
-body :is(.tick.major){stroke:#334155!important}
-body :is(.onboarding-banner,#onboarding-modal){background:#f5f7f6!important}
-html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f5f7f6!important}
-body #cap-premium-test-status{background:#006b45!important;color:#fff!important;border:2px solid #004d32!important}
-body :focus-visible{outline:3px solid #005c3b!important;outline-offset:3px!important}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
-
-/* CAP lisibilité renforcée : fond blanc, texte >= 17px, grandes cibles. */
-html,body{background:#fff!important}
-body{font-size:18px!important;line-height:1.6!important}
-body :is(.app,.cap-dash-main,.eco-content){background:#fff!important}
-body :is(.hero,.card,.stats,.stat,.onboarding-card,.modal-content,.cap-v6-card,.cap-v8-card,.cap-v9-card,.cap-dash-card,.cap-dash-hero,.cap-clean-tile,.eco-card,.eco-panel,.eco-stat,#cap-premium-insights,#pricing){box-shadow:0 2px 10px rgba(0,0,0,.06)!important;border-radius:14px!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn){min-height:54px!important;padding:12px 18px!important;font-size:max(16px,1em)!important;border-radius:12px!important}
-body :is(input,textarea,select,.input,.amount){min-height:52px!important;font-size:18px!important;border-radius:10px!important}
-body :is(.dial-value,.stat-value,.cap-v6-number){font-weight:800!important}
-@media(max-width:600px){body{font-size:17px!important}body :is(button,.btn,[role="button"],.tab,.tab-btn){min-height:56px!important}}
-
-/* CAP accessibilité senior : surfaces claires intégrales, octobre 2026. */
-/* Surcharge finale : ne change ni les calculs ni les données. */
-html,body,body .app,body main,body section,body article,body aside,body header,body footer,body nav,body form,body fieldset,body details,body dialog,body .panel,body .container,body .content,body .dashboard,body .sidebar,body .modal,body .modal-body,body .modal-header,body .modal-footer,body .sheet,body .drawer,body .list,body .list-item,body .row,body .tile,body .summary,body .chart,body .chart-card,body .cap-dash-main,body .eco-content{
-  color-scheme:light!important;
-}
-html,body{background-color:#f7f8f7!important;color:#17221c!important}
-body :is(main,section,article,aside,header,footer,nav,form,fieldset,details,dialog,.panel,.container,.content,.dashboard,.sidebar,.modal,.modal-body,.modal-header,.modal-footer,.sheet,.drawer,.list,.list-item,.row,.tile,.summary,.chart,.chart-card,.cap-dash-main,.eco-content,.cap-v6-plan,.cap-v6-row,.cap-v8-card,.cap-v9-card,.cap-dash-card,.eco-card,.eco-panel,.eco-stat,.eco-head,.cap-clean-tile,.cap-connected-card,.onboarding-card,.onboarding-banner,.tabbar,.tabbar-inner,.hero,.card,.stats,.stat){
-  background-color:#fff!important;background-image:none!important;
-}
-body :is(.overlay,.modal-backdrop,.backdrop){background-color:rgba(247,248,247,.94)!important}
-body :is(h1,h2,h3,h4,h5,h6){color:#075638!important;font-weight:800!important}
-body :is(p,li,dt,dd,legend,label,summary,small,output,th,td,blockquote,.muted,.hint,.help,.caption){color:#17221c!important}
-body :is(input,textarea,select,[contenteditable="true"]){background:#fff!important;color:#17221c!important;border:2px solid #52645a!important}
-body :is(input,textarea)::placeholder{color:#3d4a42!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn){background:#075638!important;color:#fff!important;border-color:#06452e!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn) :is(span,strong,b,small){color:#fff!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn):disabled{background:#52645a!important;color:#fff!important}
-body :is(a,.link){color:#075638!important;text-decoration-thickness:2px}
-body :is(.badge,.pill,.tag,.cap-v6-badge){background:#fff!important;color:#075638!important;border-color:#075638!important}
-body :is(.progress-fill,.bar-fill){background:#075638!important}
-body :is(.track,.progress,.bar-track){background:#d8dfda!important}
-body :is(.cap-v6-note,.cap-v6-plan,.cap-v6-row,.cap-dash-card,.eco-card,.onboarding-card,.modal-content,.card){border-color:#9aa9a0!important}
-body :is(.cap-v6-note,.cap-v6-plan,.cap-v6-row) :is(span,p,strong,b,small,div){color:#17221c!important}
-body #cap-premium-test-status{background:#075638!important;color:#fff!important}
-html.cap-entry-locked body #onboarding-modal.onboarding-banner{background:#f7f8f7!important}
-body{font-size:18px!important;line-height:1.65!important}
-body :is(button,.btn,[role="button"],.tab,.tab-btn,.icon-btn){min-height:54px!important}
-body :focus-visible{outline:3px solid #075638!important;outline-offset:3px!important}
-@media(max-width:600px){body{font-size:17px!important}}
-</style>
+<!-- Ancienne présentation CAP restaurée : surcharge cap-contraste-fort-20261012 désactivée. -->
 
 </body></html>
