@@ -1811,7 +1811,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <section class="cap-save-panel"><h4>👻 Abonnements fantômes</h4><label for="cap-ghost-name">Abonnement peu ou pas utilisé</label><input id="cap-ghost-name" maxlength="90" placeholder="Ex. Streaming, salle de sport"><label for="cap-ghost-price">Coût mensuel (€)</label><input id="cap-ghost-price" type="number" min="0.01" step="0.01" placeholder="13,75"><button type="button" id="cap-ghost-add">Ajouter à vérifier</button><div id="cap-ghost-list"></div><p><strong>Économie annuelle potentielle : <span id="cap-ghost-total">0,00 €</span></strong></p><p class="cap-save-muted">Simulation si les abonnements listés sont résiliés. Aucune résiliation automatique, aucun montant ajouté à la réserve.</p></section>
 </div><p id="cap-savings-status" role="status" aria-live="polite" class="cap-save-muted"></p>
 </article>
-<article class="cap-v6-card" id="pricing">
+<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
       <span class="cap-v6-badge">💳 Offre Premium</span>
       <h3 id="cap-premium-pricing-title" style="margin-top:8px">Choisissez votre formule Premium</h3>
       <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
@@ -3683,7 +3683,7 @@ cloudBtn.onclick = async () => {
     link.setAttribute('aria-hidden',result.premium?'true':'false');
     link.tabIndex=result.premium?-1:0;
   });
-  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans){pricingPlans.hidden=!!result.premium;pricingPlans.setAttribute('aria-hidden',result.premium?'true':'false');}
+  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans){pricingPlans.hidden=false;pricingPlans.removeAttribute('aria-hidden');}
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
   if(pricingNote){pricingNote.hidden=false;pricingNote.textContent=result.premium?'Tarifs affichés pour information. Paiements réels désactivés.':'Paiements de démonstration uniquement : utilisez une carte de test Stripe, jamais votre vraie carte. Les paiements réels restent désactivés.';}
   const insights=document.getElementById('cap-premium-insights');
