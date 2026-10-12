@@ -699,6 +699,15 @@ border:1px solid rgba(59,130,246,.14)}
 body.cap-redesign{margin:0!important;min-height:100vh;background:radial-gradient(1000px 600px at 30% -10%,rgba(47,128,237,.14),transparent 60%),radial-gradient(900px 500px at 100% 0%,rgba(25,224,193,.08),transparent 58%),linear-gradient(180deg,#05101d 0%,#06111f 55%,#071321 100%)!important}
 body.cap-redesign .cap-pro-bar,body.cap-redesign .cap-hero,body.cap-redesign .cap-premium-grid,body.cap-redesign .cap-app-header,body.cap-redesign .cap-product-grid,body.cap-redesign .cap-dashboard,body.cap-redesign .cap-week,body.cap-redesign .cap-engine,body.cap-redesign .cap-connected,body.cap-redesign .cap-v10,body.cap-redesign .tabbar{display:none!important}
 body.cap-redesign .app{max-width:none;padding:0}
+
+/* CAP — ajustement ciblé de la disposition et du menu (octobre 2026). */
+@media (min-width:761px){
+  #cap-dashboard-redesign.cap-dash{display:grid;grid-template-columns:240px minmax(0,1fr);width:100%;min-height:100dvh}
+  #cap-dashboard-redesign>.cap-dash-sidebar{width:240px;min-width:0;height:100dvh;max-height:100dvh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;padding:20px 14px 24px}
+  #cap-dashboard-redesign>.cap-dash-main{min-width:0}
+}
+#cap-dashboard-redesign .cap-dash-brand{display:flex;align-items:center;gap:11px}
+#cap-dashboard-redesign .cap-sidebar-month{color:#5ef0a5;font-weight:700}
 .cap-dash{min-height:100vh;display:grid;grid-template-columns:226px minmax(0,1fr);color:var(--d-text);font-family:var(--font)}
 .cap-dash-sidebar{position:sticky;top:0;height:100vh;height:100dvh;box-sizing:border-box;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;scrollbar-width:thin;padding:18px 14px max(18px,env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(7,19,34,.98),rgba(5,15,28,.98));border-right:1px solid rgba(148,163,184,.1);display:flex;flex-direction:column;z-index:40}
 .cap-dash-brand{display:flex;align-items:center;gap:11px;padding:0 10px 25px}.cap-dash-logo{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--d-cyan),var(--d-blue));box-shadow:0 8px 24px rgba(25,224,193,.18)}.cap-dash-logo svg{width:21px;height:21px;stroke:#04101b;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}.cap-dash-brand strong{display:block;font-size:18px;line-height:1;font-weight:900;letter-spacing:-.04em}.cap-dash-brand span{display:block;margin-top:4px;font-size:9px;color:#9bb2c7;font-weight:700}
