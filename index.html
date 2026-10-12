@@ -1257,6 +1257,18 @@ body{font-size:19px!important;line-height:1.55}
 /* Conserver le contraste des boutons sans recolorer tous les badges et textes. */
 .cap-dash button.btn-green, .cap-dash .btn-green {color:#05240a;font-weight:600;}
 </style>
+<style>
+/* CAP — sidebar lisible et contraste localisé, sans impact sur les cartes sombres. */
+@media (min-width:761px){
+ #cap-dashboard-redesign.cap-dash{grid-template-columns:250px minmax(0,1fr)!important;min-height:100dvh}
+ #cap-dashboard-redesign>.cap-dash-sidebar{width:250px!important;height:100dvh!important;max-height:100dvh!important;position:sticky!important;top:0!important;overflow-y:auto!important;padding:20px 14px 24px!important;box-sizing:border-box}
+}
+#cap-dashboard-redesign .cap-sidebar-month,
+#cap-dashboard-redesign .cap-sidebar-month time{color:#5ef0a5!important;font-size:.82rem;font-weight:700}
+#cap-dashboard-redesign .cap-clean-tile{color:#172c37}
+#cap-dashboard-redesign .cap-clean-tile h2,
+#cap-dashboard-redesign .cap-clean-tile strong{color:#172c37}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
