@@ -66,6 +66,25 @@ html.cap-entry-locked body{overflow:hidden!important}
   box-sizing: border-box;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Tokens historiques centralisés — Executive Edition */
+  --cap-line: rgba(212,175,55,.20);
+  --cap-brand: #d4af37;
+  --cap-brand-2: #10b981;
+  --cap-accent-2: #10b981;
+  --cap-surface: rgba(22,25,32,.95);
+  --cap-blue: #d4af37;
+  --d-bg: #0d0f12;
+  --d-line: rgba(212,175,55,.20);
+  --d-text: #f8fafc;
+  --d-muted: #94a3b8;
+  --d-blue: #d4af37;
+  --d-cyan: #10b981;
+  --d-green: #10b981;
+  --d-purple: #bba7ed;
+  --d-pink: #e3a9c9;
+  --d-yellow: #d4af37;
+  --d-shadow: 0 25px 70px rgba(0,0,0,.40);
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
@@ -219,7 +238,7 @@ dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
 .cap-dash-balance-first .cap-dash-margin-value{font-size:clamp(36px,5vw,40px)!important}
 
 /* CAP Executive Edition — finition CSS, aucune logique applicative modifiée. */
-:root{--cap-bg:#0d0f12;--cap-card:rgba(22,25,32,.95);--cap-border:rgba(212,175,55,.2);--cap-accent:#d4af37;--cap-text:#f8fafc;--cap-muted:#94a3b8;--cap-line:rgba(212,175,55,.2);--cap-brand:#d4af37;--cap-brand-2:#10b981;--d-bg:#0d0f12;--d-line:rgba(212,175,55,.2);--d-text:#f8fafc;--d-muted:#94a3b8;--d-blue:#d4af37;--d-cyan:#10b981;--d-green:#10b981}
+/* Variables de thème centralisées dans le premier :root. */
 body.cap-redesign{background:#0d0f12!important}
 body.cap-redesign .cap-dash,body.cap-redesign .cap-dash-main{background-color:#0d0f12}
 body.cap-redesign .cap-dash :is(button,.btn,[role="button"]){accent-color:#d4af37}
@@ -227,15 +246,7 @@ body.cap-redesign .cap-dash :is(button,.btn,[role="button"]):focus-visible{outli
 </style>
 <style>
 /* ===== CAP Budget — Professional polish layer ===== */
-:root{
-  --cap-accent:#2dd4bf;
-  --cap-accent-2:#60a5fa;
-  --cap-bg:#07111f;
-  --cap-surface:rgba(15,27,45,.88);
-  --cap-border:rgba(148,163,184,.16);
-  --cap-text:#e5eefb;
-  --cap-muted:#8fa3bd;
-}
+/* Variables de thème centralisées dans le premier :root. */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -277,16 +288,7 @@ button:active{transform:translateY(1px)}
 }
 </style><style>
 /* ===== CAP Budget UI v1.1 ===== */
-:root{
-  --cap-brand:#22c55e;
-  --cap-brand-2:#14b8a6;
-  --cap-blue:#3b82f6;
-  --cap-bg:#07111f;
-  --cap-card:rgba(15,27,45,.92);
-  --cap-line:rgba(148,163,184,.15);
-  --cap-text:#eef6ff;
-  --cap-muted:#93a4ba;
-}
+/* Variables de thème centralisées dans le premier :root. */
 .cap-hero{
   max-width:1180px;margin:22px auto 10px;padding:0 16px;
 }
@@ -743,7 +745,7 @@ border:1px solid rgba(59,130,246,.14)}
 </style>
 
 <style id="cap-dashboard-redesign-css">
-:root{--d-bg:#06111f;--d-line:rgba(148,163,184,.14);--d-text:#eef7ff;--d-muted:#8ea6bf;--d-blue:#2f80ed;--d-cyan:#19e0c1;--d-green:#31d47c;--d-purple:#8b7cff;--d-pink:#ef63bd;--d-yellow:#f8c84d;--d-shadow:0 25px 70px rgba(0,0,0,.30)}
+/* Variables de thème centralisées dans le premier :root. */
 body.cap-redesign{margin:0!important;min-height:100vh;background:radial-gradient(1000px 600px at 30% -10%,rgba(47,128,237,.14),transparent 60%),radial-gradient(900px 500px at 100% 0%,rgba(25,224,193,.08),transparent 58%),linear-gradient(180deg,#05101d 0%,#06111f 55%,#071321 100%)!important}
 body.cap-redesign .cap-pro-bar,body.cap-redesign .cap-hero,body.cap-redesign .cap-premium-grid,body.cap-redesign .cap-app-header,body.cap-redesign .cap-product-grid,body.cap-redesign .cap-dashboard,body.cap-redesign .cap-week,body.cap-redesign .cap-engine,body.cap-redesign .cap-connected,body.cap-redesign .cap-v10,body.cap-redesign .tabbar{display:none!important}
 body.cap-redesign .app{max-width:none;padding:0}
