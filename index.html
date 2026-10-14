@@ -25,7 +25,48 @@ html.cap-entry-locked body{overflow:hidden!important}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{ --bg: #000000; --surface: #121214; --surface-card: #18181B; --ink: #F4F4F5; --muted: #A1A1AA; --line: #27272A; --field: #1F1F23; --accent: #4F46E5; --accent-ink: #FFFFFF; --accent-soft: rgba(79, 70, 229, 0.15); --good: #10B981; --warn: #F59E0B; --bad: #EF4444; --on-bad: #FFFFFF; --hero: #121214; --hero-ink: #FFFFFF; --hero-muted: #94A3B8; --toast-action: #818CF8; --radius-lg: 32px; --radius: 24px; --radius-sm: 16px; --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif; box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+:root {
+  /* Fond & Surface Executive */
+  --bg: #0d0f12;
+  --surface: #161920;
+  --surface-card: #161920;
+  --line: #2a2e3d;
+  --field: #0d0f12;
+
+  /* Typographie & Couleurs */
+  --ink: #f8fafc;
+  --muted: #94a3b8;
+
+  /* Teintes Signature Haut de Gamme */
+  --accent: #d4af37;
+  --accent-ink: #000000;
+  --accent-soft: rgba(212, 175, 55, 0.15);
+  --good: #10b981;
+  --warn: #f59e0b;
+  --bad: #ef4444;
+
+  /* Pro Layer */
+  --cap-bg: #0d0f12;
+  --cap-card: rgba(22, 25, 32, 0.95);
+  --cap-border: rgba(212, 175, 55, 0.2);
+  --cap-accent: #d4af37;
+  --cap-text: #f8fafc;
+  --cap-muted: #94a3b8;
+
+  /* Variables historiques préservées */
+  --on-bad: #ffffff;
+  --hero: #161920;
+  --hero-ink: #f8fafc;
+  --hero-muted: #94a3b8;
+  --toast-action: #d4af37;
+  --radius-lg: 32px;
+  --radius: 24px;
+  --radius-sm: 16px;
+  --font: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -176,6 +217,13 @@ dialog p{color:var(--muted);margin:0 0 18px;font-size:14.5px;line-height:1.5}
 @media(max-width:480px){.cap-dash-balance-first .cap-dash-margin{padding:18px}.cap-dash-balance-metric{padding:12px}.cap-dash-balance-metric strong{font-size:18px}}
 /* Le solde reste en position #1, puis les indicateurs et les actions. */
 .cap-dash-balance-first .cap-dash-margin-value{font-size:clamp(36px,5vw,40px)!important}
+
+/* CAP Executive Edition — finition CSS, aucune logique applicative modifiée. */
+:root{--cap-bg:#0d0f12;--cap-card:rgba(22,25,32,.95);--cap-border:rgba(212,175,55,.2);--cap-accent:#d4af37;--cap-text:#f8fafc;--cap-muted:#94a3b8;--cap-line:rgba(212,175,55,.2);--cap-brand:#d4af37;--cap-brand-2:#10b981;--d-bg:#0d0f12;--d-line:rgba(212,175,55,.2);--d-text:#f8fafc;--d-muted:#94a3b8;--d-blue:#d4af37;--d-cyan:#10b981;--d-green:#10b981}
+body.cap-redesign{background:#0d0f12!important}
+body.cap-redesign .cap-dash,body.cap-redesign .cap-dash-main{background-color:#0d0f12}
+body.cap-redesign .cap-dash :is(button,.btn,[role="button"]){accent-color:#d4af37}
+body.cap-redesign .cap-dash :is(button,.btn,[role="button"]):focus-visible{outline-color:#d4af37}
 </style>
 <style>
 /* ===== CAP Budget — Professional polish layer ===== */
