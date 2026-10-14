@@ -3953,6 +3953,19 @@ cloudBtn.onclick = async () => {
       note.textContent='Revenus synchronisés avec le budget principal. Ce cadran déduit uniquement les charges mensuelles et les dépenses enregistrées dans son propre module, ainsi que son épargne. Son reste à vivre n’est pas le solde prévisionnel du budget principal : ne cumulez pas les deux montants.';
     }
   }
+  // Réconcilier aussi au retour sur l'onglet ou après une mise à jour locale.
+  // Aucun montant n'est écrit si le budget principal n'est pas enregistré.
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden){syncIncomeFromMain();updateComparison();updateSyncExplanation();}
+  });
+  window.addEventListener('pageshow',()=>{
+    syncIncomeFromMain();updateComparison();updateSyncExplanation();
+  });
+  window.addEventListener('storage',event=>{
+    if(event.key==='capBudgetEngine'){
+      syncIncomeFromMain();updateComparison();updateSyncExplanation();
+    }
+  });
   window.addEventListener('load',()=>{
     syncIncomeFromMain();
     updateSyncExplanation();
