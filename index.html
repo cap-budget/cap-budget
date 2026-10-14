@@ -3983,7 +3983,11 @@ cloudBtn.onclick = async () => {
     const stored=raw&&typeof raw==='object'&&raw.income!==null&&raw.income!==undefined?Number(raw.income):null;
     const amount=stored!==null&&Number.isFinite(stored)?stored:null;
     // Ne jamais écrire un revenu à partir d'un affichage provisoire ou d'une valeur par défaut.
-    if(!Number.isFinite(amount)||amount<=0||amount>100000000)return;
+    if(!Number.isFinite(amount)||amount<=0||amount>100000000){
+      const note=document.getElementById('cap-budget-reconciliation');
+      if(note)note.textContent='Synchronisation en attente : aucun revenu principal valide n’est enregistré dans ce navigateur. Le montant affiché sur le tableau de bord peut être une valeur de démonstration. Aucune donnée n’a été modifiée.';
+      return;
+    }
     const salary=document.getElementById('v-salary');
     const previous=parseEuro(salary?.textContent);
     if(previous!==null&&Math.abs(previous-amount)<0.005)return;
