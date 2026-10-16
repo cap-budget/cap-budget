@@ -2544,10 +2544,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
      Le DOM et les données sont conservés pour éviter d'interrompre les calculs existants. -->
 <style id="cap-hide-old-dial">
 #tab-budget > .hero > .dial,
-#tab-budget > .hero > #hero-msg,
-#tab-budget > .hero > #cap-budget-reconciliation,
-#tab-budget > .hero > #cap-budget-source-note,
-#tab-budget > .hero #cap-sync-main-income {
+#tab-budget > .hero > #hero-msg {
   display: none !important;
 }
 body:has(#tab-budget:not([hidden])) #pill {
@@ -2949,10 +2946,10 @@ body:has(#tab-budget:not([hidden])) #pill {
       </details>
       </article>
       <article class="guide-card cap-guide-frame" data-guide-rubrique="12">
-      <details class="cap-guide-item">
+      <details class="cap-guide-item" open>
         <summary><span class="cap-guide-heading">❓ 12. Pourquoi les chiffres diffèrent-ils ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
-        <p>Le budget principal et certains autres écrans peuvent encore utiliser des montants différents. C'est pourquoi tu peux voir deux sommes différentes.</p><p><strong>Ne les additionne pas.</strong> Vérifie les revenus saisis dans chaque partie, les charges prévues et les dépenses déjà enregistrées.</p>
+        <p>Le budget principal utilise les revenus et les enveloppes prévus. Le cadran de dépenses possède son propre calcul : les deux soldes ne doivent jamais être additionnés.</p><p>Lorsque les revenus du budget principal sont enregistrés sur cet appareil, CAP les reprend automatiquement dans le cadran, en conservant son ancien salaire en sauvegarde. Les charges prévues, achats réellement payés et économies restent séparés pour éviter de compter deux fois la même dépense.</p><p><strong>À vérifier :</strong> un abonnement prévu n'est pas automatiquement un achat payé. Aucun accès bancaire n'est effectué.</p>
         </div>
       </details>
       </article>
@@ -5377,21 +5374,21 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  <div class="eco-content"><h2 id="eco-title">Cagnottes Économies</h2>
  <div class="eco-grid">
   <article class="card eco-card"><h3>🛡️ Anti-Gaspillage Alimentaire</h3><div class="eco-body">
-   <p>🚀 Bravo ! Vous avez cuisiné un repas Frigo/Restes au lieu de commander.</p>
-   <p><b>Économie estimée : <span class="eco-green">12,00 €</span></b></p>
-   <button id="eco-add-meal" type="button">🐾 + Ajouter cette économie à la Réserve Urgences & Animaux</button>
-   <p><b>Détail Repas :</b> Poêlée Croquante (reste poulet & riz) — Coût : 2,80 €<br>Commande évitée : ≈ 14,80 €</p>
+   <p>💡 Exemple non enregistré : cuisiner un repas avec les restes plutôt que commander peut réduire les dépenses.</p>
+   <p><b>Exemple d'économie possible : <span class="eco-green">12,00 €</span></b></p>
+   <button id="eco-add-meal" type="button">🐾 J'ai vraiment évité cette commande : ajouter 12 €</button>
+   <p><b>Exemple fictif :</b> Poêlée Croquante (reste poulet & riz) — Coût : 2,80 €<br>Commande évitée : ≈ 14,80 €. Rien n'est ajouté sans confirmation.</p>
   </div></article>
   <article class="card eco-card"><h3>💎 Les Petites Victoires</h3><div class="eco-body">
    <p>Résistez à une dépense inutile et notez l'économie réalisée.</p>
-   <label class="eco-label" for="eco-win-amount">Montant économisé (€)</label><input id="eco-win-amount" type="number" min="0.01" max="100000" step="0.01" value="5.90">
-   <label class="eco-label" for="eco-win-label">Dépense évitée</label><input id="eco-win-label" type="text" maxlength="90" value="Café à emporter">
+   <label class="eco-label" for="eco-win-amount">Montant économisé (€)</label><input id="eco-win-amount" type="number" min="0.01" max="100000" step="0.01" placeholder="Ex. 5,90">
+   <label class="eco-label" for="eco-win-label">Dépense évitée</label><input id="eco-win-label" type="text" maxlength="90" placeholder="Ex. Café à emporter">
    <p><button class="eco-win" id="eco-add-win" type="button">✓ J'ai résisté à une dépense inutile !</button></p>
    <p>💰 Économies confirmées ce mois : <strong id="eco-month">0,00 €</strong></p>
   </div></article>
-  <article class="card eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inactifs ? (Ex. streaming, salle de sport) — économie annuelle potentielle : <strong>165,00 €</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
+  <article class="card eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inutilisés ? Passez-les en revue pour estimer les économies possibles. <strong>Exemple fictif : 165,00 € par an</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
   <article class="card eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">Calcul en cours…</span> 🛡️</h3><div class="eco-body"><p class="eco-muted">Prévoyez à votre rythme les frais vétérinaires et autres besoins de vos animaux, ainsi que les urgences du quotidien. Cette réserve est personnalisable selon vos priorités ; elle ne transfère pas d’argent automatiquement.</p><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Seuls les montants confirmés et enregistrés dans ce module sont comptés.</p></div></article>
- <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Bravo ! Une Poêlée Croquante à 2,80 € au lieu d'une commande à 14,80 € : environ 12 € économisés. Souhaitez-vous les ajouter à la Réserve Animaux & Urgences ?</p><button id="eco-robot-add" type="button">Ajouter 12 € à la réserve</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
+ <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Exemple seulement : cuisiner un repas à 2,80 € plutôt que commander à 14,80 € ferait économiser environ 12 €. Ajoutez ce montant uniquement si vous avez réellement évité cette dépense.</p><button id="eco-robot-add" type="button">J'ai réellement économisé 12 €</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
  </div>
  </div>
 </section>
@@ -5421,7 +5418,10 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   refresh();by('eco-feedback').textContent=euro(entry.amount)+' ajouté à la cagnotte de ce module : '+label+'.';
   by('eco-robot-message').textContent='Bravo ! '+euro(entry.amount)+' ajouté à votre réserve d’économies confirmées.';
  }
- function meal(){add(12,'Poêlée Croquante — économie estimée confirmée');}
+ function meal(){
+  if(!confirm('Avez-vous réellement évité une dépense de 12 € grâce à un repas préparé ? Cette action ajoutera 12 € à votre cagnotte locale, sans virement bancaire.'))return;
+  add(12,'Repas maison — économie de 12 € déclarée par l’utilisateur');
+ }
  by('eco-add-meal').addEventListener('click',meal);by('eco-robot-add').addEventListener('click',meal);
  by('eco-add-win').addEventListener('click',()=>{const amount=Number(by('eco-win-amount').value),label=by('eco-win-label').value.trim()||'Dépense évitée';if(!(amount>0&&amount<=100000)){by('eco-feedback').textContent='Saisissez un montant positif valide.';return;}add(amount,label);});
  refresh();
