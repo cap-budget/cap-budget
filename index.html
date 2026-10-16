@@ -2818,6 +2818,7 @@ body:has(#tab-budget:not([hidden])) #pill {
     <div class="cap-budget-guide-content">
       <p>Bienvenue dans le guide de CAP Budget, repas et voyages. Retrouvez ici les explications essentielles pour utiliser votre application, comprendre les calculs et retrouver vos informations.</p>
       <div class="cap-guide-panels">
+      <div class="guide-card" data-guide-rubrique="1">
       <details class="cap-guide-item" open>
         <summary><span class="cap-guide-heading">🏠 1. Tableau de bord</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2825,6 +2826,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Utilisez le menu pour passer à Budget, Repas, Voyage, Objectifs, Conseil et Paramètres.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="2">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">💰 2. Revenus et enveloppes</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2832,12 +2835,16 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p><strong>Marge prévisionnelle = revenus – total des enveloppes prévues.</strong> Par exemple, 2 500 € de revenus moins 1 900 € prévus donnent 600 € de marge. Ne soustrayez pas une deuxième fois une dépense déjà comprise dans son enveloppe.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="3">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🎚️ 3. Répartition 50 / 30 / 20</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
         <p>Dans Budget, commencez par enregistrer votre revenu mensuel, puis utilisez les trois curseurs pour simuler la répartition entre charges, loisirs et épargne. Les pourcentages sont indicatifs et ne modifient pas les dépenses ni les objectifs enregistrés.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="4">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">📅 4. Repère journalier et hebdomadaire</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2845,6 +2852,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Ce n'est <strong>ni une autorisation de dépenser ni de l'argent garanti disponible</strong>. Tenez compte des factures à venir et des dépenses déjà engagées.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="5">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🛒 5. Ajouter une dépense</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2852,6 +2861,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>L'opération réellement enregistrée rejoint son historique et les totaux correspondants. Les exemples affichés ne sont pas enregistrés tant que vous ne les ajoutez pas volontairement.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="6">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🔄 6. Charges fixes et dépenses réelles</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2859,6 +2870,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Comparez les dépenses réelles à leurs enveloppes pour savoir ce qui reste prévu par catégorie. Évitez de compter deux fois le même abonnement.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="7">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🎯 7. Objectifs et voyages</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2866,6 +2879,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Vérifiez que l'effort proposé reste compatible avec vos autres dépenses ; ce n'est pas un virement automatique.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="8">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🧠 8. CAP Conseil et simulations</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2873,6 +2888,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Les résultats sont indicatifs et dépendent de l'exactitude de vos saisies.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="9">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">📊 9. Statistiques et Premium</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2880,12 +2897,16 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Une part de revenu non représentée dans le graphique n'est pas automatiquement disponible. Les fonctions de paiement affichées en <strong>Stripe TEST</strong> sont des démonstrations sans débit réel.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="10">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🍽️ 10. Repas</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
         <p>Utilisez la rubrique <strong>Repas</strong> pour organiser votre alimentation et vos informations liées aux repas. Les montants des courses dans le budget restent des prévisions tant que les achats réels ne sont pas saisis comme dépenses.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="11">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">💾 11. Sauvegarde et confidentialité</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2893,6 +2914,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Ne cliquez pas sur <strong>Réinitialiser</strong> pour actualiser les chiffres : cette action peut retirer des données locales après confirmation. La synchronisation automatique entre appareils n'est pas garantie pour toutes les rubriques.</p>
         </div>
       </details>
+      </div>
+      <div class="guide-card" data-guide-rubrique="12">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">❓ 12. Si les chiffres diffèrent</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2900,6 +2923,7 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Si un chiffre semble incohérent, commencez par vérifier les enveloppes prévues, les charges récurrentes et les opérations réellement enregistrées.</p>
         </div>
       </details>
+      </div>
       </div>
     </div>
   </details>
@@ -5542,6 +5566,60 @@ syncIncome();renderSliders();updateHome();showHome(true);
  #cap-eco-v2 .eco-card .eco-body{padding:17px!important}
  #cap-eco-v2 .eco-robot{padding:19px!important}
  #cap-eco-v2 .eco-full{grid-column:1!important}
+}
+
+/* Cartes individuelles des 12 rubriques du mode d'emploi CAP Budget. */
+#cap-budget-guide .cap-guide-panels{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:20px!important;
+  align-items:start!important;
+  margin:20px 0 12px!important;
+}
+#cap-budget-guide .cap-guide-panels > .guide-card{
+  display:block;
+  min-width:0;
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+  border:1px solid var(--line,#dbe5e2);
+  border-radius:19px;
+  background:var(--surface-card,var(--field,#fff));
+  box-shadow:0 6px 22px rgba(16,47,41,.12);
+  break-inside:avoid;
+}
+#cap-budget-guide .cap-guide-panels > .guide-card > .cap-guide-item{
+  display:block;
+  width:100%;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#cap-budget-guide .guide-card:has(> .cap-guide-item[open]){
+  border-color:var(--accent,#16a34a);
+  box-shadow:0 8px 24px rgba(16,47,41,.16);
+}
+#cap-budget-guide .guide-card > .cap-guide-item > summary{
+  min-height:72px;
+  padding:18px 20px!important;
+}
+#cap-budget-guide .guide-card > .cap-guide-item > .cap-guide-panel{
+  padding:18px 20px 22px!important;
+}
+@media(max-width:800px){
+  #cap-budget-guide .cap-guide-panels{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:16px!important;
+  }
+  #cap-budget-guide .guide-card > .cap-guide-item > summary{
+    padding:17px 16px!important;
+    min-height:62px;
+  }
+  #cap-budget-guide .guide-card > .cap-guide-item > .cap-guide-panel{
+    padding:16px 17px 19px!important;
+  }
 }
 </style>
 
