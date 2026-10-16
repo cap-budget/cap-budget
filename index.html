@@ -4191,9 +4191,20 @@ cloudBtn.onclick = async () => {
     link.setAttribute('aria-hidden',result.premium?'true':'false');
     link.tabIndex=result.premium?-1:0;
   });
-  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');if(pricingPlans){pricingPlans.hidden=false;pricingPlans.removeAttribute('aria-hidden');}
+  const pricingPlans=document.querySelector('#pricing .cap-v6-plan');
+  if(pricingPlans){
+    pricingPlans.hidden=!!result.premium;
+    pricingPlans.setAttribute('aria-hidden',result.premium?'true':'false');
+    pricingPlans.style.display=result.premium?'none':'';
+  }
+  const pricingLead=document.querySelector('#pricing .cap-pricing-lead');
+  if(pricingLead)pricingLead.textContent=result.premium
+    ?'Votre accès Premium TEST est reconnu. Profitez des analyses approfondies dans Statistiques : aucun nouvel achat nécessaire.'
+    :'Deux formules envisagées pour CAP Budget. Leur achat n’est pas encore disponible.';
   const pricingNote=document.querySelector('#pricing .cap-v6-note');
-  if(pricingNote){pricingNote.hidden=false;pricingNote.textContent='Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.';}
+  if(pricingNote){pricingNote.hidden=false;pricingNote.textContent=result.premium
+    ?'Votre accès Premium TEST est actif. Les nouvelles offres affichées aux autres visiteurs sont informatives et les paiements réels restent désactivés.'
+    :'Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.';}
   const insights=document.getElementById('cap-premium-insights');
   if(insights){
     insights.hidden=!result.premium;
