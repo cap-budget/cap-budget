@@ -2835,6 +2835,7 @@ function showAuthUI() {
         <button id="auth-signup" type="button" style="padding:11px 16px;border:1px solid #444;border-radius:10px;background:#1b1b1b;color:#fff;cursor:pointer">Créer mon compte</button>
         <button id="auth-local" type="button" style="padding:11px 16px;border:1px solid #444;border-radius:10px;background:#1b1b1b;color:#fff;cursor:pointer">Continuer en local</button>
       </div>
+      <button id="auth-forgot" type="button" style="margin-top:12px;background:none;border:0;color:#8fe8d2;cursor:pointer;text-decoration:underline">Mot de passe oublié ?</button>
       <button id="auth-config" type="button" style="margin-top:14px;background:none;border:0;color:#aaa;cursor:pointer">Modifier la configuration Supabase</button>
     </section>`;
   document.body.appendChild(panel);
@@ -2845,7 +2846,7 @@ function showAuthUI() {
     status('Connexion…');
     const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
     if(error){status(error.message);return;}
-    currentUser=data.user; await loadCloudState(); panel.remove(); renderAll(); cloudMessage('Connecté à Supabase');
+    currentUser=data.user; clearTimeout(cloudSaveTimer); await loadCloudState(); panel.remove(); renderAll(); cloudMessage('Connecté à Supabase');
   };
   document.getElementById('auth-signup').onclick = async () => {
     const email=document.getElementById('auth-email').value.trim(), password=document.getElementById('auth-password').value;
@@ -2853,8 +2854,15 @@ function showAuthUI() {
     status('Création du compte…');
     const {data,error}=await supabaseClient.auth.signUp({email,password});
     if(error){status(error.message);return;}
-    if(data.session){ currentUser=data.user; await saveCloudState(); panel.remove(); renderAll(); cloudMessage('Compte créé et connecté.'); }
+    if(data.session){ currentUser=data.user; await loadCloudState(); panel.remove(); renderAll(); cloudMessage('Compte créé et connecté.'); }
     else status('Compte créé. Vérifie ton e-mail puis reconnecte-toi.');
+  };
+  document.getElementById('auth-forgot').onclick = async () => {
+    const email=document.getElementById('auth-email').value.trim();
+    if(!email){status('Saisis ton adresse e-mail pour recevoir un lien de réinitialisation.');return;}
+    status('Envoi du lien…');
+    const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+    status(error?'Impossible d’envoyer le lien : '+error.message:'Si cette adresse possède un compte, un lien de réinitialisation sera envoyé.');
   };
   document.getElementById('auth-local').onclick = () => { panel.remove(); cloudMessage('Mode local : les données restent sur cet appareil.'); };
   document.getElementById('auth-config').onclick = () => { panel.remove(); addCloudUI(); };
@@ -2863,8 +2871,8 @@ async function loadCloudState() {
   if (!supabaseClient || !currentUser) return;
   const {data,error} = await supabaseClient.from(window.CAP_BUDGET_SUPABASE_SETUP.table).select('state').eq('user_id',currentUser.id).maybeSingle();
   if(error){ cloudMessage('Erreur de lecture Supabase : '+error.message); return; }
-  if(data && data.state){ state = normalize(data.state); localStorage.setItem(KEY, JSON.stringify(state)); }
-  else await saveCloudState();
+  if(data && data.state){ state = normalize(data.state); }
+  else { state=defaults(); renderAll(); cloudMessage('Nouveau compte : budget vierge. Les anciennes données locales restent sauvegardées sur cet appareil.'); }
 }
 async function saveCloudState() {
   if (!supabaseClient || !currentUser) return;
@@ -3641,8 +3649,13 @@ document.body.appendChild(cloudBtn);
 cloudBtn.onclick = async () => {
   if (!cloudConfigured) { addCloudUI(); return; }
   if (currentUser) {
-    await saveCloudState();
-    alert('Compte connecté : ' + (currentUser.email || currentUser.id));
+    const confirmLogout=confirm('Compte connecté : '+(currentUser.email||'')+'\nOK : se déconnecter et masquer les données du compte sur cet écran. Les sauvegardes Supabase ne seront pas supprimées.');
+    if(!confirmLogout)return;
+    clearTimeout(cloudSaveTimer);
+    const {error}=await supabaseClient.auth.signOut();
+    if(error){alert('Déconnexion impossible : '+error.message);return;}
+    currentUser=null;state=defaults();renderAll();
+    cloudMessage('Déconnecté : données du compte masquées. Sauvegardes conservées.');
   } else showAuthUI();
 };
 
