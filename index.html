@@ -1359,18 +1359,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <div class="cap-dash" id="cap-dashboard-redesign" aria-label="Tableau de bord CAP Budget">
   <aside class="cap-dash-sidebar">
     <div class="cap-dash-brand"><div class="cap-dash-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 8 6h3l2.7 7L16 6h3l-2 12h-3l.9-5-2 5h-3l-1.8-5-.8 5H6Z"/></svg></div><div><strong>CAP</strong><span>Budget, repas et voyages</span></div></div>
-    <div class="cap-sidebar-month" id="cap-sidebar-month" aria-label="Mois en cours"><span>Cap · </span><time id="cap-sidebar-month-value"></time></div>
-<script>
-/* Date locale calculée pour le badge du menu, sans donnée personnelle. */
-(function(){
- const badge=document.getElementById('cap-sidebar-month-value');
- if(!badge)return;
- const date=new Date();
- const month=new Intl.DateTimeFormat('fr-FR',{month:'long',year:'numeric'}).format(date);
- badge.textContent=month.charAt(0).toUpperCase()+month.slice(1);
- badge.dateTime=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0');
-})();
-</script>
     <nav class="cap-dash-nav" aria-label="Navigation CAP">
       <button type="button" data-dash-target="#cap-dashboard-redesign" data-dash-key="accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg><span>Accueil</span></button>
 <button type="button" data-dash-target="#tab-budget" data-dash-key="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 4h6"/><path d="M4 16h16"/><path d="M6 20h12"/></svg><span>Budget</span></button>
@@ -1383,7 +1371,18 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     
   </aside>
   <main class="cap-dash-main"><div class="cap-dash-shell">
-    <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">CAP Budget</div><div class="cap-dash-page-sub">Mon budget, simplement</div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+    <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">CAP — Budget, repas et voyages</div><div class="cap-dash-page-sub">Mon budget, simplement · <time id="cap-main-header-month"></time></div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+<script>
+/* Date uniquement dans le bandeau principal ; aucun changement des données budgétaires. */
+(function(){
+ const badge=document.getElementById('cap-main-header-month');
+ if(!badge)return;
+ const date=new Date();
+ const month=new Intl.DateTimeFormat('fr-FR',{month:'long',year:'numeric'}).format(date);
+ badge.textContent=month.charAt(0).toUpperCase()+month.slice(1);
+ badge.dateTime=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0');
+})();
+</script>
     <section class="cap-play-panel" aria-label="Météo et réussites CAP">
       <div class="cap-play-weather" role="status" aria-live="polite"><span id="cap-weather-icon" aria-hidden="true">🌤️</span><div><strong>Météo de mon budget · CAP Conseil</strong><p id="cap-weather-message">Analyse de votre marge prévisionnelle en cours…</p></div></div>
       <div class="cap-play-badge" id="cap-anti-gaspi-badge" aria-live="polite"><span aria-hidden="true">🏅</span><div><strong>Chef Anti-Gaspi</strong><p id="cap-anti-gaspi-badge-status">À débloquer : enregistrez une économie anti-gaspillage dans votre cagnotte.</p></div></div>
