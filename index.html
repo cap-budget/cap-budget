@@ -2854,93 +2854,7 @@ body:has(#tab-budget:not([hidden])) #pill {
 <p class="error" id="backup-error" role="alert"></p>
 </section>
 <!-- Guide complet : une seule copie, réservée à l'onglet Budget. -->
-<section class="card" id="cap-budget-guide" aria-labelledby="cap-budget-guide-title">
-  <details id="cap-budget-guide-details" open>
-    <summary id="cap-budget-guide-title"><strong>📖 Besoin d'aide ? Le guide pas à pas</strong><span>Ouvrir ou fermer les 12 explications simples</span></summary>
-    <div class="cap-budget-guide-content">
-      <p>Pas besoin de tout lire. Clique sur la question qui t'intéresse : une réponse courte t'explique quoi faire.</p>
-      <div class="cap-guide-start" role="note"><strong>Pour bien commencer :</strong><span>① Je note mes revenus dans Budget.</span><span>② Je prévois mes dépenses.</span><span>③ Je vérifie ce qu’il me reste.</span></div>
-      <div class="guide-grid cap-guide-panels cap-guide-twelve-grid">
-        <div class="cap-guide-column cap-guide-column-odd">
-<details class="guide-card" data-guide-rubrique="1" style="order:1" open>
-        <summary><span class="cap-guide-heading">🏠 1. À quoi sert l'accueil ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Sur l'accueil, tu vois ton budget du mois, tes projets et les boutons pour accéder aux fonctions principales.</p><p><strong>Important :</strong> les chiffres viennent de ce que tu as renseigné dans CAP. Ce n'est pas le solde de ton compte bancaire.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="3" style="order:3">
-        <summary><span class="cap-guide-heading">🎚️ 3. À quoi servent les 3 curseurs ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Dans Budget, les curseurs <strong>50 / 30 / 20</strong> permettent d'essayer une répartition de tes revenus : besoins, loisirs et épargne.</p><p>Tu peux les bouger librement : <strong>cela ne change pas tes dépenses enregistrées</strong>.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="5" style="order:5">
-        <summary><span class="cap-guide-heading">🛒 5. Comment noter un achat ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Dans Budget, ouvre <strong>Ajouter une opération</strong> ou <strong>Nouvelle dépense</strong>. Écris le montant, choisis la catégorie, puis appuie sur <strong>Ajouter</strong>.</p><p>Ton achat apparaîtra dans l'historique. Les exemples affichés ne sont pas de vrais achats enregistrés.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="7" style="order:7">
-        <summary><span class="cap-guide-heading">🎯 7. Comment économiser pour un projet ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Dans <strong>Objectifs</strong>, écris le nom du projet, son coût et la somme que tu as déjà mise de côté. Tu peux aussi ajouter une date.</p><p>CAP montre ta progression et le montant à prévoir. <strong>Aucun virement bancaire n'est effectué.</strong></p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="9" style="order:9">
-        <summary><span class="cap-guide-heading">📊 9. Comment lire les statistiques ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Dans <strong>Statistiques</strong>, les barres montrent la part de revenu prévue pour chaque poste. La partie Premium ajoute des explications et des conseils.</p><p>Ce sont des estimations à partir du budget. <strong>Stripe TEST</strong> sert uniquement à essayer le paiement : pas de débit réel.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="11" style="order:11">
-        <summary><span class="cap-guide-heading">💾 11. Comment garder mes données ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Appuie sur <strong>Exporter</strong> dans la rubrique concernée pour conserver une copie de tes données dans un fichier. Garde ce fichier en lieu sûr.</p><p><strong>Ne clique pas sur « Réinitialiser » pour rafraîchir :</strong> tu risques d'effacer des données locales. Toutes les rubriques ne se synchronisent pas encore entre appareils.</p>
-        </div>
-      </details>
-        </div>
-        <div class="cap-guide-column cap-guide-column-even">
-<details class="guide-card" data-guide-rubrique="2" style="order:2">
-        <summary><span class="cap-guide-heading">💰 2. Comment préparer mon budget ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Va dans <strong>Budget</strong>. Indique tes revenus du mois, puis le montant que tu souhaites prévoir pour le logement, les courses, les loisirs et tes autres besoins.</p><p><strong>Exemple :</strong> avec 2 500 € de revenus et 1 900 € de dépenses prévues, il reste <strong>600 € de marge prévue</strong>. Les dépenses ne sont pas forcément déjà payées.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="4" style="order:4">
-        <summary><span class="cap-guide-heading">📅 4. Combien puis-je prévoir par jour ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>CAP affiche parfois une somme moyenne par jour ou par semaine pour t'aider à t'organiser.</p><p><strong>Attention :</strong> ce n'est pas une somme garantie. Pense aux factures qui restent à payer.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="6" style="order:6">
-        <summary><span class="cap-guide-heading">🔄 6. Une charge prévue, c'est payé ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p><strong>Non.</strong> Une charge fixe (comme Netflix ou le loyer) est une somme prévue chaque mois. Elle n'est pas forcément déjà payée.</p><p>Une <strong>dépense réelle</strong> est un paiement que tu as enregistré. CAP doit éviter de compter deux fois la même somme.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="8" style="order:8">
-        <summary><span class="cap-guide-heading">🧠 8. Comment essayer une dépense ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Avec <strong>CAP Conseil</strong>, tu peux comprendre ton budget. Avec <strong>« Et si ? »</strong>, essaie par exemple un achat à 50 €.</p><p>CAP te montre l'effet possible sur ta marge, <strong>sans enregistrer cet achat</strong>.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="10" style="order:10">
-        <summary><span class="cap-guide-heading">🍽️ 10. Où organiser mes repas ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Ouvre <strong>Repas</strong> pour préparer tes menus de la semaine.</p><p>Les courses prévues dans le budget ne deviennent des achats réels que lorsque tu les enregistres comme dépenses.</p>
-        </div>
-      </details>
-<details class="guide-card" data-guide-rubrique="12" style="order:12" open>
-        <summary><span class="cap-guide-heading">❓ 12. Pourquoi les chiffres diffèrent-ils ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Le budget principal utilise les revenus et les enveloppes prévus. Le cadran de dépenses possède son propre calcul : les deux soldes ne doivent jamais être additionnés.</p><p>Lorsque les revenus du budget principal sont enregistrés sur cet appareil, CAP les reprend automatiquement dans le cadran, en conservant son ancien salaire en sauvegarde. Les charges prévues, achats réellement payés et économies restent séparés pour éviter de compter deux fois la même dépense.</p><p><strong>À vérifier :</strong> un abonnement prévu n'est pas automatiquement un achat payé. Aucun accès bancaire n'est effectué.</p>
-        </div>
-      </details>
-        </div>
-      </div>
-    </div>
-  </details>
-</section>
+<section class="card" id="cap-budget-guide" aria-labelledby="cap-budget-guide-title"><div class="cap-help-header"><span class="cap-help-book" aria-hidden="true">📖</span><div><h2 id="cap-budget-guide-title">Besoin d’aide ? Le guide pas à pas</h2><p>12 réponses simples pour bien utiliser CAP Budget.</p></div></div><div class="cap-help-grid"><details class="cap-help-card"><summary><span class="cap-help-num">1</span><span class="cap-help-icon" aria-hidden="true">🏠</span><span class="cap-help-copy"><strong>Comment saisir mes revenus ?</strong><span>Ajoutez votre salaire et vos autres revenus pour calculer votre budget.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Dans la rubrique Budget, renseignez vos revenus mensuels. Vérifiez le total avant d'enregistrer. Le montant affiché dépend des données que vous avez saisies.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">2</span><span class="cap-help-icon" aria-hidden="true">👛</span><span class="cap-help-copy"><strong>Comment créer mes enveloppes ?</strong><span>Répartissez vos dépenses par catégories (logement, alimentation, transport…).</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Prévoyez une somme pour chaque poste de dépense. Une enveloppe est un montant prévu : ce n'est pas encore une dépense payée.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">3</span><span class="cap-help-icon" aria-hidden="true">✏️</span><span class="cap-help-copy"><strong>Comment ajouter une dépense ?</strong><span>Enregistrez vos dépenses pour suivre votre budget en temps réel.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Ouvrez Ajouter une opération, saisissez le montant, choisissez une catégorie puis validez. Vérifiez ensuite l'historique des opérations.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">4</span><span class="cap-help-icon" aria-hidden="true">📊</span><span class="cap-help-copy"><strong>Comment consulter mes statistiques ?</strong><span>Visualisez la répartition de vos dépenses avec des graphiques simples.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Dans Statistiques, comparez les parts de votre budget. Les prévisions et les opérations réellement enregistrées sont présentées séparément.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">5</span><span class="cap-help-icon" aria-hidden="true">🎯</span><span class="cap-help-copy"><strong>Comment créer un objectif ?</strong><span>Ajoutez un projet (voyage, achat…) et suivez votre progression pas à pas.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Ouvrez Objectifs, indiquez un nom, le montant à atteindre, l'épargne déjà constituée et éventuellement une date cible.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">6</span><span class="cap-help-icon" aria-hidden="true">🧮</span><span class="cap-help-copy"><strong>Comment utiliser le simulateur ?</strong><span>Testez l’impact d’une dépense sur votre budget avant de vous décider.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Dans Et si ?, saisissez un montant et lancez la simulation. Une simulation n'enregistre aucune dépense réelle.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">7</span><span class="cap-help-icon" aria-hidden="true">💡</span><span class="cap-help-copy"><strong>Comment lire les conseils CAP ?</strong><span>Obtenez des recommandations personnalisées pour améliorer votre budget.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>CAP Conseil utilise les montants de votre budget. Ses recommandations sont indicatives : vérifiez les données et vos dépenses essentielles avant de décider.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">8</span><span class="cap-help-icon" aria-hidden="true">👑</span><span class="cap-help-copy"><strong>Quelles sont les fonctionnalités Premium ?</strong><span>Découvrez les avantages de l’offre Premium et comment y accéder.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>La version Premium TEST propose notamment une analyse approfondie. Les paiements réels sont désactivés ; un accès TEST actif ne nécessite pas de nouveau paiement.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">9</span><span class="cap-help-icon" aria-hidden="true">☁️</span><span class="cap-help-copy"><strong>Comment sauvegarder mes données ?</strong><span>Exportez votre budget et vos objectifs pour les conserver en sécurité.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Dans Données, utilisez Exporter budget et objectifs. Conservez le fichier JSON en lieu sûr. Les données locales ne se synchronisent pas automatiquement entre appareils.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">10</span><span class="cap-help-icon" aria-hidden="true">🔄</span><span class="cap-help-copy"><strong>Comment réinitialiser mon budget ?</strong><span>Remettez vos données à zéro en comprenant ce qui sera supprimé.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Exportez d'abord une sauvegarde. Lisez la confirmation du bouton Réinitialiser budget : certaines données d'autres modules peuvent rester enregistrées.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">11</span><span class="cap-help-icon" aria-hidden="true">❔</span><span class="cap-help-copy"><strong>Que faire en cas de problème ?</strong><span>Trouvez des solutions aux questions les plus fréquentes.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Actualisez la page puis vérifiez votre connexion et vos données locales. Si un chiffre diffère entre deux modules, vérifiez s'il s'agit de prévisions ou de dépenses réelles. N'effacez pas vos données pour essayer de corriger l'affichage.</p></div></details><details class="cap-help-card"><summary><span class="cap-help-num">12</span><span class="cap-help-icon" aria-hidden="true">✉️</span><span class="cap-help-copy"><strong>Comment nous contacter ?</strong><span>Une question ? Une suggestion ? Nous sommes là pour vous aider.</span></span><span class="cap-help-arrow" aria-hidden="true">›</span></summary><div class="cap-help-answer"><strong>Pas à pas</strong><p>Pour signaler un problème, notez la rubrique concernée, ce qui s'affiche et ce que vous attendiez. Aucun contact direct n'est encore indiqué dans ce guide.</p></div></details></div></section>
 </section>
 
 <!-- REPAS -->
@@ -5166,7 +5080,33 @@ render();
       '<div class="kpi">Repère par semaine<strong>'+escapeHtml(get('v6-week'))+'</strong></div></div>'+
       (stats?'<h2>Répartition prévue</h2><ul>'+stats+'</ul>':'')+
       '<p class="note">Chiffres indicatifs du budget prévisionnel, pas un solde bancaire. Ne pas additionner au cadran « Reste à vivre ».</p>'+
-      '</body></html>';
+      '
+<style id="cap-help-reference-design">
+#cap-budget-guide{background:#effaf0!important;border:3px solid #78d894!important;border-radius:30px!important;padding:22px!important;color:#103d2d!important;box-shadow:none!important}
+#cap-budget-guide .cap-help-header{display:flex;align-items:center;gap:20px;margin-bottom:28px}
+#cap-budget-guide .cap-help-book{width:70px;height:70px;display:grid;place-items:center;flex:none;background:linear-gradient(140deg,#0bbd71,#006e4b);border-radius:19px;font-size:36px}
+#cap-budget-guide .cap-help-header h2{font-size:clamp(25px,3vw,36px)!important;color:#07563b!important;margin:0 0 5px!important;line-height:1.2}
+#cap-budget-guide .cap-help-header p{font-size:clamp(16px,2vw,23px)!important;margin:0!important;color:#283954!important}
+#cap-budget-guide .cap-help-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
+#cap-budget-guide .cap-help-card{min-width:0!important;background:linear-gradient(135deg,#fff,#f8fbf9)!important;border:1px solid #c7efda!important;border-radius:17px!important;overflow:hidden!important;margin:0!important;box-shadow:none!important;color:#15233b!important}
+#cap-budget-guide .cap-help-card summary{list-style:none!important;cursor:pointer!important;display:grid!important;grid-template-columns:40px 43px minmax(0,1fr) 14px!important;grid-template-rows:auto 1fr!important;align-items:start!important;gap:12px 8px!important;padding:18px!important;min-height:170px!important;background:transparent!important;color:#15233b!important}
+#cap-budget-guide .cap-help-card summary::-webkit-details-marker{display:none}
+#cap-budget-guide .cap-help-num{width:39px;height:39px;display:grid;place-items:center;background:#d9fbe4;border-radius:50%;font-size:21px;font-weight:800;color:#09653a}
+#cap-budget-guide .cap-help-card:nth-child(4n+2) .cap-help-num{background:#dff2ff;color:#15458d}
+#cap-budget-guide .cap-help-card:nth-child(4n+3) .cap-help-num{background:#f2e5ff;color:#6728a0}
+#cap-budget-guide .cap-help-card:nth-child(4n+4) .cap-help-num{background:#ffe7e7;color:#b22b2b}
+#cap-budget-guide .cap-help-icon{font-size:31px;line-height:1.2}
+#cap-budget-guide .cap-help-copy{display:contents!important}
+#cap-budget-guide .cap-help-copy strong{grid-column:3;grid-row:1;font-size:clamp(15px,1.55vw,19px);line-height:1.32;color:#17243d}
+#cap-budget-guide .cap-help-copy>span{grid-column:1/4;grid-row:2;font-size:clamp(14px,1.5vw,18px);line-height:1.45;color:#46536a}
+#cap-budget-guide .cap-help-arrow{grid-column:4;grid-row:1/3;align-self:center;font-size:32px;font-weight:300;color:#15233b}
+#cap-budget-guide .cap-help-card[open] .cap-help-arrow{transform:rotate(90deg)}
+#cap-budget-guide .cap-help-answer{border-top:1px solid #c7efda;padding:15px 18px 20px;background:#fff;font-size:16px;line-height:1.6;color:#233c37}
+#cap-budget-guide .cap-help-answer p{margin:5px 0 0}
+@media(max-width:850px){#cap-budget-guide .cap-help-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:560px){#cap-budget-guide{padding:14px!important;border-radius:20px!important}#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important}#cap-budget-guide .cap-help-header{gap:12px}#cap-budget-guide .cap-help-book{width:54px;height:54px;font-size:28px}#cap-budget-guide .cap-help-card summary{min-height:140px!important}}
+</style>
+</body></html>';
   }
   document.addEventListener('click',event=>{
     const button=event.target.closest('#cap-frigo-print');if(!button)return;
