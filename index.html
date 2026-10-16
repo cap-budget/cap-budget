@@ -1322,7 +1322,7 @@ body{font-size:19px!important;line-height:1.55}
 <style id="cap-simple-layout-20261016">
 #cap-home-simple{display:none;color:#effcf6;max-width:900px;margin:auto;padding:12px 0 28px}
 body.cap-simple-home #cap-home-simple{display:block}
-body.cap-simple-home #cap-dashboard-redesign .cap-dash-shell > :not(#cap-home-simple){display:none!important}
+body.cap-simple-home #cap-dashboard-redesign .cap-dash-shell > :not(#cap-home-simple):not(.cap-dash-topbar):not(.cap-dash-balance-first){display:none!important}
 body.cap-simple-home .app,body.cap-simple-home #cap-eco-v2{display:none!important}
 body.cap-simple-home #cap-dashboard-redesign .cap-dash-main{min-height:100dvh}
 #cap-home-simple h1{font-size:clamp(24px,4vw,33px);margin:6px 0 22px;font-weight:800}
@@ -1404,7 +1404,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 </script>
 <div class="cap-dash" id="cap-dashboard-redesign" aria-label="Tableau de bord CAP Budget">
   <aside class="cap-dash-sidebar">
-    <div class="cap-dash-brand"><div class="cap-dash-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 8 6h3l2.7 7L16 6h3l-2 12h-3l.9-5-2 5h-3l-1.8-5-.8 5H6Z"/></svg></div><div><strong>CAP</strong><span>Budget, repas et voyages</span></div></div>
+    <div class="cap-dash-brand"><div class="cap-dash-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 8 6h3l2.7 7L16 6h3l-2 12h-3l.9-5-2 5h-3l-1.8-5-.8 5H6Z"/></svg></div><div><strong>CAP</strong><span>Mes espaces</span></div></div>
     <nav class="cap-dash-nav" aria-label="Navigation CAP">
       <button type="button" data-dash-target="#cap-dashboard-redesign" data-dash-key="accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg><span>Accueil</span></button>
 <button type="button" data-dash-target="#tab-budget" data-dash-key="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 4h6"/><path d="M4 16h16"/><path d="M6 20h12"/></svg><span>Budget</span></button>
@@ -1416,11 +1416,20 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     </nav>
     
   </aside>
-  <main class="cap-dash-main"><div class="cap-dash-shell"><section id="cap-home-simple" aria-label="Accueil">
-<h1>Mon accueil</h1>
+  <main class="cap-dash-main"><div class="cap-dash-shell">
+    <header class="cap-dash-topbar"><div><h1 class="cap-dash-page-title">CAP — Budget, repas et voyages</h1><div class="cap-dash-page-sub">Mon budget, simplement · <time id="cap-main-header-month"></time></div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+    <section class="cap-dash-balance-first" aria-label="Résumé du budget disponible">
+      <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Solde disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-daily" id="dash-daily-repere" role="status">Repère journalier en cours de calcul…</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
+      <div class="cap-dash-balance-metrics">
+        <div class="cap-dash-balance-metric"><span>Revenus mensuels</span><strong id="dash-income-total">2 500,00 €</strong></div>
+        <div class="cap-dash-balance-metric"><span>Budget prévu / engagé</span><strong id="dash-planned-total">1 900,00 €</strong></div>
+      </div>
+    </section>
+<section id="cap-home-simple" aria-label="Accueil">
+<h2>Mon accueil</h2>
 <figure class="cap-home-quote" aria-label="Citation motivante de Benjamin Franklin"><blockquote>« Investir dans le savoir rapporte les meilleurs intérêts. »</blockquote><figcaption>— Benjamin Franklin</figcaption></figure>
 <div class="cap-home-duo">
-<article class="cap-home-card" aria-labelledby="cap-home-solde-title">
+<article class="cap-home-card" id="cap-home-balance-legacy" aria-labelledby="cap-home-solde-title">
 <h2 id="cap-home-solde-title">💚 Mon solde</h2>
 <div class="cap-home-dial" role="img" aria-label="Solde prévisionnel">
 <svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="87" fill="none" stroke="#ffffff23" stroke-width="15"/><circle id="cap-home-progress" cx="110" cy="110" r="87" fill="none" stroke="#34d399" stroke-width="15" stroke-linecap="round" stroke-dasharray="546.64" stroke-dashoffset="546.64" transform="rotate(-90 110 110)"/></svg>
@@ -1433,7 +1442,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <strong id="cap-home-win-name">À venir !</strong><p id="cap-home-win-detail">Chaque économie est une belle avancée.</p>
 </article>
 </div></section>
-    <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">CAP — Budget, repas et voyages</div><div class="cap-dash-page-sub">Mon budget, simplement · <time id="cap-main-header-month"></time></div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
+
 <script>
 /* Date uniquement dans le bandeau principal ; aucun changement des données budgétaires. */
 (function(){
@@ -1465,13 +1474,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
         <p>Réserve virtuelle, sans virement bancaire.</p>
       </article>
     </section>
-    <section class="cap-dash-balance-first" aria-label="Résumé du budget disponible">
-      <article class="cap-dash-card cap-dash-margin"><div class="cap-dash-margin-top"><div class="cap-dash-margin-label">Solde disponible</div><div class="cap-dash-positive"><i></i><span id="dash-margin-state">Positive</span></div></div><div class="cap-dash-margin-value" id="dash-margin">600,00 €</div><div class="cap-dash-daily" id="dash-daily-repere" role="status">Repère journalier en cours de calcul…</div><div class="cap-dash-margin-note" id="dash-margin-note">Après les montants renseignés dans ton budget.</div><button class="cap-dash-margin-btn" data-dash-action="budget">Voir mon budget</button></article>
-      <div class="cap-dash-balance-metrics">
-        <div class="cap-dash-balance-metric"><span>Revenus mensuels</span><strong id="dash-income-total">2 500,00 €</strong></div>
-        <div class="cap-dash-balance-metric"><span>Budget prévu / engagé</span><strong id="dash-planned-total">1 900,00 €</strong></div>
-      </div>
-    </section>
+
     <div class="cap-dash-layout">
       <section class="cap-dash-left">
           <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Actions rapides</h2><span>Gagne du temps</span></div><div class="cap-dash-quick-grid">
@@ -1586,17 +1589,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <div class="pill" id="pill"></div>
 </header>
 
-<section class="cap-hero" aria-label="Présentation CAP Budget">
-  <div class="cap-hero-inner">
-    <h1>Votre budget, enfin lisible.</h1>
-    <p>CAP Budget vous aide à comprendre ce qui entre, ce qui sort et ce qu’il vous reste — avec vos données conservées directement sur votre appareil.</p>
-    <div class="cap-kpis">
-      <div class="cap-kpi"><small>Objectif</small><strong>Maîtriser</strong></div>      <div class="cap-kpi"><small>Suivi</small><strong>Simple</strong></div>
-      <div class="cap-kpi"><small>Décisions</small><strong>Claires</strong></div>
-      <div class="cap-kpi"><small>Données</small><strong>Locales</strong></div>
-    </div>
-  </div>
-</section>
+
 
 
 <section class="cap-hero" aria-label="Accès rapide">
@@ -1609,6 +1602,18 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 </section>
 
 
+<details class="cap-commercial-details" id="cap-commercial-presentation"><summary>Découvrir CAP Budget et les offres Premium</summary><div class="cap-commercial-inside">
+<section class="cap-hero" aria-label="Présentation CAP Budget">
+  <div class="cap-hero-inner">
+    <h1>Votre budget, enfin lisible.</h1>
+    <p>CAP Budget vous aide à comprendre ce qui entre, ce qui sort et ce qu’il vous reste — avec vos données conservées directement sur votre appareil.</p>
+    <div class="cap-kpis">
+      <div class="cap-kpi"><small>Objectif</small><strong>Maîtriser</strong></div>      <div class="cap-kpi"><small>Suivi</small><strong>Simple</strong></div>
+      <div class="cap-kpi"><small>Décisions</small><strong>Claires</strong></div>
+      <div class="cap-kpi"><small>Données</small><strong>Locales</strong></div>
+    </div>
+  </div>
+</section>
 <section class="cap-premium-grid" aria-label="Présentation premium">
   <article class="cap-premium-card">
     <div class="cap-premium-label">Repas</div>
@@ -1690,6 +1695,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   </article>
 </section>
 
+</div></details>
 <nav class="cap-mobile-bar" aria-label="Navigation rapide">
   <button type="button" onclick="document.getElementById('nav-budget')?.click()">Budget</button>
   <button type="button" onclick="document.getElementById('nav-repas')?.click()">Repas</button>
@@ -2037,16 +2043,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <section class="cap-save-panel"><h4>👻 Abonnements fantômes</h4><label for="cap-ghost-name">Abonnement peu ou pas utilisé</label><input id="cap-ghost-name" maxlength="90" placeholder="Ex. Streaming, salle de sport"><label for="cap-ghost-price">Coût mensuel (€)</label><input id="cap-ghost-price" type="number" min="0.01" step="0.01" placeholder="13,75"><button type="button" id="cap-ghost-add">Ajouter à vérifier</button><div id="cap-ghost-list"></div><p><strong>Économie annuelle potentielle : <span id="cap-ghost-total">0,00 €</span></strong></p><p class="cap-save-muted">Simulation si les abonnements listés sont résiliés. Aucune résiliation automatique, aucun montant ajouté à la réserve.</p></section>
 </div><p id="cap-savings-status" role="status" aria-live="polite" class="cap-save-muted"></p>
 </article>
-<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
-      <span class="cap-v6-badge">💳 Offre Premium</span>
-      <h3 id="cap-premium-pricing-title" style="margin-top:8px">Choisissez votre formule Premium</h3>
-      <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
-      <div class="cap-v6-plan" aria-label="Tarifs Premium">
-        <div><b>Mensuel — 5,99 € TTC / mois</b><span>7 jours d’essai gratuit, puis 5,99 € TTC par mois sauf résiliation avant la fin de l’essai. Paiement récurrent après l’essai.</span></div>
-        <div><b>Pass annuel — 49,99 € TTC / an</b><span>12 mois d’accès Premium pour un paiement unique de 49,99 € TTC. Accès valable 1 an, sans renouvellement automatique.</span></div>
-      </div>
-      <div class="cap-v6-note">Tarifs affichés pour information. Les nouveaux paiements seront activés seulement après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé.</div>
-    </article>
+
 
     <article class="cap-v6-card">
       <span class="cap-v6-badge">💾 Données</span>
@@ -2065,6 +2062,18 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 
   </div>
 </section>
+<details class="cap-commercial-details cap-commercial-pricing" id="cap-premium-tarifs"><summary>💳 Informations Premium et tarifs</summary><div class="cap-commercial-inside">
+<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
+      <span class="cap-v6-badge">💳 Offre Premium</span>
+      <h3 id="cap-premium-pricing-title" style="margin-top:8px">Choisissez votre formule Premium</h3>
+      <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
+      <div class="cap-v6-plan" aria-label="Tarifs Premium">
+        <div><b>Mensuel — 5,99 € TTC / mois</b><span>7 jours d’essai gratuit, puis 5,99 € TTC par mois sauf résiliation avant la fin de l’essai. Paiement récurrent après l’essai.</span></div>
+        <div><b>Pass annuel — 49,99 € TTC / an</b><span>12 mois d’accès Premium pour un paiement unique de 49,99 € TTC. Accès valable 1 an, sans renouvellement automatique.</span></div>
+      </div>
+      <div class="cap-v6-note">Tarifs affichés pour information. Les nouveaux paiements seront activés seulement après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé.</div>
+    </article>
+</div></details>
 
 <script>
 (function(){
@@ -5533,6 +5542,53 @@ syncIncome();renderSliders();updateHome();showHome(true);
  #cap-eco-v2 .eco-card .eco-body{padding:17px!important}
  #cap-eco-v2 .eco-robot{padding:19px!important}
  #cap-eco-v2 .eco-full{grid-column:1!important}
+}
+</style>
+
+<style id="cap-visual-cleanup-20261016">
+/* Nettoyage de la présentation : scripts, identifiants et données inchangés. */
+#cap-dashboard-redesign .cap-dash-topbar{margin-bottom:16px!important}
+#cap-dashboard-redesign .cap-dash-page-title{font-size:clamp(21px,2.8vw,29px)!important;line-height:1.25!important;margin:0!important;font-weight:850!important;letter-spacing:-.025em}
+#cap-dashboard-redesign .cap-dash-balance-first{margin:0 0 22px!important;gap:12px!important}
+#cap-dashboard-redesign .cap-dash-balance-first .cap-dash-margin{border:2px solid #359b7d!important;border-radius:21px!important;box-shadow:0 7px 24px rgba(17,47,54,.11)!important;background:linear-gradient(135deg,#163b43,#163045)!important;color:#fff!important}
+#cap-dashboard-redesign .cap-dash-balance-first .cap-dash-margin-label,
+#cap-dashboard-redesign .cap-dash-balance-first .cap-dash-margin-value{color:#fff!important}
+#cap-dashboard-redesign .cap-dash-balance-first .cap-dash-positive{color:#d1fae5!important}
+#cap-dashboard-redesign #cap-home-balance-legacy{display:none!important}
+#cap-dashboard-redesign #cap-home-simple .cap-home-duo{grid-template-columns:minmax(0,1fr)!important}
+#cap-dashboard-redesign #cap-home-simple{max-width:none!important;margin:0!important;padding:8px 0 24px!important}
+#cap-dashboard-redesign #cap-home-simple .cap-home-win{max-width:none!important;text-align:left;align-items:flex-start;padding:22px!important}
+#cap-dashboard-redesign #cap-home-simple .cap-home-emoji{font-size:38px!important;margin:0 0 10px!important}
+.cap-simple-summary > div:has(#cap-simple-margin),
+.cap-v6-kpis > .cap-v6-kpi:has(#v6-remain),
+.cap-dashboard .cap-balance-card{display:none!important}
+.cap-dashboard .cap-dashboard-grid{grid-template-columns:minmax(0,1fr)!important}
+.cap-v6-kpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+.cap-commercial-details{box-sizing:border-box;max-width:1180px;margin:20px auto!important;padding:0!important;border:1px solid #63858c!important;border-radius:18px!important;overflow:hidden;background:#142c3b!important;color:#fff!important}
+.cap-commercial-details>summary{display:list-item;cursor:pointer;padding:19px 22px!important;min-height:28px;font-size:clamp(16px,2vw,19px)!important;font-weight:800!important;line-height:1.5;color:#fff!important}
+.cap-commercial-details>summary::marker{color:#7dd3aa}
+.cap-commercial-details>summary:focus-visible{outline:3px solid #34d399;outline-offset:-4px}
+.cap-commercial-details .cap-commercial-inside{padding:16px!important;border-top:1px solid #527d82}
+.cap-commercial-details .cap-commercial-inside>.cap-premium-grid,
+.cap-commercial-details .cap-commercial-inside>.cap-product-grid{margin-left:0!important;margin-right:0!important;max-width:none!important}
+.cap-commercial-pricing{max-width:1100px!important;margin:26px auto!important}
+.cap-commercial-pricing #pricing{margin:0!important;max-width:none!important}
+#cap-budget-guide .cap-guide-item,
+#cap-savings-module .cap-save-panel,
+#cap-eco-v2 .eco-card,
+#cap-eco-v2 #eco-paulaider{outline-offset:2px}
+#cap-savings-module .cap-save-panel,
+#cap-eco-v2 .eco-card{min-width:0!important;overflow-wrap:anywhere}
+#cap-savings-module .cap-save-panel button,
+#cap-eco-v2 .eco-card button,
+#cap-eco-v2 #eco-paulaider button{min-height:44px;white-space:normal}
+@media(max-width:760px){
+#cap-dashboard-redesign .cap-dash-topbar{padding:15px 6px!important}
+#cap-dashboard-redesign .cap-dash-balance-first .cap-dash-margin{padding:18px!important}
+#cap-dashboard-redesign .cap-dash-balance-metrics{grid-template-columns:1fr!important}
+.cap-v6-kpis{grid-template-columns:1fr!important}
+.cap-commercial-details{margin:16px 8px!important}
+.cap-commercial-details .cap-commercial-inside{padding:12px!important}
 }
 </style>
 </body></html>
