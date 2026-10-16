@@ -1326,6 +1326,9 @@ body.cap-simple-home #cap-dashboard-redesign .cap-dash-shell > :not(#cap-home-si
 body.cap-simple-home .app,body.cap-simple-home #cap-eco-v2{display:none!important}
 body.cap-simple-home #cap-dashboard-redesign .cap-dash-main{min-height:100dvh}
 #cap-home-simple h1{font-size:clamp(24px,4vw,33px);margin:6px 0 22px;font-weight:800}
+#cap-home-simple .cap-home-quote{margin:0 0 22px;padding:18px 22px;border:1px solid #528779;border-left:5px solid #34d399;border-radius:17px;background:linear-gradient(130deg,#173749,#102635);color:#f4fff9}
+#cap-home-simple .cap-home-quote blockquote{margin:0;font-size:clamp(17px,2.4vw,22px);line-height:1.5;font-weight:750}
+#cap-home-simple .cap-home-quote figcaption{margin-top:8px;color:#a7f3d0;font-size:14px}
 .cap-home-duo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .cap-home-card{background:linear-gradient(145deg,#173749,#102635);border:1px solid #528779;color:#f7fffd;border-radius:24px;padding:clamp(16px,3vw,28px);text-align:center;min-width:0}
 .cap-home-card h2{font-size:clamp(19px,3vw,24px);margin:0 0 15px;color:#fff}
@@ -1340,7 +1343,7 @@ body.cap-simple-home #cap-dashboard-redesign .cap-dash-main{min-height:100dvh}
 .cap-home-win{display:flex;flex-direction:column;justify-content:center;align-items:center}
 .cap-home-emoji{font-size:72px;margin-bottom:18px}
 #cap-home-win-name{font-size:clamp(20px,3vw,28px);color:#a7f3d0;overflow-wrap:anywhere}
-#cap-budget-allocation{display:grid;gap:18px;margin:0 0 24px;font-size:16px;color:#fff}
+#cap-budget-allocation{display:grid;gap:18px;margin:0 0 24px;scroll-margin-top:14px;font-size:16px;color:#fff}
 #cap-budget-allocation .cap-alloc-panel{border:1px solid #528779;border-radius:22px;padding:clamp(18px,3vw,26px);background:linear-gradient(145deg,#173749,#102635)}
 #cap-budget-allocation h2{font-size:clamp(21px,3vw,27px);line-height:1.3;color:#fff;margin:0 0 12px}
 #cap-budget-allocation p{color:#d3e5e0;line-height:1.6;margin:0 0 15px}
@@ -1415,6 +1418,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   </aside>
   <main class="cap-dash-main"><div class="cap-dash-shell"><section id="cap-home-simple" aria-label="Accueil">
 <h1>Mon accueil</h1>
+<figure class="cap-home-quote" aria-label="Citation motivante de Benjamin Franklin"><blockquote>« Investir dans le savoir rapporte les meilleurs intérêts. »</blockquote><figcaption>— Benjamin Franklin</figcaption></figure>
 <div class="cap-home-duo">
 <article class="cap-home-card" aria-labelledby="cap-home-solde-title">
 <h2 id="cap-home-solde-title">💚 Mon solde</h2>
@@ -1552,7 +1556,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     '<button type="button" data-dash-target="#cap-guide-complet" data-dash-key="guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H4z"/><path d="M14 7a3 3 0 0 1 3-3h3v13h-3a3 3 0 0 0-3 3"/></svg><span>📖 Guide complet</span></button>',
     '<button type="button" data-dash-target="#v6-export" data-dash-key="param"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h9"/><path d="M17 18h3"/><circle cx="15" cy="18" r="2"/></svg><span>Paramètres</span></button>'
   ].join('');
-  document.querySelectorAll('[data-dash-target]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cap-dash-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const t=btn.dataset.dashTarget;if(t==='#cap-dashboard-redesign')window.scrollTo({top:0,behavior:'smooth'});else if(t==='#v6-goals')el('v6-goals')?.scrollIntoView({behavior:'smooth',block:'start'});else if(t==='#v6-advice'||t==='#v6-export')el(t.slice(1))?.scrollIntoView({behavior:'smooth',block:'center'});else{const map={'#tab-budget':'#nav-budget','#tab-repas':'#nav-repas','#tab-voyages':'#nav-voyages','#tab-stats':'#nav-stats'};const q=document.querySelector(map[t]||t);const dest=document.querySelector(t);if(q)q.click();setTimeout(()=>dest?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}));
+  document.querySelectorAll('[data-dash-target]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cap-dash-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const t=btn.dataset.dashTarget;if(t==='#cap-dashboard-redesign')window.scrollTo({top:0,behavior:'smooth'});else if(t==='#v6-goals')el('v6-goals')?.scrollIntoView({behavior:'smooth',block:'start'});else if(t==='#v6-advice'||t==='#v6-export')el(t.slice(1))?.scrollIntoView({behavior:'smooth',block:'center'});else{const map={'#tab-budget':'#nav-budget','#tab-repas':'#nav-repas','#tab-voyages':'#nav-voyages','#tab-stats':'#nav-stats'};const q=document.querySelector(map[t]||t);const dest=document.querySelector(t==='#tab-budget'?'#cap-budget-allocation':t);if(q)q.click();setTimeout(()=>dest?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}));
   document.querySelector('.cap-dash-nav button[data-dash-key="accueil"]')?.classList.add('active');
   document.querySelectorAll('[data-dash-action]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.dashAction;if(a==='expense'){el('nav-budget')?.click();setTimeout(()=>{el('f-amount')?.focus();el('f-amount')?.scrollIntoView({behavior:'smooth',block:'center'})},100)}if(a==='goal'){el('v6-goal-name')?.scrollIntoView({behavior:'smooth',block:'center'});el('v6-goal-name')?.focus()}if(a==='analyze'){el('v6-refresh')?.click();el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'})}if(a==='simulate'){el('v7-sim-amount')?.scrollIntoView({behavior:'smooth',block:'center'});el('v7-sim-amount')?.focus()}if(a==='stats'){el('nav-stats')?.click();setTimeout(()=>el('tab-stats')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}if(a==='advice')el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'});if(a==='budget'){el('nav-budget')?.click();setTimeout(()=>el('tab-budget')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}}));
   window.addEventListener('capBudgetChanged',render);window.addEventListener('storage',render);render();
@@ -4469,34 +4473,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     <button type="button" id="cw-dashboard-access" class="onboarding-btn btn-primary" style="display:block;width:100%;min-height:54px;margin-top:18px;font-size:17px;font-weight:800">🚀 Accéder à mon tableau de bord</button>
   </div>
 </section>
-<script>
-/* Réserve mensuelle : ventilation informative de l'enveloppe Projets, jamais une dépense supplémentaire. */
-(function(){
- const storageKey='cap_investment_reserve_v1';
- const box=document.createElement('aside');
- box.id='cap-investment-summary';
- box.className='cap-reserve-compact';
- box.innerHTML='<form id="cap-reserve-form" aria-label="Réserve investissement et épargne">'+
- '<label for="cap-reserve-monthly">📈 Réserve investissement / épargne (€)</label>'+
- '<div class="cap-reserve-controls"><input id="cap-reserve-monthly" name="reserve" type="number" min="0" max="99999999" step="0.01" inputmode="decimal" required aria-describedby="cap-reserve-result">'+
- '<button type="submit">Enregistrer</button></div></form>'+
- '<p id="cap-reserve-result" role="status" aria-live="polite" class="cap-reserve-status"></p>';
- const field=box.querySelector('#cap-reserve-monthly');
- const result=box.querySelector('#cap-reserve-result');
- const format=v=>v.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
- function read(){try{const data=JSON.parse(localStorage.getItem(storageKey)||'null');return Number.isFinite(Number(data?.monthly))&&Number(data.monthly)>=0?Number(data.monthly):0;}catch(_){return 0;}}
- function render(){const amount=read();field.value=String(amount);result.textContent='Réserve enregistrée : '+format(amount)+' / mois';}
- box.querySelector('form').addEventListener('submit',event=>{
-   event.preventDefault();
-   const value=Number(field.value);
-   if(!Number.isFinite(value)||value<0||value>99999999){result.textContent='Indiquez un montant valide, positif ou égal à zéro.';return;}
-   try{localStorage.setItem(storageKey,JSON.stringify({monthly:Math.round(value*100)/100,updated_at:new Date().toISOString()}));render();result.textContent+=' Enregistrée sur cet appareil.';}
-   catch(_){result.textContent='Impossible de sauvegarder sur cet appareil. Vérifiez les paramètres de stockage.';}
- });
- function mount(){if(box.isConnected)return;const target=document.querySelector('.cap-dash')||document.querySelector('.cap-v6')||document.getElementById('pricing');if(target?.parentNode)target.parentNode.insertBefore(box,target);else document.body.appendChild(box);render();}
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount,{once:true});else mount();
-})();
-</script>
+<!-- Le formulaire « Réserve investissement / épargne » a été supprimé de l'interface. Les préférences déjà enregistrées ne sont pas effacées. -->
 <style>
 /* CAP first-launch wizard: only covers the app while the welcome assistant is active. */
 body.cap-wizard-active {overflow:hidden!important;}
@@ -4535,7 +4512,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
 <div class="cap-guide-grid">
 <article><h3>🏠 1. Tableau de bord</h3><p>L'accueil réunit les revenus, les dépenses prévues, la marge budgétaire, les objectifs et les raccourcis. Les montants sont des repères issus des informations saisies dans l'application, pas le solde de votre compte bancaire.</p><p>Utilisez le menu pour passer à Budget, Repas, Voyage, Objectifs, Conseil et Paramètres.</p></article>
 <article><h3>💰 2. Revenus et enveloppes</h3><p>Renseignez vos revenus mensuels, puis les sommes que vous souhaitez réserver aux charges fixes, courses et repas, loisirs, transports, autres dépenses et projets. Chaque enveloppe représente un montant <strong>prévu</strong>, pas nécessairement déjà dépensé.</p><p><strong>Marge prévisionnelle = revenus – total des enveloppes prévues.</strong> Par exemple, 2 500 € de revenus moins 1 900 € prévus donnent 600 € de marge. Ne soustrayez pas une deuxième fois une dépense déjà comprise dans son enveloppe.</p></article>
-<article><h3>📈 3. Réserve investissement / épargne</h3><p>La réserve est une somme que vous envisagez de consacrer chaque mois à l'épargne ou à un futur investissement. Dans le moteur actuel, elle est <strong>comprise dans l'enveloppe « Projets / voyages »</strong> et n'est pas déduite une seconde fois.</p><p>Il s'agit d'une intention budgétaire : CAP ne transfère pas d'argent et ne réalise aucun investissement automatiquement.</p></article>
+<article><h3>🎚️ 3. Répartition 50 / 30 / 20</h3><p>Dans Budget, commencez par enregistrer votre revenu mensuel, puis utilisez les trois curseurs pour simuler la répartition entre charges, loisirs et épargne. Les pourcentages sont indicatifs et ne modifient pas les dépenses ni les objectifs enregistrés.</p></article>
 <article><h3>📅 4. Repère journalier et hebdomadaire</h3><p>Le repère journalier aide à visualiser une moyenne indicative à partir de la marge prévisionnelle. Selon le bloc affiché, CAP répartit cette marge sur les jours du mois ou sur les jours calendaires restant jusqu'à la fin du mois ; l'intitulé du repère précise la base utilisée.</p><p>Ce n'est <strong>ni une autorisation de dépenser ni de l'argent garanti disponible</strong>. Tenez compte des factures à venir et des dépenses déjà engagées.</p></article>
 <article><h3>🛒 5. Ajouter une dépense</h3><p>Ouvrez <strong>Budget</strong>, puis <strong>Ajouter une opération</strong> ou <strong>Nouvelle dépense</strong>. Saisissez le montant, sélectionnez une catégorie, ajoutez si besoin le commerçant, une sous-catégorie, la date et une note, puis cliquez sur <strong>Ajouter</strong>.</p><p>L'opération réellement enregistrée rejoint son historique et les totaux correspondants. Les exemples affichés ne sont pas enregistrés tant que vous ne les ajoutez pas volontairement.</p></article>
 <article><h3>🔄 6. Charges fixes et dépenses réelles</h3><p>Une charge fixe, comme un abonnement mensuel, décrit un montant prévu ou récurrent. Elle ne prouve pas qu'un paiement bancaire a eu lieu. Les dépenses réelles sont celles que vous avez saisies comme opérations.</p><p>Comparez les dépenses réelles à leurs enveloppes pour savoir ce qui reste prévu par catégorie. Évitez de compter deux fois le même abonnement.</p></article>
@@ -5244,7 +5221,11 @@ function showHome(yes){document.body.classList.toggle('cap-simple-home',yes);if(
 document.addEventListener('click',event=>{
  const btn=event.target.closest('[data-dash-key]');
  if(btn)showHome(btn.dataset.dashKey==='accueil');
- if(event.target.closest('.tabbar .tab'))showHome(false);
+ const bottomTab=event.target.closest('.tabbar .tab');
+ if(bottomTab)showHome(false);
+ if(event.isTrusted&&(btn?.dataset.dashKey==='budget'||bottomTab?.id==='nav-budget')){
+  setTimeout(()=>{if(!document.body.classList.contains('cap-simple-home'))get('cap-budget-allocation')?.scrollIntoView({behavior:'smooth',block:'start'});},170);
+ }
 },true);
 window.addEventListener('capBudgetChanged',()=>{syncIncome();updateHome()});
 window.addEventListener('storage',e=>{
