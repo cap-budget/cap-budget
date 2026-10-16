@@ -4451,6 +4451,13 @@ cloudBtn.onclick = async () => {
   window.addEventListener('load',()=>{
     syncIncomeFromMain();
     updateSyncExplanation();
+    // Recontrôler après l'initialisation asynchrone des différents modules.
+    // La synchronisation ne s'effectue que si un revenu principal sauvegardé est valide.
+    [250,1000,2500].forEach(delay=>setTimeout(()=>{
+      syncIncomeFromMain();
+      updateComparison();
+      updateSyncExplanation();
+    },delay));
     const btn=document.getElementById('cap-sync-main-income');
     let primary=null;
     try {
