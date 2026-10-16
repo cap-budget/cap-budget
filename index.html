@@ -5164,6 +5164,14 @@ render();
   min-width: 0;
 }
 </style>
+
+<!-- CAP Accueil : masquer le doublon de solde demandé, garder les éléments pour les calculs JS. -->
+<style id="cap-accueil-masquer-solde-en-tete-20261016">
+#cap-dashboard-redesign .cap-dash-main > .cap-dash-shell > .cap-dash-topbar,
+#cap-dashboard-redesign .cap-dash-balance-first > .cap-dash-margin {
+  display: none !important;
+}
+</style>
 </body></html>';
   }
   document.addEventListener('click',event=>{
