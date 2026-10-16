@@ -2753,7 +2753,8 @@ function getCloudConfig() {
     const c = JSON.parse(localStorage.getItem(CLOUD_CFG_KEY) || 'null');
     if (c && c.url && c.key) return c;
   } catch (e) {}
-  return null;
+  const setup = window.CAP_BUDGET_SUPABASE_SETUP;
+  return setup?.defaultUrl && setup?.defaultKey ? {url:setup.defaultUrl, key:setup.defaultKey} : null;
 }
 function setCloudConfig(url, key) {
   localStorage.setItem(CLOUD_CFG_KEY, JSON.stringify({url: String(url).replace(/\/$/, ''), key: String(key).trim()}));
@@ -3653,7 +3654,8 @@ cloudBtn.onclick = async () => {
         renderAll();
         cloudMessage('☁️ Connecté à Supabase');
       } else {
-        showAuthUI();
+        // Connexion disponible via le bouton ☁️, sans interrompre le mode local.
+        cloudMessage('Supabase prêt : connectez-vous avec le bouton ☁️ pour synchroniser.');
       }
     }
   } catch (e) {
