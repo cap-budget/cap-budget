@@ -6101,6 +6101,79 @@ syncIncome();renderSliders();updateHome();showHome(true);
 }
 </style>
 
+<style id="cap-guide-pricing-light-fix-20261017">
+/* Guide : chaque colonne et chaque accordéon conserve sa hauteur naturelle.
+   L'ouverture de la carte 1 ne doit pas étirer les cartes 2, 3 et 4. */
+#cap-budget-guide .cap-guide-panels.guide-grid {
+  align-items:start!important;
+  align-content:start!important;
+  grid-auto-rows:min-content!important;
+}
+#cap-budget-guide .cap-guide-panels > .cap-guide-column {
+  align-self:start!important;
+  height:fit-content!important;
+}
+#cap-budget-guide .cap-guide-panels > .cap-guide-column > article.guide-card {
+  align-self:start!important;
+  height:fit-content!important;
+  flex:0 0 auto!important;
+}
+#cap-budget-guide .cap-guide-panels > .cap-guide-column > article.guide-card > details.cap-guide-item {
+  height:fit-content!important;
+}
+/* Offre Premium autonome, visuellement distincte des Objectifs : fini le fond presque noir. */
+#cap-premium-tarifs {
+  background:#f8fafc!important;
+  color:#1e293b!important;
+  border:1px solid #dbe4ee!important;
+  border-radius:20px!important;
+  box-shadow:0 6px 22px rgba(30,41,59,.09)!important;
+}
+#cap-premium-tarifs > summary {
+  background:#eff6ff!important;
+  color:#1e3a5f!important;
+  border-radius:18px 18px 0 0!important;
+}
+#cap-premium-tarifs .cap-pricing-summary-title,
+#cap-premium-tarifs .cap-pricing-summary-prices { color:#1e3a5f!important; }
+#cap-premium-tarifs .cap-commercial-inside {
+  background:#f8fafc!important;
+  color:#1e293b!important;
+}
+#cap-premium-tarifs #pricing {
+  background:#ffffff!important;
+  color:#1e293b!important;
+  border:1px solid #dbe4ee!important;
+  border-radius:16px!important;
+}
+#cap-premium-tarifs #cap-premium-pricing-title,
+#cap-premium-tarifs .cap-pricing-lead,
+#cap-premium-tarifs .cap-pricing-plan-name,
+#cap-premium-tarifs .cap-pricing-amount { color:#1e293b!important; }
+#cap-premium-tarifs .cap-v6-plan > div {
+  background:#f0fdf4!important;
+  border-color:#a7d7c1!important;
+  color:#1e293b!important;
+}
+#cap-premium-tarifs .cap-v6-plan > div:nth-child(2) {
+  background:#fffbeb!important;
+  border-color:#e9c46a!important;
+}
+#cap-premium-tarifs .cap-pricing-frequency {color:#846017!important;}
+#cap-premium-tarifs .cap-pricing-description {color:#334155!important;}
+#cap-premium-tarifs .cap-pricing-description strong {color:#166534!important;}
+#cap-premium-tarifs .cap-v6-note {
+  background:#f1f5f9!important;
+  color:#475569!important;
+  border-color:#cbd5e1!important;
+}
+#cap-premium-tarifs #cap-premium-pricing-status {
+  background:#ecfdf5!important;
+  color:#166534!important;
+  border-color:#86efac!important;
+}
+</style>
+
 <style id="cap-accueil-masquer-solde-en-tete-20261016">
 #cap-dashboard-redesign .cap-dash-main > .cap-dash-shell > .cap-dash-topbar,
 #cap-dashboard-redesign .cap-dash-balance-first > .cap-dash-margin {
