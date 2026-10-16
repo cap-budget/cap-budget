@@ -2491,6 +2491,20 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 </script>
 
 <main>
+<!-- CAP : masquer le solde du cadran uniquement dans l'onglet Budget.
+     Le DOM et les données sont conservés pour éviter d'interrompre les calculs existants. -->
+<style id="cap-hide-old-dial">
+#tab-budget > .hero > .dial,
+#tab-budget > .hero > #hero-msg,
+#tab-budget > .hero > #cap-budget-reconciliation,
+#tab-budget > .hero > #cap-budget-source-note,
+#tab-budget > .hero #cap-sync-main-income {
+  display: none !important;
+}
+body:has(#tab-budget:not([hidden])) #pill {
+  display: none !important;
+}
+</style>
 <!-- BUDGET -->
 <section id="tab-budget" aria-label="Budget"><section id="cap-budget-allocation" aria-labelledby="cap-allocation-heading">
 <div class="cap-alloc-panel">
