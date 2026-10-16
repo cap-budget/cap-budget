@@ -5461,4 +5461,78 @@ window.addEventListener('storage',e=>{
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){syncIncome();updateHome()}});
 syncIncome();renderSliders();updateHome();showHome(true);
 })();
-</script></body></html>
+</script>
+<style id="cap-modern-separated-cards">
+/* Cartes de présentation uniquement : aucun calcul ou stockage n'est modifié. */
+#cap-budget-guide .cap-guide-panels{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:18px!important;align-items:start;margin:18px 0 8px
+}
+#cap-budget-guide .cap-guide-item{
+ display:block;min-width:0;margin:0!important;overflow:hidden;
+ border:1px solid var(--line,#dbe5e2)!important;border-radius:18px!important;
+ background:var(--surface-card,var(--field,#fff))!important;
+ box-shadow:0 5px 18px rgba(22,52,46,.09)!important
+}
+#cap-budget-guide .cap-guide-item[open]{
+ border-color:var(--accent,#16a34a)!important;box-shadow:0 8px 24px rgba(22,52,46,.13)!important
+}
+#cap-budget-guide .cap-guide-item>summary{padding:19px 20px!important;min-height:68px;gap:14px}
+#cap-budget-guide .cap-guide-panel{padding:18px 20px 21px!important;border-top:1px solid var(--line,#dbe5e2)}
+#cap-budget-guide .cap-guide-panel p{line-height:1.7;max-width:72ch}
+#cap-savings-module .cap-save-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:20px!important;align-items:start;margin-top:20px!important
+}
+#cap-savings-module .cap-save-panel{
+ min-width:0;margin:0!important;padding:21px!important;
+ border:1px solid rgba(52,211,153,.38)!important;border-radius:20px!important;
+ background:rgba(255,255,255,.055)!important;box-shadow:0 6px 19px rgba(0,0,0,.09)
+}
+#cap-savings-module .cap-save-panel h4{
+ font-size:clamp(17px,2vw,20px)!important;line-height:1.35;margin:0 0 14px!important
+}
+#cap-savings-module .cap-save-panel input,
+#cap-savings-module .cap-save-panel button{max-width:100%;min-height:43px}
+#cap-eco-v2 .eco-content{padding:24px clamp(14px,3vw,28px) 28px!important}
+#cap-eco-v2 .eco-grid{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:20px!important;align-items:start
+}
+#cap-eco-v2 .eco-card{
+ min-width:0;margin:0!important;overflow:hidden;
+ border:1px solid #d7e8e4!important;border-radius:20px!important;
+ background:#fff!important;box-shadow:0 6px 22px rgba(17,76,67,.09)!important
+}
+#cap-eco-v2 .eco-card h3{
+ margin:0;padding:17px 20px!important;line-height:1.4;overflow-wrap:anywhere
+}
+#cap-eco-v2 .eco-card .eco-body{padding:19px 20px 21px!important}
+#cap-eco-v2 .eco-card button,#cap-eco-v2 .eco-robot button{
+ max-width:100%;white-space:normal;overflow-wrap:anywhere
+}
+#cap-eco-v2 .eco-robot{
+ display:block;margin:22px 0 0!important;padding:23px!important;
+ border:1px solid #b6dfd7!important;border-radius:20px!important;
+ background:#f0faf6!important;box-shadow:0 6px 22px rgba(17,76,67,.09)!important;
+ color:#193c37
+}
+#cap-eco-v2 .eco-robot>strong{
+ display:block;font-size:clamp(18px,2.3vw,21px);line-height:1.35;margin-bottom:12px
+}
+#cap-eco-v2 .eco-robot p{line-height:1.65}
+@media(max-width:760px){
+ #cap-budget-guide .cap-guide-panels,
+ #cap-savings-module .cap-save-grid,
+ #cap-eco-v2 .eco-grid{
+  grid-template-columns:minmax(0,1fr)!important;gap:15px!important
+ }
+ #cap-budget-guide .cap-guide-item>summary{padding:16px!important}
+ #cap-budget-guide .cap-guide-panel{padding:15px 16px 18px!important}
+ #cap-savings-module .cap-save-panel{padding:17px!important}
+ #cap-eco-v2 .eco-card .eco-body{padding:17px!important}
+ #cap-eco-v2 .eco-robot{padding:19px!important}
+ #cap-eco-v2 .eco-full{grid-column:1!important}
+}
+</style>
+</body></html>
