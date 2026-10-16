@@ -2508,7 +2508,8 @@ body:has(#tab-budget:not([hidden])) #pill {
 /* Accueil et Budget partagent le même document : le guide n'apparaît
    qu'après une navigation explicite vers l'onglet Budget. */
 #cap-budget-guide{display:none!important}
-body.cap-guide-budget-selected #tab-budget:not([hidden]) #cap-budget-guide{display:block!important}
+/* Toujours afficher le guide lorsque l'onglet Budget est actif, y compris après actualisation. */
+#tab-budget:not([hidden]) #cap-budget-guide{display:block!important}
 #cap-budget-guide{margin-top:20px}
 #cap-budget-guide details > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;min-height:48px;padding:6px 0;color:inherit}
 #cap-budget-guide details > summary::-webkit-details-marker{display:none}
@@ -2520,17 +2521,7 @@ body.cap-guide-budget-selected #tab-budget:not([hidden]) #cap-budget-guide{displ
 #cap-budget-guide .cap-budget-guide-content p{margin:0 0 12px}
 @media(max-width:600px){#cap-budget-guide details > summary{align-items:flex-start;flex-direction:column}#cap-budget-guide .cap-budget-guide-content{font-size:16px}}
 </style>
-<script id="cap-guide-budget-navigation">
-(function(){
-  /* Aucun accès aux données : contrôle uniquement la visibilité du guide. */
-  document.addEventListener('click',function(event){
-    const button=event.target.closest('#nav-budget,#nav-repas,#nav-voyages,#nav-stats,.cap-dash-nav [data-dash-key]');
-    if(!button)return;
-    const isBudget=button.id==='nav-budget'||button.getAttribute('data-dash-key')==='budget';
-    document.body.classList.toggle('cap-guide-budget-selected',isBudget);
-  },true);
-})();
-</script>
+<!-- La visibilité du guide suit directement celle de l'onglet Budget, sans dépendre des clics. -->
 <!-- BUDGET -->
 <section id="tab-budget" aria-label="Budget"><section id="cap-budget-allocation" aria-labelledby="cap-allocation-heading">
 <div class="cap-alloc-panel">
@@ -2680,7 +2671,7 @@ body.cap-guide-budget-selected #tab-budget:not([hidden]) #cap-budget-guide{displ
 </section>
 <!-- Guide complet : une seule copie, réservée à l'onglet Budget. -->
 <section class="card" id="cap-budget-guide" aria-labelledby="cap-budget-guide-title">
-  <details id="cap-budget-guide-details">
+  <details id="cap-budget-guide-details" open>
     <summary id="cap-budget-guide-title"><strong>📖 Guide complet &amp; Mode d'emploi</strong><span>Afficher le guide de CAP Budget (12 rubriques)</span></summary>
     <div class="cap-budget-guide-content">
       <p>Bienvenue dans le guide de CAP Budget, repas et voyages. Retrouvez ici les explications essentielles pour utiliser votre application, comprendre les calculs et retrouver vos informations.</p>
