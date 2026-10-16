@@ -6249,4 +6249,86 @@ syncIncome();renderSliders();updateHome();showHome(true);
   display: none !important;
 }
 </style>
+
+<style id="cap-guide-match-cagnottes-20261017">
+/* Guide pas à pas : les 12 cartes ont le même rendu clair que les Cagnottes.
+   La grille ne force jamais une carte fermée à prendre la hauteur d'une carte ouverte. */
+#cap-budget-guide .cap-guide-panels.guide-grid {
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:16px!important;
+  align-items:start!important;
+  align-content:start!important;
+  grid-auto-rows:auto!important;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card {
+  display:block!important;
+  box-sizing:border-box!important;
+  min-width:0!important;
+  width:100%!important;
+  height:auto!important;
+  align-self:start!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  background:#fff!important;
+  color:#243240!important;
+  border:1px solid #d8dee6!important;
+  border-radius:12px!important;
+  box-shadow:0 4px 12px rgba(10,26,35,.11)!important;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card > details.cap-guide-item {
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card > details.cap-guide-item > summary {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:66px!important;
+  gap:12px!important;
+  padding:17px 19px!important;
+  margin:0!important;
+  background:#f1f5f9!important;
+  color:#1e3a5f!important;
+  border:0!important;
+  border-radius:0!important;
+  cursor:pointer;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card .cap-guide-heading {
+  color:#1e3a5f!important;
+  font-size:17px!important;
+  font-weight:800!important;
+  line-height:1.45!important;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card > details.cap-guide-item > .cap-guide-panel {
+  box-sizing:border-box!important;
+  padding:16px 19px 19px!important;
+  background:#fff!important;
+  color:#334155!important;
+  border-top:1px solid #e2e8f0!important;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card .cap-guide-panel :is(p,li,span) {
+  color:#334155!important;
+  line-height:1.7!important;
+}
+#cap-budget-guide .cap-guide-panels.guide-grid > article.guide-card:has(details[open]) {
+  border-color:#80b8cf!important;
+}
+@media(max-width:800px) {
+  #cap-budget-guide .cap-guide-panels.guide-grid {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+}
+</style>
 </body></html>
