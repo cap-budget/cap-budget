@@ -1721,33 +1721,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 #cap-premium-tarifs .cap-v6-note{color:#ecf3f1!important;font-size:14px!important;line-height:1.65!important;border:1px solid #5d7b75!important;border-radius:12px;padding:12px!important}
 @media(max-width:760px){#cap-premium-tarifs .cap-v6-plan{grid-template-columns:1fr!important}#cap-premium-tarifs .cap-v6-plan>div{padding:19px!important}#cap-premium-tarifs>summary{padding:16px!important}}
 </style>
-<section id="cap-premium-offers" aria-label="Offre Premium CAP Budget">
-<details class="cap-commercial-details cap-commercial-pricing" id="cap-premium-tarifs" open>
-<summary><span class="cap-pricing-summary-title">💳 CAP Budget Premium · Tarifs</span><span class="cap-pricing-summary-prices">5,99 € TTC/mois · 49,99 € TTC/an</span></summary>
-<div class="cap-commercial-inside">
-<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
-  <span class="cap-v6-badge">✨ Offres Premium · Tarifs TTC</span>
-  <h3 id="cap-premium-pricing-title">Choisissez votre formule Premium</h3>
-  <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
-  <p class="cap-pricing-lead">Deux formules pour accéder aux fonctions Premium de CAP Budget.</p>
-  <div class="cap-v6-plan" aria-label="Tarifs Premium">
-    <div>
-      <b class="cap-pricing-plan-name">Formule mensuelle</b>
-      <strong class="cap-pricing-amount">5,99 €</strong>
-      <span class="cap-pricing-frequency">TTC / mois</span>
-      <p class="cap-pricing-description"><strong>7 jours d’essai gratuit</strong>, puis 5,99 € TTC par mois. Abonnement à renouvellement automatique, sauf résiliation avant la fin de l’essai ou d’une période payée.</p>
-    </div>
-    <div>
-      <b class="cap-pricing-plan-name">Pass annuel</b>
-      <strong class="cap-pricing-amount">49,99 €</strong>
-      <span class="cap-pricing-frequency">TTC / an</span>
-      <p class="cap-pricing-description"><strong>12 mois d’accès Premium</strong> pour un paiement unique de 49,99 € TTC. Le pass prend fin au bout d’un an : pas de renouvellement automatique.</p>
-    </div>
-  </div>
-  <div class="cap-v6-note">Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.</div>
-</article>
-</div></details>
-</section>
+
 <nav class="cap-mobile-bar" aria-label="Navigation rapide">
   <button type="button" onclick="document.getElementById('nav-budget')?.click()">Budget</button>
   <button type="button" onclick="document.getElementById('nav-repas')?.click()">Repas</button>
@@ -2857,78 +2831,82 @@ body:has(#tab-budget:not([hidden])) #pill {
       <p>Pas besoin de tout lire. Clique sur la question qui t'intéresse : une réponse courte t'explique quoi faire.</p>
       <div class="cap-guide-start" role="note"><strong>Pour bien commencer :</strong><span>① Je note mes revenus dans Budget.</span><span>② Je prévois mes dépenses.</span><span>③ Je vérifie ce qu’il me reste.</span></div>
       <div class="guide-grid cap-guide-panels cap-guide-twelve-grid">
-      <details class="guide-card" data-guide-rubrique="1" open>
+        <div class="cap-guide-column cap-guide-column-odd">
+<details class="guide-card" data-guide-rubrique="1" style="order:1" open>
         <summary><span class="cap-guide-heading">🏠 1. À quoi sert l'accueil ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Sur l'accueil, tu vois ton budget du mois, tes projets et les boutons pour accéder aux fonctions principales.</p><p><strong>Important :</strong> les chiffres viennent de ce que tu as renseigné dans CAP. Ce n'est pas le solde de ton compte bancaire.</p>
         </div>
       </details>
-      <details class="guide-card" data-guide-rubrique="2">
-        <summary><span class="cap-guide-heading">💰 2. Comment préparer mon budget ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Va dans <strong>Budget</strong>. Indique tes revenus du mois, puis le montant que tu souhaites prévoir pour le logement, les courses, les loisirs et tes autres besoins.</p><p><strong>Exemple :</strong> avec 2 500 € de revenus et 1 900 € de dépenses prévues, il reste <strong>600 € de marge prévue</strong>. Les dépenses ne sont pas forcément déjà payées.</p>
-        </div>
-      </details>
-      <details class="guide-card" data-guide-rubrique="3">
+<details class="guide-card" data-guide-rubrique="3" style="order:3">
         <summary><span class="cap-guide-heading">🎚️ 3. À quoi servent les 3 curseurs ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Dans Budget, les curseurs <strong>50 / 30 / 20</strong> permettent d'essayer une répartition de tes revenus : besoins, loisirs et épargne.</p><p>Tu peux les bouger librement : <strong>cela ne change pas tes dépenses enregistrées</strong>.</p>
         </div>
       </details>
-      <details class="guide-card" data-guide-rubrique="4">
-        <summary><span class="cap-guide-heading">📅 4. Combien puis-je prévoir par jour ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>CAP affiche parfois une somme moyenne par jour ou par semaine pour t'aider à t'organiser.</p><p><strong>Attention :</strong> ce n'est pas une somme garantie. Pense aux factures qui restent à payer.</p>
-        </div>
-      </details>
-      <details class="guide-card" data-guide-rubrique="5">
+<details class="guide-card" data-guide-rubrique="5" style="order:5">
         <summary><span class="cap-guide-heading">🛒 5. Comment noter un achat ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Dans Budget, ouvre <strong>Ajouter une opération</strong> ou <strong>Nouvelle dépense</strong>. Écris le montant, choisis la catégorie, puis appuie sur <strong>Ajouter</strong>.</p><p>Ton achat apparaîtra dans l'historique. Les exemples affichés ne sont pas de vrais achats enregistrés.</p>
         </div>
       </details>
-      <details class="guide-card" data-guide-rubrique="6">
-        <summary><span class="cap-guide-heading">🔄 6. Une charge prévue, c'est payé ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p><strong>Non.</strong> Une charge fixe (comme Netflix ou le loyer) est une somme prévue chaque mois. Elle n'est pas forcément déjà payée.</p><p>Une <strong>dépense réelle</strong> est un paiement que tu as enregistré. CAP doit éviter de compter deux fois la même somme.</p>
-        </div>
-      </details>
-      <details class="guide-card" data-guide-rubrique="7">
+<details class="guide-card" data-guide-rubrique="7" style="order:7">
         <summary><span class="cap-guide-heading">🎯 7. Comment économiser pour un projet ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Dans <strong>Objectifs</strong>, écris le nom du projet, son coût et la somme que tu as déjà mise de côté. Tu peux aussi ajouter une date.</p><p>CAP montre ta progression et le montant à prévoir. <strong>Aucun virement bancaire n'est effectué.</strong></p>
         </div>
       </details>
-      <details class="guide-card" data-guide-rubrique="8">
-        <summary><span class="cap-guide-heading">🧠 8. Comment essayer une dépense ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Avec <strong>CAP Conseil</strong>, tu peux comprendre ton budget. Avec <strong>« Et si ? »</strong>, essaie par exemple un achat à 50 €.</p><p>CAP te montre l'effet possible sur ta marge, <strong>sans enregistrer cet achat</strong>.</p>
-        </div>
-      </details>
-      <details class="guide-card" data-guide-rubrique="9">
+<details class="guide-card" data-guide-rubrique="9" style="order:9">
         <summary><span class="cap-guide-heading">📊 9. Comment lire les statistiques ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Dans <strong>Statistiques</strong>, les barres montrent la part de revenu prévue pour chaque poste. La partie Premium ajoute des explications et des conseils.</p><p>Ce sont des estimations à partir du budget. <strong>Stripe TEST</strong> sert uniquement à essayer le paiement : pas de débit réel.</p>
         </div>
       </details>
-      <details class="guide-card" data-guide-rubrique="10">
-        <summary><span class="cap-guide-heading">🍽️ 10. Où organiser mes repas ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
-        <div class="guide-content">
-        <p>Ouvre <strong>Repas</strong> pour préparer tes menus de la semaine.</p><p>Les courses prévues dans le budget ne deviennent des achats réels que lorsque tu les enregistres comme dépenses.</p>
-        </div>
-      </details>
-      <details class="guide-card" data-guide-rubrique="11">
+<details class="guide-card" data-guide-rubrique="11" style="order:11">
         <summary><span class="cap-guide-heading">💾 11. Comment garder mes données ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Appuie sur <strong>Exporter</strong> dans la rubrique concernée pour conserver une copie de tes données dans un fichier. Garde ce fichier en lieu sûr.</p><p><strong>Ne clique pas sur « Réinitialiser » pour rafraîchir :</strong> tu risques d'effacer des données locales. Toutes les rubriques ne se synchronisent pas encore entre appareils.</p>
         </div>
       </details>
-      <details class="guide-card" data-guide-rubrique="12" open>
+        </div>
+        <div class="cap-guide-column cap-guide-column-even">
+<details class="guide-card" data-guide-rubrique="2" style="order:2">
+        <summary><span class="cap-guide-heading">💰 2. Comment préparer mon budget ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
+        <div class="guide-content">
+        <p>Va dans <strong>Budget</strong>. Indique tes revenus du mois, puis le montant que tu souhaites prévoir pour le logement, les courses, les loisirs et tes autres besoins.</p><p><strong>Exemple :</strong> avec 2 500 € de revenus et 1 900 € de dépenses prévues, il reste <strong>600 € de marge prévue</strong>. Les dépenses ne sont pas forcément déjà payées.</p>
+        </div>
+      </details>
+<details class="guide-card" data-guide-rubrique="4" style="order:4">
+        <summary><span class="cap-guide-heading">📅 4. Combien puis-je prévoir par jour ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
+        <div class="guide-content">
+        <p>CAP affiche parfois une somme moyenne par jour ou par semaine pour t'aider à t'organiser.</p><p><strong>Attention :</strong> ce n'est pas une somme garantie. Pense aux factures qui restent à payer.</p>
+        </div>
+      </details>
+<details class="guide-card" data-guide-rubrique="6" style="order:6">
+        <summary><span class="cap-guide-heading">🔄 6. Une charge prévue, c'est payé ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
+        <div class="guide-content">
+        <p><strong>Non.</strong> Une charge fixe (comme Netflix ou le loyer) est une somme prévue chaque mois. Elle n'est pas forcément déjà payée.</p><p>Une <strong>dépense réelle</strong> est un paiement que tu as enregistré. CAP doit éviter de compter deux fois la même somme.</p>
+        </div>
+      </details>
+<details class="guide-card" data-guide-rubrique="8" style="order:8">
+        <summary><span class="cap-guide-heading">🧠 8. Comment essayer une dépense ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
+        <div class="guide-content">
+        <p>Avec <strong>CAP Conseil</strong>, tu peux comprendre ton budget. Avec <strong>« Et si ? »</strong>, essaie par exemple un achat à 50 €.</p><p>CAP te montre l'effet possible sur ta marge, <strong>sans enregistrer cet achat</strong>.</p>
+        </div>
+      </details>
+<details class="guide-card" data-guide-rubrique="10" style="order:10">
+        <summary><span class="cap-guide-heading">🍽️ 10. Où organiser mes repas ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
+        <div class="guide-content">
+        <p>Ouvre <strong>Repas</strong> pour préparer tes menus de la semaine.</p><p>Les courses prévues dans le budget ne deviennent des achats réels que lorsque tu les enregistres comme dépenses.</p>
+        </div>
+      </details>
+<details class="guide-card" data-guide-rubrique="12" style="order:12" open>
         <summary><span class="cap-guide-heading">❓ 12. Pourquoi les chiffres diffèrent-ils ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="guide-content">
         <p>Le budget principal utilise les revenus et les enveloppes prévus. Le cadran de dépenses possède son propre calcul : les deux soldes ne doivent jamais être additionnés.</p><p>Lorsque les revenus du budget principal sont enregistrés sur cet appareil, CAP les reprend automatiquement dans le cadran, en conservant son ancien salaire en sauvegarde. Les charges prévues, achats réellement payés et économies restent séparés pour éviter de compter deux fois la même dépense.</p><p><strong>À vérifier :</strong> un abonnement prévu n'est pas automatiquement un achat payé. Aucun accès bancaire n'est effectué.</p>
         </div>
       </details>
+        </div>
       </div>
     </div>
   </details>
@@ -3062,6 +3040,34 @@ body:has(#tab-budget:not([hidden])) #pill {
 </div>
 </section>
 </main>
+<!-- Tarifs Premium : rubrique autonome, hors des cartes Objectifs. -->
+<section id="cap-premium-offers" aria-label="Offre Premium CAP Budget">
+<details class="cap-commercial-details cap-commercial-pricing" id="cap-premium-tarifs" open>
+<summary><span class="cap-pricing-summary-title">💳 CAP Budget Premium · Tarifs</span><span class="cap-pricing-summary-prices">5,99 € TTC/mois · 49,99 € TTC/an</span></summary>
+<div class="cap-commercial-inside">
+<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
+  <span class="cap-v6-badge">✨ Offres Premium · Tarifs TTC</span>
+  <h3 id="cap-premium-pricing-title">Choisissez votre formule Premium</h3>
+  <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
+  <p class="cap-pricing-lead">Deux formules pour accéder aux fonctions Premium de CAP Budget.</p>
+  <div class="cap-v6-plan" aria-label="Tarifs Premium">
+    <div>
+      <b class="cap-pricing-plan-name">Formule mensuelle</b>
+      <strong class="cap-pricing-amount">5,99 €</strong>
+      <span class="cap-pricing-frequency">TTC / mois</span>
+      <p class="cap-pricing-description"><strong>7 jours d’essai gratuit</strong>, puis 5,99 € TTC par mois. Abonnement à renouvellement automatique, sauf résiliation avant la fin de l’essai ou d’une période payée.</p>
+    </div>
+    <div>
+      <b class="cap-pricing-plan-name">Pass annuel</b>
+      <strong class="cap-pricing-amount">49,99 €</strong>
+      <span class="cap-pricing-frequency">TTC / an</span>
+      <p class="cap-pricing-description"><strong>12 mois d’accès Premium</strong> pour un paiement unique de 49,99 € TTC. Le pass prend fin au bout d’un an : pas de renouvellement automatique.</p>
+    </div>
+  </div>
+  <div class="cap-v6-note">Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.</div>
+</article>
+</div></details>
+</section>
 </div>
 <nav class="tabbar" aria-label="Navigation principale">
 <div class="tabbar-inner">
@@ -6475,6 +6481,111 @@ syncIncome();renderSliders();updateHome();showHome(true);
   #cap-budget-guide .guide-grid.cap-guide-panels.cap-guide-twelve-grid {
     grid-template-columns: minmax(0,1fr) !important;
   }
+}
+</style>
+
+<!-- CAP PRESENTATION CLAIRE : Guide, Cagnottes, Premium. Aucun calcul modifie. -->
+<style id="cap-clean-guide-cagnottes-premium-20261017">
+/* Fond de page clair, sans changer les couleurs des graphiques et calculs internes. */
+html, body, body > .app, .app { background-color:#f7f9fc!important; }
+#cap-budget-guide, #cap-savings-module, #cap-eco-v2 {
+  box-sizing:border-box!important;background:#f8fafc!important;color:#1e293b!important;
+  border:1px solid #dbe3ec!important;border-radius:18px!important;
+  box-shadow:0 4px 18px rgba(30,41,59,.07)!important;
+}
+#cap-budget-guide #cap-budget-guide-details > summary {
+  background:#eff6ff!important;color:#1e3a5f!important;
+  border:1px solid #dbeafe!important;border-radius:12px!important;
+}
+#cap-budget-guide .cap-budget-guide-content, #cap-budget-guide .cap-budget-guide-content > p {color:#334155!important;}
+/* Deux piles indépendantes : ouvrir la réponse n°1 ne change pas la hauteur de la n°2. */
+#cap-budget-guide .guide-grid.cap-guide-panels.cap-guide-twelve-grid {
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  align-items:start!important;align-content:start!important;
+  grid-auto-rows:auto!important;gap:16px!important;margin:18px 0!important;padding:0!important;
+}
+#cap-budget-guide .cap-guide-panels > .cap-guide-column {
+  display:flex!important;flex-direction:column!important;align-self:start!important;
+  gap:16px!important;min-width:0!important;height:auto!important;
+}
+#cap-budget-guide .cap-guide-panels > .cap-guide-column > details.guide-card {
+  display:block!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;
+  height:auto!important;align-self:stretch!important;margin:0!important;padding:0!important;
+  border:1px solid #dbe3ec!important;border-radius:13px!important;
+  background:#ffffff!important;color:#1e293b!important;
+  box-shadow:0 3px 12px rgba(30,41,59,.07)!important;overflow:hidden!important;
+}
+#cap-budget-guide .cap-guide-panels > .cap-guide-column > details.guide-card[open] {
+  border-color:#80b8a9!important;
+}
+#cap-budget-guide .cap-guide-column > details.guide-card > summary {
+  display:flex!important;align-items:center!important;justify-content:space-between!important;
+  gap:12px!important;box-sizing:border-box!important;
+  padding:17px 19px!important;min-height:64px!important;margin:0!important;
+  background:#f4f7fa!important;color:#173b47!important;border:0!important;
+  cursor:pointer!important;list-style:none!important;font-weight:800!important;line-height:1.5!important;
+}
+#cap-budget-guide .cap-guide-column > details.guide-card > summary::-webkit-details-marker {display:none!important;}
+#cap-budget-guide .cap-guide-column .cap-guide-heading {color:#173b47!important;font-size:17px!important;}
+#cap-budget-guide .cap-guide-column > details.guide-card > .guide-content {
+  box-sizing:border-box!important;background:#fff!important;color:#334155!important;
+  margin:0!important;padding:17px 19px 19px!important;border-top:1px solid #e2e8f0!important;
+  font-size:16px!important;line-height:1.7!important;
+}
+#cap-budget-guide .cap-guide-column .guide-content :is(p,span,li) {color:#334155!important;}
+#cap-budget-guide .cap-guide-column .guide-content strong {color:#155e75!important;}
+#cap-budget-guide .cap-guide-column > details.guide-card > summary:focus-visible {
+  outline:3px solid #0d9488!important;outline-offset:-3px!important;
+}
+/* Cagnottes, réserves et économies : chaque module reste un cadre blanc distinct. */
+#cap-savings-module .cap-save-grid, #cap-eco-v2 .eco-grid {
+  display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,275px),1fr))!important;
+  gap:16px!important;align-items:start!important;align-content:start!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel,
+#cap-eco-v2 .eco-grid > article.eco-card,
+#cap-eco-v2 .eco-grid > #eco-paulaider {
+  box-sizing:border-box!important;display:block!important;min-width:0!important;width:100%!important;
+  height:auto!important;align-self:start!important;grid-column:auto!important;
+  margin:0!important;background:#fff!important;color:#1e293b!important;
+  border:1px solid #dbe3ec!important;border-radius:13px!important;
+  box-shadow:0 3px 12px rgba(30,41,59,.07)!important;overflow:hidden!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel {padding:19px!important;}
+#cap-savings-module :is(h3,h4), #cap-eco-v2 :is(h2,h3) {color:#173b47!important;}
+#cap-savings-module .cap-save-grid > article.cap-save-panel :is(p,label,small,span,.cap-save-muted,.cap-save-number),
+#cap-eco-v2 .eco-grid :is(.eco-body,p,label,small,.eco-muted) {color:#334155!important;line-height:1.65!important;}
+#cap-eco-v2 .eco-grid > article.eco-card > h3,
+#cap-eco-v2 .eco-grid > #eco-paulaider > strong {
+  display:block!important;background:#f1f5f9!important;color:#173b47!important;
+  margin:0!important;padding:17px 19px!important;border-bottom:1px solid #e2e8f0!important;
+}
+#cap-eco-v2 .eco-grid > article.eco-card > .eco-body {padding:18px 19px!important;background:#fff!important;}
+#cap-eco-v2 .eco-grid > #eco-paulaider {padding-bottom:18px!important;}
+#cap-savings-module input, #cap-eco-v2 input, #cap-eco-v2 select {
+  max-width:100%!important;box-sizing:border-box!important;background:#fff!important;color:#172b3d!important;
+}
+/* Premium reste une section autonome, en dehors des cartes Objectifs. */
+#cap-premium-offers {box-sizing:border-box!important;display:block!important;width:100%!important;max-width:1100px!important;margin:28px auto 42px!important;}
+#cap-premium-offers #cap-premium-tarifs {background:#f8fafc!important;color:#1e293b!important;border:1px solid #dbe3ec!important;border-radius:18px!important;}
+#cap-premium-offers #cap-premium-tarifs > summary {background:#eff6ff!important;color:#1e3a5f!important;}
+#cap-premium-offers :is(.cap-pricing-summary-title,.cap-pricing-summary-prices) {color:#1e3a5f!important;}
+#cap-premium-offers .cap-commercial-inside {background:#f8fafc!important;}
+#cap-premium-offers #pricing {background:#fff!important;color:#1e293b!important;border:1px solid #dbe3ec!important;border-radius:14px!important;}
+#cap-premium-offers :is(#cap-premium-pricing-title,.cap-pricing-lead,.cap-pricing-plan-name,.cap-pricing-amount) {color:#1e293b!important;}
+#cap-premium-offers .cap-v6-plan > div {background:#f0fdf4!important;color:#1e293b!important;border:1px solid #bbdfd2!important;}
+#cap-premium-offers .cap-v6-plan > div:nth-child(2) {background:#fffbeb!important;border-color:#ead9a2!important;}
+#cap-premium-offers :is(.cap-pricing-description,.cap-v6-note) {color:#334155!important;}
+#cap-premium-offers .cap-pricing-frequency {color:#75540b!important;}
+@media(max-width:800px){
+  #cap-budget-guide .guide-grid.cap-guide-panels.cap-guide-twelve-grid {
+    display:flex!important;flex-direction:column!important;gap:14px!important;
+  }
+  #cap-budget-guide .cap-guide-panels > .cap-guide-column {display:contents!important;}
+  #cap-budget-guide .cap-guide-panels > .cap-guide-column > details.guide-card {align-self:stretch!important;}
+  #cap-savings-module .cap-save-grid, #cap-eco-v2 .eco-grid {grid-template-columns:minmax(0,1fr)!important;}
+  #cap-premium-offers {margin:22px auto 30px!important;padding:0 10px!important;}
+  #cap-premium-offers .cap-v6-plan {grid-template-columns:minmax(0,1fr)!important;}
 }
 </style>
 </body></html>
