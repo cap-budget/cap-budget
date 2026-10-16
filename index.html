@@ -2037,10 +2037,10 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <h3 style="margin-top:8px">Mes cagnottes et petites victoires</h3>
 <p class="cap-save-muted">Suivi local des économies estimées ou déclarées. Ces sommes ne sont pas de l'argent réellement mis de côté sur un compte.</p>
 <div class="cap-save-grid">
-<section class="cap-save-panel"><h4>🐾 Réserve Animaux & Urgences</h4><p class="cap-save-muted">Cette réserve personnalisable vous aide à anticiper les frais liés aux animaux (vétérinaire, soins, alimentation) et les imprévus du quotidien. Vous choisissez librement son objectif et les montants à y consacrer. Il s’agit d’un suivi dans CAP, pas d’un compte bancaire.</p><div class="cap-save-number" id="cap-reserve-value">0,00 € / 500,00 €</div><div class="cap-save-meter" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cap-reserve-progress"><div id="cap-reserve-bar"></div></div><label for="cap-reserve-target">Objectif (€)</label><input id="cap-reserve-target" type="number" min="1" step="0.01" value="500"><button type="button" id="cap-reserve-save-target">Enregistrer l'objectif</button><p class="cap-save-muted">Réserve virtuelle : aucun virement bancaire n'est effectué.</p></section>
-<section class="cap-save-panel"><h4>🛡️ Anti-Gaspillage Alimentaire · Lien Frigo</h4><div id="cap-meal-preview" role="status" aria-live="polite" style="padding:12px;margin:10px 0;border-radius:12px;background:#0b4f4a22;border:1px solid #34d39955"><strong>🍳 Bravo ! Cuisiner les restes peut éviter une commande.</strong><p style="margin:7px 0 0">Économie estimée pour le repas : <strong id="cap-meal-preview-amount">12,00 €</strong></p><small id="cap-meal-preview-note">Exemple à confirmer : adaptez le montant à votre repas avant de l’ajouter.</small></div><label for="cap-meal-name">Repas préparé avec les restes ou le Frigo</label><input id="cap-meal-name" maxlength="90" placeholder="Ex. Poêlée croquante"><label for="cap-meal-saved">Économie estimée par rapport à une alternative (€)</label><input id="cap-meal-saved" type="number" min="0.01" step="0.01" value="12"><p class="cap-save-muted">Estimation à adapter à votre repas : aucune économie n'est calculée automatiquement à partir des ingrédients.</p><button type="button" id="cap-meal-add">+ Ajouter cette économie à la Réserve Urgences & Animaux</button></section>
-<section class="cap-save-panel"><h4>🟩 La boîte aux petites victoires</h4><button type="button" id="cap-victory-toggle">🟩 J'ai résisté à une dépense inutile !</button><div id="cap-victory-form" hidden><label for="cap-victory-name">Dépense évitée</label><input id="cap-victory-name" maxlength="90" placeholder="Ex. Café ou snack"><label for="cap-victory-amount">Montant évité (€)</label><input id="cap-victory-amount" type="number" min="0.01" step="0.01" placeholder="5,90"><button type="button" id="cap-victory-add">Enregistrer ma victoire</button></div><p id="cap-victory-totals" aria-live="polite">Ce mois : 0,00 € · Total : 0,00 €</p><p class="cap-save-muted">Les victoires sont comptées séparément de la réserve pour éviter les doubles comptes.</p></section>
-<section class="cap-save-panel"><h4>👻 Abonnements fantômes</h4><label for="cap-ghost-name">Abonnement peu ou pas utilisé</label><input id="cap-ghost-name" maxlength="90" placeholder="Ex. Streaming, salle de sport"><label for="cap-ghost-price">Coût mensuel (€)</label><input id="cap-ghost-price" type="number" min="0.01" step="0.01" placeholder="13,75"><button type="button" id="cap-ghost-add">Ajouter à vérifier</button><div id="cap-ghost-list"></div><p><strong>Économie annuelle potentielle : <span id="cap-ghost-total">0,00 €</span></strong></p><p class="cap-save-muted">Simulation si les abonnements listés sont résiliés. Aucune résiliation automatique, aucun montant ajouté à la réserve.</p></section>
+<article class="card cap-save-panel"><h4>🐾 Réserve Animaux & Urgences</h4><p class="cap-save-muted">Cette réserve personnalisable vous aide à anticiper les frais liés aux animaux (vétérinaire, soins, alimentation) et les imprévus du quotidien. Vous choisissez librement son objectif et les montants à y consacrer. Il s’agit d’un suivi dans CAP, pas d’un compte bancaire.</p><div class="cap-save-number" id="cap-reserve-value">0,00 € / 500,00 €</div><div class="cap-save-meter" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cap-reserve-progress"><div id="cap-reserve-bar"></div></div><label for="cap-reserve-target">Objectif (€)</label><input id="cap-reserve-target" type="number" min="1" step="0.01" value="500"><button type="button" id="cap-reserve-save-target">Enregistrer l'objectif</button><p class="cap-save-muted">Réserve virtuelle : aucun virement bancaire n'est effectué.</p></article>
+<article class="card cap-save-panel"><h4>🛡️ Anti-Gaspillage Alimentaire · Lien Frigo</h4><div id="cap-meal-preview" role="status" aria-live="polite" style="padding:12px;margin:10px 0;border-radius:12px;background:#0b4f4a22;border:1px solid #34d39955"><strong>🍳 Bravo ! Cuisiner les restes peut éviter une commande.</strong><p style="margin:7px 0 0">Économie estimée pour le repas : <strong id="cap-meal-preview-amount">12,00 €</strong></p><small id="cap-meal-preview-note">Exemple à confirmer : adaptez le montant à votre repas avant de l’ajouter.</small></div><label for="cap-meal-name">Repas préparé avec les restes ou le Frigo</label><input id="cap-meal-name" maxlength="90" placeholder="Ex. Poêlée croquante"><label for="cap-meal-saved">Économie estimée par rapport à une alternative (€)</label><input id="cap-meal-saved" type="number" min="0.01" step="0.01" value="12"><p class="cap-save-muted">Estimation à adapter à votre repas : aucune économie n'est calculée automatiquement à partir des ingrédients.</p><button type="button" id="cap-meal-add">+ Ajouter cette économie à la Réserve Urgences & Animaux</button></article>
+<article class="card cap-save-panel"><h4>🟩 La boîte aux petites victoires</h4><button type="button" id="cap-victory-toggle">🟩 J'ai résisté à une dépense inutile !</button><div id="cap-victory-form" hidden><label for="cap-victory-name">Dépense évitée</label><input id="cap-victory-name" maxlength="90" placeholder="Ex. Café ou snack"><label for="cap-victory-amount">Montant évité (€)</label><input id="cap-victory-amount" type="number" min="0.01" step="0.01" placeholder="5,90"><button type="button" id="cap-victory-add">Enregistrer ma victoire</button></div><p id="cap-victory-totals" aria-live="polite">Ce mois : 0,00 € · Total : 0,00 €</p><p class="cap-save-muted">Les victoires sont comptées séparément de la réserve pour éviter les doubles comptes.</p></article>
+<article class="card cap-save-panel"><h4>👻 Abonnements fantômes</h4><label for="cap-ghost-name">Abonnement peu ou pas utilisé</label><input id="cap-ghost-name" maxlength="90" placeholder="Ex. Streaming, salle de sport"><label for="cap-ghost-price">Coût mensuel (€)</label><input id="cap-ghost-price" type="number" min="0.01" step="0.01" placeholder="13,75"><button type="button" id="cap-ghost-add">Ajouter à vérifier</button><div id="cap-ghost-list"></div><p><strong>Économie annuelle potentielle : <span id="cap-ghost-total">0,00 €</span></strong></p><p class="cap-save-muted">Simulation si les abonnements listés sont résiliés. Aucune résiliation automatique, aucun montant ajouté à la réserve.</p></article>
 </div><p id="cap-savings-status" role="status" aria-live="polite" class="cap-save-muted"></p>
 </article>
 
@@ -2817,8 +2817,8 @@ body:has(#tab-budget:not([hidden])) #pill {
     <summary id="cap-budget-guide-title"><strong>📖 Guide complet &amp; Mode d'emploi</strong><span>Afficher le guide de CAP Budget (12 rubriques)</span></summary>
     <div class="cap-budget-guide-content">
       <p>Bienvenue dans le guide de CAP Budget, repas et voyages. Retrouvez ici les explications essentielles pour utiliser votre application, comprendre les calculs et retrouver vos informations.</p>
-      <div class="cap-guide-panels">
-      <div class="guide-card" data-guide-rubrique="1">
+      <div class="guide-grid cap-guide-panels">
+      <article class="guide-card" data-guide-rubrique="1">
       <details class="cap-guide-item" open>
         <summary><span class="cap-guide-heading">🏠 1. Tableau de bord</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2826,8 +2826,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Utilisez le menu pour passer à Budget, Repas, Voyage, Objectifs, Conseil et Paramètres.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="2">
+      </article>
+      <article class="guide-card" data-guide-rubrique="2">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">💰 2. Revenus et enveloppes</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2835,16 +2835,16 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p><strong>Marge prévisionnelle = revenus – total des enveloppes prévues.</strong> Par exemple, 2 500 € de revenus moins 1 900 € prévus donnent 600 € de marge. Ne soustrayez pas une deuxième fois une dépense déjà comprise dans son enveloppe.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="3">
+      </article>
+      <article class="guide-card" data-guide-rubrique="3">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🎚️ 3. Répartition 50 / 30 / 20</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
         <p>Dans Budget, commencez par enregistrer votre revenu mensuel, puis utilisez les trois curseurs pour simuler la répartition entre charges, loisirs et épargne. Les pourcentages sont indicatifs et ne modifient pas les dépenses ni les objectifs enregistrés.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="4">
+      </article>
+      <article class="guide-card" data-guide-rubrique="4">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">📅 4. Repère journalier et hebdomadaire</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2852,8 +2852,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Ce n'est <strong>ni une autorisation de dépenser ni de l'argent garanti disponible</strong>. Tenez compte des factures à venir et des dépenses déjà engagées.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="5">
+      </article>
+      <article class="guide-card" data-guide-rubrique="5">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🛒 5. Ajouter une dépense</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2861,8 +2861,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>L'opération réellement enregistrée rejoint son historique et les totaux correspondants. Les exemples affichés ne sont pas enregistrés tant que vous ne les ajoutez pas volontairement.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="6">
+      </article>
+      <article class="guide-card" data-guide-rubrique="6">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🔄 6. Charges fixes et dépenses réelles</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2870,8 +2870,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Comparez les dépenses réelles à leurs enveloppes pour savoir ce qui reste prévu par catégorie. Évitez de compter deux fois le même abonnement.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="7">
+      </article>
+      <article class="guide-card" data-guide-rubrique="7">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🎯 7. Objectifs et voyages</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2879,8 +2879,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Vérifiez que l'effort proposé reste compatible avec vos autres dépenses ; ce n'est pas un virement automatique.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="8">
+      </article>
+      <article class="guide-card" data-guide-rubrique="8">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🧠 8. CAP Conseil et simulations</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2888,8 +2888,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Les résultats sont indicatifs et dépendent de l'exactitude de vos saisies.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="9">
+      </article>
+      <article class="guide-card" data-guide-rubrique="9">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">📊 9. Statistiques et Premium</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2897,16 +2897,16 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Une part de revenu non représentée dans le graphique n'est pas automatiquement disponible. Les fonctions de paiement affichées en <strong>Stripe TEST</strong> sont des démonstrations sans débit réel.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="10">
+      </article>
+      <article class="guide-card" data-guide-rubrique="10">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🍽️ 10. Repas</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
         <p>Utilisez la rubrique <strong>Repas</strong> pour organiser votre alimentation et vos informations liées aux repas. Les montants des courses dans le budget restent des prévisions tant que les achats réels ne sont pas saisis comme dépenses.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="11">
+      </article>
+      <article class="guide-card" data-guide-rubrique="11">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">💾 11. Sauvegarde et confidentialité</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2914,8 +2914,8 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Ne cliquez pas sur <strong>Réinitialiser</strong> pour actualiser les chiffres : cette action peut retirer des données locales après confirmation. La synchronisation automatique entre appareils n'est pas garantie pour toutes les rubriques.</p>
         </div>
       </details>
-      </div>
-      <div class="guide-card" data-guide-rubrique="12">
+      </article>
+      <article class="guide-card" data-guide-rubrique="12">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">❓ 12. Si les chiffres diffèrent</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
         <div class="cap-guide-panel">
@@ -2923,7 +2923,7 @@ body:has(#tab-budget:not([hidden])) #pill {
         <p>Si un chiffre semble incohérent, commencez par vérifier les enveloppes prévues, les charges récurrentes et les opérations réellement enregistrées.</p>
         </div>
       </details>
-      </div>
+      </article>
       </div>
     </div>
   </details>
@@ -5118,7 +5118,62 @@ render();
       '<div class="kpi">Repère par semaine<strong>'+escapeHtml(get('v6-week'))+'</strong></div></div>'+
       (stats?'<h2>Répartition prévue</h2><ul>'+stats+'</ul>':'')+
       '<p class="note">Chiffres indicatifs du budget prévisionnel, pas un solde bancaire. Ne pas additionner au cadran « Reste à vivre ».</p>'+
-      '</body></html>';
+      '
+<style id="cap-guide-grid-cards-20261016">
+/* Guide complet en 12 cartes : styles demandés, sans modifier le contenu ni les interactions. */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+.guide-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+/* Remplace les anciennes grilles forcées et garantit la lisibilité même en mode sombre. */
+#cap-budget-guide .cap-guide-panels.guide-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+  gap: 16px !important;
+  margin-top: 15px !important;
+  align-items: start !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+  color: #173b2a !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card > details.cap-guide-item {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card .cap-guide-item > summary,
+#cap-budget-guide .guide-grid > article.guide-card .cap-guide-panel,
+#cap-budget-guide .guide-grid > article.guide-card .cap-guide-panel strong {
+  color: #173b2a !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card:has(> details[open]) {
+  border-color: #16a34a !important;
+}
+#cap-savings-module .cap-save-grid > article.card.cap-save-panel {
+  display: block;
+  min-width: 0;
+}
+#cap-eco-v2 .eco-grid > article.card.eco-card {
+  display: block;
+  padding: 0 !important;
+  min-width: 0;
+}
+</style>
+</body></html>';
   }
   document.addEventListener('click',event=>{
     const button=event.target.closest('#cap-frigo-print');if(!button)return;
@@ -5218,21 +5273,21 @@ render();
  <nav class="eco-nav" aria-label="Navigation économies"><a href="#cap-eco-v2">▣ Aujourd'hui</a><a href="#v6-stats">▤ Budget</a><a href="#eco-paulaider">🤖 Paulaider</a><a href="#cap-eco-v2">🍲 Repas</a><a href="#cap-eco-v2">✈️ Voyages</a><a href="#pricing">◉ Compte</a></nav>
  <div class="eco-content"><h2 id="eco-title">Cagnottes Économies</h2>
  <div class="eco-grid">
-  <article class="eco-card"><h3>🛡️ Anti-Gaspillage Alimentaire</h3><div class="eco-body">
+  <article class="card eco-card"><h3>🛡️ Anti-Gaspillage Alimentaire</h3><div class="eco-body">
    <p>🚀 Bravo ! Vous avez cuisiné un repas Frigo/Restes au lieu de commander.</p>
    <p><b>Économie estimée : <span class="eco-green">12,00 €</span></b></p>
    <button id="eco-add-meal" type="button">🐾 + Ajouter cette économie à la Réserve Urgences & Animaux</button>
    <p><b>Détail Repas :</b> Poêlée Croquante (reste poulet & riz) — Coût : 2,80 €<br>Commande évitée : ≈ 14,80 €</p>
   </div></article>
-  <article class="eco-card"><h3>💎 Les Petites Victoires</h3><div class="eco-body">
+  <article class="card eco-card"><h3>💎 Les Petites Victoires</h3><div class="eco-body">
    <p>Résistez à une dépense inutile et notez l'économie réalisée.</p>
    <label class="eco-label" for="eco-win-amount">Montant économisé (€)</label><input id="eco-win-amount" type="number" min="0.01" max="100000" step="0.01" value="5.90">
    <label class="eco-label" for="eco-win-label">Dépense évitée</label><input id="eco-win-label" type="text" maxlength="90" value="Café à emporter">
    <p><button class="eco-win" id="eco-add-win" type="button">✓ J'ai résisté à une dépense inutile !</button></p>
    <p>💰 Économies confirmées ce mois : <strong id="eco-month">0,00 €</strong></p>
   </div></article>
-  <article class="eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inactifs ? (Ex. streaming, salle de sport) — économie annuelle potentielle : <strong>165,00 €</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
-  <article class="eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">Calcul en cours…</span> 🛡️</h3><div class="eco-body"><p class="eco-muted">Prévoyez à votre rythme les frais vétérinaires et autres besoins de vos animaux, ainsi que les urgences du quotidien. Cette réserve est personnalisable selon vos priorités ; elle ne transfère pas d’argent automatiquement.</p><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Seuls les montants confirmés et enregistrés dans ce module sont comptés.</p></div></article>
+  <article class="card eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inactifs ? (Ex. streaming, salle de sport) — économie annuelle potentielle : <strong>165,00 €</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
+  <article class="card eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">Calcul en cours…</span> 🛡️</h3><div class="eco-body"><p class="eco-muted">Prévoyez à votre rythme les frais vétérinaires et autres besoins de vos animaux, ainsi que les urgences du quotidien. Cette réserve est personnalisable selon vos priorités ; elle ne transfère pas d’argent automatiquement.</p><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Seuls les montants confirmés et enregistrés dans ce module sont comptés.</p></div></article>
  </div>
  <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Bravo ! Une Poêlée Croquante à 2,80 € au lieu d'une commande à 14,80 € : environ 12 € économisés. Souhaitez-vous les ajouter à la Réserve Animaux & Urgences ?</p><button id="eco-robot-add" type="button">Ajouter 12 € à la réserve</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
  </div>
