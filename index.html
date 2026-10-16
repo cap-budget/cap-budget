@@ -1319,7 +1319,50 @@ body{font-size:19px!important;line-height:1.55}
 #cap-dashboard-redesign .cap-clean-tile h2,
 #cap-dashboard-redesign .cap-clean-tile strong{color:#172c37}
 </style>
-</head>
+<style id="cap-simple-layout-20261016">
+#cap-home-simple{display:none;color:#effcf6;max-width:900px;margin:auto;padding:12px 0 28px}
+body.cap-simple-home #cap-home-simple{display:block}
+body.cap-simple-home #cap-dashboard-redesign .cap-dash-shell > :not(#cap-home-simple){display:none!important}
+body.cap-simple-home .app,body.cap-simple-home #cap-eco-v2{display:none!important}
+body.cap-simple-home #cap-dashboard-redesign .cap-dash-main{min-height:100dvh}
+#cap-home-simple h1{font-size:clamp(24px,4vw,33px);margin:6px 0 22px;font-weight:800}
+.cap-home-duo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cap-home-card{background:linear-gradient(145deg,#173749,#102635);border:1px solid #528779;color:#f7fffd;border-radius:24px;padding:clamp(16px,3vw,28px);text-align:center;min-width:0}
+.cap-home-card h2{font-size:clamp(19px,3vw,24px);margin:0 0 15px;color:#fff}
+.cap-home-dial{width:min(100%,285px);aspect-ratio:1;position:relative;margin:0 auto}
+.cap-home-dial svg{display:block;width:100%;height:100%}
+#cap-home-progress{transition:stroke-dashoffset .35s,stroke .35s}
+.cap-home-dial-text{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:24px}
+.cap-home-dial-text span{font-size:14px;color:#c6dbd3}
+.cap-home-dial-text strong{font-size:clamp(24px,4vw,37px);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.cap-home-dial-text small{font-size:13px;color:#a7f3d0}
+#cap-home-explication,#cap-home-win-detail{color:#cbded9;font-size:15px;line-height:1.6}
+.cap-home-win{display:flex;flex-direction:column;justify-content:center;align-items:center}
+.cap-home-emoji{font-size:72px;margin-bottom:18px}
+#cap-home-win-name{font-size:clamp(20px,3vw,28px);color:#a7f3d0;overflow-wrap:anywhere}
+#cap-budget-allocation{display:grid;gap:18px;margin:0 0 24px;font-size:16px;color:#fff}
+#cap-budget-allocation .cap-alloc-panel{border:1px solid #528779;border-radius:22px;padding:clamp(18px,3vw,26px);background:linear-gradient(145deg,#173749,#102635)}
+#cap-budget-allocation h2{font-size:clamp(21px,3vw,27px);line-height:1.3;color:#fff;margin:0 0 12px}
+#cap-budget-allocation p{color:#d3e5e0;line-height:1.6;margin:0 0 15px}
+#cap-budget-allocation label{color:#fff;display:block;font-weight:750;margin-bottom:9px}
+.cap-alloc-income-line,.cap-alloc-control{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+#cap-allocation-income{flex:1 1 160px;background:#071c29;color:#fff;border:2px solid #7dd3ae;border-radius:12px;font-size:22px;font-weight:700;padding:12px}
+#cap-budget-allocation button{border:1px solid #86efac;background:#bbf7d0;color:#063c26;border-radius:12px;min-height:48px;padding:11px 17px;font-weight:800;font-size:15px;cursor:pointer}
+#cap-allocation-message{font-size:14px!important;margin:12px 0 0!important}
+.cap-alloc-rows{display:grid;gap:15px;margin:20px 0}
+.cap-alloc-row{padding:15px;border:1px solid #476d78;background:#0b2433;border-radius:14px}
+#cap-budget-allocation .cap-alloc-row label{display:flex;justify-content:space-between;gap:10px;font-size:17px}
+.cap-alloc-row label strong{color:#a7f3d0;font-variant-numeric:tabular-nums}
+.cap-alloc-control input[type=range]{flex:1 1 180px;width:100%;height:32px;accent-color:#34d399;cursor:pointer}
+.cap-alloc-control output{display:flex;align-items:center;justify-content:center;min-width:148px;min-height:52px;border:1px solid #86efac;border-radius:11px;padding:8px 12px;background:#08202b;color:#fff;font-weight:800;font-size:19px;font-variant-numeric:tabular-nums;text-align:center}
+.cap-alloc-total{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;border-top:1px solid #527d78;padding:16px 0;font-size:16px}
+#cap-alloc-warning{color:#a7f3d0}
+.cap-alloc-total.over #cap-alloc-warning{color:#fecaca;font-weight:800}
+#cap-budget-allocation .cap-alloc-fine{font-size:13px;color:#c0d5ca;margin:16px 0 0}
+#cap-eco-v2{max-width:none;margin:22px 0}
+#cap-eco-v2 .eco-head,#cap-eco-v2 .eco-nav{display:none!important}
+@media(max-width:690px){.cap-home-duo{grid-template-columns:1fr;gap:16px}.cap-home-card{padding:20px}.cap-alloc-control output{min-width:130px}}
+</style></head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
 
@@ -1370,7 +1413,22 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     </nav>
     
   </aside>
-  <main class="cap-dash-main"><div class="cap-dash-shell">
+  <main class="cap-dash-main"><div class="cap-dash-shell"><section id="cap-home-simple" aria-label="Accueil">
+<h1>Mon accueil</h1>
+<div class="cap-home-duo">
+<article class="cap-home-card" aria-labelledby="cap-home-solde-title">
+<h2 id="cap-home-solde-title">💚 Mon solde</h2>
+<div class="cap-home-dial" role="img" aria-label="Solde prévisionnel">
+<svg viewBox="0 0 220 220" aria-hidden="true"><circle cx="110" cy="110" r="87" fill="none" stroke="#ffffff23" stroke-width="15"/><circle id="cap-home-progress" cx="110" cy="110" r="87" fill="none" stroke="#34d399" stroke-width="15" stroke-linecap="round" stroke-dasharray="546.64" stroke-dashoffset="546.64" transform="rotate(-90 110 110)"/></svg>
+<div class="cap-home-dial-text"><span>Il me reste</span><strong id="cap-home-solde">—</strong><small id="cap-home-pourcent">Mon budget</small></div>
+</div><p id="cap-home-explication">Solde prévisionnel, pas un solde bancaire.</p>
+</article>
+<article class="cap-home-card cap-home-win" aria-labelledby="cap-home-win-title">
+<span class="cap-home-emoji" aria-hidden="true">🏆</span>
+<h2 id="cap-home-win-title">Ma dernière petite victoire</h2>
+<strong id="cap-home-win-name">À venir !</strong><p id="cap-home-win-detail">Chaque économie est une belle avancée.</p>
+</article>
+</div></section>
     <header class="cap-dash-topbar"><div><div class="cap-dash-page-title">CAP — Budget, repas et voyages</div><div class="cap-dash-page-sub">Mon budget, simplement · <time id="cap-main-header-month"></time></div></div><div class="cap-dash-status"><i></i><span>Données locales à jour</span></div></header>
 <script>
 /* Date uniquement dans le bandeau principal ; aucun changement des données budgétaires. */
@@ -2430,7 +2488,28 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 
 <main>
 <!-- BUDGET -->
-<section id="tab-budget" aria-label="Budget">
+<section id="tab-budget" aria-label="Budget"><section id="cap-budget-allocation" aria-labelledby="cap-allocation-heading">
+<div class="cap-alloc-panel">
+<h2 id="cap-allocation-heading">💰 Mon argent disponible</h2>
+<p>Indique ton revenu mensuel (par exemple ton salaire). C'est la première étape pour organiser ton budget.</p>
+<form id="cap-allocation-form">
+<label for="cap-allocation-income">Montant disponible (€)</label>
+<div class="cap-alloc-income-line"><input id="cap-allocation-income" type="number" min="0" max="100000000" step="0.01" inputmode="decimal" placeholder="Ex. 2005" required><button type="submit">Enregistrer mon revenu</button></div>
+<p id="cap-allocation-message" role="status" aria-live="polite">Ce montant concerne le budget principal.</p>
+</form>
+</div>
+<div class="cap-alloc-panel">
+<h2>🎚️ Ma répartition 50 / 30 / 20</h2>
+<p>La règle 50/30/20 propose environ <strong>50 % pour les charges et besoins</strong>, <strong>30 % pour les loisirs et envies</strong> et <strong>20 % pour l'épargne</strong>. C'est un repère, pas une obligation.</p>
+<div class="cap-alloc-rows">
+<div class="cap-alloc-row"><label for="cap-alloc-charges">🏠 Charges <strong id="cap-alloc-charges-pct">50 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-charges" type="range" min="0" max="100" step="1" value="50"><output id="cap-alloc-charges-eur" for="cap-alloc-charges">— €</output></div></div>
+<div class="cap-alloc-row"><label for="cap-alloc-loisirs">🎈 Loisirs <strong id="cap-alloc-loisirs-pct">30 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-loisirs" type="range" min="0" max="100" step="1" value="30"><output id="cap-alloc-loisirs-eur" for="cap-alloc-loisirs">— €</output></div></div>
+<div class="cap-alloc-row"><label for="cap-alloc-epargne">🌱 Épargne <strong id="cap-alloc-epargne-pct">20 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-epargne" type="range" min="0" max="100" step="1" value="20"><output id="cap-alloc-epargne-eur" for="cap-alloc-epargne">— €</output></div></div>
+</div>
+<div class="cap-alloc-total" role="status" aria-live="polite"><strong id="cap-alloc-sum">Total : 100 %</strong><span id="cap-alloc-warning">Répartition complète</span></div>
+<button type="button" id="cap-alloc-reset">Revenir à 50 / 30 / 20</button>
+<p class="cap-alloc-fine">Ces curseurs sont une simulation. Ils n'ajoutent aucune opération et ne modifient pas tes enveloppes, charges ni projets enregistrés. Leurs pourcentages sont sauvegardés localement.</p>
+</div></section>
 <div class="hero" id="hero" data-state="ok">
 <div class="dial">
 <svg viewBox="0 0 240 240" aria-hidden="true">
@@ -4899,7 +4978,7 @@ render();
 @media(max-width:680px){#cap-eco-v2 .eco-grid{grid-template-columns:1fr}#cap-eco-v2 .eco-head strong{font-size:20px}#cap-eco-v2 .eco-nav a{font-size:12px;min-width:72px}}
 </style>
 <section id="cap-eco-v2" aria-labelledby="eco-title">
- <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>CAP Budget V2</strong><small>Dashboard & Économies</small></div><div><small id="eco-date"></small><span>Budget principal : <b id="eco-balance">voir le solde ci-dessus</b></span></div></header>
+ <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>Économies et petites victoires</strong><small>Mes réussites</small></div><div><small id="eco-date"></small><span>Budget principal : <b id="eco-balance">voir le solde ci-dessus</b></span></div></header>
  <nav class="eco-nav" aria-label="Navigation économies"><a href="#cap-eco-v2">▣ Aujourd'hui</a><a href="#v6-stats">▤ Budget</a><a href="#eco-paulaider">🤖 Paulaider</a><a href="#cap-eco-v2">🍲 Repas</a><a href="#cap-eco-v2">✈️ Voyages</a><a href="#pricing">◉ Compte</a></nav>
  <div class="eco-content"><h2 id="eco-title">Cagnottes Économies</h2>
  <div class="eco-grid">
@@ -5084,4 +5163,97 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 }
 /* Conserver le mode mobile et les couleurs de chaque carte existante. */
 </style>
-</body></html>
+<script id="cap-simple-layout-js-20261016">
+(function(){
+'use strict';
+const get=id=>document.getElementById(id);
+const format=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+const stored=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}};
+const ALLOC='cap_budget_allocation_503020_v1',names=['charges','loisirs','epargne'];
+let ratios=stored(ALLOC,{charges:50,loisirs:30,epargne:20});
+if(!ratios||!names.every(k=>Number.isInteger(ratios[k])&&ratios[k]>=0&&ratios[k]<=100))ratios={charges:50,loisirs:30,epargne:20};
+const incomeInput=get('cap-allocation-income');let dirty=false;
+function renderSliders(){
+ const raw=Number(incomeInput.value),income=incomeInput.value!==''&&Number.isFinite(raw)&&raw>=0?raw:0;
+ for(const k of names){
+  const pct=ratios[k];get('cap-alloc-'+k).value=String(pct);
+  get('cap-alloc-'+k+'-pct').textContent=pct+' %';
+  const val=format(Math.round(income*pct)/100);
+  get('cap-alloc-'+k+'-eur').textContent=val;
+  get('cap-alloc-'+k).setAttribute('aria-valuetext',pct+' %, '+val);
+ }
+ const total=names.reduce((sum,k)=>sum+ratios[k],0);
+ get('cap-alloc-sum').textContent='Total : '+total+' %';
+ get('cap-alloc-warning').textContent=total>100?'Attention : dépassement de '+(total-100)+' %':total<100?(100-total)+' % encore à répartir':'100 % répartis';
+ get('cap-alloc-warning').parentElement.classList.toggle('over',total>100);
+}
+function syncIncome(){
+ const b=stored('capBudgetEngine',null);
+ if(!dirty&&b&&Number.isFinite(Number(b.income))&&Number(b.income)>=0){incomeInput.value=String(b.income);renderSliders();}
+}
+for(const k of names)get('cap-alloc-'+k).addEventListener('input',e=>{
+ ratios[k]=Number(e.target.value);renderSliders();
+ try{localStorage.setItem(ALLOC,JSON.stringify(ratios))}catch(_){}
+});
+incomeInput.addEventListener('input',()=>{dirty=true;renderSliders()});
+get('cap-alloc-reset').addEventListener('click',()=>{
+ ratios={charges:50,loisirs:30,epargne:20};renderSliders();
+ try{localStorage.setItem(ALLOC,JSON.stringify(ratios))}catch(_){}
+});
+get('cap-allocation-form').addEventListener('submit',e=>{
+ e.preventDefault();
+ const n=Number(incomeInput.value),message=get('cap-allocation-message');
+ if(incomeInput.value.trim()===''||!Number.isFinite(n)||n<0||n>100000000){message.textContent='Saisis un revenu valable entre 0 et 100 000 000 €.';return;}
+ const mainInput=get('cap-income'),calc=get('cap-calc-btn');
+ if(!mainInput||!calc){message.textContent='Moteur de budget indisponible. Aucun montant modifié.';return;}
+ try{
+  mainInput.value=String(Math.round(n*100)/100);
+  calc.click();
+  dirty=false;
+  window.dispatchEvent(new Event('capBudgetChanged'));
+  message.textContent='Revenu enregistré : '+format(n)+'. Les dépenses existantes sont conservées.';
+  updateHome();
+ }catch(_){message.textContent='Enregistrement indisponible. Les données existantes sont conservées.';}
+});
+function updateHome(){
+ const b=stored('capBudgetEngine',null),n=Number(b?.income);
+ const valid=b&&Number.isFinite(n)&&n>0;
+ const expenses=valid?['fixed','food','leisure','projects','other'].reduce((v,k)=>v+(Number(b[k])||0),0):0;
+ const remain=valid?Math.round((n-expenses)*100)/100:0;
+ const p=valid?Math.max(0,Math.min(1,remain/n)):0;
+ const arc=get('cap-home-progress');arc.style.strokeDashoffset=String(546.64*(1-p));
+ arc.style.stroke=remain<0?'#fb7185':p<.15?'#fbbf24':'#34d399';
+ get('cap-home-solde').textContent=valid?format(remain):'—';
+ get('cap-home-pourcent').textContent=valid?Math.round(p*100)+' % non engagé':'Revenu à renseigner';
+ get('cap-home-explication').textContent=valid?format(n)+' de revenus − '+format(expenses)+' de budget prévu. Solde indicatif, pas bancaire.':'Renseigne ton revenu dans Budget pour obtenir ton solde.';
+ get('cap-home-simple').querySelector('.cap-home-dial').setAttribute('aria-label',valid?'Solde prévu : '+format(remain):'Solde non renseigné');
+ const a=stored('cap_savings_cagnottes_v1',{}),b2=stored('cap_eco_v2_savings_1',[]);
+ const wins=[];
+ if(Array.isArray(a?.victories))for(const x of a.victories)if(x&&Number(x.amount)>0)wins.push({name:String(x.name||'Petite victoire'),amount:Number(x.amount),date:String(x.date||'')});
+ if(Array.isArray(b2))for(const x of b2)if(x&&Number(x.amount)>0&&/victoire|résist|dépense inutile/i.test(String(x.label||'')))wins.push({name:String(x.label||'Petite victoire'),amount:Number(x.amount),date:String(x.date||'')});
+ wins.sort((x,y)=>(Date.parse(y.date)||0)-(Date.parse(x.date)||0));
+ const last=wins[0];
+ get('cap-home-win-name').textContent=last?last.name:'Ta prochaine petite victoire 🌟';
+ get('cap-home-win-detail').textContent=last?'Économie notée : '+format(last.amount)+(last.date&&Number.isFinite(Date.parse(last.date))?' · '+new Date(last.date).toLocaleDateString('fr-FR'):'')+'. Bravo !':'Enregistre une petite victoire dans ton espace Économies pour la retrouver ici.';
+}
+// La section anciennement « CAP Budget V2 » est déplacée dans Budget,
+// sans supprimer ses modules, ses écouteurs d'événements ni ses sauvegardes.
+const savings=get('cap-eco-v2'),budgetTab=get('tab-budget');
+if(savings&&budgetTab)budgetTab.appendChild(savings);
+function showHome(yes){document.body.classList.toggle('cap-simple-home',yes);if(yes){updateHome();window.scrollTo(0,0)}}
+document.addEventListener('click',event=>{
+ const btn=event.target.closest('[data-dash-key]');
+ if(btn)showHome(btn.dataset.dashKey==='accueil');
+ if(event.target.closest('.tabbar .tab'))showHome(false);
+},true);
+window.addEventListener('capBudgetChanged',()=>{syncIncome();updateHome()});
+window.addEventListener('storage',e=>{
+ if(!e.key||[ALLOC,'capBudgetEngine','cap_savings_cagnottes_v1','cap_eco_v2_savings_1'].includes(e.key)){
+  if(e.key===ALLOC){const t=stored(ALLOC,null);if(t&&names.every(k=>Number.isInteger(t[k])&&t[k]>=0&&t[k]<=100))ratios=t;}
+  syncIncome();renderSliders();updateHome();
+ }
+});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){syncIncome();updateHome()}});
+syncIncome();renderSliders();updateHome();showHome(true);
+})();
+</script></body></html>
