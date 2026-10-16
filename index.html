@@ -1365,7 +1365,11 @@ body.cap-simple-home #cap-dashboard-redesign .cap-dash-main{min-height:100dvh}
 #cap-eco-v2{max-width:none;margin:22px 0}
 #cap-eco-v2 .eco-head,#cap-eco-v2 .eco-nav{display:none!important}
 @media(max-width:690px){.cap-home-duo{grid-template-columns:1fr;gap:16px}.cap-home-card{padding:20px}.cap-alloc-control output{min-width:130px}}
-</style></head>
+</style><style id="cap-guide-align-start-20261017">
+/* Guide : les cartes gardent leur hauteur naturelle si un accordéon est ouvert. */
+#cap-budget-guide .guide-grid { align-items: start; }
+</style>
+</head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
 
@@ -1695,6 +1699,52 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   </article>
 </section>
 
+</div></details>
+
+<style id="cap-premium-pricing-card-20261016">
+/* Tarifs CAP Premium : cartes visibles, lisibles et adaptées au téléphone. */
+#cap-premium-tarifs{border:2px solid #bd9a46!important;background:linear-gradient(145deg,#1b2630,#122c29)!important;box-shadow:0 12px 38px #0004!important}
+#cap-premium-tarifs>summary{display:flex!important;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;color:#fff!important;padding:20px!important;list-style:none}
+#cap-premium-tarifs>summary::-webkit-details-marker{display:none}
+#cap-premium-tarifs .cap-pricing-summary-title{font-size:clamp(18px,2.3vw,23px);font-weight:900;color:#fff}
+#cap-premium-tarifs .cap-pricing-summary-prices{font-size:clamp(15px,2vw,20px);font-weight:900;color:#fce6aa}
+#cap-premium-tarifs #pricing{padding:clamp(18px,3vw,28px)!important;background:transparent!important;color:#fff!important;border:0!important}
+#cap-premium-tarifs #cap-premium-pricing-title{color:#fff!important;margin:10px 0 12px!important}
+#cap-premium-tarifs .cap-pricing-lead{color:#e3f6f0!important;font-size:clamp(15px,1.8vw,17px)!important;line-height:1.6}
+#cap-premium-tarifs .cap-v6-plan{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:20px 0!important}
+#cap-premium-tarifs .cap-v6-plan>div{padding:24px!important;border-radius:18px!important;border:1px solid #64ac91!important;background:#142923!important;box-shadow:0 6px 20px #0003}
+#cap-premium-tarifs .cap-v6-plan>div:nth-child(2){background:#25241f!important;border-color:#d4af37!important}
+#cap-premium-tarifs .cap-pricing-plan-name{display:block;color:#fff!important;font-size:19px!important;font-weight:800!important}
+#cap-premium-tarifs .cap-pricing-amount{display:block;color:#fff!important;font-size:clamp(34px,5vw,46px)!important;font-weight:900!important;letter-spacing:-.04em;line-height:1.25;margin:12px 0 3px}
+#cap-premium-tarifs .cap-pricing-frequency{color:#fce6aa!important;font-size:17px!important;font-weight:800!important}
+#cap-premium-tarifs .cap-pricing-description{color:#e3f6f0!important;font-size:15px!important;line-height:1.65!important;margin:14px 0 0!important}
+#cap-premium-tarifs .cap-v6-note{color:#ecf3f1!important;font-size:14px!important;line-height:1.65!important;border:1px solid #5d7b75!important;border-radius:12px;padding:12px!important}
+@media(max-width:760px){#cap-premium-tarifs .cap-v6-plan{grid-template-columns:1fr!important}#cap-premium-tarifs .cap-v6-plan>div{padding:19px!important}#cap-premium-tarifs>summary{padding:16px!important}}
+</style>
+<details class="cap-commercial-details cap-commercial-pricing" id="cap-premium-tarifs" open>
+<summary><span class="cap-pricing-summary-title">💳 CAP Budget Premium · Tarifs</span><span class="cap-pricing-summary-prices">5,99 € TTC/mois · 49,99 € TTC/an</span></summary>
+<div class="cap-commercial-inside">
+<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
+  <span class="cap-v6-badge">✨ Offres Premium · Tarifs TTC</span>
+  <h3 id="cap-premium-pricing-title">Choisissez votre formule Premium</h3>
+  <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
+  <p class="cap-pricing-lead">Deux formules pour accéder aux fonctions Premium de CAP Budget.</p>
+  <div class="cap-v6-plan" aria-label="Tarifs Premium">
+    <div>
+      <b class="cap-pricing-plan-name">Formule mensuelle</b>
+      <strong class="cap-pricing-amount">5,99 €</strong>
+      <span class="cap-pricing-frequency">TTC / mois</span>
+      <p class="cap-pricing-description"><strong>7 jours d’essai gratuit</strong>, puis 5,99 € TTC par mois. Abonnement à renouvellement automatique, sauf résiliation avant la fin de l’essai ou d’une période payée.</p>
+    </div>
+    <div>
+      <b class="cap-pricing-plan-name">Pass annuel</b>
+      <strong class="cap-pricing-amount">49,99 €</strong>
+      <span class="cap-pricing-frequency">TTC / an</span>
+      <p class="cap-pricing-description"><strong>12 mois d’accès Premium</strong> pour un paiement unique de 49,99 € TTC. Le pass prend fin au bout d’un an : pas de renouvellement automatique.</p>
+    </div>
+  </div>
+  <div class="cap-v6-note">Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.</div>
+</article>
 </div></details>
 <nav class="cap-mobile-bar" aria-label="Navigation rapide">
   <button type="button" onclick="document.getElementById('nav-budget')?.click()">Budget</button>
@@ -2062,51 +2112,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 
   </div>
 </section>
-<style id="cap-premium-pricing-card-20261016">
-/* Tarifs CAP Premium : cartes visibles, lisibles et adaptées au téléphone. */
-#cap-premium-tarifs{border:2px solid #bd9a46!important;background:linear-gradient(145deg,#1b2630,#122c29)!important;box-shadow:0 12px 38px #0004!important}
-#cap-premium-tarifs>summary{display:flex!important;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;color:#fff!important;padding:20px!important;list-style:none}
-#cap-premium-tarifs>summary::-webkit-details-marker{display:none}
-#cap-premium-tarifs .cap-pricing-summary-title{font-size:clamp(18px,2.3vw,23px);font-weight:900;color:#fff}
-#cap-premium-tarifs .cap-pricing-summary-prices{font-size:clamp(15px,2vw,20px);font-weight:900;color:#fce6aa}
-#cap-premium-tarifs #pricing{padding:clamp(18px,3vw,28px)!important;background:transparent!important;color:#fff!important;border:0!important}
-#cap-premium-tarifs #cap-premium-pricing-title{color:#fff!important;margin:10px 0 12px!important}
-#cap-premium-tarifs .cap-pricing-lead{color:#e3f6f0!important;font-size:clamp(15px,1.8vw,17px)!important;line-height:1.6}
-#cap-premium-tarifs .cap-v6-plan{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;margin:20px 0!important}
-#cap-premium-tarifs .cap-v6-plan>div{padding:24px!important;border-radius:18px!important;border:1px solid #64ac91!important;background:#142923!important;box-shadow:0 6px 20px #0003}
-#cap-premium-tarifs .cap-v6-plan>div:nth-child(2){background:#25241f!important;border-color:#d4af37!important}
-#cap-premium-tarifs .cap-pricing-plan-name{display:block;color:#fff!important;font-size:19px!important;font-weight:800!important}
-#cap-premium-tarifs .cap-pricing-amount{display:block;color:#fff!important;font-size:clamp(34px,5vw,46px)!important;font-weight:900!important;letter-spacing:-.04em;line-height:1.25;margin:12px 0 3px}
-#cap-premium-tarifs .cap-pricing-frequency{color:#fce6aa!important;font-size:17px!important;font-weight:800!important}
-#cap-premium-tarifs .cap-pricing-description{color:#e3f6f0!important;font-size:15px!important;line-height:1.65!important;margin:14px 0 0!important}
-#cap-premium-tarifs .cap-v6-note{color:#ecf3f1!important;font-size:14px!important;line-height:1.65!important;border:1px solid #5d7b75!important;border-radius:12px;padding:12px!important}
-@media(max-width:760px){#cap-premium-tarifs .cap-v6-plan{grid-template-columns:1fr!important}#cap-premium-tarifs .cap-v6-plan>div{padding:19px!important}#cap-premium-tarifs>summary{padding:16px!important}}
-</style>
-<details class="cap-commercial-details cap-commercial-pricing" id="cap-premium-tarifs" open>
-<summary><span class="cap-pricing-summary-title">💳 CAP Budget Premium · Tarifs</span><span class="cap-pricing-summary-prices">5,99 € TTC/mois · 49,99 € TTC/an</span></summary>
-<div class="cap-commercial-inside">
-<article class="cap-v6-card" id="pricing" style="background:#111b20;color:#f4f4f5">
-  <span class="cap-v6-badge">✨ Offres Premium · Tarifs TTC</span>
-  <h3 id="cap-premium-pricing-title">Choisissez votre formule Premium</h3>
-  <p id="cap-premium-pricing-status" role="status" hidden style="padding:14px;border:1px solid #34d39977;border-radius:10px;background:#10261e;color:#a7f3d0;font-weight:700"></p>
-  <p class="cap-pricing-lead">Deux formules pour accéder aux fonctions Premium de CAP Budget.</p>
-  <div class="cap-v6-plan" aria-label="Tarifs Premium">
-    <div>
-      <b class="cap-pricing-plan-name">Formule mensuelle</b>
-      <strong class="cap-pricing-amount">5,99 €</strong>
-      <span class="cap-pricing-frequency">TTC / mois</span>
-      <p class="cap-pricing-description"><strong>7 jours d’essai gratuit</strong>, puis 5,99 € TTC par mois. Abonnement à renouvellement automatique, sauf résiliation avant la fin de l’essai ou d’une période payée.</p>
-    </div>
-    <div>
-      <b class="cap-pricing-plan-name">Pass annuel</b>
-      <strong class="cap-pricing-amount">49,99 €</strong>
-      <span class="cap-pricing-frequency">TTC / an</span>
-      <p class="cap-pricing-description"><strong>12 mois d’accès Premium</strong> pour un paiement unique de 49,99 € TTC. Le pass prend fin au bout d’un an : pas de renouvellement automatique.</p>
-    </div>
-  </div>
-  <div class="cap-v6-note">Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.</div>
-</article>
-</div></details>
+
 
 <script>
 (function(){
