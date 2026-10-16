@@ -5021,7 +5021,7 @@ render();
  }
  function add(amount,label){
   if(!Number.isFinite(amount)||amount<=0||amount>100000)return;
-  const entry={amount:Math.round(amount*100)/100,label,date:new Date().toISOString()};
+  const entry={amount:Math.round(amount*100)/100,label,date:new Date().toISOString(),kind:/Poêlée Croquante/.test(label)?'meal':'victory'};
   const next=[...entries,entry].slice(-500);
   try{localStorage.setItem(key,JSON.stringify(next));entries=next;}catch(_){by('eco-feedback').textContent='Enregistrement impossible : stockage du navigateur indisponible.';return;}
   refresh();by('eco-feedback').textContent=euro(entry.amount)+' ajouté à la cagnotte de ce module : '+label+'.';
@@ -5230,7 +5230,7 @@ function updateHome(){
  const a=stored('cap_savings_cagnottes_v1',{}),b2=stored('cap_eco_v2_savings_1',[]);
  const wins=[];
  if(Array.isArray(a?.victories))for(const x of a.victories)if(x&&Number(x.amount)>0)wins.push({name:String(x.name||'Petite victoire'),amount:Number(x.amount),date:String(x.date||'')});
- if(Array.isArray(b2))for(const x of b2)if(x&&Number(x.amount)>0&&/victoire|résist|dépense inutile/i.test(String(x.label||'')))wins.push({name:String(x.label||'Petite victoire'),amount:Number(x.amount),date:String(x.date||'')});
+ if(Array.isArray(b2))for(const x of b2)if(x&&Number(x.amount)>0&&(x.kind==='victory'||(!x.kind&&!/Poêlée Croquante|restes du frigo/i.test(String(x.label||'')))))wins.push({name:String(x.label||'Petite victoire'),amount:Number(x.amount),date:String(x.date||'')});
  wins.sort((x,y)=>(Date.parse(y.date)||0)-(Date.parse(x.date)||0));
  const last=wins[0];
  get('cap-home-win-name').textContent=last?last.name:'Ta prochaine petite victoire 🌟';
