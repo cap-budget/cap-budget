@@ -1369,6 +1369,36 @@ body.cap-simple-home #cap-dashboard-redesign .cap-dash-main{min-height:100dvh}
 /* Guide : les cartes gardent leur hauteur naturelle si un accordéon est ouvert. */
 #cap-budget-guide .guide-grid { align-items: start; }
 </style>
+<!-- CAP GUIDE 12 CARTES UNIFORMES 20261017 -->
+<style id="cap-guide-12-uniform-cards">
+/* Les douze vrais éléments sont des details.guide-card dans deux colonnes. */
+#cap-budget-guide{background:#f4f8f6!important;color:#173b32!important;border:1px solid #dce9e3!important}
+#cap-budget-guide .cap-budget-guide-content{background:#f4f8f6!important;color:#173b32!important}
+#cap-budget-guide .cap-guide-panels{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important;align-items:start!important}
+#cap-budget-guide .cap-guide-panels>.cap-guide-column{display:flex!important;flex-direction:column!important;gap:18px!important;min-width:0!important;background:transparent!important;border:0!important;padding:0!important;margin:0!important}
+#cap-budget-guide .cap-guide-panels>.cap-guide-column>details.guide-card{
+display:block!important;position:relative!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;
+margin:0!important;padding:0!important;border:1px solid #d9e5df!important;border-radius:18px!important;
+background:#fff!important;color:#173b32!important;box-shadow:0 5px 18px rgba(23,59,50,.10)!important;overflow:hidden!important;
+}
+#cap-budget-guide .cap-guide-column>details.guide-card>summary{
+display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;
+padding:20px!important;margin:0!important;min-height:70px!important;box-sizing:border-box!important;
+background:#fff!important;color:#173b32!important;font-weight:800!important;cursor:pointer!important;list-style:none!important;
+}
+#cap-budget-guide .cap-guide-column>details.guide-card>summary::-webkit-details-marker{display:none!important}
+#cap-budget-guide .cap-guide-column>details.guide-card .cap-guide-heading{color:#173b32!important}
+#cap-budget-guide .cap-guide-column>details.guide-card>.guide-content{
+display:block!important;box-sizing:border-box!important;margin:0!important;padding:0 20px 20px!important;
+background:#fff!important;color:#294b40!important;border:0!important;
+}
+#cap-budget-guide .cap-guide-column>details.guide-card:not([open])>.guide-content{display:none!important}
+#cap-budget-guide .cap-guide-column>details.guide-card[open]>summary{border-bottom:1px solid #e7eee9!important}
+#cap-budget-guide .cap-guide-column>details.guide-card[open]>.guide-content{padding-top:16px!important}
+#cap-budget-guide .cap-guide-column>details.guide-card .guide-content p{color:#294b40!important}
+@media(max-width:800px){#cap-budget-guide .cap-guide-panels{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
+#cap-budget-guide .cap-guide-panels>.cap-guide-column{gap:16px!important}}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
