@@ -5279,8 +5279,8 @@ render();
   </div></article>
   <article class="card eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inactifs ? (Ex. streaming, salle de sport) — économie annuelle potentielle : <strong>165,00 €</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
   <article class="card eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">Calcul en cours…</span> 🛡️</h3><div class="eco-body"><p class="eco-muted">Prévoyez à votre rythme les frais vétérinaires et autres besoins de vos animaux, ainsi que les urgences du quotidien. Cette réserve est personnalisable selon vos priorités ; elle ne transfère pas d’argent automatiquement.</p><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Seuls les montants confirmés et enregistrés dans ce module sont comptés.</p></div></article>
- </div>
  <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Bravo ! Une Poêlée Croquante à 2,80 € au lieu d'une commande à 14,80 € : environ 12 € économisés. Souhaitez-vous les ajouter à la Réserve Animaux & Urgences ?</p><button id="eco-robot-add" type="button">Ajouter 12 € à la réserve</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
+ </div>
  </div>
 </section>
 <script>
@@ -5715,134 +5715,205 @@ syncIncome();renderSliders();updateHome();showHome(true);
 </style>
 
 <style id="cap-guide-cagnottes-separated-cards-20261016">
-/* CAP Budget — guide simplifié et teintes harmonisées avec le thème sombre/or.
-   Présentation seulement. Les calculs, sauvegardes et paiements restent inchangés. */
-#cap-budget-guide{
- background:#161920!important;border:1px solid #51452b!important;border-radius:22px!important;
- color:#f8fafc!important;box-shadow:0 10px 30px #0003!important;
+/* Finition UI CAP : cartes individuelles et responsive.
+   Les données, calculs, historiques, paiements et identifiants DOM sont inchangés. */
+#cap-budget-guide,
+#cap-savings-module,
+#cap-eco-v2{
+  background:#161920!important;
+  border:1px solid #51452b!important;
+  border-radius:22px!important;
+  color:#f8fafc!important;
 }
 #cap-budget-guide #cap-budget-guide-details > summary{
- padding:18px 20px!important;border-radius:14px!important;border:1px solid #5a4b2a!important;
- background:#24251f!important;color:#fff7df!important;min-height:68px!important;
+  padding:18px 20px!important;
+  min-height:68px!important;
+  background:#24251f!important;
+  color:#fff7df!important;
+  border:1px solid #5a4b2a!important;
+  border-radius:14px!important;
 }
-#cap-budget-guide #cap-budget-guide-details > summary strong{color:#f9dfa0!important;font-size:clamp(19px,2.4vw,24px)!important}
-#cap-budget-guide #cap-budget-guide-details > summary span{color:#d4cfbf!important;font-size:14px!important}
-#cap-budget-guide .cap-budget-guide-content{padding:18px clamp(13px,2.5vw,24px) 24px!important;color:#f1f5f9!important}
-#cap-budget-guide .cap-budget-guide-content > p{color:#e1e6ea!important;font-size:17px!important}
+#cap-budget-guide #cap-budget-guide-details > summary strong{
+  font-size:clamp(19px,2.4vw,24px)!important;
+  color:#f9dfa0!important;
+}
+#cap-budget-guide #cap-budget-guide-details > summary span{color:#e0d8c7!important}
+#cap-budget-guide .cap-budget-guide-content{padding:18px clamp(12px,2.5vw,24px) 24px!important}
+#cap-budget-guide .cap-budget-guide-content > p{color:#e1e6ea!important}
 #cap-budget-guide .cap-guide-start{
- display:flex;flex-wrap:wrap;gap:9px 17px;align-items:center;padding:15px 17px;
- border-radius:14px;background:#20352d;border:1px solid #476959;color:#edfdf4;
- font-size:16px;line-height:1.5;
+  display:flex;flex-wrap:wrap;gap:9px 17px;align-items:center;
+  padding:15px 17px;border-radius:12px;
+  background:#20352d;border:1px solid #476959;
+  color:#edfdf4;font-size:16px;line-height:1.5;
 }
-#cap-budget-guide .cap-guide-start strong{color:#a7f3d0}
-#cap-budget-guide .cap-guide-start span{display:inline-block}
+#cap-budget-guide .cap-guide-start strong{color:#a7f3d0!important}
 #cap-budget-guide .cap-guide-panels{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
- align-items:start!important;gap:15px!important;margin:18px 0 8px!important;padding:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))!important;
+  align-items:start!important;
+  gap:18px!important;
+  margin:20px 0 10px!important;
+  padding:0!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card,
 #cap-budget-guide .cap-guide-panels > article.guide-card:nth-child(n){
- box-sizing:border-box!important;display:block!important;min-width:0!important;width:auto!important;
- margin:0!important;padding:0!important;overflow:hidden!important;background:#20252c!important;
- color:#f8fafc!important;border:1px solid #414958!important;border-radius:17px!important;
- box-shadow:0 4px 14px #0003!important;transition:border-color .15s ease!important;
+  display:block!important;box-sizing:border-box!important;
+  width:100%!important;min-width:0!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;
+  border:1px solid #d8dee6!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  color:#1f2937!important;
+  box-shadow:0 4px 12px rgba(10,26,35,.11)!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item{
- display:block!important;margin:0!important;width:100%!important;border:0!important;
- background:transparent!important;box-shadow:none!important;
+  display:block!important;width:100%!important;margin:0!important;
+  border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card summary,
 #cap-budget-guide .cap-guide-panels > article.guide-card:nth-child(n) summary{
- background:#272c35!important;color:#fff5d9!important;min-height:66px!important;
- padding:17px 19px!important;
+  box-sizing:border-box!important;
+  background:#f8fafc!important;
+  color:#1f2937!important;
+  min-height:66px!important;
+  padding:17px 19px!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-heading{
- color:#f5d989!important;font-size:17px!important;font-weight:800!important;line-height:1.4!important;
+  color:#243240!important;font-size:17px!important;
+  font-weight:800!important;line-height:1.45!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{
- background:#20252c!important;color:#e6edf4!important;padding:16px 19px 18px!important;
- border-top:1px solid #45505e!important;font-size:16px!important;
+  background:#fff!important;color:#334155!important;
+  padding:16px 19px 19px!important;
+  border-top:1px solid #e2e8f0!important;
+  font-size:16px!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel p{
- color:#e6edf4!important;line-height:1.65!important;margin:0 0 12px!important;
+  color:#334155!important;line-height:1.7!important;margin:0 0 12px!important;
 }
-#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel strong{color:#ffe5a3!important}
+#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel strong{
+  color:#174d3e!important;
+}
 #cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]),
 #cap-budget-guide .cap-guide-panels > article.guide-card:focus-within{
- border-color:#d4af37!important;box-shadow:0 8px 24px #0005!important;
+  border-color:#77a995!important;
+  box-shadow:0 6px 17px rgba(10,56,48,.15)!important;
 }
-#cap-budget-guide .cap-guide-item > summary .cap-guide-chevron{border-color:#e6c15b!important}
-#cap-budget-guide summary:focus-visible{outline:3px solid #f4cd62!important;outline-offset:2px!important}
+#cap-budget-guide .cap-guide-chevron{border-color:#1c8066!important}
+#cap-budget-guide summary:focus-visible{
+  outline:3px solid #16a085!important;outline-offset:2px!important;
+}
 
-/* Cagnottes : les mêmes fonds sombres que le reste de CAP, avec titres lisibles. */
-#cap-savings-module,#cap-eco-v2{
- background:#161920!important;border:1px solid #51452b!important;border-radius:22px!important;
- color:#f8fafc!important;
-}
-#cap-savings-module .cap-save-grid,#cap-eco-v2 .eco-grid{
- display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
- align-items:start!important;gap:17px!important;margin-top:19px!important;padding:0!important;
+/* Modules Cagnottes : 4 cartes de suivi et 5 cartes Économies, Paulaider inclus. */
+#cap-savings-module .cap-save-grid,
+#cap-eco-v2 .eco-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))!important;
+  align-items:stretch!important;
+  gap:18px!important;
+  margin-top:20px!important;
+  padding:0!important;
 }
 #cap-savings-module .cap-save-grid > article.cap-save-panel,
 #cap-savings-module .cap-save-grid > article.cap-save-panel:nth-child(n),
 #cap-eco-v2 .eco-grid > article.eco-card,
-#cap-eco-v2 .eco-grid > article.eco-card:nth-child(n){
- box-sizing:border-box!important;display:block!important;min-width:0!important;width:auto!important;
- grid-column:auto!important;margin:0!important;overflow:hidden!important;
- background:#20252c!important;border:1px solid #414958!important;border-radius:18px!important;
- box-shadow:0 5px 18px #0003!important;color:#f1f5f9!important;
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(n),
+#cap-eco-v2 .eco-grid > #eco-paulaider{
+  display:block!important;
+  box-sizing:border-box!important;
+  width:100%!important;min-width:0!important;
+  grid-column:auto!important;
+  margin:0!important;overflow:hidden!important;
+  border:1px solid #d8dee6!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  color:#243240!important;
+  box-shadow:0 4px 12px rgba(10,26,35,.11)!important;
 }
-#cap-savings-module .cap-save-grid > article.cap-save-panel{padding:20px!important}
+#cap-savings-module .cap-save-grid > article.cap-save-panel{
+  padding:20px!important;
+}
 #cap-savings-module .cap-save-grid > article.cap-save-panel h4{
- color:#f4d47c!important;border-bottom:1px solid #4b5260!important;
- padding-bottom:10px!important;line-height:1.5!important;
+  color:#194b3e!important;
+  border-bottom:1px solid #e2e8f0!important;
+  padding-bottom:11px!important;
+  line-height:1.5!important;
 }
-#cap-savings-module .cap-save-grid > article.cap-save-panel :is(p,label,.cap-save-muted){
- color:#e2e8f0!important;line-height:1.65!important;
+#cap-savings-module .cap-save-grid > article.cap-save-panel :is(p,label,.cap-save-muted,small,strong,.cap-save-number){
+  color:#334155!important;line-height:1.65!important;
 }
 #cap-eco-v2 .eco-grid > article.eco-card > h3,
 #cap-eco-v2 .eco-grid > article.eco-card:nth-child(n) > h3{
- background:#2a2d2b!important;color:#f4d47c!important;
- margin:0!important;padding:18px 20px!important;line-height:1.45!important;
+  background:#f3f6f5!important;color:#194b3e!important;
+  margin:0!important;padding:18px 20px!important;
+  border-bottom:1px solid #e2e8f0!important;
+  line-height:1.45!important;
 }
-#cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:19px!important;color:#e6edf4!important}
-#cap-eco-v2 .eco-grid > article.eco-card .eco-body :is(p,label){
- color:#e6edf4!important;line-height:1.65!important;
+#cap-eco-v2 .eco-grid > article.eco-card .eco-body{
+  padding:19px!important;color:#334155!important;
 }
-#cap-eco-v2 .eco-grid > article.eco-card .eco-green{color:#86efac!important}
-#cap-eco-v2 #eco-paulaider{
- display:block!important;margin:20px 0 0!important;padding:21px!important;
- background:#20352d!important;border:1px solid #537565!important;
- border-radius:18px!important;color:#f1fff7!important;box-shadow:0 6px 18px #0003!important;
+#cap-eco-v2 .eco-grid > article.eco-card .eco-body :is(p,label,b,strong,.eco-muted){
+  color:#334155!important;line-height:1.65!important;
 }
-#cap-eco-v2 #eco-paulaider > strong{display:block!important;margin-bottom:10px!important;color:#a7f3d0!important;font-size:20px!important}
-#cap-eco-v2 #eco-paulaider :is(p,.eco-muted){color:#e3f7e9!important}
-#cap-eco-v2 :is(.eco-card,#eco-paulaider) button{
- background:#18765a!important;color:#fff!important;min-height:46px!important;
- border-radius:11px!important;font-size:15px!important;
+#cap-eco-v2 .eco-grid > article.eco-card .eco-green{color:#047857!important}
+#cap-eco-v2 .eco-grid > #eco-paulaider{
+  padding:19px!important;
 }
-#cap-eco-v2 :is(.eco-card,#eco-paulaider) input{
- background:#f8fafc!important;color:#172b29!important;border:1px solid #8fae9e!important;
- min-height:45px!important;
+#cap-eco-v2 .eco-grid > #eco-paulaider > strong{
+  display:block!important;
+  margin:-19px -19px 17px!important;padding:18px 20px!important;
+  background:#f3f6f5!important;
+  border-bottom:1px solid #e2e8f0!important;
+  color:#194b3e!important;
+  font-size:19px!important;line-height:1.45!important;
 }
-#cap-savings-module .cap-save-grid > article.cap-save-panel :is(input,button),
-#cap-eco-v2 :is(.eco-card,#eco-paulaider) :is(input,button){
- box-sizing:border-box!important;max-width:100%!important;
+#cap-eco-v2 .eco-grid > #eco-paulaider :is(p,.eco-muted){
+  color:#334155!important;line-height:1.65!important;
 }
-@media(max-width:850px){
- #cap-budget-guide .cap-guide-panels,
- #cap-savings-module .cap-save-grid,#cap-eco-v2 .eco-grid{
-   grid-template-columns:minmax(0,1fr)!important;gap:14px!important;
- }
- #cap-budget-guide #cap-budget-guide-details > summary{padding:16px!important}
- #cap-budget-guide .cap-guide-panels > article.guide-card summary{padding:16px!important}
- #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{padding:16px!important}
- #cap-savings-module .cap-save-grid > article.cap-save-panel{padding:18px!important}
- #cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:18px!important}
- #cap-eco-v2 #eco-paulaider{padding:18px!important}
+#cap-savings-module .cap-save-grid > article.cap-save-panel :is(input,select),
+#cap-eco-v2 .eco-grid :is(.eco-card,#eco-paulaider) :is(input,select){
+  box-sizing:border-box!important;
+  max-width:100%!important;min-height:44px!important;
+  background:#fff!important;
+  color:#162c2a!important;
+  border:1px solid #a9b6bd!important;
+  border-radius:9px!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel button,
+#cap-eco-v2 .eco-grid :is(.eco-card,#eco-paulaider) button{
+  min-height:44px!important;max-width:100%!important;
+  white-space:normal!important;
+  background:#176f59!important;color:#fff!important;
+  border-radius:10px!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:760px){
+  #cap-budget-guide .cap-guide-panels,
+  #cap-savings-module .cap-save-grid,
+  #cap-eco-v2 .eco-grid{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:14px!important;
+  }
+  #cap-budget-guide .cap-budget-guide-content{
+    padding:15px 12px 20px!important;
+  }
+  #cap-budget-guide .cap-guide-panels > article.guide-card summary{
+    padding:16px!important;
+  }
+  #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{
+    padding:15px 16px 18px!important;
+  }
+  #cap-savings-module .cap-save-grid > article.cap-save-panel{padding:17px!important}
+  #cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:17px!important}
+  #cap-eco-v2 .eco-grid > #eco-paulaider{padding:17px!important}
+  #cap-eco-v2 .eco-grid > #eco-paulaider > strong{
+    margin:-17px -17px 16px!important;
+    padding:17px!important;
+  }
 }
 @media(prefers-reduced-motion:reduce){
- #cap-budget-guide .cap-guide-panels > article.guide-card{transition:none!important}
+  #cap-budget-guide .cap-guide-panels > article.guide-card{transition:none!important}
 }
 </style>
 </body></html>
