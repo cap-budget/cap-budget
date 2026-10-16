@@ -5722,4 +5722,156 @@ syncIncome();renderSliders();updateHome();showHome(true);
 .cap-commercial-details .cap-commercial-inside{padding:12px!important}
 }
 </style>
+
+<style id="cap-guide-cagnottes-separated-cards-20261016">
+/* Présentation du Guide et des Cagnottes UNIQUEMENT.
+   Aucun identifiant HTML, gestionnaire JS, calcul ni stockage modifié. */
+
+/* Guide : 12 cartes autonomes, aérées et faciles à parcourir. */
+#cap-budget-guide .cap-budget-guide-content{padding:18px clamp(12px,2.5vw,24px) 24px!important}
+#cap-budget-guide .cap-guide-panels{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:22px!important;
+  align-items:start!important;
+  margin:22px 0 8px!important;
+  padding:0!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card{
+  display:block!important;
+  min-width:0!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid #d2e6de!important;
+  border-radius:20px!important;
+  background:#fff!important;
+  box-shadow:0 6px 20px rgba(10,49,43,.10)!important;
+  overflow:hidden!important;
+  color:#193b34!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item{
+  margin:0!important;
+  width:100%!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card summary{
+  background:#f2faf6!important;
+  color:#17392f!important;
+  padding:18px 20px!important;
+  min-height:74px!important;
+  line-height:1.45!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-heading{
+  color:#17392f!important;
+  font-weight:800!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{
+  background:#fff!important;
+  border-top:1px solid #dcece5!important;
+  padding:18px 20px 22px!important;
+  color:#25463d!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel p{
+  margin:0 0 13px!important;
+  line-height:1.75!important;
+  color:#25463d!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel strong{color:#15392e!important}
+#cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]){
+  border-color:#35a87b!important;
+  box-shadow:0 9px 25px rgba(10,78,54,.15)!important;
+}
+
+/* Les quatre cagnottes principales restent quatre cartes DISTINCTES. */
+#cap-savings-module .cap-save-grid,
+#cap-eco-v2 .eco-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:22px!important;
+  align-items:start!important;
+  margin-top:22px!important;
+  padding:0!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel,
+#cap-eco-v2 .eco-grid > article.eco-card{
+  display:block!important;
+  min-width:0!important;
+  grid-column:auto!important;
+  width:auto!important;
+  margin:0!important;
+  border:1px solid #cce3d9!important;
+  border-radius:20px!important;
+  overflow:hidden!important;
+  box-shadow:0 7px 22px rgba(12,65,52,.12)!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel{
+  padding:22px!important;
+  background:#f9fdfb!important;
+  color:#183d31!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel h4{
+  margin:0 0 16px!important;
+  padding:0 0 12px!important;
+  border-bottom:1px solid #dbece5!important;
+  color:#164632!important;
+  line-height:1.45!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel p,
+#cap-savings-module .cap-save-grid > article.cap-save-panel label{
+  color:#315449!important;
+  line-height:1.65!important;
+}
+#cap-eco-v2 .eco-grid > article.eco-card{background:#fff!important;color:#183b35!important}
+#cap-eco-v2 .eco-grid > article.eco-card > h3{
+  background:#e3f5ed!important;
+  color:#164632!important;
+  padding:18px 20px!important;
+  margin:0!important;
+  line-height:1.45!important;
+}
+#cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:20px!important}
+/* Paulaider est la cinquième carte, visuellement séparée du quadrillage. */
+#cap-eco-v2 #eco-paulaider{
+  display:block!important;
+  margin:22px 0 0!important;
+  padding:23px!important;
+  border:1px solid #b9decf!important;
+  border-radius:20px!important;
+  background:#ecfaf3!important;
+  box-shadow:0 7px 22px rgba(12,65,52,.12)!important;
+  color:#184738!important;
+}
+#cap-eco-v2 #eco-paulaider > strong{
+  display:block!important;
+  margin-bottom:13px!important;
+  color:#14523a!important;
+  font-size:clamp(18px,2vw,21px)!important;
+  line-height:1.4!important;
+}
+#cap-eco-v2 #eco-paulaider p{margin:10px 0 14px!important;line-height:1.7!important}
+#cap-savings-module .cap-save-panel :is(input,button),
+#cap-eco-v2 :is(.eco-card,#eco-paulaider) :is(input,button){
+  max-width:100%!important;
+  min-height:44px;
+  box-sizing:border-box!important;
+}
+/* Téléphone : une carte par ligne et de l'espace ENTRE chaque carte. */
+@media(max-width:760px){
+  #cap-budget-guide .cap-guide-panels,
+  #cap-savings-module .cap-save-grid,
+  #cap-eco-v2 .eco-grid{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:18px!important;
+  }
+  #cap-budget-guide .cap-guide-panels > article.guide-card summary{padding:16px!important;min-height:64px!important}
+  #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{padding:16px 17px 19px!important}
+  #cap-savings-module .cap-save-grid > article.cap-save-panel{padding:18px!important}
+  #cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:18px!important}
+  #cap-eco-v2 #eco-paulaider{margin-top:18px!important;padding:19px!important}
+}
+</style>
 </body></html>
