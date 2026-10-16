@@ -2504,6 +2504,33 @@ body:has(#tab-budget:not([hidden])) #pill {
   display: none !important;
 }
 </style>
+<style id="cap-guide-budget-only">
+/* Accueil et Budget partagent le même document : le guide n'apparaît
+   qu'après une navigation explicite vers l'onglet Budget. */
+#cap-budget-guide{display:none!important}
+body.cap-guide-budget-selected #tab-budget:not([hidden]) #cap-budget-guide{display:block!important}
+#cap-budget-guide{margin-top:20px}
+#cap-budget-guide details > summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;min-height:48px;padding:6px 0;color:inherit}
+#cap-budget-guide details > summary::-webkit-details-marker{display:none}
+#cap-budget-guide details > summary strong{font-size:clamp(17px,2.4vw,22px)}
+#cap-budget-guide details > summary span{font-size:14px;opacity:.85}
+#cap-budget-guide details > summary:focus-visible{outline:3px solid #34d399;outline-offset:4px}
+#cap-budget-guide .cap-budget-guide-content{padding:16px 2px 6px;line-height:1.7;font-size:16px;max-width:900px}
+#cap-budget-guide .cap-budget-guide-content h3{font-size:18px;line-height:1.35;margin:22px 0 8px}
+#cap-budget-guide .cap-budget-guide-content p{margin:0 0 12px}
+@media(max-width:600px){#cap-budget-guide details > summary{align-items:flex-start;flex-direction:column}#cap-budget-guide .cap-budget-guide-content{font-size:16px}}
+</style>
+<script id="cap-guide-budget-navigation">
+(function(){
+  /* Aucun accès aux données : contrôle uniquement la visibilité du guide. */
+  document.addEventListener('click',function(event){
+    const button=event.target.closest('#nav-budget,#nav-repas,#nav-voyages,#nav-stats,.cap-dash-nav [data-dash-key]');
+    if(!button)return;
+    const isBudget=button.id==='nav-budget'||button.getAttribute('data-dash-key')==='budget';
+    document.body.classList.toggle('cap-guide-budget-selected',isBudget);
+  },true);
+})();
+</script>
 <!-- BUDGET -->
 <section id="tab-budget" aria-label="Budget"><section id="cap-budget-allocation" aria-labelledby="cap-allocation-heading">
 <div class="cap-alloc-panel">
@@ -2650,6 +2677,49 @@ body:has(#tab-budget:not([hidden])) #pill {
 <input id="import-file" type="file" accept="application/json,.json" hidden="">
 </div>
 <p class="error" id="backup-error" role="alert"></p>
+</section>
+<!-- Guide complet : une seule copie, réservée à l'onglet Budget. -->
+<section class="card" id="cap-budget-guide" aria-labelledby="cap-budget-guide-title">
+  <details id="cap-budget-guide-details">
+    <summary id="cap-budget-guide-title"><strong>📖 Guide complet &amp; Mode d'emploi</strong><span>Afficher le guide de CAP Budget (12 rubriques)</span></summary>
+    <div class="cap-budget-guide-content">
+      <p>Bienvenue dans le guide de CAP Budget, repas et voyages. Retrouvez ici les explications essentielles pour utiliser votre application, comprendre les calculs et retrouver vos informations.</p>
+      <h3>🏠 1. Tableau de bord</h3>
+      <p>L'accueil réunit les revenus, les dépenses prévues, la marge budgétaire, les objectifs et les raccourcis. Les montants sont des repères issus des informations saisies dans l'application, pas le solde de votre compte bancaire.</p>
+      <p>Utilisez le menu pour passer à Budget, Repas, Voyage, Objectifs, Conseil et Paramètres.</p>
+      <h3>💰 2. Revenus et enveloppes</h3>
+      <p>Renseignez vos revenus mensuels, puis les sommes que vous souhaitez réserver aux charges fixes, courses et repas, loisirs, transports, autres dépenses et projets. Chaque enveloppe représente un montant <strong>prévu</strong>, pas nécessairement déjà dépensé.</p>
+      <p><strong>Marge prévisionnelle = revenus – total des enveloppes prévues.</strong> Par exemple, 2 500 € de revenus moins 1 900 € prévus donnent 600 € de marge. Ne soustrayez pas une deuxième fois une dépense déjà comprise dans son enveloppe.</p>
+      <h3>🎚️ 3. Répartition 50 / 30 / 20</h3>
+      <p>Dans Budget, commencez par enregistrer votre revenu mensuel, puis utilisez les trois curseurs pour simuler la répartition entre charges, loisirs et épargne. Les pourcentages sont indicatifs et ne modifient pas les dépenses ni les objectifs enregistrés.</p>
+      <h3>📅 4. Repère journalier et hebdomadaire</h3>
+      <p>Le repère journalier aide à visualiser une moyenne indicative à partir de la marge prévisionnelle. Selon le bloc affiché, CAP répartit cette marge sur les jours du mois ou sur les jours calendaires restant jusqu'à la fin du mois ; l'intitulé du repère précise la base utilisée.</p>
+      <p>Ce n'est <strong>ni une autorisation de dépenser ni de l'argent garanti disponible</strong>. Tenez compte des factures à venir et des dépenses déjà engagées.</p>
+      <h3>🛒 5. Ajouter une dépense</h3>
+      <p>Ouvrez <strong>Budget</strong>, puis <strong>Ajouter une opération</strong> ou <strong>Nouvelle dépense</strong>. Saisissez le montant, sélectionnez une catégorie, ajoutez si besoin le commerçant, une sous-catégorie, la date et une note, puis cliquez sur <strong>Ajouter</strong>.</p>
+      <p>L'opération réellement enregistrée rejoint son historique et les totaux correspondants. Les exemples affichés ne sont pas enregistrés tant que vous ne les ajoutez pas volontairement.</p>
+      <h3>🔄 6. Charges fixes et dépenses réelles</h3>
+      <p>Une charge fixe, comme un abonnement mensuel, décrit un montant prévu ou récurrent. Elle ne prouve pas qu'un paiement bancaire a eu lieu. Les dépenses réelles sont celles que vous avez saisies comme opérations.</p>
+      <p>Comparez les dépenses réelles à leurs enveloppes pour savoir ce qui reste prévu par catégorie. Évitez de compter deux fois le même abonnement.</p>
+      <h3>🎯 7. Objectifs et voyages</h3>
+      <p>Créez un objectif avec son nom, son montant cible, la somme déjà épargnée et, si vous le souhaitez, une date. CAP affiche la progression, le montant restant et un effort mensuel indicatif pour atteindre l'objectif.</p>
+      <p>Vérifiez que l'effort proposé reste compatible avec vos autres dépenses ; ce n'est pas un virement automatique.</p>
+      <h3>🧠 8. CAP Conseil et simulations</h3>
+      <p>CAP Conseil utilise les montants disponibles dans votre budget pour proposer des repères. La fonction <strong>« Et si ? »</strong> permet de simuler une dépense avant de la réaliser : la simulation ne crée pas d'opération réelle.</p>
+      <p>Les résultats sont indicatifs et dépendent de l'exactitude de vos saisies.</p>
+      <h3>📊 9. Statistiques et Premium</h3>
+      <p>Les statistiques présentent la part du revenu consacrée aux différentes enveloppes. L'analyse Premium propose des détails et des conseils par poste, selon les fonctionnalités activées.</p>
+      <p>Une part de revenu non représentée dans le graphique n'est pas automatiquement disponible. Les fonctions de paiement affichées en <strong>Stripe TEST</strong> sont des démonstrations sans débit réel.</p>
+      <h3>🍽️ 10. Repas</h3>
+      <p>Utilisez la rubrique <strong>Repas</strong> pour organiser votre alimentation et vos informations liées aux repas. Les montants des courses dans le budget restent des prévisions tant que les achats réels ne sont pas saisis comme dépenses.</p>
+      <h3>💾 11. Sauvegarde et confidentialité</h3>
+      <p>Dans les parties qui l'indiquent, les données sont conservées dans ce navigateur. Utilisez <strong>Exporter</strong> pour télécharger une copie JSON et gardez-la en lieu sûr. L'importation sert à restaurer une sauvegarde compatible.</p>
+      <p>Ne cliquez pas sur <strong>Réinitialiser</strong> pour actualiser les chiffres : cette action peut retirer des données locales après confirmation. La synchronisation automatique entre appareils n'est pas garantie pour toutes les rubriques.</p>
+      <h3>❓ 12. Si les chiffres diffèrent</h3>
+      <p>Certains modules peuvent encore utiliser des jeux de données distincts. Par exemple, le cadran « Reste à vivre » et le budget principal peuvent afficher des revenus différents. <strong>Ne cumulez pas leurs soldes.</strong> Vérifiez les revenus et la méthode de calcul indiqués dans chaque module avant de prendre une décision.</p>
+      <p>Si un chiffre semble incohérent, commencez par vérifier les enveloppes prévues, les charges récurrentes et les opérations réellement enregistrées.</p>
+    </div>
+  </details>
 </section>
 </section>
 
