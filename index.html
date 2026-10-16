@@ -1721,6 +1721,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 #cap-premium-tarifs .cap-v6-note{color:#ecf3f1!important;font-size:14px!important;line-height:1.65!important;border:1px solid #5d7b75!important;border-radius:12px;padding:12px!important}
 @media(max-width:760px){#cap-premium-tarifs .cap-v6-plan{grid-template-columns:1fr!important}#cap-premium-tarifs .cap-v6-plan>div{padding:19px!important}#cap-premium-tarifs>summary{padding:16px!important}}
 </style>
+<section id="cap-premium-offers" aria-label="Offre Premium CAP Budget">
 <details class="cap-commercial-details cap-commercial-pricing" id="cap-premium-tarifs" open>
 <summary><span class="cap-pricing-summary-title">💳 CAP Budget Premium · Tarifs</span><span class="cap-pricing-summary-prices">5,99 € TTC/mois · 49,99 € TTC/an</span></summary>
 <div class="cap-commercial-inside">
@@ -1746,6 +1747,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   <div class="cap-v6-note">Tarifs présentés à titre informatif. L’achat de ces nouvelles formules sera proposé après configuration et vérification des prix correspondants dans Stripe TEST. Aucun paiement réel n’est activé et aucun achat n’est possible depuis cette carte.</div>
 </article>
 </div></details>
+</section>
 <nav class="cap-mobile-bar" aria-label="Navigation rapide">
   <button type="button" onclick="document.getElementById('nav-budget')?.click()">Budget</button>
   <button type="button" onclick="document.getElementById('nav-repas')?.click()">Repas</button>
@@ -2858,7 +2860,6 @@ body:has(#tab-budget:not([hidden])) #pill {
       <p>Pas besoin de tout lire. Clique sur la question qui t'intéresse : une réponse courte t'explique quoi faire.</p>
       <div class="cap-guide-start" role="note"><strong>Pour bien commencer :</strong><span>① Je note mes revenus dans Budget.</span><span>② Je prévois mes dépenses.</span><span>③ Je vérifie ce qu’il me reste.</span></div>
       <div class="guide-grid cap-guide-panels">
-      <div class="cap-guide-column">
       <article class="guide-card" data-guide-rubrique="1">
       <details class="cap-guide-item" open>
         <summary><span class="cap-guide-heading">🏠 1. À quoi sert l'accueil ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
@@ -2907,8 +2908,6 @@ body:has(#tab-budget:not([hidden])) #pill {
         </div>
       </details>
       </article>
-      </div>
-      <div class="cap-guide-column">
       <article class="guide-card" data-guide-rubrique="7">
       <details class="cap-guide-item">
         <summary><span class="cap-guide-heading">🎯 7. Comment économiser pour un projet ?</span><span class="cap-guide-chevron" aria-hidden="true"></span></summary>
@@ -2957,7 +2956,6 @@ body:has(#tab-budget:not([hidden])) #pill {
         </div>
       </details>
       </article>
-      </div>
       </div>
     </div>
   </details>
@@ -5205,6 +5203,77 @@ render();
   display: block;
   padding: 0 !important;
   min-width: 0;
+}
+</style>
+
+<style id="cap-guide-grid-light-final-20261017">
+/* Fond clair lumineux, sans modifier les montants ou les règles de paiement. */
+html, body { background: #f8fafc !important; }
+.app > header.top, .app > header.top .brand-name { color: #172b3d !important; }
+.app > header.top .brand-sub { color: #475569 !important; }
+.app > header.top .pill { color: #1e293b !important; background: #fff !important; border-color: #dbe4ee !important; }
+html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgba(248,250,252,.98) !important; }
+/* Les 12 cartes sont des enfants directs de la grille. */
+#cap-budget-guide .cap-guide-panels {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  align-items: start !important;
+  gap: 16px !important;
+  align-content: start !important;
+  margin: 20px 0 12px !important;
+  padding: 0 !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card {
+  display: block !important;
+  align-self: start !important;
+  height: fit-content !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 1px solid #dbe4ee !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  color: #1e293b !important;
+  box-shadow: 0 4px 16px rgba(30,41,59,.08) !important;
+  overflow: hidden !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item {
+  display: block !important;
+  width: 100% !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item > summary {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-height: 66px !important;
+  padding: 17px 19px !important;
+  background: #f8fafc !important;
+  color: #1e3a5f !important;
+  cursor: pointer;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item > .cap-guide-panel {
+  padding: 16px 19px 19px !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]) {
+  border-color: #80b8cf !important;
+}
+/* Section tarifaire Premium autonome, hors Objectifs. */
+#cap-premium-offers { display: block; width: 100%; margin: 18px auto; }
+#cap-premium-offers > #cap-premium-tarifs { margin: 0 !important; }
+@media (max-width: 330px) {
+  #cap-budget-guide .cap-guide-panels { grid-template-columns: minmax(0,1fr) !important; }
 }
 </style>
 </body></html>';
