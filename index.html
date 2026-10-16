@@ -5129,133 +5129,7 @@ render();
       '<div class="kpi">Repère par semaine<strong>'+escapeHtml(get('v6-week'))+'</strong></div></div>'+
       (stats?'<h2>Répartition prévue</h2><ul>'+stats+'</ul>':'')+
       '<p class="note">Chiffres indicatifs du budget prévisionnel, pas un solde bancaire. Ne pas additionner au cadran « Reste à vivre ».</p>'+
-      '
-<style id="cap-guide-grid-cards-20261016">
-/* Guide complet en 12 cartes : styles demandés, sans modifier le contenu ni les interactions. */
-.guide-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
-  margin-top: 15px;
-}
-.guide-card {
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-/* Remplace les anciennes grilles forcées et garantit la lisibilité même en mode sombre. */
-#cap-budget-guide .cap-guide-panels.guide-grid {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
-  gap: 16px !important;
-  margin-top: 15px !important;
-  align-items: start !important;
-}
-#cap-budget-guide .guide-grid > article.guide-card {
-  background: #ffffff !important;
-  border: 1px solid #e0e0e0 !important;
-  border-radius: 12px !important;
-  padding: 16px !important;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
-  color: #173b2a !important;
-}
-#cap-budget-guide .guide-grid > article.guide-card > details.cap-guide-item {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-#cap-budget-guide .guide-grid > article.guide-card .cap-guide-item > summary,
-#cap-budget-guide .guide-grid > article.guide-card .cap-guide-panel,
-#cap-budget-guide .guide-grid > article.guide-card .cap-guide-panel strong {
-  color: #173b2a !important;
-}
-#cap-budget-guide .guide-grid > article.guide-card:has(> details[open]) {
-  border-color: #16a34a !important;
-}
-#cap-savings-module .cap-save-grid > article.card.cap-save-panel {
-  display: block;
-  min-width: 0;
-}
-#cap-eco-v2 .eco-grid > article.card.eco-card {
-  display: block;
-  padding: 0 !important;
-  min-width: 0;
-}
-</style>
-
-<style id="cap-guide-grid-light-final-20261017">
-/* Fond clair lumineux, sans modifier les montants ou les règles de paiement. */
-html, body { background: #f8fafc !important; }
-.app > header.top, .app > header.top .brand-name { color: #172b3d !important; }
-.app > header.top .brand-sub { color: #475569 !important; }
-.app > header.top .pill { color: #1e293b !important; background: #fff !important; border-color: #dbe4ee !important; }
-html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgba(248,250,252,.98) !important; }
-/* Les 12 cartes sont des enfants directs de la grille. */
-#cap-budget-guide .cap-guide-panels {
-  display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-  align-items: start !important;
-  gap: 16px !important;
-  align-content: start !important;
-  margin: 20px 0 12px !important;
-  padding: 0 !important;
-}
-#cap-budget-guide .cap-guide-panels > article.guide-card {
-  display: block !important;
-  align-self: start !important;
-  height: fit-content !important;
-  min-width: 0 !important;
-  width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: 1px solid #dbe4ee !important;
-  border-radius: 16px !important;
-  background: #ffffff !important;
-  color: #1e293b !important;
-  box-shadow: 0 4px 16px rgba(30,41,59,.08) !important;
-  overflow: hidden !important;
-}
-#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item {
-  display: block !important;
-  width: 100% !important;
-  border: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item > summary {
-  box-sizing: border-box !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  min-height: 66px !important;
-  padding: 17px 19px !important;
-  background: #f8fafc !important;
-  color: #1e3a5f !important;
-  cursor: pointer;
-}
-#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item > .cap-guide-panel {
-  padding: 16px 19px 19px !important;
-  background: #ffffff !important;
-  color: #334155 !important;
-  border-top: 1px solid #e2e8f0 !important;
-}
-#cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]) {
-  border-color: #80b8cf !important;
-}
-/* Section tarifaire Premium autonome, hors Objectifs. */
-#cap-premium-offers { display: block; width: 100%; margin: 18px auto; }
-#cap-premium-offers > #cap-premium-tarifs { margin: 0 !important; }
-@media (max-width: 330px) {
-  #cap-budget-guide .cap-guide-panels { grid-template-columns: minmax(0,1fr) !important; }
-}
-</style>
-</body></html>';
+      '</body></html>';
   }
   document.addEventListener('click',event=>{
     const button=event.target.closest('#cap-frigo-print');if(!button)return;
@@ -6586,6 +6460,131 @@ html, body, body > .app, .app { background-color:#f7f9fc!important; }
   #cap-savings-module .cap-save-grid, #cap-eco-v2 .eco-grid {grid-template-columns:minmax(0,1fr)!important;}
   #cap-premium-offers {margin:22px auto 30px!important;padding:0 10px!important;}
   #cap-premium-offers .cap-v6-plan {grid-template-columns:minmax(0,1fr)!important;}
+}
+</style>
+<style id="cap-guide-grid-cards-20261016">
+/* Guide complet en 12 cartes : styles demandés, sans modifier le contenu ni les interactions. */
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+.guide-card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+/* Remplace les anciennes grilles forcées et garantit la lisibilité même en mode sombre. */
+#cap-budget-guide .cap-guide-panels.guide-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+  gap: 16px !important;
+  margin-top: 15px !important;
+  align-items: start !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+  color: #173b2a !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card > details.cap-guide-item {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card .cap-guide-item > summary,
+#cap-budget-guide .guide-grid > article.guide-card .cap-guide-panel,
+#cap-budget-guide .guide-grid > article.guide-card .cap-guide-panel strong {
+  color: #173b2a !important;
+}
+#cap-budget-guide .guide-grid > article.guide-card:has(> details[open]) {
+  border-color: #16a34a !important;
+}
+#cap-savings-module .cap-save-grid > article.card.cap-save-panel {
+  display: block;
+  min-width: 0;
+}
+#cap-eco-v2 .eco-grid > article.card.eco-card {
+  display: block;
+  padding: 0 !important;
+  min-width: 0;
+}
+</style>
+
+<style id="cap-guide-grid-light-final-20261017">
+/* Fond clair lumineux, sans modifier les montants ou les règles de paiement. */
+html, body { background: #f8fafc !important; }
+.app > header.top, .app > header.top .brand-name { color: #172b3d !important; }
+.app > header.top .brand-sub { color: #475569 !important; }
+.app > header.top .pill { color: #1e293b !important; background: #fff !important; border-color: #dbe4ee !important; }
+html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgba(248,250,252,.98) !important; }
+/* Les 12 cartes sont des enfants directs de la grille. */
+#cap-budget-guide .cap-guide-panels {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+  align-items: start !important;
+  gap: 16px !important;
+  align-content: start !important;
+  margin: 20px 0 12px !important;
+  padding: 0 !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card {
+  display: block !important;
+  align-self: start !important;
+  height: fit-content !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 1px solid #dbe4ee !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  color: #1e293b !important;
+  box-shadow: 0 4px 16px rgba(30,41,59,.08) !important;
+  overflow: hidden !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item {
+  display: block !important;
+  width: 100% !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item > summary {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-height: 66px !important;
+  padding: 17px 19px !important;
+  background: #f8fafc !important;
+  color: #1e3a5f !important;
+  cursor: pointer;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item > .cap-guide-panel {
+  padding: 16px 19px 19px !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]) {
+  border-color: #80b8cf !important;
+}
+/* Section tarifaire Premium autonome, hors Objectifs. */
+#cap-premium-offers { display: block; width: 100%; margin: 18px auto; }
+#cap-premium-offers > #cap-premium-tarifs { margin: 0 !important; }
+@media (max-width: 330px) {
+  #cap-budget-guide .cap-guide-panels { grid-template-columns: minmax(0,1fr) !important; }
 }
 </style>
 </body></html>
