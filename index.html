@@ -5724,154 +5724,231 @@ syncIncome();renderSliders();updateHome();showHome(true);
 </style>
 
 <style id="cap-guide-cagnottes-separated-cards-20261016">
-/* Présentation du Guide et des Cagnottes UNIQUEMENT.
-   Aucun identifiant HTML, gestionnaire JS, calcul ni stockage modifié. */
+/* CAP Budget - Guide et Cagnottes : présentation seulement.
+   Aucun calcul, événement, identifiant, stockage ou contenu modifié. */
 
-/* Guide : 12 cartes autonomes, aérées et faciles à parcourir. */
-#cap-budget-guide .cap-budget-guide-content{padding:18px clamp(12px,2.5vw,24px) 24px!important}
+/* Un panneau légèrement teinté plutôt qu'une immense surface blanche. */
+#cap-budget-guide{
+  background:linear-gradient(145deg,#edf6f1,#f3f5fa)!important;
+  border:1px solid #c9dfd5!important;
+  border-radius:24px!important;
+  box-shadow:0 9px 30px rgba(28,64,55,.09)!important;
+  color:#1c3e34!important;
+}
+#cap-budget-guide #cap-budget-guide-details > summary{
+  padding:18px 20px!important;
+  background:#e1f0e8!important;
+  border:1px solid #c5ded0!important;
+  border-radius:16px!important;
+  color:#153b2d!important;
+}
+#cap-budget-guide #cap-budget-guide-details > summary span{color:#45695c!important}
+#cap-budget-guide .cap-budget-guide-content{
+  padding:18px clamp(12px,2.5vw,24px) 24px!important;
+  color:#23483a!important;
+}
+#cap-budget-guide .cap-budget-guide-content > p{color:#496b60!important}
+
+/* Une vraie carte distincte pour chacune des 12 rubriques. */
 #cap-budget-guide .cap-guide-panels{
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  gap:22px!important;
   align-items:start!important;
-  margin:22px 0 8px!important;
+  gap:20px!important;
+  margin:20px 0 8px!important;
   padding:0!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card{
+  box-sizing:border-box!important;
   display:block!important;
   min-width:0!important;
   width:auto!important;
-  margin:0!important;
   padding:0!important;
-  border:1px solid #d2e6de!important;
-  border-radius:20px!important;
-  background:#fff!important;
-  box-shadow:0 6px 20px rgba(10,49,43,.10)!important;
+  margin:0!important;
   overflow:hidden!important;
-  color:#193b34!important;
+  background:#f7fcf8!important;
+  color:#1e4839!important;
+  border:1.5px solid #bfdccd!important;
+  border-radius:20px!important;
+  box-shadow:0 5px 0 rgba(25,94,62,.035),0 10px 25px rgba(17,74,51,.12)!important;
+  transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card:nth-child(3n+2){
+  background:#f3f7ff!important;
+  border-color:#cdd9ee!important;
+}
+#cap-budget-guide .cap-guide-panels > article.guide-card:nth-child(3n){
+  background:#fff9f0!important;
+  border-color:#e7d8be!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card > details.cap-guide-item{
-  margin:0!important;
+  display:block!important;
   width:100%!important;
+  margin:0!important;
   border:0!important;
   border-radius:0!important;
   background:transparent!important;
   box-shadow:none!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card summary{
-  background:#f2faf6!important;
-  color:#17392f!important;
+  min-height:72px!important;
   padding:18px 20px!important;
-  min-height:74px!important;
+  background:#e7f4eb!important;
+  color:#174234!important;
   line-height:1.45!important;
 }
+#cap-budget-guide .cap-guide-panels > article.guide-card:nth-child(3n+2) summary{background:#e8effb!important}
+#cap-budget-guide .cap-guide-panels > article.guide-card:nth-child(3n) summary{background:#f8ecd9!important}
 #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-heading{
-  color:#17392f!important;
+  color:#1b4033!important;
   font-weight:800!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{
-  background:#fff!important;
-  border-top:1px solid #dcece5!important;
+  background:transparent!important;
+  color:#2b4b42!important;
   padding:18px 20px 22px!important;
-  color:#25463d!important;
+  border-top:1px solid rgba(46,88,66,.14)!important;
 }
 #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel p{
+  color:#2b4b42!important;
   margin:0 0 13px!important;
-  line-height:1.75!important;
-  color:#25463d!important;
+  line-height:1.7!important;
 }
-#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel strong{color:#15392e!important}
-#cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]){
-  border-color:#35a87b!important;
-  box-shadow:0 9px 25px rgba(10,78,54,.15)!important;
+#cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel strong{color:#153e30!important}
+#cap-budget-guide .cap-guide-panels > article.guide-card:has(details[open]),
+#cap-budget-guide .cap-guide-panels > article.guide-card:focus-within{
+  border-color:#27976b!important;
+  box-shadow:0 12px 30px rgba(18,87,60,.2)!important;
+}
+@media(hover:hover){
+  #cap-budget-guide .cap-guide-panels > article.guide-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 29px rgba(18,87,60,.18)!important;
+  }
 }
 
-/* Les quatre cagnottes principales restent quatre cartes DISTINCTES. */
+/* Chaque cagnotte est autonome : séparations, fonds et ombres visibles. */
+#cap-savings-module{
+  background:linear-gradient(150deg,#eef8f2,#f1f6fa)!important;
+  border:1px solid #c8ded4!important;
+  border-radius:23px!important;
+}
 #cap-savings-module .cap-save-grid,
 #cap-eco-v2 .eco-grid{
   display:grid!important;
   grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  gap:22px!important;
   align-items:start!important;
+  gap:20px!important;
   margin-top:22px!important;
   padding:0!important;
 }
 #cap-savings-module .cap-save-grid > article.cap-save-panel,
 #cap-eco-v2 .eco-grid > article.eco-card{
+  box-sizing:border-box!important;
   display:block!important;
   min-width:0!important;
-  grid-column:auto!important;
   width:auto!important;
+  grid-column:auto!important;
   margin:0!important;
-  border:1px solid #cce3d9!important;
-  border-radius:20px!important;
   overflow:hidden!important;
-  box-shadow:0 7px 22px rgba(12,65,52,.12)!important;
+  border:1.5px solid #c4dcd1!important;
+  border-radius:20px!important;
+  box-shadow:0 5px 0 rgba(25,94,62,.035),0 10px 25px rgba(17,74,51,.12)!important;
 }
 #cap-savings-module .cap-save-grid > article.cap-save-panel{
   padding:22px!important;
-  background:#f9fdfb!important;
-  color:#183d31!important;
+  background:#f6fcf8!important;
+  color:#1b4435!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel:nth-child(4n+2){
+  background:#f0f7ff!important;
+  border-color:#cbdcee!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel:nth-child(4n+3){
+  background:#fff9ef!important;
+  border-color:#e8d8bd!important;
+}
+#cap-savings-module .cap-save-grid > article.cap-save-panel:nth-child(4n+4){
+  background:#f8f3ff!important;
+  border-color:#ded0ef!important;
 }
 #cap-savings-module .cap-save-grid > article.cap-save-panel h4{
   margin:0 0 16px!important;
   padding:0 0 12px!important;
-  border-bottom:1px solid #dbece5!important;
-  color:#164632!important;
+  border-bottom:1px solid #ccdcd6!important;
+  color:#164432!important;
   line-height:1.45!important;
 }
-#cap-savings-module .cap-save-grid > article.cap-save-panel p,
-#cap-savings-module .cap-save-grid > article.cap-save-panel label{
-  color:#315449!important;
-  line-height:1.65!important;
+#cap-savings-module .cap-save-grid > article.cap-save-panel :is(p,label,.cap-save-muted){
+  color:#34594b!important;
+  line-height:1.6!important;
 }
-#cap-eco-v2 .eco-grid > article.eco-card{background:#fff!important;color:#183b35!important}
+#cap-savings-module .cap-save-grid > article.cap-save-panel :is(input,button){
+  box-sizing:border-box!important;
+  max-width:100%!important;
+  min-height:44px;
+}
+#cap-eco-v2{
+  background:linear-gradient(145deg,#eaf5ef,#eff4fa)!important;
+  border:1px solid #cbdfd8!important;
+}
+#cap-eco-v2 .eco-grid > article.eco-card{
+  background:#f7fcf9!important;
+  color:#1a4035!important;
+}
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(4n+2){background:#f1f7ff!important;border-color:#cbdcee!important}
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(4n+3){background:#fff9ee!important;border-color:#e8d8bd!important}
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(4n+4){background:#f8f4ff!important;border-color:#ded0ef!important}
 #cap-eco-v2 .eco-grid > article.eco-card > h3{
-  background:#e3f5ed!important;
-  color:#164632!important;
-  padding:18px 20px!important;
   margin:0!important;
+  padding:18px 20px!important;
+  background:#dfefe6!important;
+  color:#174331!important;
   line-height:1.45!important;
 }
-#cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:20px!important}
-/* Paulaider est la cinquième carte, visuellement séparée du quadrillage. */
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(4n+2) > h3{background:#e3edfc!important}
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(4n+3) > h3{background:#f9ecd5!important}
+#cap-eco-v2 .eco-grid > article.eco-card:nth-child(4n+4) > h3{background:#eee4fa!important}
+#cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:20px!important;color:#2a4b40!important}
+#cap-eco-v2 .eco-grid > article.eco-card .eco-body :is(p,label){color:#2a4b40!important;line-height:1.6!important}
 #cap-eco-v2 #eco-paulaider{
   display:block!important;
   margin:22px 0 0!important;
   padding:23px!important;
-  border:1px solid #b9decf!important;
+  background:#e3f4ea!important;
+  border:1.5px solid #b5d8c5!important;
   border-radius:20px!important;
-  background:#ecfaf3!important;
-  box-shadow:0 7px 22px rgba(12,65,52,.12)!important;
-  color:#184738!important;
+  box-shadow:0 10px 25px rgba(17,74,51,.12)!important;
+  color:#1c4936!important;
 }
 #cap-eco-v2 #eco-paulaider > strong{
   display:block!important;
-  margin-bottom:13px!important;
-  color:#14523a!important;
+  margin-bottom:12px!important;
+  color:#145139!important;
   font-size:clamp(18px,2vw,21px)!important;
-  line-height:1.4!important;
 }
-#cap-eco-v2 #eco-paulaider p{margin:10px 0 14px!important;line-height:1.7!important}
-#cap-savings-module .cap-save-panel :is(input,button),
 #cap-eco-v2 :is(.eco-card,#eco-paulaider) :is(input,button){
+  box-sizing:border-box!important;
   max-width:100%!important;
   min-height:44px;
-  box-sizing:border-box!important;
 }
-/* Téléphone : une carte par ligne et de l'espace ENTRE chaque carte. */
-@media(max-width:760px){
+@media(max-width:850px){
   #cap-budget-guide .cap-guide-panels,
   #cap-savings-module .cap-save-grid,
   #cap-eco-v2 .eco-grid{
     grid-template-columns:minmax(0,1fr)!important;
     gap:18px!important;
   }
+  #cap-budget-guide #cap-budget-guide-details > summary{padding:16px!important}
   #cap-budget-guide .cap-guide-panels > article.guide-card summary{padding:16px!important;min-height:64px!important}
   #cap-budget-guide .cap-guide-panels > article.guide-card .cap-guide-panel{padding:16px 17px 19px!important}
   #cap-savings-module .cap-save-grid > article.cap-save-panel{padding:18px!important}
   #cap-eco-v2 .eco-grid > article.eco-card .eco-body{padding:18px!important}
-  #cap-eco-v2 #eco-paulaider{margin-top:18px!important;padding:19px!important}
+  #cap-eco-v2 #eco-paulaider{padding:19px!important;margin-top:18px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #cap-budget-guide .cap-guide-panels > article.guide-card{transition:none!important}
+  #cap-budget-guide .cap-guide-panels > article.guide-card:hover{transform:none!important}
 }
 </style>
 </body></html>
