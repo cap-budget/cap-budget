@@ -5249,6 +5249,14 @@ padding:20px!important;margin:0!important;border:0!important;box-sizing:border-b
 #cap-eco-v2 .eco-robot p{margin:8px 0}#cap-eco-v2 .eco-muted{font-size:12px;color:#5b7474}
 #cap-eco-v2 .eco-label{display:block;margin:12px 0 5px;font-weight:650}
 @media(max-width:680px){#cap-eco-v2 .eco-grid{grid-template-columns:1fr}#cap-eco-v2 .eco-head strong{font-size:20px}#cap-eco-v2 .eco-nav a{font-size:12px;min-width:72px}}
+/* CAP Cagnottes : format plus compact, coins arrondis, sans changer les données. */
+#cap-eco-v2{width:min(100%,880px)!important;max-width:880px!important;margin:22px auto!important;border-radius:28px!important;overflow:hidden!important;box-sizing:border-box!important}
+#cap-eco-v2 .eco-head{border-radius:28px 28px 0 0!important}
+#cap-eco-v2 .eco-content{border-radius:0 0 28px 28px!important;padding:20px clamp(14px,3vw,26px)!important}
+#cap-eco-v2 .eco-grid{gap:16px!important}
+#cap-eco-v2 .eco-card{border-radius:24px!important;min-width:0!important}
+#cap-eco-v2 .eco-card h3{border-radius:23px 23px 0 0!important}
+@media(max-width:680px){#cap-eco-v2{width:calc(100% - 16px)!important;margin:12px auto!important;border-radius:22px!important}#cap-eco-v2 .eco-grid{grid-template-columns:minmax(0,1fr)!important}#cap-eco-v2 .eco-card{border-radius:20px!important}}
 </style>
 <section id="cap-eco-v2" aria-labelledby="eco-title">
  <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>Économies et petites victoires</strong><small>Mes réussites</small></div><div><small id="eco-date"></small><span>Budget principal : <b id="eco-balance">voir le solde ci-dessus</b></span></div></header>
