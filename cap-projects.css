@@ -1,0 +1,39 @@
+/* CAP Budget — Galerie des projets, affichage accessible et mobile */
+#tab-voyages > #trip-form,
+#tab-voyages > #trip-view {display:none!important} /* ancien voyage préservé en mémoire */
+#tab-voyages #cap-projects{background:linear-gradient(145deg,#17372e,#102522);border:1px solid #528779;border-radius:20px;padding:clamp(17px,3vw,26px);color:#f1fff8;margin:0 0 20px}
+#tab-voyages #cap-projects h2{font-size:clamp(23px,3vw,28px);margin:0 0 8px;color:#fff}
+#tab-voyages #cap-projects p{color:#d3e5e0;margin:0 0 16px;line-height:1.55}
+#cap-project-add-form{display:grid;gap:12px;margin-bottom:22px}
+#cap-project-add-form .cap-project-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#cap-project-add-form label{display:grid;gap:7px;min-width:0;color:#f1fff8;font-size:15px;font-weight:750}
+#cap-project-add-form input{box-sizing:border-box;width:100%;min-height:52px;padding:10px 13px;border:1px solid #7aaa91;border-radius:12px;background:#081e19;color:#fff;font:inherit;font-size:16px}
+#cap-project-add-form input[type=file]{padding:10px;min-width:0}
+#cap-project-add-form input::placeholder{color:#b0c9c0}
+#cap-project-add-form button,#cap-projects .cap-project-action{border:1px solid #86efac;background:#baf7d0;color:#0b3424;font-size:15px;font-weight:800;border-radius:12px;padding:10px 12px;min-height:44px;cursor:pointer}
+#cap-project-add-form button:disabled{opacity:.6;cursor:wait}
+#cap-projects #cap-project-message{font-size:14px;margin:0;min-height:21px}
+#cap-project-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;align-items:stretch}
+#cap-project-gallery .cap-project-tile{display:flex;flex-direction:column;min-width:0;gap:7px;padding:10px;border-radius:16px;background:#10251f;border:1px solid #50816d;color:#fff}
+#cap-project-gallery .cap-project-picture{height:122px;border-radius:11px;display:grid;place-items:center;background:#244738;overflow:hidden}
+#cap-project-gallery .cap-project-picture img{width:100%;height:100%;object-fit:cover;display:block}
+#cap-project-gallery .cap-project-picture>span{font-size:48px}
+#cap-project-gallery h3{font-size:16px;margin:3px 0 0;color:#fff;overflow-wrap:anywhere}
+#cap-project-gallery .cap-project-progress{font-size:13px!important;margin:0!important;color:#d6e8e1!important;overflow-wrap:anywhere}
+#cap-project-gallery progress{width:100%;height:11px;accent-color:#39df98}
+#cap-project-gallery .cap-project-tile-actions{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+#cap-project-gallery .cap-project-action{width:100%;min-height:38px;font-size:13px;padding:7px 8px;background:#1d5040;color:#fff;border-color:#4f9b7a}
+#cap-project-gallery .cap-project-action:hover{background:#266950}
+#cap-project-gallery .cap-project-empty{grid-column:1/-1;margin:0!important;padding:17px;border:1px dashed #7aaa91;border-radius:11px}
+#tab-voyages #cap-project-objectives-slot > .cap-v6-card{width:100%;max-width:none;margin:0;box-sizing:border-box;background:#192f29;border-color:#50816d;color:#f1fff8}
+#tab-voyages #cap-project-objectives-slot .cap-v6-card h3{font-size:21px;color:#fff}
+#tab-voyages #cap-project-objectives-slot .cap-v6-card p{font-size:15px;color:#d3e5e0}
+#tab-voyages #cap-project-objectives-slot .cap-v6-form input{min-height:50px;font-size:16px}
+#tab-voyages #cap-project-objectives-slot .cap-v6-btn{min-height:44px}
+@media(max-width:580px){
+ #cap-project-add-form .cap-project-fields{grid-template-columns:minmax(0,1fr)}
+ #cap-project-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #tab-voyages #cap-projects{padding:16px 13px}
+ #tab-voyages #cap-project-objectives-slot .cap-v6-form-row{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:360px){#cap-project-gallery{grid-template-columns:minmax(0,1fr)}}
