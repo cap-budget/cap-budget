@@ -1399,6 +1399,19 @@ background:#fff!important;color:#294b40!important;border:0!important;
 @media(max-width:800px){#cap-budget-guide .cap-guide-panels{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}
 #cap-budget-guide .cap-guide-panels>.cap-guide-column{gap:16px!important}}
 </style>
+
+<style id="cap-meals-gold-theme">
+/* Planning repas : touches jaune or, sans modifier les données ni les formulaires. */
+#days .day{border:1px solid #c99a32;border-left:5px solid #d6a326;border-radius:14px;padding:14px 16px;margin:10px 0;background:linear-gradient(105deg,rgba(250,204,75,.13),rgba(255,215,105,.035));}
+#days .day-name{color:#b78316!important;font-weight:800;}
+#days .day-date{color:inherit;opacity:.85;}
+#days .slot span{color:#bd8b20!important;font-weight:800;}
+#days .slot .input{border:1px solid #cba54f;border-radius:10px;background:var(--surface,#fff);color:var(--ink,inherit);}
+#days .slot .input:focus{outline:2px solid #e7b733;outline-offset:2px;border-color:#d6a326;}
+#days .day.today{border-color:#e1ac20;border-left-width:7px;background:linear-gradient(110deg,rgba(255,209,64,.25),rgba(255,224,117,.09));}
+#days .day.today .tag{background:#f6cc53!important;color:#493100!important;font-weight:800;}
+@media print{#days .day{break-inside:avoid;border-color:#b78a25!important;background:#fff8dc!important}#days .day-name,#days .slot span{color:#79550a!important}}
+</style>
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
