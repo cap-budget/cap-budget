@@ -97,11 +97,6 @@
       meter.value=target?Math.min(100,Math.round(saved/target*100)):0;
       meter.setAttribute('aria-label','Avancement de '+String(g.name||'ce projet'));
       const actions=document.createElement('div');actions.className='cap-project-tile-actions';
-      actions.append(button('Voir l’objectif',()=>{
-        const goalButton=document.querySelector('#v6-goals [data-goal="'+index+'"]');
-        const item=goalButton?.closest('.cap-v6-item')||el('v6-goals');
-        item?.scrollIntoView({behavior:'smooth',block:'center'});
-      }));
       const picker=document.createElement('input');picker.type='file';picker.accept='image/jpeg,image/png,image/webp';picker.hidden=true;
       picker.setAttribute('aria-label','Choisir une photo pour '+String(g.name||'ce projet'));
       picker.addEventListener('change',async()=>{
