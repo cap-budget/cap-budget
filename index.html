@@ -6683,14 +6683,44 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
 
 <!-- Guide 12 rubriques : douze rectangles blancs independants, meme modele que les Cagnottes. -->
 <style id="cap-guide-12-white-boxes-final-20261017">
-#cap-budget-guide .cap-help-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:18px!important;align-items:start!important;padding:12px 0!important;background:transparent!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card{display:block!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important;background-image:none!important;border:1px solid #dbe4ee!important;border-radius:18px!important;box-shadow:0 4px 15px rgba(30,41,59,.08)!important;overflow:hidden!important;color:#1e293b!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{display:grid!important;grid-template-columns:40px 43px minmax(0,1fr) 18px!important;align-items:start!important;gap:10px!important;box-sizing:border-box!important;min-height:110px!important;padding:20px!important;margin:0!important;background:#fff!important;background-image:none!important;color:#1e293b!important;border:0!important;cursor:pointer!important;list-style:none!important}
+/* Même fond, bordure, rayon et ombre que #cap-eco-v2 .eco-card ; hauteur naturelle. */
+#cap-budget-guide .cap-help-grid{
+ display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))!important;
+ gap:18px!important;align-items:start!important;align-content:start!important;padding:12px 0!important;background:transparent!important
+}
+#cap-budget-guide .cap-help-grid>details.cap-help-card{
+ display:block!important;box-sizing:border-box!important;width:100%!important;min-width:0!important;
+ height:fit-content!important;min-height:0!important;max-height:none!important;
+ margin:0!important;padding:0!important;
+ background:#fff!important;background-image:none!important;
+ border:1px solid #d7e8e4!important;border-radius:20px!important;
+ box-shadow:0 6px 22px rgba(17,76,67,.09)!important;
+ overflow:hidden!important;color:#1e293b!important;align-self:start!important
+}
+#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{
+ display:grid!important;grid-template-columns:40px 43px minmax(0,1fr) 18px!important;
+ align-items:center!important;gap:10px!important;box-sizing:border-box!important;
+ height:fit-content!important;min-height:0!important;padding:17px 20px!important;margin:0!important;
+ background:#fff!important;background-image:none!important;color:#1e293b!important;
+ border:0!important;cursor:pointer!important;list-style:none!important
+}
 #cap-budget-guide .cap-help-grid>details.cap-help-card>summary::-webkit-details-marker{display:none!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card[open]>summary{border-bottom:1px solid #e2e8f0!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>.cap-help-answer{box-sizing:border-box!important;display:block!important;margin:0!important;padding:20px!important;background:#fff!important;background-image:none!important;color:#334155!important;border:0!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card[open]>summary{border-bottom:1px solid #d7e8e4!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card>.cap-help-answer{
+ box-sizing:border-box!important;margin:0!important;padding:19px 20px 21px!important;
+ background:#fff!important;background-image:none!important;color:#334155!important;border:0!important
+}
 #cap-budget-guide .cap-help-grid>details.cap-help-card:not([open])>.cap-help-answer{display:none!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy,#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy strong,#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy span,#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-answer p{color:#1e293b!important}
-@media(max-width:760px){#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{min-height:115px!important;padding:16px!important;grid-template-columns:34px 34px minmax(0,1fr) 16px!important;gap:8px!important}}
+#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy,
+#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy strong,
+#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy span,
+#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-answer p{color:#1e293b!important}
+@media(max-width:680px){
+ #cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}
+ #cap-budget-guide .cap-help-grid>details.cap-help-card>summary{
+  grid-template-columns:34px 34px minmax(0,1fr) 16px!important;
+  min-height:0!important;padding:17px 18px!important;gap:8px!important
+ }
+}
 </style>
 </body></html>
