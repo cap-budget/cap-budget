@@ -1445,7 +1445,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <button type="button" data-dash-target="#tab-repas" data-dash-key="repas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v7"/><path d="M4 3v7a3 3 0 0 0 6 0V3"/><path d="M7 13v8"/><path d="M17 3v18"/><path d="M14 8h6"/></svg><span>Repas</span></button>
 <button type="button" data-dash-target="#tab-voyages" data-dash-key="voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 12 17-7-7 17-2-8-8-2Z"/><path d="M11 14 20 5"/></svg><span>Projets</span></button>
 <button type="button" data-dash-target="#v6-goals" data-dash-key="objectifs"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m12 7 1.5 3L17 12l-3.5 1.5L12 17l-1.5-3.5L7 12l3.5-2Z"/></svg><span>Objectifs</span></button>
-<button type="button" data-dash-target="#v6-advice" data-dash-key="conseil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Conseil</span></button>
+<button type="button" data-dash-target="#tab-conseil" data-dash-key="conseil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Conseil</span></button>
 <button type="button" data-dash-target="#v6-export" data-dash-key="param"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h9"/><path d="M17 18h3"/><circle cx="15" cy="18" r="2"/></svg><span>Paramètres</span></button>
     </nav>
     
@@ -1585,12 +1585,12 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     '<button type="button" data-dash-target="#tab-repas" data-dash-key="repas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v7"/><path d="M4 3v7a3 3 0 0 0 6 0V3"/><path d="M7 13v8"/><path d="M17 3v18"/><path d="M14 8h6"/></svg><span>Repas</span></button>',
     '<button type="button" data-dash-target="#tab-voyages" data-dash-key="voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 12 17-7-7 17-2-8-8-2Z"/><path d="M11 14 20 5"/></svg><span>Projets</span></button>',
     '<button type="button" data-dash-target="#v6-goals" data-dash-key="objectifs"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m12 7 1.5 3L17 12l-3.5 1.5L12 17l-1.5-3.5L7 12l3.5-2Z"/></svg><span>Objectifs</span></button>',
-    '<button type="button" data-dash-target="#v6-advice" data-dash-key="conseil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Conseil</span></button>',
+    '<button type="button" data-dash-target="#tab-conseil" data-dash-key="conseil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Conseil</span></button>',
     '<button type="button" data-dash-target="#v6-export" data-dash-key="param"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h9"/><path d="M17 18h3"/><circle cx="15" cy="18" r="2"/></svg><span>Paramètres</span></button>'
   ].join('');
-  document.querySelectorAll('[data-dash-target]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cap-dash-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const t=btn.dataset.dashTarget;if(t==='#cap-dashboard-redesign')window.scrollTo({top:0,behavior:'smooth'});else if(t==='#v6-goals'){el('nav-voyages')?.click();setTimeout(()=>el('v6-goals')?.scrollIntoView({behavior:'smooth',block:'start'}),120);}else if(t==='#v6-advice'||t==='#v6-export')el(t.slice(1))?.scrollIntoView({behavior:'smooth',block:'center'});else{const map={'#tab-budget':'#nav-budget','#tab-repas':'#nav-repas','#tab-voyages':'#nav-voyages','#tab-stats':'#nav-stats'};const q=document.querySelector(map[t]||t);const dest=document.querySelector(t==='#tab-budget'?'#cap-budget-allocation':t);if(q)q.click();setTimeout(()=>dest?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}));
+  document.querySelectorAll('[data-dash-target]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cap-dash-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const t=btn.dataset.dashTarget;if(t==='#cap-dashboard-redesign')window.scrollTo({top:0,behavior:'smooth'});else if(t==='#v6-goals'){el('nav-voyages')?.click();setTimeout(()=>el('v6-goals')?.scrollIntoView({behavior:'smooth',block:'start'}),120);}else if(t==='#tab-conseil'){window.CAP_showTab?.('conseil');setTimeout(()=>el('tab-conseil')?.scrollIntoView({behavior:'smooth',block:'start'}),70)}else if(t==='#v6-advice'||t==='#v6-export')el(t.slice(1))?.scrollIntoView({behavior:'smooth',block:'center'});else{const map={'#tab-budget':'#nav-budget','#tab-repas':'#nav-repas','#tab-voyages':'#nav-voyages','#tab-stats':'#nav-stats'};const q=document.querySelector(map[t]||t);const dest=document.querySelector(t==='#tab-budget'?'#cap-budget-allocation':t);if(q)q.click();setTimeout(()=>dest?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}));
   document.querySelector('.cap-dash-nav button[data-dash-key="accueil"]')?.classList.add('active');
-  document.querySelectorAll('[data-dash-action]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.dashAction;if(a==='expense'){el('nav-budget')?.click();setTimeout(()=>{el('f-amount')?.focus();el('f-amount')?.scrollIntoView({behavior:'smooth',block:'center'})},100)}if(a==='goal'){el('nav-voyages')?.click();setTimeout(()=>{el('v6-goal-name')?.scrollIntoView({behavior:'smooth',block:'center'});el('v6-goal-name')?.focus()},120)}if(a==='analyze'){el('v6-refresh')?.click();el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'})}if(a==='simulate'){el('v7-sim-amount')?.scrollIntoView({behavior:'smooth',block:'center'});el('v7-sim-amount')?.focus()}if(a==='stats'){el('nav-stats')?.click();setTimeout(()=>el('tab-stats')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}if(a==='advice')el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'});if(a==='budget'){el('nav-budget')?.click();setTimeout(()=>el('tab-budget')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}}));
+  document.querySelectorAll('[data-dash-action]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.dashAction;if(a==='expense'){el('nav-budget')?.click();setTimeout(()=>{el('f-amount')?.focus();el('f-amount')?.scrollIntoView({behavior:'smooth',block:'center'})},100)}if(a==='goal'){el('nav-voyages')?.click();setTimeout(()=>{el('v6-goal-name')?.scrollIntoView({behavior:'smooth',block:'center'});el('v6-goal-name')?.focus()},120)}if(a==='analyze'){el('v6-refresh')?.click();el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'})}if(a==='simulate'){el('v7-sim-amount')?.scrollIntoView({behavior:'smooth',block:'center'});el('v7-sim-amount')?.focus()}if(a==='stats'){el('nav-stats')?.click();setTimeout(()=>el('tab-stats')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}if(a==='advice'){window.CAP_showTab?.('conseil');setTimeout(()=>el('tab-conseil')?.scrollIntoView({behavior:'smooth',block:'start'}),70)}if(a==='budget'){el('nav-budget')?.click();setTimeout(()=>el('tab-budget')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}}));
   window.addEventListener('capBudgetChanged',render);window.addEventListener('storage',render);render();
 })();
 </script>
@@ -2958,6 +2958,136 @@ body:has(#tab-budget:not([hidden])) #pill {
 <p class="empty" id="stats-recurring-empty">Aucune charge fixe enregistrée pour le moment.</p>
 </div>
 </section>
+<!-- CAP Conseil : rubrique de pédagogie budgétaire, indépendante des calculs -->
+<section id="tab-conseil" aria-label="Conseils pour gérer son budget" hidden>
+  <div class="cap-advice-page">
+    <header class="cap-advice-hero">
+      <span class="cap-advice-eyebrow">🧠 CAP CONSEIL · MES BONNES HABITUDES</span>
+      <h2>10 petits réflexes pour bien gérer mon budget</h2>
+      <p>Pas besoin d’être expert ! Ouvre une carte, découvre l’astuce et essaie la petite mission proposée. Avance à ton rythme.</p>
+      <div class="cap-advice-progress-area">
+        <div class="cap-advice-progress-copy"><strong id="cap-advice-score">0 conseil sur 10 découvert</strong><span>Mon parcours budget 🌱</span></div>
+        <progress id="cap-advice-progress" max="10" value="0" aria-label="Conseils découverts"></progress>
+      </div>
+    </header>
+    <div class="cap-advice-grid" aria-label="Dix conseils budgétaires">
+      <details class="cap-advice-tip" data-advice-index="1">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">💶</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 1 · Commence par tes revenus</span><strong>Connais ton argent disponible</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Note tout ce que tu reçois vraiment dans le mois : salaire, aides ou autres rentrées d’argent. C’est ton point de départ.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : indique tes revenus du mois dans Budget.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="2">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🏠</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 2 · Priorité aux charges fixes</span><strong>Protège tes dépenses indispensables</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Loyer, énergie, assurances et crédits passent avant les achats plaisir. Mets leur montant de côté dès que l’argent arrive.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : liste tes trois charges les plus importantes.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="3">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🎚️</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 3 · Un repère, pas une obligation</span><strong>Essaie la règle 50 / 30 / 20</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Cette règle suggère 50 % pour les besoins, 30 % pour les envies et 20 % pour l’épargne. Adapte-la à ta situation : l’essentiel est de garder l’équilibre.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : bouge les curseurs de l’onglet Budget pour tester.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="4">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🛒</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 4 · Une liste évite les oublis</span><strong>Prépare tes courses</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Regarde ce que tu as déjà, prévois quelques repas et fais une liste. Tu risques moins d’acheter en double ou de dépasser ton enveloppe.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : prépare les repas de trois jours dans Repas.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="5">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🧾</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 5 · Les petits montants comptent</span><strong>Note les dépenses au fur et à mesure</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Un café, un abonnement ou une livraison peuvent sembler anodins. Ensemble, ils finissent par peser sur le mois.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : saisis ta prochaine dépense dès que tu l’as payée.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="6">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">📱</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 6 · Garde ce qui te sert vraiment</span><strong>Vérifie tes abonnements</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Fais le tour de Netflix, musique, applications, téléphone et autres services. Demande-toi lesquels tu utilises encore.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : repère un abonnement à conserver, réduire ou arrêter.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="7">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🧰</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 7 · Les imprévus arrivent</span><strong>Construis une petite réserve</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Une réparation, une facture surprise ou un souci de santé peut déséquilibrer le mois. Même une petite somme mise de côté régulièrement peut aider.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : choisis une somme réaliste, même 5 € si c’est possible.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="8">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">⏳</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 8 · Attends avant un achat non urgent</span><strong>Distingue envie et besoin</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Avant d’acheter, demande-toi : « Est-ce nécessaire maintenant ? » Pour une envie, attendre un jour ou deux peut aider à décider sereinement.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : inscris ton envie et reviens-y demain.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="9">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🎯</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 9 · Un objectif rend le progrès visible</span><strong>Donne un nom à ton épargne</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Voiture, vacances, ordinateur ou formation : choisis un projet précis, estime son coût et avance petit à petit.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : crée un projet avec une petite photo dans Projets.</p>
+        </div>
+      </details>
+      <details class="cap-advice-tip" data-advice-index="10">
+        <summary>
+          <span class="cap-advice-icon" aria-hidden="true">🌟</span>
+          <span class="cap-advice-headings"><span class="cap-advice-kicker">Conseil 10 · Dix minutes peuvent suffire</span><strong>Fais ton mini-bilan chaque semaine</strong></span>
+          <span class="cap-advice-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <div class="cap-advice-body">
+          <p>Une fois par semaine, regarde ce qu’il reste, ce qui a été dépensé et ce qui arrive. Ajuste sans culpabiliser : ton budget doit t’aider, pas te punir.</p>
+          <p class="cap-advice-challenge"><span aria-hidden="true">✨</span> À essayer : choisis un jour fixe pour ton point budget.</p>
+        </div>
+      </details>
+    </div>
+    <footer class="cap-advice-footer">
+      <p>💚 Le bon budget, c’est celui que tu peux suivre dans la durée. Un petit progrès compte déjà !</p>
+      <button id="cap-advice-restart" type="button">Recommencer les conseils</button>
+    </footer>
+  </div>
+</section>
 </main>
 <!-- Tarifs Premium : rubrique autonome, hors des cartes Objectifs. -->
 <section id="cap-premium-offers" aria-label="Offre Premium CAP Budget">
@@ -3892,14 +4022,18 @@ groupBox.replaceChildren.apply(groupBox, groups);
 recurringEmpty.hidden = groups.length > 0;
 }
 function showTab(name) {
-['budget', 'repas', 'voyages', 'stats'].forEach(n => {
-$('#tab-' + n).hidden = n !== name;
-const b = $('#nav-' + n);
-if (n === name) b.setAttribute('aria-current', 'page');
-else b.removeAttribute('aria-current');
+['budget', 'repas', 'voyages', 'stats', 'conseil'].forEach(n => {
+  const panel = $('#tab-' + n);
+  if (panel) panel.hidden = n !== name;
+  const button = $('#nav-' + n);
+  if (button) {
+    if (n === name) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  }
 });
 window.scrollTo({top: 0});
 }
+window.CAP_showTab = showTab;
 ['budget', 'repas', 'voyages', 'stats'].forEach(n => $('#nav-' + n).addEventListener('click', () => showTab(n)));
 function renderAll() {
 syncCustomCategories();
@@ -6732,4 +6866,80 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
 })();
 </script>
 <script src="./cap-projects.js"></script>
+<style id="cap-advice-style-20261017">
+/* CAP Conseil : uniquement l'onglet #tab-conseil, sans impact sur les autres écrans. */
+#tab-conseil[hidden]{display:none!important}
+#tab-conseil{margin:12px 0 30px;scroll-margin-top:20px;color:#effbf4}
+#tab-conseil .cap-advice-page{display:grid;gap:18px}
+#tab-conseil .cap-advice-hero{border-radius:24px;padding:clamp(20px,4vw,34px);border:1px solid #518878;background:linear-gradient(125deg,#183a31,#153a49);box-shadow:0 14px 35px rgba(5,17,15,.15)}
+#tab-conseil .cap-advice-eyebrow{display:inline-block;margin-bottom:12px;color:#b2ffe0;font-size:14px;font-weight:800;letter-spacing:.05em}
+#tab-conseil h2{margin:0 0 12px;font-size:clamp(25px,3vw,36px);line-height:1.17;color:#fff;letter-spacing:-.025em}
+#tab-conseil .cap-advice-hero>p{color:#e0f2ea;font-size:17px;line-height:1.65;max-width:780px;margin:0}
+#tab-conseil .cap-advice-progress-area{display:grid;gap:8px;margin-top:22px}
+#tab-conseil .cap-advice-progress-copy{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#c9f6e1;font-size:14px}
+#tab-conseil .cap-advice-progress-copy strong{color:#fff}
+#tab-conseil progress{height:13px;width:100%;border:0;border-radius:999px;overflow:hidden;accent-color:#38d99b}
+#tab-conseil progress::-webkit-progress-bar{background:#0c271f;border-radius:999px}
+#tab-conseil progress::-webkit-progress-value{background:linear-gradient(90deg,#37d6a1,#a2e2ff);border-radius:999px}
+#tab-conseil progress::-moz-progress-bar{background:#37d6a1}
+#tab-conseil .cap-advice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#tab-conseil .cap-advice-tip{min-width:0;background:#172b27;border:1px solid #497e6b;border-radius:18px;overflow:hidden;box-shadow:0 7px 18px rgba(3,15,14,.12)}
+#tab-conseil .cap-advice-tip[open]{border-color:#7cddb1;background:#19352e}
+#tab-conseil .cap-advice-tip summary{display:flex;align-items:center;gap:12px;min-height:100px;padding:18px 17px;list-style:none;cursor:pointer;color:#fff}
+#tab-conseil .cap-advice-tip summary::-webkit-details-marker{display:none}
+#tab-conseil .cap-advice-tip summary:focus-visible,#tab-conseil button:focus-visible{outline:3px solid #c8ffe2;outline-offset:-3px}
+#tab-conseil .cap-advice-icon{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;background:#285448;border:1px solid #478c75;border-radius:15px;font-size:28px}
+#tab-conseil .cap-advice-headings{display:grid;gap:5px;min-width:0}
+#tab-conseil .cap-advice-kicker{color:#b7e5d5;font-size:12px;font-weight:700;line-height:1.4}
+#tab-conseil .cap-advice-headings strong{font-size:17px;line-height:1.35;overflow-wrap:anywhere}
+#tab-conseil .cap-advice-chevron{margin-left:auto;font-size:27px;color:#a7f3d0;transition:transform .15s ease}
+#tab-conseil .cap-advice-tip[open] .cap-advice-chevron{transform:rotate(180deg)}
+#tab-conseil .cap-advice-body{padding:0 18px 19px 84px}
+#tab-conseil .cap-advice-body p{margin:0;color:#e2f3e9;font-size:16px;line-height:1.65}
+#tab-conseil .cap-advice-body .cap-advice-challenge{margin:15px 0 0;padding:12px 13px;color:#dbffe9;background:#255144;border:1px solid #467d67;border-radius:12px;font-size:15px;font-weight:650}
+#tab-conseil .cap-advice-footer{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:15px;padding:20px 22px;border-radius:19px;background:#19312b;border:1px solid #528572}
+#tab-conseil .cap-advice-footer p{margin:0;flex:1 1 250px;color:#e9fff4;font-size:16px;line-height:1.6}
+#tab-conseil .cap-advice-footer button{min-height:48px;padding:11px 16px;border-radius:12px;border:1px solid #87d7b0;background:#baf7d0;color:#0b3424;font-size:15px;font-weight:750;cursor:pointer}
+@media(max-width:800px){#tab-conseil .cap-advice-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){#tab-conseil .cap-advice-tip summary{min-height:85px;padding:15px 13px;gap:10px}#tab-conseil .cap-advice-icon{height:48px;width:48px;flex-basis:48px;font-size:25px}#tab-conseil .cap-advice-body{padding:0 14px 17px}#tab-conseil .cap-advice-headings strong{font-size:17px}}
+@media(prefers-reduced-motion:reduce){#tab-conseil .cap-advice-chevron{transition:none}}
+</style>
+<script id="cap-advice-script-20261017">
+(function(){
+  'use strict';
+  const section=document.getElementById('tab-conseil');
+  if(!section)return;
+  const tips=Array.from(section.querySelectorAll('.cap-advice-tip'));
+  const count=document.getElementById('cap-advice-score');
+  const progress=document.getElementById('cap-advice-progress');
+  const key='cap_conseils_decouverts_v1';
+  let visited=new Set();
+  try {
+    const saved=JSON.parse(localStorage.getItem(key)||'[]');
+    if(Array.isArray(saved)) visited=new Set(saved.filter(n=>Number.isInteger(n)&&n>=1&&n<=tips.length));
+  }catch(_){}
+  function render(){
+    const n=visited.size;
+    count.textContent=n+' conseil'+(n>1?'s':'')+' sur '+tips.length+' découvert'+(n>1?'s':'');
+    progress.value=n;
+    tips.forEach(t=>t.classList.toggle('cap-advice-discovered',visited.has(Number(t.dataset.adviceIndex))));
+  }
+  tips.forEach(t=>t.addEventListener('toggle',()=>{
+    if(!t.open)return;
+    const number=Number(t.dataset.adviceIndex);
+    if(visited.has(number))return;
+    visited.add(number);
+    try{localStorage.setItem(key,JSON.stringify([...visited]));}catch(_){}
+    render();
+  }));
+  document.getElementById('cap-advice-restart')?.addEventListener('click',()=>{
+    visited.clear();
+    try{localStorage.removeItem(key);}catch(_){}
+    tips.forEach(t=>t.open=false);
+    render();
+    section.querySelector('.cap-advice-hero')?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  render();
+})();
+</script>
 </body></html>
