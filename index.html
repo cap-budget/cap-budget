@@ -5168,6 +5168,33 @@ padding:20px!important;margin:0!important;border:0!important;box-sizing:border-b
 @media(max-width:850px){#cap-budget-guide .cap-help-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:560px){#cap-budget-guide{padding:14px!important;border-radius:20px!important}#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important}#cap-budget-guide .cap-help-header{gap:12px}#cap-budget-guide .cap-help-book{width:54px;height:54px;font-size:28px}#cap-budget-guide .cap-help-card summary{min-height:140px!important}}
 </style>
+
+<style id="cap-guide-compact-height-20261017">
+/* Cartes du Guide : hauteur naturelle et espacement compact. */
+#cap-budget-guide .guide-grid,
+#cap-budget-guide .cap-guide-panels,
+#cap-budget-guide .cap-guide-twelve-grid,
+#cap-budget-guide .cap-help-grid {
+  align-items: start !important;
+  align-content: start !important;
+}
+#cap-budget-guide .guide-card,
+#cap-budget-guide .cap-guide-frame,
+#cap-budget-guide .cap-help-grid > details.cap-help-card {
+  height: fit-content !important;
+  min-height: 0 !important;
+  align-self: start !important;
+}
+#cap-budget-guide .cap-guide-twelve-grid > article.cap-guide-frame > details.cap-guide-item > summary,
+#cap-budget-guide .cap-guide-panels > .cap-guide-column > details.guide-card > summary,
+#cap-budget-guide .cap-help-grid > details.cap-help-card > summary {
+  padding: 12px 16px !important;
+  min-height: 0 !important;
+}
+#cap-budget-guide .cap-help-grid > details.cap-help-card > summary {
+  align-items: center !important;
+}
+</style>
 </body></html>';
   }
   document.addEventListener('click',event=>{
