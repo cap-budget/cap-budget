@@ -1415,6 +1415,7 @@ background:#fff!important;color:#294b40!important;border:0!important;
 #days .day.today .tag{background:#f6cc53!important;color:#493100!important;font-weight:800;}
 @media print{#days .day{break-inside:avoid;border-color:#b78a25!important;background:#fff8dc!important}#days .day-name,#days .slot span{color:#79550a!important}}
 </style>
+<link rel="stylesheet" href="./cap-projects.css">
 </head>
 <body>
 <button id="cap-cloud-button" type="button" title="Connexion et synchronisation Supabase" style="position:fixed;right:24px;bottom:24px;z-index:2147483000;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:auto;padding:13px 18px;border:1px solid rgba(186,255,255,.8);border-radius:999px;background:linear-gradient(135deg,#39f3d0,#06a7f5);color:#032d4a;font:800 15px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 10px 32px rgba(0,190,255,.52),0 0 22px rgba(40,245,211,.44)">☁️ Supabase</button>
@@ -1459,7 +1460,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       <button type="button" data-dash-target="#cap-dashboard-redesign" data-dash-key="accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg><span>Accueil</span></button>
 <button type="button" data-dash-target="#tab-budget" data-dash-key="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 4h6"/><path d="M4 16h16"/><path d="M6 20h12"/></svg><span>Budget</span></button>
 <button type="button" data-dash-target="#tab-repas" data-dash-key="repas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v7"/><path d="M4 3v7a3 3 0 0 0 6 0V3"/><path d="M7 13v8"/><path d="M17 3v18"/><path d="M14 8h6"/></svg><span>Repas</span></button>
-<button type="button" data-dash-target="#tab-voyages" data-dash-key="voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 12 17-7-7 17-2-8-8-2Z"/><path d="M11 14 20 5"/></svg><span>Voyage</span></button>
+<button type="button" data-dash-target="#tab-voyages" data-dash-key="voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 12 17-7-7 17-2-8-8-2Z"/><path d="M11 14 20 5"/></svg><span>Projets</span></button>
 <button type="button" data-dash-target="#v6-goals" data-dash-key="objectifs"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m12 7 1.5 3L17 12l-3.5 1.5L12 17l-1.5-3.5L7 12l3.5-2Z"/></svg><span>Objectifs</span></button>
 <button type="button" data-dash-target="#v6-advice" data-dash-key="conseil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Conseil</span></button>
 <button type="button" data-dash-target="#v6-export" data-dash-key="param"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h9"/><path d="M17 18h3"/><circle cx="15" cy="18" r="2"/></svg><span>Paramètres</span></button>
@@ -1599,14 +1600,14 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     '<button type="button" data-dash-target="#cap-dashboard-redesign" data-dash-key="accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg><span>Accueil</span></button>',
     '<button type="button" data-dash-target="#tab-budget" data-dash-key="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 4h6"/><path d="M4 16h16"/><path d="M6 20h12"/></svg><span>Budget</span></button>',
     '<button type="button" data-dash-target="#tab-repas" data-dash-key="repas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v7"/><path d="M4 3v7a3 3 0 0 0 6 0V3"/><path d="M7 13v8"/><path d="M17 3v18"/><path d="M14 8h6"/></svg><span>Repas</span></button>',
-    '<button type="button" data-dash-target="#tab-voyages" data-dash-key="voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 12 17-7-7 17-2-8-8-2Z"/><path d="M11 14 20 5"/></svg><span>Voyage</span></button>',
+    '<button type="button" data-dash-target="#tab-voyages" data-dash-key="voyage"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 12 17-7-7 17-2-8-8-2Z"/><path d="M11 14 20 5"/></svg><span>Projets</span></button>',
     '<button type="button" data-dash-target="#v6-goals" data-dash-key="objectifs"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="m12 7 1.5 3L17 12l-3.5 1.5L12 17l-1.5-3.5L7 12l3.5-2Z"/></svg><span>Objectifs</span></button>',
     '<button type="button" data-dash-target="#v6-advice" data-dash-key="conseil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg><span>Conseil</span></button>',
     '<button type="button" data-dash-target="#v6-export" data-dash-key="param"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h8"/><path d="M16 6h4"/><circle cx="14" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h9"/><path d="M17 18h3"/><circle cx="15" cy="18" r="2"/></svg><span>Paramètres</span></button>'
   ].join('');
-  document.querySelectorAll('[data-dash-target]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cap-dash-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const t=btn.dataset.dashTarget;if(t==='#cap-dashboard-redesign')window.scrollTo({top:0,behavior:'smooth'});else if(t==='#v6-goals')el('v6-goals')?.scrollIntoView({behavior:'smooth',block:'start'});else if(t==='#v6-advice'||t==='#v6-export')el(t.slice(1))?.scrollIntoView({behavior:'smooth',block:'center'});else{const map={'#tab-budget':'#nav-budget','#tab-repas':'#nav-repas','#tab-voyages':'#nav-voyages','#tab-stats':'#nav-stats'};const q=document.querySelector(map[t]||t);const dest=document.querySelector(t==='#tab-budget'?'#cap-budget-allocation':t);if(q)q.click();setTimeout(()=>dest?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}));
+  document.querySelectorAll('[data-dash-target]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.cap-dash-nav button').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const t=btn.dataset.dashTarget;if(t==='#cap-dashboard-redesign')window.scrollTo({top:0,behavior:'smooth'});else if(t==='#v6-goals'){el('nav-voyages')?.click();setTimeout(()=>el('v6-goals')?.scrollIntoView({behavior:'smooth',block:'start'}),120);}else if(t==='#v6-advice'||t==='#v6-export')el(t.slice(1))?.scrollIntoView({behavior:'smooth',block:'center'});else{const map={'#tab-budget':'#nav-budget','#tab-repas':'#nav-repas','#tab-voyages':'#nav-voyages','#tab-stats':'#nav-stats'};const q=document.querySelector(map[t]||t);const dest=document.querySelector(t==='#tab-budget'?'#cap-budget-allocation':t);if(q)q.click();setTimeout(()=>dest?.scrollIntoView({behavior:'smooth',block:'start'}),100)}}));
   document.querySelector('.cap-dash-nav button[data-dash-key="accueil"]')?.classList.add('active');
-  document.querySelectorAll('[data-dash-action]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.dashAction;if(a==='expense'){el('nav-budget')?.click();setTimeout(()=>{el('f-amount')?.focus();el('f-amount')?.scrollIntoView({behavior:'smooth',block:'center'})},100)}if(a==='goal'){el('v6-goal-name')?.scrollIntoView({behavior:'smooth',block:'center'});el('v6-goal-name')?.focus()}if(a==='analyze'){el('v6-refresh')?.click();el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'})}if(a==='simulate'){el('v7-sim-amount')?.scrollIntoView({behavior:'smooth',block:'center'});el('v7-sim-amount')?.focus()}if(a==='stats'){el('nav-stats')?.click();setTimeout(()=>el('tab-stats')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}if(a==='advice')el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'});if(a==='budget'){el('nav-budget')?.click();setTimeout(()=>el('tab-budget')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}}));
+  document.querySelectorAll('[data-dash-action]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.dashAction;if(a==='expense'){el('nav-budget')?.click();setTimeout(()=>{el('f-amount')?.focus();el('f-amount')?.scrollIntoView({behavior:'smooth',block:'center'})},100)}if(a==='goal'){el('nav-voyages')?.click();setTimeout(()=>{el('v6-goal-name')?.scrollIntoView({behavior:'smooth',block:'center'});el('v6-goal-name')?.focus()},120)}if(a==='analyze'){el('v6-refresh')?.click();el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'})}if(a==='simulate'){el('v7-sim-amount')?.scrollIntoView({behavior:'smooth',block:'center'});el('v7-sim-amount')?.focus()}if(a==='stats'){el('nav-stats')?.click();setTimeout(()=>el('tab-stats')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}if(a==='advice')el('v6-advice')?.scrollIntoView({behavior:'smooth',block:'center'});if(a==='budget'){el('nav-budget')?.click();setTimeout(()=>el('tab-budget')?.scrollIntoView({behavior:'smooth',block:'start'}),80)}}));
   window.addEventListener('capBudgetChanged',render);window.addEventListener('storage',render);render();
 })();
 </script>
@@ -2082,8 +2083,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
           <input id="v6-goal-date" type="date">
         </div>
         <button class="cap-v6-btn primary" id="v6-add-goal">Ajouter l'objectif</button>
-        <button class="cap-v6-btn" type="button" id="cap-goal-animals-template" style="margin-top:8px">🐶 Modèle : Réserve Urgences &amp; Animaux</button>
-        <p id="cap-goal-animals-help" role="status" style="font-size:12px;margin:6px 0 0">Prépare une réserve pour les urgences, les frais vétérinaires et les besoins de tes animaux, sans enregistrer de montant automatiquement.</p>
       </div>
       <div class="cap-v6-list" id="v6-goals"></div>
     </article>
@@ -2123,7 +2122,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
         <button class="cap-v6-btn" id="v6-export">Exporter budget et objectifs</button>
         <button class="cap-v6-btn" id="v6-reset">Réinitialiser budget</button>
       </div>
-      <div class="cap-v6-note"><strong>À propos de Réinitialiser</strong><br>Après confirmation, le budget et les objectifs personnalisés de cette partie sont retirés de ce navigateur, puis la page se recharge. Le projet de démonstration « Voyage en Crète » peut réapparaître. Ce bouton ne supprime pas les dépenses réelles du registre.</div>
+      <div class="cap-v6-note"><strong>À propos de Réinitialiser</strong><br>Après confirmation, le budget et les objectifs personnalisés de cette partie sont retirés de ce navigateur, puis la page se recharge. Ce bouton ne supprime pas les dépenses réelles du registre.</div>
       <div class="cap-v6-note">Les autres données de l’application (comme les opérations réelles et certaines charges) sont gérées dans d’autres parties et par leur propre sauvegarde. Il n’y a pas encore de synchronisation automatique entre appareils.</div>
     </article>
 
@@ -2137,18 +2136,9 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
   const getBudget=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
   const getGoals=()=>{try{return JSON.parse(localStorage.getItem('capBudgetGoals')||'[]')}catch(e){return []}};
-  const saveGoals=g=>localStorage.setItem('capBudgetGoals',JSON.stringify(g));
+  const saveGoals=g=>{localStorage.setItem('capBudgetGoals',JSON.stringify(g));window.dispatchEvent(new Event('capGoalsChanged'));};
 
-  // Projet test ajouté automatiquement pour valider CAP Décision v2.
-  // Il n'écrase pas les projets déjà présents sur l'appareil.
-  const seedGoals=getGoals();
-  let goalsChanged=false;
-  seedGoals.forEach(g=>{if(g&&g.name==='Voyage Portugal'){g.name='Voyage en Crète';goalsChanged=true;}});
-  if(!seedGoals.some(g=>g&&g.name==='Voyage en Crète')){
-    seedGoals.push({name:'Voyage en Crète',target:2000,saved:500,date:'2027-06-30'});
-    goalsChanged=true;
-  }
-  if(goalsChanged) saveGoals(seedGoals);
+  // Aucun projet test inséré ; les projets existants restent enregistrés.
 
   function budget(){
     const v=getBudget();
@@ -2229,14 +2219,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       }
     });
   }
-  document.getElementById('cap-goal-animals-template').addEventListener('click',()=>{
-    document.getElementById('v6-goal-name').value='Réserve Urgences & Animaux';
-    document.getElementById('v6-goal-target').value='';
-    document.getElementById('v6-goal-saved').value='';
-    document.getElementById('v6-goal-date').value='';
-    document.getElementById('cap-goal-animals-help').textContent='Modèle préparé : indiquez votre montant cible et, si besoin, la somme déjà épargnée, puis cliquez sur « Ajouter l’objectif ». Rien n’est enregistré avant votre confirmation.';
-    document.getElementById('v6-goal-target').focus();
-  });
   document.getElementById('v6-add-goal').onclick=()=>{
     const name=document.getElementById('v6-goal-name').value.trim(), target=Number(document.getElementById('v6-goal-target').value)||0, saved=Number(document.getElementById('v6-goal-saved').value)||0, date=document.getElementById('v6-goal-date').value;
     if(!name||target<=0){alert('Indiquez un nom et un montant cible.');return}
@@ -2948,8 +2930,35 @@ body:has(#tab-budget:not([hidden])) #pill {
 </div>
 </section>
 
-<!-- VOYAGES -->
-<section id="tab-voyages" aria-label="Voyages" hidden="">
+<!-- PROJETS : plusieurs objectifs avec photo -->
+<section id="tab-voyages" aria-label="Projets" hidden="">
+  <section class="card" id="cap-projects" aria-labelledby="cap-projects-title">
+    <h2 id="cap-projects-title">📸 Mes projets en images</h2>
+    <p>Une voiture, un voyage, un nouvel ordinateur… ajoute autant de projets que tu veux, avec une petite photo pour chacun.</p>
+    <form id="cap-project-add-form">
+      <div class="cap-project-fields">
+        <label for="cap-project-name">Nom du projet
+          <input id="cap-project-name" type="text" maxlength="80" placeholder="Ex. Acheter une voiture" required>
+        </label>
+        <label for="cap-project-target">Objectif (€)
+          <input id="cap-project-target" type="number" min="0.01" max="99999999" step="0.01" inputmode="decimal" placeholder="Ex. 8000" required>
+        </label>
+        <label for="cap-project-saved">Déjà économisé (€) — facultatif
+          <input id="cap-project-saved" type="number" min="0" max="99999999" step="0.01" inputmode="decimal" placeholder="Ex. 300">
+        </label>
+        <label for="cap-project-date">Date cible — facultative
+          <input id="cap-project-date" type="date">
+        </label>
+        <label for="cap-project-photo">Petite photo du projet — facultative
+          <input id="cap-project-photo" type="file" accept="image/jpeg,image/png,image/webp">
+        </label>
+      </div>
+      <button id="cap-project-submit" type="submit">+ Ajouter ce projet</button>
+      <p id="cap-project-message" role="status" aria-live="polite">Les projets et leurs miniatures sont enregistrés sur cet appareil. Tu peux ajouter ou changer une photo plus tard.</p>
+    </form>
+    <div id="cap-project-gallery" aria-label="Mes projets illustrés"></div>
+  </section>
+  <div id="cap-project-objectives-slot" aria-label="Objectifs Mes projets"></div>
 <form class="card" id="trip-form" novalidate="">
 <h2 id="trip-form-title">Où as-tu envie de partir ?</h2>
 <p class="hint" id="trip-form-hint">Fixe un objectif et une date de départ. Cap calcule combien mettre de côté chaque mois.</p>
@@ -3069,7 +3078,7 @@ body:has(#tab-budget:not([hidden])) #pill {
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8M4.5 3v5a2.5 2.5 0 0 0 5 0V3M7 11v10"></path><path d="M17 21V3c-2.2 1.2-3.5 4-3.5 7 0 1.6.9 2.5 2 2.7H17"></path></svg> Repas
 </button>
 <button class="tab" id="nav-voyages" type="button">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg> Voyages
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg> Projets
 </button>
 <button class="tab" id="nav-stats" type="button">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg> Stats
@@ -4052,21 +4061,7 @@ cloudBtn.onclick = async () => {
 })();
 </script>
 
-<script>
-(function seedCapBudgetTestGoal(){
-  try {
-    const key='capBudgetGoals';
-    const goals=JSON.parse(localStorage.getItem(key)||'[]');
-    const exists=Array.isArray(goals) && goals.some(g => g && g.name === 'Voyage en Crète');
-    if(!exists){
-      goals.push({name:'Voyage en Crète',target:2000,saved:500,date:'2027-06-30'});
-      localStorage.setItem(key, JSON.stringify(goals));
-    }
-    const refresh=document.getElementById('v6-refresh');
-    if(refresh) refresh.click();
-  } catch(e) { console.warn('Impossible d’ajouter le projet test', e); }
-})();
-</script>
+
 
 
 <script id="cap-decision-v2-repair">
@@ -6809,4 +6804,13 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   });
 })();
 </script>
+<script id="cap-projects-mount">
+(function(){
+  const slot=document.getElementById('cap-project-objectives-slot');
+  const goals=document.getElementById('v6-goals');
+  const card=goals&&goals.closest('.cap-v6-card');
+  if(slot&&card)slot.appendChild(card);
+})();
+</script>
+<script src="./cap-projects.js"></script>
 </body></html>
