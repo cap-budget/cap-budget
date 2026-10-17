@@ -2395,6 +2395,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     const target=document.getElementById('v8-fixed-detail');
     if(target) target.innerHTML=`<h4>🏠 Détail des charges fixes enregistrées</h4>${rows}${unlisted?`<div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>${money(unlisted)}</strong></div>`:''}<div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>${money(total)} / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>${money(fixed)} / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a>`;
   });
+  window.addEventListener('capQuickExpenseSaved',render);
   render();
 })();
 </script>
@@ -2740,6 +2741,40 @@ body:has(#tab-budget:not([hidden])) #pill {
 <div class="cap-alloc-total" role="status" aria-live="polite"><strong id="cap-alloc-sum">Total : 100 %</strong><span id="cap-alloc-warning">Répartition complète</span></div>
 <button type="button" id="cap-alloc-reset">Revenir à 50 / 30 / 20</button>
 <p class="cap-alloc-fine">Ces curseurs sont une simulation. Ils n'ajoutent aucune opération et ne modifient pas tes enveloppes, charges ni projets enregistrés. Leurs pourcentages sont sauvegardés localement.</p>
+
+</div>
+<div class="cap-alloc-panel" id="cap-expense-entry">
+  <h2 id="cap-expense-entry-title">🧾 Mes dépenses et mon épargne</h2>
+  <p>Renseigne les quatre champs sur une seule ligne, puis enregistre le montant.</p>
+  <form id="cap-entry-form" aria-labelledby="cap-expense-entry-title">
+    <div class="cap-entry-scroll" tabindex="0" aria-label="Ligne de saisie à quatre champs, défilement horizontal sur petit écran">
+      <div class="cap-entry-row">
+        <label for="cap-entry-kind">1. Répartition
+          <select id="cap-entry-kind" required>
+            <option value="Charges">Charges</option><option value="Loisirs">Loisirs</option><option value="Épargne">Épargne</option>
+          </select>
+        </label>
+        <label for="cap-entry-name">2. Nom de la dépense
+          <input id="cap-entry-name" type="text" maxlength="80" autocomplete="off" placeholder="Ex. Netflix" required>
+        </label>
+        <label for="cap-entry-nature">3. Nature de la dépense
+          <select id="cap-entry-nature" required>
+            <option value="" selected disabled>Choisir une nature</option>
+            <option>Habitation</option><option>Assurances</option><option>Abonnements</option>
+            <option>Transports</option><option>Santé</option><option>Alimentation</option>
+            <option>Crédits</option><option>Loisirs et sorties</option><option>Shopping</option>
+            <option>Éducation</option><option>Voyages</option><option>Épargne de précaution</option>
+            <option>Épargne projet</option><option>Autres</option>
+          </select>
+        </label>
+        <label for="cap-entry-amount">4. Montant (€)
+          <input id="cap-entry-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
+        </label>
+      </div>
+    </div>
+    <div class="cap-entry-actions"><button type="submit">Enregistrer le montant</button></div>
+    <p id="cap-entry-feedback" role="status" aria-live="polite">Chaque montant enregistré apparaît dans le suivi des opérations.</p>
+  </form>
 </div></section>
 <div class="hero" id="hero" data-state="ok">
 <div class="dial">
@@ -6733,4 +6768,45 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  }
 }
 </style>
+<style id="cap-expense-entry-style-20261017">
+/* Formulaire sur une seule ligne : 4 colonnes fixes, jamais de retour à la ligne. */
+#cap-expense-entry .cap-entry-scroll{width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding:3px 0 9px}
+#cap-expense-entry .cap-entry-row{display:grid;grid-template-columns:minmax(125px,1fr) minmax(165px,1.2fr) minmax(185px,1.3fr) minmax(125px,.8fr);gap:10px;min-width:660px;align-items:end}
+#cap-expense-entry .cap-entry-row label{display:flex!important;flex-direction:column;justify-content:flex-end;min-width:0;margin:0!important;gap:8px;color:#fff;font-weight:750;font-size:14px}
+#cap-expense-entry .cap-entry-row input,#cap-expense-entry .cap-entry-row select{display:block;width:100%;min-width:0;box-sizing:border-box;height:54px;padding:9px 10px;border:2px solid #7dd3ae;border-radius:12px;background:#071c29;color:#fff;font:inherit;font-size:16px}
+#cap-expense-entry .cap-entry-row input::placeholder{color:#a9c9c0}
+#cap-expense-entry .cap-entry-actions{margin-top:12px;display:flex;justify-content:flex-end}
+#cap-expense-entry #cap-entry-feedback{margin:10px 0 0!important;font-size:14px;color:#d3e5e0}
+#cap-expense-entry .cap-entry-row :focus-visible{outline:3px solid #bbf7d0;outline-offset:2px}
+@media(max-width:720px){#cap-expense-entry .cap-entry-scroll{padding-bottom:13px}#cap-expense-entry .cap-entry-actions button{width:100%}}
+</style>
+<script id="cap-expense-entry-script-20261017">
+(function(){
+  'use strict';
+  const form=document.getElementById('cap-entry-form');
+  if(!form)return;
+  const byId=id=>document.getElementById(id),message=byId('cap-entry-feedback');
+  const localDate=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const kind=byId('cap-entry-kind').value,label=byId('cap-entry-name').value.trim(),nature=byId('cap-entry-nature').value;
+    const raw=byId('cap-entry-amount').value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
+    const amount=Number(raw);
+    if(!['Charges','Loisirs','Épargne'].includes(kind)||!label||!nature||!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>=10000000){
+      message.textContent='Renseigne les quatre champs et un montant valide supérieur à 0 € (deux décimales maximum).';return;
+    }
+    let operations;
+    try{operations=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');}
+    catch(_){message.textContent='Les opérations existantes sont illisibles. Aucun montant ajouté.';return;}
+    if(!Array.isArray(operations)){message.textContent='Le registre est invalide. Aucun montant ajouté.';return;}
+    const operation={id:Date.now()+Math.random(),label,amount:Math.round(amount*100)/100,category:kind==='Charges'?'Charges fixes':kind,subcategory:nature,date:localDate(),note:'Répartition : '+kind,kind,nature,source:'cap-entry-503020'};
+    try{localStorage.setItem('capBudgetOperations',JSON.stringify([...operations,operation]));}
+    catch(_){message.textContent='Enregistrement impossible sur cet appareil.';return;}
+    message.textContent=label+' : '+operation.amount.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})+' enregistré dans les opérations.';
+    byId('cap-entry-name').value='';byId('cap-entry-amount').value='';byId('cap-entry-nature').value='';
+    window.dispatchEvent(new Event('capQuickExpenseSaved'));
+    window.dispatchEvent(new Event('capBudgetChanged'));
+  });
+})();
+</script>
 </body></html>
