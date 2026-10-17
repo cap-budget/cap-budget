@@ -5119,6 +5119,19 @@ padding:20px!important;margin:0!important;border:0!important;box-sizing:border-b
 #cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy span{color:#233a52!important}
 @media(max-width:780px){#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}}
 </style>
+
+<style id="cap-guide-compact-rounded-cards-20261017">
+/* Guide réel : 12 details.cap-help-card, format compact proche des Cagnottes. */
+#cap-budget-guide .cap-help-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;align-items:start!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card{width:100%!important;min-width:0!important;max-width:none!important;border:1px solid #d9e5df!important;border-radius:24px!important;background:#fff!important;box-shadow:0 5px 16px rgba(23,59,50,.11)!important;overflow:hidden!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{min-height:0!important;padding:16px!important;grid-template-columns:32px 34px minmax(0,1fr) 12px!important;grid-template-rows:auto!important;gap:8px!important;align-items:center!important;border-radius:24px!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-num{width:32px!important;height:32px!important;font-size:17px!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-icon{font-size:25px!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card[open]>summary{border-radius:24px 24px 0 0!important}
+#cap-budget-guide .cap-help-grid>details.cap-help-card>.cap-help-answer{padding:16px!important}
+@media(max-width:1050px){#cap-budget-guide .cap-help-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{padding:14px!important}}
+</style>
 </head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
       '<h2>🍽️ Repas de la semaine</h2><div class="grid">'+meals+'</div>'+
       '<p class="note">Les repas affichés peuvent être des exemples de présentation : vérifiez-les avant impression.</p>'+
