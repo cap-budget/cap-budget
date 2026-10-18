@@ -7287,6 +7287,23 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  fill:none;stroke:#34d399;stroke-width:10;stroke-linecap:round;
  transition:stroke-dashoffset .5s ease,stroke .3s ease
 }
+/* Même niveau et mêmes couleurs que le pourcentage sous chaque camembert.
+   La classe est appliquée au parent par updateGaugeReadout après chaque recalcul. */
+#tab-stats .cap-nature-chart-column[data-gauge-level="green"] .cap-nature-gauge-progress{
+ stroke:#34d399
+}
+#tab-stats .cap-nature-chart-column[data-gauge-level="yellow"] .cap-nature-gauge-progress{
+ stroke:#facc15
+}
+#tab-stats .cap-nature-chart-column[data-gauge-level="orange"] .cap-nature-gauge-progress{
+ stroke:#fb923c
+}
+#tab-stats .cap-nature-chart-column[data-gauge-level="red"] .cap-nature-gauge-progress{
+ stroke:#fb7185
+}
+#tab-stats .cap-nature-chart-column[data-gauge-level="none"] .cap-nature-gauge-progress{
+ stroke:#8ba7b8
+}
 #tab-stats .cap-nature-gauge-info{
  display:grid;justify-items:center;text-align:center;gap:3px;
  width:100%;margin:2px auto 14px;min-width:0;
