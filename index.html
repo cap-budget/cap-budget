@@ -2904,12 +2904,24 @@ body:has(#tab-budget:not([hidden])) #pill {
 <!-- STATISTIQUES -->
 <section id="tab-stats" aria-label="Statistiques" hidden="">
 <section id="cap-nature-statistics" class="cap-nature-statistics" aria-labelledby="cap-nature-stats-title">
-<header class="cap-nature-stats-head"><div><span>📊 SUIVI RÉEL · 50 / 30 / 20</span><h2 id="cap-nature-stats-title">Statistiques par poste de dépenses</h2><p>Retrouve combien a été enregistré pour l’alimentation, l’habitation, les abonnements, les loisirs et l’épargne.</p></div>
+<header class="cap-nature-stats-head"><div><span>📊 SUIVI RÉEL · 50 / 30 / 20</span><h2 id="cap-nature-stats-title">Mes dépenses en un coup d’œil</h2><p>Des camemberts pour voir immédiatement où va ton budget : pourcentages, natures de dépenses et montants exacts en euros.</p></div>
 <label for="cap-nature-stats-period">Période<select id="cap-nature-stats-period"><option value="current">Ce mois</option><option value="all">Tous les mois</option></select></label></header>
 <div class="cap-nature-stats-grid">
-<article class="cap-nature-stats-card" data-stats-kind="charges"><h3>🏠 Charges <strong id="cap-nature-stats-charges-total">0,00 €</strong></h3><p id="cap-nature-stats-charges-count">0 opération</p><div id="cap-nature-stats-charges-rows" class="cap-nature-stats-rows"></div></article>
-<article class="cap-nature-stats-card" data-stats-kind="loisirs"><h3>🎈 Loisirs <strong id="cap-nature-stats-loisirs-total">0,00 €</strong></h3><p id="cap-nature-stats-loisirs-count">0 opération</p><div id="cap-nature-stats-loisirs-rows" class="cap-nature-stats-rows"></div></article>
-<article class="cap-nature-stats-card" data-stats-kind="epargne"><h3>🌱 Épargne <strong id="cap-nature-stats-epargne-total">0,00 €</strong></h3><p id="cap-nature-stats-epargne-count">0 versement</p><div id="cap-nature-stats-epargne-rows" class="cap-nature-stats-rows"></div></article>
+<article class="cap-nature-stats-card" data-stats-kind="charges"><h3>🏠 Charges <strong id="cap-nature-stats-charges-total">0,00 €</strong></h3><p id="cap-nature-stats-charges-count">0 opération</p>
+<div class="cap-nature-visual">
+  <div class="cap-nature-pie-wrap" id="cap-nature-stats-charges-chart" role="img" aria-label="Camembert des charges par nature"></div>
+  <div id="cap-nature-stats-charges-rows" class="cap-nature-stats-rows" aria-label="Légende et répartition en pourcentage"></div>
+</div></article>
+<article class="cap-nature-stats-card" data-stats-kind="loisirs"><h3>🎈 Loisirs <strong id="cap-nature-stats-loisirs-total">0,00 €</strong></h3><p id="cap-nature-stats-loisirs-count">0 opération</p>
+<div class="cap-nature-visual">
+  <div class="cap-nature-pie-wrap" id="cap-nature-stats-loisirs-chart" role="img" aria-label="Camembert des loisirs par nature"></div>
+  <div id="cap-nature-stats-loisirs-rows" class="cap-nature-stats-rows" aria-label="Légende et répartition en pourcentage"></div>
+</div></article>
+<article class="cap-nature-stats-card" data-stats-kind="epargne"><h3>🌱 Épargne <strong id="cap-nature-stats-epargne-total">0,00 €</strong></h3><p id="cap-nature-stats-epargne-count">0 versement</p>
+<div class="cap-nature-visual">
+  <div class="cap-nature-pie-wrap" id="cap-nature-stats-epargne-chart" role="img" aria-label="Camembert des épargne par nature"></div>
+  <div id="cap-nature-stats-epargne-rows" class="cap-nature-stats-rows" aria-label="Légende et répartition en pourcentage"></div>
+</div></article>
 </div>
 <p id="cap-nature-stats-all" class="cap-nature-stats-total" role="status">Total enregistré : 0,00 €</p>
 <p class="cap-nature-stats-caption">Les montants sont issus des opérations sauvegardées. Les budgets prévus ne sont pas ajoutés au total réel.</p>
@@ -7236,31 +7248,112 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
 })();
 </script>
 <style id="cap-nature-stats-style-20261018">
-#tab-stats .cap-nature-statistics{background:linear-gradient(135deg,#183047,#11272d);border:1px solid #557582;border-radius:22px;margin:14px 0 24px;padding:clamp(16px,3vw,28px);color:#effffa}
-#tab-stats .cap-nature-stats-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px}
-#tab-stats .cap-nature-stats-head>div>span{color:#a7f3d0;font-weight:850;font-size:13px}
-#tab-stats .cap-nature-stats-head h2{font-size:clamp(22px,3vw,30px);color:#fff;margin:7px 0!important}
-#tab-stats .cap-nature-stats-head p{font-size:15px;line-height:1.5;color:#bed8e4;margin:0!important;max-width:710px}
-#tab-stats .cap-nature-stats-head label{display:grid;gap:7px;color:#fff;font-size:14px;font-weight:750}
-#tab-stats #cap-nature-stats-period{min-height:44px;min-width:165px;padding:8px 12px;border:1px solid #a7f3d0;border-radius:12px;color:#fff;background:#112638;font:inherit}
-#tab-stats .cap-nature-stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0}
-#tab-stats .cap-nature-stats-card{min-width:0;padding:18px 16px;border:1px solid #456c82;border-radius:18px;background:#0d2535}
-#tab-stats .cap-nature-stats-card h3{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:9px;margin:0!important;font-size:20px;color:#fff}
-#tab-stats .cap-nature-stats-card h3 strong{font-size:21px;color:#a7f3d0;font-variant-numeric:tabular-nums;white-space:nowrap}
-#tab-stats .cap-nature-stats-card>p{margin:7px 0 17px!important;font-size:13px;color:#afcdd4}
-#tab-stats .cap-nature-stats-rows{display:grid;gap:14px}
-#tab-stats .cap-nature-stats-line{display:grid;gap:7px}
-#tab-stats .cap-nature-stats-label{display:flex;justify-content:space-between;gap:10px;color:#f0f9ff;font-size:14px;line-height:1.35}
-#tab-stats .cap-nature-stats-label strong{white-space:nowrap;font-variant-numeric:tabular-nums}
-#tab-stats .cap-nature-stats-track{height:8px;background:#294759;border-radius:99px;overflow:hidden}
-#tab-stats .cap-nature-stats-track i{display:block;height:100%;background:linear-gradient(90deg,#15bf8b,#85f1bb);border-radius:99px}
-#tab-stats [data-stats-kind="loisirs"] .cap-nature-stats-track i{background:linear-gradient(90deg,#38bdf8,#818cf8)}
-#tab-stats [data-stats-kind="epargne"] .cap-nature-stats-track i{background:linear-gradient(90deg,#fbbf24,#fde68a)}
-#tab-stats .cap-nature-stats-empty{padding:14px;border:1px dashed #66838d;border-radius:10px;color:#c9d9dd;line-height:1.5;font-size:13px}
-#tab-stats .cap-nature-stats-total{border-top:1px solid #4b6773;margin:0!important;padding-top:15px;font-weight:850;color:#a7f3d0;font-size:19px}
-#tab-stats .cap-nature-stats-caption{font-size:12px;color:#b9cbd0;line-height:1.5;margin:8px 0 0!important}
-@media(max-width:1050px){#tab-stats .cap-nature-stats-grid{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:600px){#tab-stats .cap-nature-statistics{padding:16px 12px}#tab-stats .cap-nature-stats-head label{width:100%}#tab-stats #cap-nature-stats-period{width:100%}}
+/* CAP Budget — camemberts par catégorie, aucun service de graphiques externe */
+#tab-stats .cap-nature-statistics{
+  margin:14px 0 28px;padding:clamp(20px,3vw,32px);box-sizing:border-box;
+  color:#effffa;border:1px solid rgba(111,220,186,.35);border-radius:26px;
+  background:radial-gradient(ellipse at 8% 0%,rgba(53,211,159,.13),transparent 44%),
+             radial-gradient(ellipse at 100% 100%,rgba(87,119,248,.1),transparent 43%),#112532;
+  box-shadow:0 18px 48px rgba(0,0,0,.14);
+}
+#tab-stats .cap-nature-stats-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:18px}
+#tab-stats .cap-nature-stats-head>div>span{color:#86efc2;font-weight:900;font-size:13px;letter-spacing:.055em}
+#tab-stats .cap-nature-stats-head h2{
+  margin:8px 0!important;font-size:clamp(25px,3vw,34px);color:#fff;letter-spacing:-.035em;
+  line-height:1.17
+}
+#tab-stats .cap-nature-stats-head p{font-size:15px;line-height:1.65;color:#c5d9e5;margin:0!important;max-width:720px}
+#tab-stats .cap-nature-stats-head label{display:grid;gap:7px;color:#dffaf1;font-size:14px;font-weight:800}
+#tab-stats #cap-nature-stats-period{
+  min-height:48px;min-width:175px;padding:10px 13px;border:1px solid #78ddba;border-radius:13px;
+  color:#fff;background:#102c39;font:600 15px system-ui,sans-serif
+}
+#tab-stats #cap-nature-stats-period:focus-visible{outline:3px solid #c4fbe1;outline-offset:3px}
+#tab-stats .cap-nature-stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:26px 0 22px}
+#tab-stats .cap-nature-stats-card{
+  min-width:0;padding:19px 17px 22px;box-sizing:border-box;overflow:hidden;
+  border:1px solid rgba(133,200,205,.28);border-radius:23px;
+  background:linear-gradient(155deg,#142e40,#0d2131);
+  box-shadow:inset 0 1px rgba(255,255,255,.035),0 10px 24px rgba(1,10,19,.13)
+}
+#tab-stats [data-stats-kind="charges"]{--cap-chart-glow:rgba(45,212,153,.18);--cap-chart-accent:#5eeac0}
+#tab-stats [data-stats-kind="loisirs"]{--cap-chart-glow:rgba(110,130,255,.20);--cap-chart-accent:#a9b8ff}
+#tab-stats [data-stats-kind="epargne"]{--cap-chart-glow:rgba(255,202,100,.18);--cap-chart-accent:#f8d583}
+#tab-stats .cap-nature-stats-card h3{
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;
+  margin:0!important;font-size:clamp(18px,2vw,21px);line-height:1.35;color:#fff
+}
+#tab-stats .cap-nature-stats-card h3 strong{
+  font-size:clamp(18px,2vw,22px);color:var(--cap-chart-accent);
+  font-variant-numeric:tabular-nums;white-space:nowrap
+}
+#tab-stats .cap-nature-stats-card>p{margin:6px 0 4px!important;font-size:13px;color:#a9c9d4}
+#tab-stats .cap-nature-visual{display:grid;gap:16px}
+#tab-stats .cap-nature-pie-wrap{
+  position:relative;display:grid;place-items:center;width:min(100%,244px);aspect-ratio:1;
+  margin:8px auto 0;border-radius:50%;
+  background:radial-gradient(circle,var(--cap-chart-glow),transparent 73%);
+}
+#tab-stats .cap-nature-pie-wrap::before{
+  content:"";position:absolute;inset:5px;border:1px solid rgba(203,244,235,.12);
+  border-radius:50%;pointer-events:none;box-shadow:0 0 40px var(--cap-chart-glow)
+}
+#tab-stats .cap-nature-pie-svg{
+  display:block;width:100%;height:100%;overflow:visible;position:relative;
+  filter:drop-shadow(0 8px 12px rgba(0,0,0,.20))
+}
+#tab-stats .cap-nature-pie-segment{stroke:#102635;stroke-width:2.4;stroke-linejoin:round}
+#tab-stats .cap-nature-pie-label{
+  fill:#fff;font:900 13px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central;
+  stroke:rgba(10,24,34,.8);stroke-width:3px;stroke-linejoin:round;paint-order:stroke;
+  pointer-events:none
+}
+#tab-stats .cap-nature-pie-empty{
+  fill:#d3e7e8;font:800 20px system-ui,sans-serif;text-anchor:middle;dominant-baseline:central
+}
+#tab-stats .cap-nature-stats-rows{display:grid;gap:9px;align-content:start}
+#tab-stats .cap-nature-stats-legend-item{
+  display:grid;grid-template-columns:10px minmax(0,1fr) auto;
+  align-items:center;gap:7px 10px;padding:10px 11px;min-width:0;
+  background:rgba(8,26,41,.58);border:1px solid rgba(132,186,200,.16);border-radius:12px;
+}
+#tab-stats .cap-nature-stats-dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.045)}
+#tab-stats .cap-nature-stats-name{min-width:0;overflow-wrap:anywhere;font-size:13px;font-weight:750;color:#e6f4fa}
+#tab-stats .cap-nature-stats-pct{
+  justify-self:end;white-space:nowrap;font-size:14px;font-weight:900;
+  color:var(--cap-chart-accent);font-variant-numeric:tabular-nums
+}
+#tab-stats .cap-nature-stats-euros{
+  grid-column:2 / -1;justify-self:end;color:#b5cedd;font-size:13px;
+  font-variant-numeric:tabular-nums
+}
+#tab-stats .cap-nature-stats-empty{
+  padding:13px;border:1px dashed #648290;border-radius:11px;
+  color:#c3d8dc;line-height:1.5;font-size:13px
+}
+#tab-stats .cap-nature-stats-total{
+  border-top:1px solid rgba(140,206,203,.25);margin:0!important;padding-top:18px;
+  font-weight:900;color:#b3f5dc;font-size:clamp(17px,2.2vw,22px)
+}
+#tab-stats .cap-nature-stats-caption{font-size:12px;color:#b9ced3;line-height:1.6;margin:9px 0 0!important}
+@media(min-width:1121px){#tab-stats .cap-nature-pie-wrap{width:min(100%,224px)}}
+@media(max-width:1120px){
+  #tab-stats .cap-nature-stats-grid{grid-template-columns:minmax(0,1fr)}
+  #tab-stats .cap-nature-visual{grid-template-columns:minmax(0,230px) minmax(0,1fr);align-items:center;gap:22px}
+  #tab-stats .cap-nature-pie-wrap{margin:8px auto}
+}
+@media(max-width:640px){
+  #tab-stats .cap-nature-statistics{padding:19px 13px}
+  #tab-stats .cap-nature-stats-head label{width:100%}
+  #tab-stats #cap-nature-stats-period{width:100%}
+  #tab-stats .cap-nature-visual{grid-template-columns:1fr;gap:12px}
+  #tab-stats .cap-nature-pie-wrap{width:min(82%,228px);margin:10px auto 4px}
+  #tab-stats .cap-nature-stats-legend-item{grid-template-columns:10px minmax(0,1fr) auto}
+}
+@media(prefers-reduced-motion:no-preference){
+ #tab-stats .cap-nature-pie-segment{animation:capPieFade .55s ease-out both}
+ @keyframes capPieFade{from{opacity:0}to{opacity:1}}
+}
 </style>
 <script id="cap-nature-stats-js-20261018">
 (function(){
@@ -7324,6 +7417,84 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   if(value!==undefined)node.textContent=String(value);
   return node;
  }
+ const chartColors={
+  charges:['#34D9A5','#43B5DA','#8CE4BF','#F8CA70','#8D9DFA','#F28CA3','#B5DE78','#B39BF4','#F3A978','#65C8CF'],
+  loisirs:['#8EA8FF','#AB8DFA','#F68EBD','#65CFE7','#FFD077','#75E3D5','#EBABF0','#AED97C','#F58D84','#8FB1E4'],
+  epargne:['#F7CA68','#46D7AE','#8DB6FB','#F59B8F','#C6A0F3','#69D1DA','#F9B575','#9EE5B6','#BBAAF3','#DFDB85']
+ };
+ const ns='http://www.w3.org/2000/svg';
+ function svgNode(tag,attributes,value){
+  const el=document.createElementNS(ns,tag);
+  for(const [key,attr] of Object.entries(attributes||{}))el.setAttribute(key,String(attr));
+  if(value!==undefined)el.textContent=String(value);
+  return el;
+ }
+ function percentage(value){
+  if(value<=0)return '0 %';
+  if(value<0.1)return '< 0,1 %';
+  return new Intl.NumberFormat('fr-FR',{maximumFractionDigits:1}).format(value)+' %';
+ }
+ function drawPie(kind,values,total){
+  const target=document.getElementById('cap-nature-stats-'+kind+'-chart');
+  target.replaceChildren();
+  const svg=svgNode('svg',{viewBox:'0 0 220 220',class:'cap-nature-pie-svg','aria-hidden':'true'});
+  const circle=svgNode('circle',{cx:110,cy:110,r:88,fill:'#254152',stroke:'rgba(255,255,255,.13)','stroke-width':1});
+  svg.append(circle);
+  if(!values.length||total<=0){
+   svg.append(svgNode('text',{x:110,y:108,class:'cap-nature-pie-empty'},'0 %'));
+   svg.append(svgNode('text',{x:110,y:132,fill:'#9ebcc8','font-size':12,'font-family':'system-ui,sans-serif','text-anchor':'middle'},'Aucune donnée'));
+   target.setAttribute('aria-label','Aucune donnée enregistrée pour '+labels[kind]);
+   target.append(svg);
+   return;
+  }
+  const polar=(angle,r=88)=>{const radians=angle*Math.PI/180;return [110+Math.cos(radians)*r,110+Math.sin(radians)*r]};
+  let angle=-90;
+  const descriptions=[];
+  for(const [index,item] of values.entries()){
+   const share=item.sum/total;
+   const sweep=Math.max(0,Math.min(360,share*360));
+   if(sweep<=0)continue;
+   const color=chartColors[kind][index%chartColors[kind].length];
+   const percent=percentage(share*100);
+   const element=share>=0.999999
+     ?svgNode('circle',{cx:110,cy:110,r:88,fill:color,class:'cap-nature-pie-segment'})
+     :(()=>{
+       const start=polar(angle),end=polar(angle+sweep);
+       const d='M 110 110 L '+start[0].toFixed(3)+' '+start[1].toFixed(3)+' A 88 88 0 '+(sweep>180?1:0)+' 1 '+end[0].toFixed(3)+' '+end[1].toFixed(3)+' Z';
+       return svgNode('path',{d,fill:color,class:'cap-nature-pie-segment'});
+      })();
+   element.append(svgNode('title',{},item.title+' : '+percent+' ('+euro(item.sum)+')'));
+   svg.append(element);
+   if(share>=0.105){
+    const [x,y]=polar(angle+sweep/2,58);
+    svg.append(svgNode('text',{x:x.toFixed(2),y:y.toFixed(2),class:'cap-nature-pie-label'},Math.round(share*100)+' %'));
+   }
+   descriptions.push(item.title+' '+percent);
+   angle+=sweep;
+  }
+  target.setAttribute('aria-label','Répartition '+labels[kind]+' : '+descriptions.join(', '));
+  target.append(svg);
+ }
+ function drawLegend(kind,area,values,total){
+  area.replaceChildren();
+  if(!values.length){
+   area.append(text('p','cap-nature-stats-empty',kind==='epargne'?'Aucune épargne enregistrée sur cette période.':'Aucune dépense enregistrée sur cette période.'));
+   return;
+  }
+  const fragment=document.createDocumentFragment();
+  values.forEach((item,index)=>{
+   const color=chartColors[kind][index%chartColors[kind].length];
+   const line=text('div','cap-nature-stats-legend-item');
+   const dot=text('span','cap-nature-stats-dot');
+   dot.style.backgroundColor=color;dot.setAttribute('aria-hidden','true');
+   const name=text('span','cap-nature-stats-name',item.title);
+   const percent=text('strong','cap-nature-stats-pct',percentage(total>0?item.sum/total*100:0));
+   const value=text('span','cap-nature-stats-euros',euro(item.sum));
+   line.append(dot,name,percent,value);
+   fragment.append(line);
+  });
+  area.append(fragment);
+ }
  function render(){
   const ops=readOperations();
   if(ops===null){
@@ -7363,21 +7534,8 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
     byNature.get(key).sum+=entry.amount;
    }
    const natureRows=[...byNature.values()].sort((a,b)=>b.sum-a.sum||a.title.localeCompare(b.title,'fr'));
-   if(!natureRows.length){
-    area.append(text('p','cap-nature-stats-empty',kind==='epargne'?'Aucune épargne enregistrée sur cette période.':'Aucune dépense enregistrée sur cette période.'));
-    continue;
-   }
-   const fragment=document.createDocumentFragment();
-   for(const row of natureRows){
-    const line=text('div','cap-nature-stats-line');
-    const title=text('div','cap-nature-stats-label');
-    title.append(text('span','',row.title),text('strong','',euro(row.sum)));
-    const track=text('div','cap-nature-stats-track');
-    const fill=text('i');
-    fill.style.width=Math.min(100,Math.max(0,sum>0?row.sum/sum*100:0))+'%';
-    track.append(fill);line.append(title,track);fragment.append(line);
-   }
-   area.append(fragment);
+   drawPie(kind,natureRows,sum);
+   drawLegend(kind,area,natureRows,sum);
   }
   document.getElementById('cap-nature-stats-all').textContent='Total enregistré sur la période : '+euro(grand);
  }
