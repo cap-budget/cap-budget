@@ -7284,4 +7284,130 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
 @media(max-width:1050px){#tab-stats .cap-nature-stats-grid{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:600px){#tab-stats .cap-nature-statistics{padding:16px 12px}#tab-stats .cap-nature-stats-head label{width:100%}#tab-stats #cap-nature-stats-period{width:100%}}
 </style>
+<script id="cap-nature-stats-js-20261018">
+(function(){
+ 'use strict';
+ const root=document.getElementById('cap-nature-statistics'),select=document.getElementById('cap-nature-stats-period');
+ if(!root||!select)return;
+ const kinds=['charges','loisirs','epargne'];
+ const labels={charges:'Charges',loisirs:'Loisirs',epargne:'Épargne'};
+ const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(Math.round(n*100)/100);
+ const norm=value=>String(value||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const thisMonth=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+ function dateMonth(date){
+  const str=String(date||'').trim();
+  if(/^\d{4}-(?:0[1-9]|1[0-2])-\d{2}/.test(str))return str.slice(0,7);
+  const fr=str.match(/^\d{2}\/(0[1-9]|1[0-2])\/(\d{4})/);
+  return fr?fr[2]+'-'+fr[1]:'';
+ }
+ function kindOf(op){
+  if(typeof window.CAP_allocationKind==='function')return window.CAP_allocationKind(op);
+  const explicit=norm(op.kind);
+  if(kinds.includes(explicit))return explicit;
+  const cat=norm(op.category);
+  if(['epargne','reserve','investissement','epargne de precaution','epargne projet'].includes(cat))return 'epargne';
+  if(['loisirs','shopping','resto','repas','voyages','projets / voyages','projets'].includes(cat))return 'loisirs';
+  return 'charges';
+ }
+ function natureOf(op){
+  const explicit=String(op.nature||op.subcategory||'').trim();
+  if(explicit)return explicit;
+  const original=String(op.category||'').trim();
+  const category=norm(original);
+  if(['courses','alimentation','repas','resto'].includes(category))return 'Alimentation';
+  if(['logement','charges fixes'].includes(category))return 'Habitation';
+  if(['transport','transports'].includes(category))return 'Transports';
+  if(category==='shopping')return 'Shopping';
+  if(category==='abonnements')return 'Abonnements';
+  if(category==='assurances')return 'Assurances';
+  if(category==='sante')return 'Santé';
+  if(category==='loisirs')return 'Loisirs et sorties';
+  if(['voyages','projets','projets / voyages'].includes(category))return 'Voyages';
+  return original||'Autres';
+ }
+ function readOperations(){
+  try{const ops=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');return Array.isArray(ops)?ops:null}catch(_){return null}
+ }
+ function updateMonths(ops){
+  const old=select.value||'current';
+  const months=[...new Set(ops.map(o=>dateMonth(o?.date)).filter(Boolean))].sort().reverse();
+  select.replaceChildren(new Option('Ce mois','current'),new Option('Tous les mois','all'));
+  for(const month of months){
+   if(month===thisMonth())continue;
+   const [year,m]=month.split('-').map(Number);
+   const label=new Date(year,m-1,1).toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+   select.add(new Option(label.charAt(0).toUpperCase()+label.slice(1),month));
+  }
+  select.value=Array.from(select.options).some(opt=>opt.value===old)?old:'current';
+ }
+ function text(tag,className,value){
+  const node=document.createElement(tag);
+  if(className)node.className=className;
+  if(value!==undefined)node.textContent=String(value);
+  return node;
+ }
+ function render(){
+  const ops=readOperations();
+  if(ops===null){
+   for(const kind of kinds){
+    document.getElementById('cap-nature-stats-'+kind+'-total').textContent='—';
+    document.getElementById('cap-nature-stats-'+kind+'-count').textContent='Données indisponibles';
+    const area=document.getElementById('cap-nature-stats-'+kind+'-rows');
+    area.replaceChildren(text('p','cap-nature-stats-empty','Le registre des opérations est illisible. Aucune donnée n’a été effacée.'));
+   }
+   document.getElementById('cap-nature-stats-all').textContent='Statistiques indisponibles';
+   return;
+  }
+  updateMonths(ops);
+  const period=select.value==='current'?thisMonth():select.value;
+  const perKind={charges:[],loisirs:[],epargne:[]};
+  for(const op of ops){
+   if(!op||typeof op!=='object')continue;
+   const amount=Number(op.amount);
+   if(!Number.isFinite(amount)||amount<=0)continue;
+   if(period!=='all'&&dateMonth(op.date)!==period)continue;
+   const kind=kindOf(op);
+   if(perKind[kind])perKind[kind].push({amount,nature:natureOf(op)});
+  }
+  let grand=0;
+  for(const kind of kinds){
+   const entries=perKind[kind];
+   const sum=entries.reduce((total,row)=>total+row.amount,0);
+   grand+=sum;
+   document.getElementById('cap-nature-stats-'+kind+'-total').textContent=euro(sum);
+   document.getElementById('cap-nature-stats-'+kind+'-count').textContent=entries.length+' '+(kind==='epargne'?'versement':'opération')+(entries.length===1?'':'s');
+   const area=document.getElementById('cap-nature-stats-'+kind+'-rows');
+   area.replaceChildren();
+   const byNature=new Map();
+   for(const entry of entries){
+    const key=norm(entry.nature);
+    if(!byNature.has(key))byNature.set(key,{title:entry.nature,sum:0});
+    byNature.get(key).sum+=entry.amount;
+   }
+   const natureRows=[...byNature.values()].sort((a,b)=>b.sum-a.sum||a.title.localeCompare(b.title,'fr'));
+   if(!natureRows.length){
+    area.append(text('p','cap-nature-stats-empty',kind==='epargne'?'Aucune épargne enregistrée sur cette période.':'Aucune dépense enregistrée sur cette période.'));
+    continue;
+   }
+   const fragment=document.createDocumentFragment();
+   for(const row of natureRows){
+    const line=text('div','cap-nature-stats-line');
+    const title=text('div','cap-nature-stats-label');
+    title.append(text('span','',row.title),text('strong','',euro(row.sum)));
+    const track=text('div','cap-nature-stats-track');
+    const fill=text('i');
+    fill.style.width=Math.min(100,Math.max(0,sum>0?row.sum/sum*100:0))+'%';
+    track.append(fill);line.append(title,track);fragment.append(line);
+   }
+   area.append(fragment);
+  }
+  document.getElementById('cap-nature-stats-all').textContent='Total enregistré sur la période : '+euro(grand);
+ }
+ select.addEventListener('change',render);
+ ['capQuickExpenseSaved','capOperationsChanged','capBudgetChanged'].forEach(name=>window.addEventListener(name,render));
+ window.addEventListener('storage',event=>{if(!event.key||event.key==='capBudgetOperations')render()});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)render()});
+ render();
+})();
+</script>
 </body></html>
