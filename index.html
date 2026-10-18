@@ -1482,9 +1482,35 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 </div><p id="cap-home-explication">Solde prévisionnel, pas un solde bancaire.</p>
 </article>
 <article class="cap-home-card cap-home-win" aria-labelledby="cap-home-win-title">
-<span class="cap-home-emoji" aria-hidden="true">🏆</span>
-<h2 id="cap-home-win-title">Ma dernière petite victoire</h2>
-<strong id="cap-home-win-name">À venir !</strong><p id="cap-home-win-detail">Chaque économie est une belle avancée.</p>
+  <div class="cap-home-win-top">
+    <span class="cap-home-emoji" aria-hidden="true">🏆</span>
+    <div class="cap-home-win-intro">
+      <span class="cap-home-win-eyebrow">PETITES RÉUSSITES · GRANDES ÉCONOMIES</span>
+      <h2 id="cap-home-win-title">Mes Petites Victoires</h2>
+      <p>Une dépense évitée ? Note-la ici pour voir tes progrès.</p>
+    </div>
+  </div>
+  <div class="cap-home-win-summary">
+    <div><span>Ce mois-ci</span><strong id="cap-home-win-month-total">0,00 €</strong></div>
+    <div><span>Depuis le début</span><strong id="cap-home-win-all-total">0,00 €</strong></div>
+  </div>
+  <form id="cap-home-win-entry-form" class="cap-home-win-entry-form" aria-label="Enregistrer une petite victoire">
+    <div class="cap-home-win-fields">
+      <label for="cap-home-win-new-name">Dépense évitée
+        <input id="cap-home-win-new-name" name="label" type="text" maxlength="90" placeholder="Ex. Café à emporter" autocomplete="off" required>
+      </label>
+      <label for="cap-home-win-new-amount">Montant économisé (€)
+        <input id="cap-home-win-new-amount" name="amount" type="text" inputmode="decimal" placeholder="Ex. 5,90" autocomplete="off" required>
+      </label>
+    </div>
+    <button type="submit" class="cap-home-win-save">✨ Enregistrer ma victoire</button>
+    <p id="cap-home-win-entry-status" role="status" aria-live="polite">Il s’agit d’une économie déclarée, sans virement bancaire.</p>
+  </form>
+  <div class="cap-home-win-last">
+    <span class="cap-home-win-last-caption">🏅 Dernière réussite</span>
+    <strong id="cap-home-win-name">Ta prochaine petite victoire 🌟</strong>
+    <p id="cap-home-win-detail">Ta dernière économie apparaîtra ici.</p>
+  </div>
 </article>
 </div>
 <section class="cap-home-activities" aria-labelledby="cap-home-activities-title">
@@ -2073,19 +2099,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       </section>
       
     </article>
-
-    <article class="cap-v6-card" id="cap-savings-module">
-<span class="cap-v6-badge">🌱 Économies & anti-gaspillage</span>
-<h3 style="margin-top:8px">Mes cagnottes et petites victoires</h3>
-<p class="cap-save-muted">Suivi local des économies estimées ou déclarées. Ces sommes ne sont pas de l'argent réellement mis de côté sur un compte.</p>
-<div class="cap-save-grid">
-<article class="card cap-save-panel"><h4>🐾 Réserve Animaux & Urgences</h4><p class="cap-save-muted">Cette réserve personnalisable vous aide à anticiper les frais liés aux animaux (vétérinaire, soins, alimentation) et les imprévus du quotidien. Vous choisissez librement son objectif et les montants à y consacrer. Il s’agit d’un suivi dans CAP, pas d’un compte bancaire.</p><div class="cap-save-number" id="cap-reserve-value">0,00 € / 500,00 €</div><div class="cap-save-meter" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cap-reserve-progress"><div id="cap-reserve-bar"></div></div><label for="cap-reserve-target">Objectif (€)</label><input id="cap-reserve-target" type="number" min="1" step="0.01" value="500"><button type="button" id="cap-reserve-save-target">Enregistrer l'objectif</button><p class="cap-save-muted">Réserve virtuelle : aucun virement bancaire n'est effectué.</p></article>
-<article class="card cap-save-panel"><h4>🛡️ Anti-Gaspillage Alimentaire · Lien Frigo</h4><div id="cap-meal-preview" role="status" aria-live="polite" style="padding:12px;margin:10px 0;border-radius:12px;background:#0b4f4a22;border:1px solid #34d39955"><strong>🍳 Bravo ! Cuisiner les restes peut éviter une commande.</strong><p style="margin:7px 0 0">Économie estimée pour le repas : <strong id="cap-meal-preview-amount">12,00 €</strong></p><small id="cap-meal-preview-note">Exemple à confirmer : adaptez le montant à votre repas avant de l’ajouter.</small></div><label for="cap-meal-name">Repas préparé avec les restes ou le Frigo</label><input id="cap-meal-name" maxlength="90" placeholder="Ex. Poêlée croquante"><label for="cap-meal-saved">Économie estimée par rapport à une alternative (€)</label><input id="cap-meal-saved" type="number" min="0.01" step="0.01" value="12"><p class="cap-save-muted">Estimation à adapter à votre repas : aucune économie n'est calculée automatiquement à partir des ingrédients.</p><button type="button" id="cap-meal-add">+ Ajouter cette économie à la Réserve Urgences & Animaux</button></article>
-<article class="card cap-save-panel"><h4>🟩 La boîte aux petites victoires</h4><button type="button" id="cap-victory-toggle">🟩 J'ai résisté à une dépense inutile !</button><div id="cap-victory-form" hidden><label for="cap-victory-name">Dépense évitée</label><input id="cap-victory-name" maxlength="90" placeholder="Ex. Café ou snack"><label for="cap-victory-amount">Montant évité (€)</label><input id="cap-victory-amount" type="number" min="0.01" step="0.01" placeholder="5,90"><button type="button" id="cap-victory-add">Enregistrer ma victoire</button></div><p id="cap-victory-totals" aria-live="polite">Ce mois : 0,00 € · Total : 0,00 €</p><p class="cap-save-muted">Les victoires sont comptées séparément de la réserve pour éviter les doubles comptes.</p></article>
-<article class="card cap-save-panel"><h4>👻 Abonnements fantômes</h4><label for="cap-ghost-name">Abonnement peu ou pas utilisé</label><input id="cap-ghost-name" maxlength="90" placeholder="Ex. Streaming, salle de sport"><label for="cap-ghost-price">Coût mensuel (€)</label><input id="cap-ghost-price" type="number" min="0.01" step="0.01" placeholder="13,75"><button type="button" id="cap-ghost-add">Ajouter à vérifier</button><div id="cap-ghost-list"></div><p><strong>Économie annuelle potentielle : <span id="cap-ghost-total">0,00 €</span></strong></p><p class="cap-save-muted">Simulation si les abonnements listés sont résiliés. Aucune résiliation automatique, aucun montant ajouté à la réserve.</p></article>
-</div><p id="cap-savings-status" role="status" aria-live="polite" class="cap-save-muted"></p>
-</article>
-
 
     <article class="cap-v6-card">
       <span class="cap-v6-badge">💾 Données</span>
@@ -5022,47 +5035,7 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
     if(!rows){if(status)status.textContent='Le planning de repas est introuvable.';return;}
     const popup=window.open('','_blank');
     if(!popup){if(status)status.textContent='Autorisez les fenêtres pop-up pour imprimer ou enregistrer en PDF.';return;}
-    const html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget - Planning de repas</title><style>@page{size:A4;margin:15mm}body{font:14px Arial,sans-serif;color:#17352c}h1{color:#126449;font-size:23px}section{border:1px solid #bad9cb;border-radius:9px;padding:10px 14px;margin:9px 0;break-inside:avoid}h2{font-size:16px;margin:0 0 8px}small{font-size:12px;color:#52665f}p{margin:5px 0;line-height:1.5}.note{font-size:12px;color:#52665f}</style></head><body><h1>🍽️ CAP Budget — Mon planning de repas</h1><p class="note">Repas saisis dans le planning de la semaine · les cases vides restent non renseignées.</p>'+rows+'<p class="note">Pour créer un PDF : dans la fenêtre d’impression, choisir « Enregistrer au format PDF ».</p><script>
-/* CAP Cagnottes v1 : données locales isolées, sans mutation des budgets existants. */
-(function(){
-'use strict';
-const KEY='cap_savings_cagnottes_v1';
-const $=id=>document.getElementById(id);
-const eur=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
-const valid=n=>Number.isFinite(n)&&n>0&&n<=1000000;
-const cents=n=>Math.round(n*100)/100;
-let state={target:500,meals:[],victories:[],ghosts:[]};
-try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&typeof x==='object'){state.target=valid(Number(x.target))?Number(x.target):500;for(const k of ['meals','victories','ghosts'])state[k]=Array.isArray(x[k])?x[k].filter(y=>y&&typeof y==='object').slice(-1000):[];}}catch(_){}
-const sum=(arr)=>cents(arr.reduce((a,x)=>a+(Number.isFinite(Number(x.amount))&&Number(x.amount)>0?Number(x.amount):0),0));
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state));return true;}catch(_){$('cap-savings-status').textContent='Stockage local indisponible : cette modification ne peut pas être enregistrée.';return false;}};
-const status=t=>{$('cap-savings-status').textContent=t;};
-const getAmount=id=>{const input=$(id);const n=Number(input.value);if(!input.value.trim()||!valid(n)){status('Indiquez un montant valide, supérieur à zéro.');input.focus();return null;}return cents(n);};
-const render=()=>{
-const reserve=sum(state.meals),pct=Math.min(100,Math.round(reserve/state.target*100));
-$('cap-reserve-value').textContent=eur(reserve)+' / '+eur(state.target);
-$('cap-reserve-bar').style.width=pct+'%';$('cap-reserve-progress').setAttribute('aria-valuenow',String(pct));$('cap-reserve-target').value=state.target;
-const month=new Date().toISOString().slice(0,7);
-$('cap-victory-totals').textContent='Ce mois : '+eur(sum(state.victories.filter(v=>typeof v.date==='string'&&v.date.slice(0,7)===month)))+' · Total cumulé : '+eur(sum(state.victories));
-const list=$('cap-ghost-list');list.replaceChildren();
-state.ghosts.forEach(g=>{const row=document.createElement('div');row.className='cap-save-item';const name=document.createElement('span');name.textContent=String(g.name||'Abonnement')+' — '+eur(Number(g.amount)||0)+'/mois';const del=document.createElement('button');del.type='button';del.textContent='Retirer';del.style.marginLeft='8px';del.addEventListener('click',()=>{state.ghosts=state.ghosts.filter(x=>x.id!==g.id);if(save())render();});row.append(name,del);list.appendChild(row);});
-$('cap-ghost-total').textContent=eur(cents(sum(state.ghosts)*12));
-};
-window.addEventListener('cap-reserve-add-from-robot',event=>{const amount=Number(event.detail?.amount);if(!valid(amount)||amount!==12)return;const ok=add('meals','Économie estimée · restes du frigo',cents(amount));window.dispatchEvent(new CustomEvent('cap-reserve-robot-result',{detail:{ok,total:eur(sum(state.meals))}}));if(ok)status('12,00 € ajoutés à la réserve virtuelle depuis CAP Assistant.');});
-const add=(key,name,amount)=>{const item={id:Date.now()+'-'+Math.random().toString(36).slice(2),name,amount,date:new Date().toISOString()};state[key].push(item);if(!save()){state[key].pop();return false;}render();return true;};
-$('cap-reserve-save-target').addEventListener('click',()=>{const n=getAmount('cap-reserve-target');if(n===null)return;const old=state.target;state.target=n;if(!save()){state.target=old;return;}render();status('Objectif de la réserve enregistré sur cet appareil.');});
-const mealAmountInput=$('cap-meal-saved');
-const mealPreviewAmount=$('cap-meal-preview-amount');
-const mealPreviewNote=$('cap-meal-preview-note');
-const refreshMealPreview=()=>{const n=Number(mealAmountInput.value);mealPreviewAmount.textContent=Number.isFinite(n)&&n>0?eur(cents(n)):'—';mealPreviewNote.textContent='Estimation à confirmer avant ajout ; aucun argent n’est transféré.';};
-mealAmountInput.addEventListener('input',refreshMealPreview);
-refreshMealPreview();
-$('cap-meal-add').addEventListener('click',()=>{const amount=getAmount('cap-meal-saved');if(amount===null)return;const name=$('cap-meal-name').value.trim()||'Repas anti-gaspillage';if(add('meals',name,amount)){status(eur(amount)+' d’économie estimée ajoutés à la réserve virtuelle.');$('cap-meal-name').value='';}});
-$('cap-victory-toggle').addEventListener('click',()=>{$('cap-victory-form').hidden=!$('cap-victory-form').hidden;});
-$('cap-victory-add').addEventListener('click',()=>{const amount=getAmount('cap-victory-amount');if(amount===null)return;const name=$('cap-victory-name').value.trim()||'Dépense évitée';if(add('victories',name,amount)){status('Petite victoire enregistrée : '+eur(amount));$('cap-victory-name').value='';$('cap-victory-amount').value='';$('cap-victory-form').hidden=true;}});
-$('cap-ghost-add').addEventListener('click',()=>{const amount=getAmount('cap-ghost-price');if(amount===null)return;const name=$('cap-ghost-name').value.trim();if(!name){status('Indiquez le nom de l’abonnement.');$('cap-ghost-name').focus();return;}if(add('ghosts',name,amount)){status('Abonnement ajouté à la liste de vérification.');$('cap-ghost-name').value='';$('cap-ghost-price').value='';}});
-render();
-})();
-</script>
+    const html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget - Planning de repas</title><style>@page{size:A4;margin:15mm}body{font:14px Arial,sans-serif;color:#17352c}h1{color:#126449;font-size:23px}section{border:1px solid #bad9cb;border-radius:9px;padding:10px 14px;margin:9px 0;break-inside:avoid}h2{font-size:16px;margin:0 0 8px}small{font-size:12px;color:#52665f}p{margin:5px 0;line-height:1.5}.note{font-size:12px;color:#52665f}</style></head><body><h1>🍽️ CAP Budget — Mon planning de repas</h1><p class="note">Repas saisis dans le planning de la semaine · les cases vides restent non renseignées.</p>'+rows+'<p class="note">Pour créer un PDF : dans la fenêtre d’impression, choisir « Enregistrer au format PDF ».</p><!-- Ancien contrôleur Cagnottes V1 retiré : aucun effacement des données déjà sauvegardées. -->
 <script>
 (function(){
  function sync(){
@@ -5393,65 +5366,8 @@ padding:20px!important;margin:0!important;border:0!important;box-sizing:border-b
 #cap-eco-v2 .eco-card h3{border-radius:23px 23px 0 0!important}
 @media(max-width:680px){#cap-eco-v2{width:calc(100% - 16px)!important;margin:12px auto!important;border-radius:22px!important}#cap-eco-v2 .eco-grid{grid-template-columns:minmax(0,1fr)!important}#cap-eco-v2 .eco-card{border-radius:20px!important}}
 </style>
-<section id="cap-eco-v2" aria-labelledby="eco-title">
- <header class="eco-head"><div><small>CAP Budget, repas et voyages</small><strong>Économies et petites victoires</strong><small>Mes réussites</small></div><div><small id="eco-date"></small><span>Budget principal : <b id="eco-balance">voir le solde ci-dessus</b></span></div></header>
- <nav class="eco-nav" aria-label="Navigation économies"><a href="#cap-eco-v2">▣ Aujourd'hui</a><a href="#v6-stats">▤ Budget</a><a href="#eco-paulaider">🤖 Paulaider</a><a href="#cap-eco-v2">🍲 Repas</a><a href="#cap-eco-v2">✈️ Voyages</a><a href="#pricing">◉ Compte</a></nav>
- <div class="eco-content"><h2 id="eco-title">Cagnottes Économies</h2>
- <div class="eco-grid">
-  <article class="card eco-card"><h3>🛡️ Anti-Gaspillage Alimentaire</h3><div class="eco-body">
-   <p>💡 Exemple non enregistré : cuisiner un repas avec les restes plutôt que commander peut réduire les dépenses.</p>
-   <p><b>Exemple d'économie possible : <span class="eco-green">12,00 €</span></b></p>
-   <button id="eco-add-meal" type="button">🐾 J'ai vraiment évité cette commande : ajouter 12 €</button>
-   <p><b>Exemple fictif :</b> Poêlée Croquante (reste poulet & riz) — Coût : 2,80 €<br>Commande évitée : ≈ 14,80 €. Rien n'est ajouté sans confirmation.</p>
-  </div></article>
-  <article class="card eco-card"><h3>💎 Les Petites Victoires</h3><div class="eco-body">
-   <p>Résistez à une dépense inutile et notez l'économie réalisée.</p>
-   <label class="eco-label" for="eco-win-amount">Montant économisé (€)</label><input id="eco-win-amount" type="number" min="0.01" max="100000" step="0.01" placeholder="Ex. 5,90">
-   <label class="eco-label" for="eco-win-label">Dépense évitée</label><input id="eco-win-label" type="text" maxlength="90" placeholder="Ex. Café à emporter">
-   <p><button class="eco-win" id="eco-add-win" type="button">✓ J'ai résisté à une dépense inutile !</button></p>
-   <p>💰 Économies confirmées ce mois : <strong id="eco-month">0,00 €</strong></p>
-  </div></article>
-  <article class="card eco-card eco-full"><h3>🔎 Traqueur d'Abonnements Fantômes</h3><div class="eco-body"><p>Abonnements inutilisés ? Passez-les en revue pour estimer les économies possibles. <strong>Exemple fictif : 165,00 € par an</strong>.</p><p class="eco-muted">Estimation illustrative : aucune résiliation ni économie réelle n'est enregistrée automatiquement.</p></div></article>
-  <article class="card eco-card eco-full"><h3>🐾 Réserve Animaux & Urgences <span id="eco-reserve-label">Calcul en cours…</span> 🛡️</h3><div class="eco-body"><p class="eco-muted">Prévoyez à votre rythme les frais vétérinaires et autres besoins de vos animaux, ainsi que les urgences du quotidien. Cette réserve est personnalisable selon vos priorités ; elle ne transfère pas d’argent automatiquement.</p><div class="eco-track" role="progressbar" aria-label="Progression de la réserve" aria-valuemin="0" aria-valuemax="500" aria-valuenow="0" id="eco-progress"><div class="eco-bar" id="eco-bar"></div></div><p class="eco-muted">Cagnotte d'économies confirmées dans ce module, distincte du solde bancaire et du budget principal. Seuls les montants confirmés et enregistrés dans ce module sont comptés.</p></div></article>
- <div class="eco-robot" id="eco-paulaider"><strong>🤖 Paulaider — votre assistant économies</strong><p id="eco-robot-message" role="status">Exemple seulement : cuisiner un repas à 2,80 € plutôt que commander à 14,80 € ferait économiser environ 12 €. Ajoutez ce montant uniquement si vous avez réellement évité cette dépense.</p><button id="eco-robot-add" type="button">J'ai réellement économisé 12 €</button><p class="eco-muted" id="eco-feedback" role="status">Les exemples ne sont pas des opérations bancaires. Seuls les ajouts confirmés sont mémorisés dans ce navigateur.</p></div>
- </div>
- </div>
-</section>
-<script>
-(function(){
- 'use strict';
- const root=document.getElementById('cap-eco-v2');if(!root)return;
- const by=id=>root.querySelector('#'+id);
- const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
- const today=new Date();by('eco-date').textContent=new Intl.DateTimeFormat('fr-FR',{dateStyle:'medium'}).format(today);
- const key='cap_eco_v2_savings_1';
- let entries=[];try{const x=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(x))entries=x.filter(y=>y&&Number.isFinite(y.amount)&&y.amount>0&&typeof y.date==='string').slice(-500);}catch(_){}
- const baseline=0,goal=500;
- function refresh(){
-  const added=entries.reduce((n,e)=>n+e.amount,0),total=baseline+added;
-  by('eco-reserve-label').textContent=euro(total)+' / '+euro(goal);
-  by('eco-bar').style.width=Math.min(100,total/goal*100)+'%';
-  by('eco-progress').setAttribute('aria-valuenow',String(Math.min(goal,total)));
-  const ym=today.toISOString().slice(0,7);
-  by('eco-month').textContent=euro(entries.filter(e=>e.date.slice(0,7)===ym).reduce((n,e)=>n+e.amount,0));
- }
- function add(amount,label){
-  if(!Number.isFinite(amount)||amount<=0||amount>100000)return;
-  const entry={amount:Math.round(amount*100)/100,label,date:new Date().toISOString(),kind:/Poêlée Croquante/.test(label)?'meal':'victory'};
-  const next=[...entries,entry].slice(-500);
-  try{localStorage.setItem(key,JSON.stringify(next));entries=next;}catch(_){by('eco-feedback').textContent='Enregistrement impossible : stockage du navigateur indisponible.';return;}
-  refresh();by('eco-feedback').textContent=euro(entry.amount)+' ajouté à la cagnotte de ce module : '+label+'.';
-  by('eco-robot-message').textContent='Bravo ! '+euro(entry.amount)+' ajouté à votre réserve d’économies confirmées.';
- }
- function meal(){
-  if(!confirm('Avez-vous réellement évité une dépense de 12 € grâce à un repas préparé ? Cette action ajoutera 12 € à votre cagnotte locale, sans virement bancaire.'))return;
-  add(12,'Repas maison — économie de 12 € déclarée par l’utilisateur');
- }
- by('eco-add-meal').addEventListener('click',meal);by('eco-robot-add').addEventListener('click',meal);
- by('eco-add-win').addEventListener('click',()=>{const amount=Number(by('eco-win-amount').value),label=by('eco-win-label').value.trim()||'Dépense évitée';if(!(amount>0&&amount<=100000)){by('eco-feedback').textContent='Saisissez un montant positif valide.';return;}add(amount,label);});
- refresh();
-})();
-</script>
+<!-- Cagnottes V2 retirées de l'interface ; économies conservées en localStorage. -->
+
 
 <!-- Ancienne présentation CAP restaurée : surcharge cap-premium-airy-20261011 désactivée. -->
 
@@ -5728,7 +5644,7 @@ function updateHome(){
  wins.sort((x,y)=>(Date.parse(y.date)||0)-(Date.parse(x.date)||0));
  const last=wins[0];
  get('cap-home-win-name').textContent=last?last.name:'Ta prochaine petite victoire 🌟';
- get('cap-home-win-detail').textContent=last?'Économie notée : '+format(last.amount)+(last.date&&Number.isFinite(Date.parse(last.date))?' · '+new Date(last.date).toLocaleDateString('fr-FR'):'')+'. Bravo !':'Enregistre une petite victoire dans ton espace Économies pour la retrouver ici.';
+ get('cap-home-win-detail').textContent=last?'Économie notée : '+format(last.amount)+(last.date&&Number.isFinite(Date.parse(last.date))?' · '+new Date(last.date).toLocaleDateString('fr-FR'):'')+'. Bravo !':'Enregistre une petite victoire ci-dessus pour la retrouver ici.';
 }
 // La section anciennement « CAP Budget V2 » est déplacée dans Budget,
 // sans supprimer ses modules, ses écouteurs d'événements ni ses sauvegardes.
@@ -7617,4 +7533,117 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  #cap-home-simple .cap-dash-activity-amt{font-size:14px}
 }
 </style>
+<style id="cap-home-victories-20261018">
+/* Formulaire unique pour les Petites Victoires dans le menu Accueil. */
+#cap-home-simple .cap-home-win{align-items:stretch!important;justify-content:flex-start!important;text-align:left!important;gap:0!important;background:linear-gradient(138deg,#173a33,#133647)!important;border:1px solid rgba(105,220,175,.65)!important;box-shadow:0 16px 32px rgba(4,24,20,.16)!important;color:#fff!important;padding:clamp(18px,3vw,26px)!important}
+#cap-home-simple .cap-home-win-top{display:flex;align-items:center;gap:15px;min-width:0}
+#cap-home-simple .cap-home-win-top .cap-home-emoji{flex:none;margin:0!important;font-size:clamp(34px,4vw,47px)!important}
+#cap-home-simple .cap-home-win-intro{flex:1;min-width:0}
+#cap-home-simple .cap-home-win-eyebrow{display:block;font-size:12px!important;font-weight:900!important;letter-spacing:.065em;color:#83efc0!important;margin:0 0 5px}
+#cap-home-simple .cap-home-win h2{font-size:clamp(22px,3vw,29px)!important;line-height:1.2!important;margin:0 0 5px!important;color:#fff!important}
+#cap-home-simple .cap-home-win-intro p{margin:0!important;font-size:14px!important;color:#c0e6dc!important;line-height:1.5!important}
+#cap-home-simple .cap-home-win-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:19px 0 16px}
+#cap-home-simple .cap-home-win-summary>div{padding:13px 16px;border-radius:15px;border:1px solid rgba(161,237,210,.27);background:rgba(3,24,28,.46)}
+#cap-home-simple .cap-home-win-summary span{display:block;color:#c8eee2!important;font-size:13px!important;margin-bottom:4px}
+#cap-home-simple .cap-home-win-summary strong{display:block;font-size:clamp(21px,2.7vw,29px)!important;color:#adf9d3!important;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#cap-home-simple .cap-home-win-entry-form{display:grid;gap:12px;padding:16px;border:1px solid rgba(138,227,201,.25);border-radius:17px;background:rgba(4,26,36,.52)}
+#cap-home-simple .cap-home-win-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:12px}
+#cap-home-simple .cap-home-win-fields label{display:flex;flex-direction:column;align-items:stretch;gap:7px;margin:0!important;color:#f1fff9!important;font-weight:800!important;font-size:14px!important}
+#cap-home-simple .cap-home-win-fields input{box-sizing:border-box;min-width:0;width:100%;min-height:53px;padding:11px 13px!important;border:2px solid rgba(144,223,201,.72)!important;border-radius:12px!important;background:#082631!important;color:#fff!important;font-size:17px!important;font-weight:600!important}
+#cap-home-simple .cap-home-win-fields input::placeholder{color:#a8cabe!important;opacity:1}
+#cap-home-simple .cap-home-win-fields input:focus-visible{outline:3px solid #c4f8d6;outline-offset:3px}
+#cap-home-simple .cap-home-win-save{min-height:53px!important;width:100%;border:0!important;border-radius:12px!important;background:linear-gradient(100deg,#16b79b,#328cf2)!important;color:#fff!important;font-size:17px!important;font-weight:900!important;cursor:pointer!important;box-shadow:0 5px 12px rgba(8,82,92,.22)}
+#cap-home-simple .cap-home-win-save:hover{filter:brightness(1.08)}
+#cap-home-simple #cap-home-win-entry-status{margin:0!important;min-height:20px;color:#d4eae5!important;line-height:1.5!important;font-size:13px!important}
+#cap-home-simple .cap-home-win-last{border-top:1px solid rgba(153,226,206,.25);margin-top:18px;padding-top:15px}
+#cap-home-simple .cap-home-win-last-caption{display:block;font-size:13px!important;font-weight:850!important;color:#a5f3cf!important;margin-bottom:6px}
+#cap-home-simple #cap-home-win-name{font-size:clamp(18px,2.5vw,25px)!important;color:#fff!important;line-height:1.4!important}
+#cap-home-simple #cap-home-win-detail{font-size:14px!important;color:#cde9e2!important;margin:7px 0 0!important;line-height:1.5!important}
+@media(max-width:620px){#cap-home-simple .cap-home-win-fields{grid-template-columns:minmax(0,1fr)}#cap-home-simple .cap-home-win-summary>div{padding:12px 10px}}
+</style>
+<script id="cap-home-victories-script-20261018">
+(function(){
+ 'use strict';
+ const form=document.getElementById('cap-home-win-entry-form');
+ if(!form)return;
+ const byId=id=>document.getElementById(id);
+ const status=byId('cap-home-win-entry-status');
+ const KEY='cap_savings_cagnottes_v1',LEGACY='cap_eco_v2_savings_1';
+ const money=value=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(value);
+ const thisMonth=()=>{const date=new Date();return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')};
+ function read(key,fallback){
+  try{const raw=localStorage.getItem(key);if(raw===null)return fallback;return JSON.parse(raw)}
+  catch(_){return null}
+ }
+ function victories(){
+  const state=read(KEY,{});
+  const legacy=read(LEGACY,[]);
+  if(!state||typeof state!=='object'||Array.isArray(state)||legacy===null||!Array.isArray(legacy))return null;
+  if(state.victories!==undefined&&!Array.isArray(state.victories))return null;
+  const results=[];
+  for(const item of (state.victories||[])){
+   if(!item||!Number.isFinite(Number(item.amount))||Number(item.amount)<=0)continue;
+   results.push({name:String(item.name||item.label||'Petite victoire'),amount:Number(item.amount),date:String(item.date||'')});
+  }
+  for(const item of legacy){
+   if(!item||!Number.isFinite(Number(item.amount))||Number(item.amount)<=0)continue;
+   if(item.kind!=='victory'&&!(item.kind==null&&!/Poêlée Croquante|restes du frigo/i.test(String(item.label||''))))continue;
+   results.push({name:String(item.label||item.name||'Petite victoire'),amount:Number(item.amount),date:String(item.date||'')});
+  }
+  return results;
+ }
+ function render(){
+  const items=victories();
+  if(items===null){
+   status.textContent='Une ancienne sauvegarde est illisible. Aucune donnée n’a été modifiée.';
+   byId('cap-home-win-month-total').textContent='—';
+   byId('cap-home-win-all-total').textContent='—';
+   return;
+  }
+  const month=thisMonth(),count=items.filter(item=>item.date.slice(0,7)===month);
+  const sum=arr=>Math.round(arr.reduce((total,item)=>total+item.amount,0)*100)/100;
+  byId('cap-home-win-month-total').textContent=money(sum(count));
+  byId('cap-home-win-all-total').textContent=money(sum(items));
+  // Met à jour les totaux sans écrire dans les budgets ou les objectifs.
+  if(items.length){
+   items.sort((a,b)=>(Date.parse(b.date)||0)-(Date.parse(a.date)||0));
+   const recent=items[0],name=byId('cap-home-win-name'),detail=byId('cap-home-win-detail');
+   name.textContent=recent.name;
+   detail.textContent=money(recent.amount)+(recent.date&&!Number.isNaN(Date.parse(recent.date))?' · '+new Date(recent.date).toLocaleDateString('fr-FR'):'')+' · Belle réussite !';
+  }
+ }
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  const nameField=byId('cap-home-win-new-name'),amountField=byId('cap-home-win-new-amount');
+  const name=nameField.value.trim();
+  const raw=amountField.value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
+  const amount=Number(raw);
+  if(!name||name.length>90||!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>100000){
+   status.textContent='Indique une dépense évitée et un montant positif valide (2 décimales maximum).';
+   return;
+  }
+  const old=read(KEY,{});
+  if(!old||typeof old!=='object'||Array.isArray(old)||old.victories!==undefined&&!Array.isArray(old.victories)){
+   status.textContent='Sauvegarde actuelle illisible : la victoire n’a pas été enregistrée pour protéger tes données.';
+   return;
+  }
+  const victory={id:Date.now()+'-'+Math.random().toString(36).slice(2),name,amount:Math.round(amount*100)/100,date:new Date().toISOString()};
+  // Écriture dans un seul registre existant : conserve réserves, repas et abonnements éventuels.
+  const next={...old,victories:[...(old.victories||[]),victory]};
+  try{localStorage.setItem(KEY,JSON.stringify(next))}
+  catch(_){status.textContent='Enregistrement impossible sur cet appareil. Aucune ancienne donnée effacée.';return}
+  status.textContent='Bravo ! '+money(victory.amount)+' économisés sur « '+name+' ». Victoire enregistrée.';
+  nameField.value='';amountField.value='';
+  render();
+  window.dispatchEvent(new Event('capSavingsVictorySaved'));
+  window.dispatchEvent(new Event('capBudgetChanged'));
+  nameField.focus({preventScroll:true});
+ });
+ ['capSavingsVictorySaved','storage'].forEach(type=>window.addEventListener(type,event=>{
+  if(type==='storage'&&event.key&&![KEY,LEGACY].includes(event.key))return;
+  render();
+ }));
+ render();
+})();
+</script>
 </body></html>
