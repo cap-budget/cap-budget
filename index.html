@@ -6937,44 +6937,86 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  }
 }
 </style>
-<style id="cap-expense-entry-style-20261017">
-/* Formulaire sur une seule ligne : 4 colonnes fixes, jamais de retour à la ligne. */
-#cap-expense-entry .cap-entry-scroll{width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding:3px 0 9px}
-#cap-expense-entry .cap-entry-row{display:grid;grid-template-columns:minmax(125px,1fr) minmax(165px,1.2fr) minmax(185px,1.3fr) minmax(125px,.8fr);gap:10px;min-width:660px;align-items:end}
-#cap-expense-entry .cap-entry-row label{display:flex!important;flex-direction:column;justify-content:flex-end;min-width:0;margin:0!important;gap:8px;color:#fff;font-weight:750;font-size:14px}
-#cap-expense-entry .cap-entry-row input,#cap-expense-entry .cap-entry-row select{display:block;width:100%;min-width:0;box-sizing:border-box;height:54px;padding:9px 10px;border:2px solid #7dd3ae;border-radius:12px;background:#071c29;color:#fff;font:inherit;font-size:16px}
-#cap-expense-entry .cap-entry-row input::placeholder{color:#a9c9c0}
-#cap-expense-entry .cap-entry-actions{margin-top:12px;display:flex;justify-content:flex-end}
-#cap-expense-entry #cap-entry-feedback{margin:10px 0 0!important;font-size:14px;color:#d3e5e0}
-#cap-expense-entry .cap-entry-row :focus-visible{outline:3px solid #bbf7d0;outline-offset:2px}
-@media(max-width:720px){#cap-expense-entry .cap-entry-scroll{padding-bottom:13px}#cap-expense-entry .cap-entry-actions button{width:100%}}
+<style id="cap-allocation-entry-forms-style-20261018">
+/* Un formulaire de trois champs directement sous chaque barre, sans menu Répartition. */
+#cap-budget-allocation .cap-alloc-expense-form{margin:14px 0 0;padding:13px 0 0;border-top:1px solid #3d6767}
+#cap-budget-allocation .cap-alloc-entry-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding:3px 0 10px}
+#cap-budget-allocation .cap-alloc-entry-fields{display:grid;grid-template-columns:minmax(155px,1.15fr) minmax(170px,1.2fr) minmax(125px,.75fr);gap:10px;align-items:end;min-width:500px}
+#cap-budget-allocation .cap-alloc-row .cap-alloc-entry-fields label{
+ display:flex!important;flex-direction:column!important;justify-content:flex-end!important;align-items:stretch!important;
+ min-width:0!important;gap:7px!important;margin:0!important;font-size:14px!important;font-weight:750!important;color:#fff!important
+}
+#cap-budget-allocation .cap-alloc-entry-fields input,
+#cap-budget-allocation .cap-alloc-entry-fields select{
+ display:block;width:100%;min-width:0;box-sizing:border-box;height:50px;
+ border:2px solid #7dd3ae;border-radius:11px;padding:8px 10px;
+ color:#fff;background:#071c29;font-family:inherit;font-size:16px;font-weight:500
+}
+#cap-budget-allocation .cap-alloc-entry-fields input::placeholder{color:#afc9c0}
+#cap-budget-allocation .cap-alloc-entry-fields :focus-visible{outline:3px solid #bbf7d0;outline-offset:2px}
+#cap-budget-allocation .cap-alloc-entry-actions{display:flex;justify-content:flex-end;margin:10px 0 0}
+#cap-budget-allocation .cap-alloc-entry-actions button{min-height:45px;padding:10px 14px;font-size:14px}
+#cap-budget-allocation .cap-alloc-entry-actions button:disabled{opacity:.65;cursor:wait}
+#cap-budget-allocation .cap-alloc-expense-form .cap-alloc-entry-feedback{margin:8px 0 0!important;min-height:18px;font-size:13px;color:#c5e6d8;line-height:1.4}
+@media(max-width:620px){
+ #cap-budget-allocation .cap-alloc-entry-scroll{padding-bottom:13px}
+ #cap-budget-allocation .cap-alloc-entry-fields{min-width:535px}
+ #cap-budget-allocation .cap-alloc-entry-actions button{width:100%}
+}
 </style>
-<script id="cap-expense-entry-script-20261017">
+<script id="cap-allocation-entry-forms-script-20261018">
 (function(){
   'use strict';
-  const form=document.getElementById('cap-entry-form');
-  if(!form)return;
-  const byId=id=>document.getElementById(id),message=byId('cap-entry-feedback');
-  const localDate=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-  form.addEventListener('submit',event=>{
-    event.preventDefault();
-    const kind=byId('cap-entry-kind').value,label=byId('cap-entry-name').value.trim(),nature=byId('cap-entry-nature').value;
-    const raw=byId('cap-entry-amount').value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
-    const amount=Number(raw);
-    if(!['Charges','Loisirs','Épargne'].includes(kind)||!label||!nature||!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>=10000000){
-      message.textContent='Renseigne les quatre champs et un montant valide supérieur à 0 € (deux décimales maximum).';return;
-    }
-    let operations;
-    try{operations=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');}
-    catch(_){message.textContent='Les opérations existantes sont illisibles. Aucun montant ajouté.';return;}
-    if(!Array.isArray(operations)){message.textContent='Le registre est invalide. Aucun montant ajouté.';return;}
-    const operation={id:Date.now()+Math.random(),label,amount:Math.round(amount*100)/100,category:kind==='Charges'?'Charges fixes':kind,subcategory:nature,date:localDate(),note:'Répartition : '+kind,kind,nature,source:'cap-entry-503020'};
-    try{localStorage.setItem('capBudgetOperations',JSON.stringify([...operations,operation]));}
-    catch(_){message.textContent='Enregistrement impossible sur cet appareil.';return;}
-    message.textContent=label+' : '+operation.amount.toLocaleString('fr-FR',{style:'currency',currency:'EUR'})+' enregistré dans les opérations.';
-    byId('cap-entry-name').value='';byId('cap-entry-amount').value='';byId('cap-entry-nature').value='';
-    window.dispatchEvent(new Event('capQuickExpenseSaved'));
-    window.dispatchEvent(new Event('capBudgetChanged'));
+  const forms=document.querySelectorAll('#cap-budget-allocation .cap-alloc-expense-form');
+  if(forms.length!==3)return;
+  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
+  const today=()=>{
+    const d=new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  };
+  const kinds={
+    charges:{title:'Charges',category:'Charges fixes'},
+    loisirs:{title:'Loisirs',category:'Loisirs'},
+    epargne:{title:'Épargne',category:'Épargne'}
+  };
+  forms.forEach(form=>{
+    form.addEventListener('submit',event=>{
+      event.preventDefault();
+      const kind=form.dataset.allocEntryKind;
+      const group=kinds[kind];
+      const labelField=form.elements.namedItem('label');
+      const natureField=form.elements.namedItem('nature');
+      const amountField=form.elements.namedItem('amount');
+      const feedback=form.querySelector('.cap-alloc-entry-feedback');
+      if(!group||!labelField||!natureField||!amountField||!feedback)return;
+      const label=labelField.value.trim(),nature=natureField.value.trim();
+      const raw=amountField.value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
+      const amount=Number(raw);
+      if(!label||label.length>80||!nature||!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>=10000000){
+        feedback.textContent='Renseigne le nom, la nature et un montant supérieur à 0 € (2 décimales maximum).';
+        return;
+      }
+      let operations;
+      try{operations=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');}
+      catch(_){feedback.textContent='Impossible de lire les dépenses existantes. Rien n’a été ajouté.';return;}
+      if(!Array.isArray(operations)){feedback.textContent='Le registre des opérations est invalide. Rien n’a été ajouté.';return;}
+      // Répartition implicite : le formulaire utilisé choisit son groupe, sans menu supplémentaire.
+      const operation={
+        id:Date.now()+Math.random(),label,
+        amount:Math.round(amount*100)/100,
+        category:group.category,subcategory:nature,
+        date:today(),note:'Répartition : '+group.title,
+        kind:group.title,nature,source:'cap-entry-503020'
+      };
+      try{localStorage.setItem('capBudgetOperations',JSON.stringify([...operations,operation]));}
+      catch(_){feedback.textContent='Enregistrement impossible sur cet appareil. Aucune donnée existante n’a été modifiée.';return;}
+      feedback.textContent=group.title+' : '+label+' · '+money(operation.amount)+' enregistré. Barre actualisée.';
+      labelField.value='';natureField.value='';amountField.value='';
+      // Rafraîchit le suivi 50/30/20 ainsi que le registre détaillé existant.
+      window.dispatchEvent(new Event('capQuickExpenseSaved'));
+      window.dispatchEvent(new Event('capBudgetChanged'));
+      labelField.focus({preventScroll:true});
+    });
   });
 })();
 </script>
