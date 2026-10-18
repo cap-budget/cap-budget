@@ -2601,7 +2601,36 @@ body:has(#tab-budget:not([hidden])) #pill {
      <strong class="cap-alloc-actual-values" id="cap-alloc-charges-real">0,00 € / 0,00 €</strong>
    </div>
    <span class="cap-alloc-actual-status" id="cap-alloc-charges-status">Dépenses enregistrées ce mois</span>
- </div></div>
+ </div>
+ <form class="cap-alloc-expense-form" data-alloc-entry-kind="charges" aria-label="Enregistrer une dépense dans Charges">
+   <div class="cap-alloc-entry-scroll" tabindex="0" aria-label="Saisie sur une seule ligne, défilement horizontal possible sur téléphone">
+     <div class="cap-alloc-entry-fields">
+       <label for="cap-alloc-entry-charges-name">2. Nom de la dépense
+         <input id="cap-alloc-entry-charges-name" name="label" type="text" maxlength="80" autocomplete="off" placeholder="Ex. Loyer, électricité" required>
+       </label>
+       <label for="cap-alloc-entry-charges-nature">3. Nature de la dépense
+         <select id="cap-alloc-entry-charges-nature" name="nature" required>
+           <option value="" selected disabled>Choisir une nature</option>
+           <option value="Habitation">Habitation</option>
+            <option value="Assurances">Assurances</option>
+            <option value="Abonnements">Abonnements</option>
+            <option value="Transports">Transports</option>
+            <option value="Santé">Santé</option>
+            <option value="Alimentation">Alimentation</option>
+            <option value="Crédits">Crédits</option>
+            <option value="Éducation">Éducation</option>
+            <option value="Impôts et taxes">Impôts et taxes</option>
+            <option value="Autres">Autres</option>
+         </select>
+       </label>
+       <label for="cap-alloc-entry-charges-amount">4. Montant (€)
+         <input id="cap-alloc-entry-charges-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
+       </label>
+     </div>
+   </div>
+   <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer la dépense</button></div>
+   <p class="cap-alloc-entry-feedback" role="status" aria-live="polite"></p>
+ </form></div>
 <div class="cap-alloc-row"><label for="cap-alloc-loisirs">🎈 Loisirs <strong id="cap-alloc-loisirs-pct">30 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-loisirs" type="range" min="0" max="100" step="1" value="30"><output id="cap-alloc-loisirs-eur" for="cap-alloc-loisirs">— €</output></div>
  <div class="cap-alloc-actual" data-alloc-kind="loisirs">
    <div class="cap-alloc-actual-main">
@@ -2611,7 +2640,36 @@ body:has(#tab-budget:not([hidden])) #pill {
      <strong class="cap-alloc-actual-values" id="cap-alloc-loisirs-real">0,00 € / 0,00 €</strong>
    </div>
    <span class="cap-alloc-actual-status" id="cap-alloc-loisirs-status">Dépenses enregistrées ce mois</span>
- </div></div>
+ </div>
+ <form class="cap-alloc-expense-form" data-alloc-entry-kind="loisirs" aria-label="Enregistrer une dépense dans Loisirs">
+   <div class="cap-alloc-entry-scroll" tabindex="0" aria-label="Saisie sur une seule ligne, défilement horizontal possible sur téléphone">
+     <div class="cap-alloc-entry-fields">
+       <label for="cap-alloc-entry-loisirs-name">2. Nom de la dépense
+         <input id="cap-alloc-entry-loisirs-name" name="label" type="text" maxlength="80" autocomplete="off" placeholder="Ex. Netflix" required>
+       </label>
+       <label for="cap-alloc-entry-loisirs-nature">3. Nature de la dépense
+         <select id="cap-alloc-entry-loisirs-nature" name="nature" required>
+           <option value="" selected disabled>Choisir une nature</option>
+           <option value="Abonnements">Abonnements</option>
+            <option value="Loisirs et sorties">Loisirs et sorties</option>
+            <option value="Restaurants">Restaurants</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Sport">Sport</option>
+            <option value="Culture">Culture</option>
+            <option value="Voyages">Voyages</option>
+            <option value="Jeux">Jeux</option>
+            <option value="Cadeaux">Cadeaux</option>
+            <option value="Autres">Autres</option>
+         </select>
+       </label>
+       <label for="cap-alloc-entry-loisirs-amount">4. Montant (€)
+         <input id="cap-alloc-entry-loisirs-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
+       </label>
+     </div>
+   </div>
+   <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer la dépense</button></div>
+   <p class="cap-alloc-entry-feedback" role="status" aria-live="polite"></p>
+ </form></div>
 <div class="cap-alloc-row"><label for="cap-alloc-epargne">🌱 Épargne <strong id="cap-alloc-epargne-pct">20 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-epargne" type="range" min="0" max="100" step="1" value="20"><output id="cap-alloc-epargne-eur" for="cap-alloc-epargne">— €</output></div>
  <div class="cap-alloc-actual" data-alloc-kind="epargne">
    <div class="cap-alloc-actual-main">
@@ -2621,46 +2679,39 @@ body:has(#tab-budget:not([hidden])) #pill {
      <strong class="cap-alloc-actual-values" id="cap-alloc-epargne-real">0,00 € / 0,00 €</strong>
    </div>
    <span class="cap-alloc-actual-status" id="cap-alloc-epargne-status">Épargne enregistrée ce mois</span>
- </div></div>
+ </div>
+ <form class="cap-alloc-expense-form" data-alloc-entry-kind="epargne" aria-label="Enregistrer l'épargne dans Épargne">
+   <div class="cap-alloc-entry-scroll" tabindex="0" aria-label="Saisie sur une seule ligne, défilement horizontal possible sur téléphone">
+     <div class="cap-alloc-entry-fields">
+       <label for="cap-alloc-entry-epargne-name">2. Nom de la dépense
+         <input id="cap-alloc-entry-epargne-name" name="label" type="text" maxlength="80" autocomplete="off" placeholder="Ex. Épargne voiture" required>
+       </label>
+       <label for="cap-alloc-entry-epargne-nature">3. Nature de la dépense
+         <select id="cap-alloc-entry-epargne-nature" name="nature" required>
+           <option value="" selected disabled>Choisir une nature</option>
+           <option value="Épargne de précaution">Épargne de précaution</option>
+            <option value="Épargne projet">Épargne projet</option>
+            <option value="Retraite">Retraite</option>
+            <option value="Investissement">Investissement</option>
+            <option value="Épargne vacances">Épargne vacances</option>
+            <option value="Autres">Autres</option>
+         </select>
+       </label>
+       <label for="cap-alloc-entry-epargne-amount">4. Montant (€)
+         <input id="cap-alloc-entry-epargne-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
+       </label>
+     </div>
+   </div>
+   <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer l'épargne</button></div>
+   <p class="cap-alloc-entry-feedback" role="status" aria-live="polite"></p>
+ </form></div>
 </div>
 <div class="cap-alloc-total" role="status" aria-live="polite"><strong id="cap-alloc-sum">Total : 100 %</strong><span id="cap-alloc-warning">Répartition complète</span></div>
 <button type="button" id="cap-alloc-reset">Revenir à 50 / 30 / 20</button>
-<p class="cap-alloc-fine">Ces curseurs définissent des plafonds indicatifs. Les barres ci-dessus comparent les montants enregistrés ce mois-ci à ces plafonds ; elles n'ajoutent aucune opération. Les pourcentages sont sauvegardés localement.</p>
+<p class="cap-alloc-fine">Les curseurs définissent les budgets prévus. Sous chaque barre, saisis directement une dépense ou une somme épargnée : la bonne répartition est sélectionnée automatiquement, et la progression se met à jour. Les montants déjà enregistrés sont conservés.</p>
 
 </div>
-<div class="cap-alloc-panel" id="cap-expense-entry">
-  <h2 id="cap-expense-entry-title">🧾 Mes dépenses et mon épargne</h2>
-  <p>Renseigne les quatre champs sur une seule ligne, puis enregistre le montant.</p>
-  <form id="cap-entry-form" aria-labelledby="cap-expense-entry-title">
-    <div class="cap-entry-scroll" tabindex="0" aria-label="Ligne de saisie à quatre champs, défilement horizontal sur petit écran">
-      <div class="cap-entry-row">
-        <label for="cap-entry-kind">1. Répartition
-          <select id="cap-entry-kind" required>
-            <option value="Charges">Charges</option><option value="Loisirs">Loisirs</option><option value="Épargne">Épargne</option>
-          </select>
-        </label>
-        <label for="cap-entry-name">2. Nom de la dépense
-          <input id="cap-entry-name" type="text" maxlength="80" autocomplete="off" placeholder="Ex. Netflix" required>
-        </label>
-        <label for="cap-entry-nature">3. Nature de la dépense
-          <select id="cap-entry-nature" required>
-            <option value="" selected disabled>Choisir une nature</option>
-            <option>Habitation</option><option>Assurances</option><option>Abonnements</option>
-            <option>Transports</option><option>Santé</option><option>Alimentation</option>
-            <option>Crédits</option><option>Loisirs et sorties</option><option>Shopping</option>
-            <option>Éducation</option><option>Voyages</option><option>Épargne de précaution</option>
-            <option>Épargne projet</option><option>Autres</option>
-          </select>
-        </label>
-        <label for="cap-entry-amount">4. Montant (€)
-          <input id="cap-entry-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
-        </label>
-      </div>
-    </div>
-    <div class="cap-entry-actions"><button type="submit">Enregistrer le montant</button></div>
-    <p id="cap-entry-feedback" role="status" aria-live="polite">Chaque montant enregistré apparaît dans le suivi des opérations.</p>
-  </form>
-</div></section>
+</section>
 <div class="hero" id="hero" data-state="ok">
 <div class="dial">
 <svg viewBox="0 0 240 240" aria-hidden="true">
