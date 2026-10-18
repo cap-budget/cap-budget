@@ -1471,7 +1471,20 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 <h2 id="cap-home-win-title">Ma dernière petite victoire</h2>
 <strong id="cap-home-win-name">À venir !</strong><p id="cap-home-win-detail">Chaque économie est une belle avancée.</p>
 </article>
-</div></section>
+</div>
+<section class="cap-home-activities" aria-labelledby="cap-home-activities-title">
+  <div class="cap-home-activities-heading">
+    <div>
+      <span class="cap-home-activities-eyebrow">✦ ACTIVITÉ RÉCENTE</span>
+      <h2 id="cap-home-activities-title">Dernières activités</h2>
+    </div>
+    <span class="cap-home-activities-pill">3 dernières opérations</span>
+  </div>
+  <div id="dash-activities" class="cap-home-activities-list" aria-live="polite">
+    <p class="cap-home-activities-empty">Chargement des opérations…</p>
+  </div>
+</section>
+</section>
 
 <script>
 /* Date uniquement dans le bandeau principal ; aucun changement des données budgétaires. */
@@ -1519,7 +1532,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
           <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Dépenses du mois</h2><span id="dash-expenses-month">Ce mois</span></div><div class="cap-dash-expenses" id="dash-expenses"></div><div class="cap-dash-statline"><span>Total dépenses prévues</span><b id="dash-total-out">—</b></div></article>
 
         </div>
-        <article class="cap-dash-card cap-dash-card-pad cap-dash-activities"><div class="cap-dash-section-head"><h2>Dernières activités</h2><span>Historique réel</span></div><div id="dash-activities"></div></article>
       </section>
       <aside class="cap-dash-right">
 
@@ -1581,7 +1593,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       const status=ratio>=1?'Limite atteinte ou dépassée':ratio>=.75?'À surveiller':'Dans l’enveloppe';
       return '<div class="cap-dash-expense"><div class="cap-dash-expense-name"><i style="--ec:'+(color==='red'?'#ef4444':color==='orange'?'#fb923c':'#22c55e')+'"></i><span>'+esc(x[0])+'</span></div><div><div class="cap-dash-expense-bar" role="progressbar" aria-label="'+esc(x[0])+' : '+status+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.min(100,pct)+'"><i class="cap-traffic-'+color+'" style="width:'+Math.min(100,pct)+'%"></i></div><span class="cap-dash-expense-pct">'+pct+' % utilisé · '+status+'</span></div><div class="cap-dash-expense-amt">'+money(x[2])+' / '+money(x[1])+'</div></div>';
     }).join('')||'<div style="font-size:9px;color:#6e879f">Aucune enveloppe renseignée pour le moment.</div>';el('dash-total-out').textContent=money(b.total);
-    const ops=O().filter(x=>x&&+x.amount>0).slice().sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)||(+b.id||0)-(+a.id||0)).slice(0,5);el('dash-activities').innerHTML=ops.length?ops.map(o=>'<div class="cap-dash-activity"><div class="cap-dash-activity-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div><div class="cap-dash-activity-main"><strong>'+esc(o.label||'Dépense')+'</strong><span>'+esc(o.category||'Autre')+' · '+(o.date?dateFmt(o.date):'Aujourd’hui')+'</span></div><div class="cap-dash-activity-amt">− '+money(o.amount)+'</div></div>').join(''):'<div style="font-size:8px;color:#6e879f">Aucune opération réelle enregistrée.</div>';el('dash-expenses-month').textContent=new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}
+    const ops=O().filter(x=>x&&+x.amount>0).slice().sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)||(+b.id||0)-(+a.id||0)).slice(0,3);el('dash-activities').innerHTML=ops.length?ops.map(o=>'<div class="cap-dash-activity"><div class="cap-dash-activity-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div><div class="cap-dash-activity-main"><strong>'+esc(o.label||'Dépense')+'</strong><span>'+esc(o.category||'Autre')+' · '+(o.date?dateFmt(o.date):'Aujourd’hui')+'</span></div><div class="cap-dash-activity-amt">− '+money(o.amount)+'</div></div>').join(''):'<p class="cap-home-activities-empty">Aucune activité enregistrée pour le moment. Tes trois dernières opérations apparaîtront ici.</p>';el('dash-expenses-month').textContent=new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}
   document.querySelector('.cap-dash-nav').innerHTML=[
     '<button type="button" data-dash-target="#cap-dashboard-redesign" data-dash-key="accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg><span>Accueil</span></button>',
     '<button type="button" data-dash-target="#tab-budget" data-dash-key="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 4h6"/><path d="M4 16h16"/><path d="M6 20h12"/></svg><span>Budget</span></button>',
@@ -7546,4 +7558,69 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  render();
 })();
 </script>
+<style id="cap-home-three-activities-20261018">
+/* Trois activités récentes, uniquement dans le véritable Accueil simplifié. */
+#cap-home-simple .cap-home-activities{
+  margin-top:20px;
+  padding:clamp(18px,2.8vw,26px);
+  color:#effcf6;
+  background:linear-gradient(135deg,rgba(24,58,49,.96),rgba(16,45,56,.98));
+  border:1px solid rgba(105,183,156,.65);
+  border-radius:23px;
+  box-shadow:0 12px 28px rgba(0,0,0,.10);
+}
+#cap-home-simple .cap-home-activities-heading{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:10px;
+}
+#cap-home-simple .cap-home-activities-eyebrow{
+  color:#a7f3d0;font-size:11px;font-weight:900;letter-spacing:.075em;
+}
+#cap-home-simple .cap-home-activities-heading h2{
+  margin:5px 0 0;color:#fff;font-size:clamp(20px,3vw,25px);line-height:1.25;font-weight:850;
+}
+#cap-home-simple .cap-home-activities-pill{
+  display:inline-flex;align-items:center;min-height:31px;padding:5px 11px;
+  background:rgba(52,211,153,.12);color:#b8ffe0;border:1px solid rgba(79,210,159,.38);
+  border-radius:999px;font-size:12px;font-weight:800;
+}
+#cap-home-simple .cap-home-activities-list{display:grid}
+#cap-home-simple .cap-dash-activity{
+  display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:12px;
+  padding:14px 2px;border-top:1px solid rgba(160,218,205,.14);
+  min-width:0;
+}
+#cap-home-simple .cap-dash-activity:first-child{border-top:0}
+#cap-home-simple .cap-dash-activity:last-child{padding-bottom:2px}
+#cap-home-simple .cap-dash-activity-icon{
+  width:38px;height:38px;border-radius:13px;background:rgba(52,211,153,.13);
+  border:1px solid rgba(99,226,178,.28);color:#a7f3d0;display:grid;place-items:center;
+}
+#cap-home-simple .cap-dash-activity-icon svg{width:17px;height:17px}
+#cap-home-simple .cap-dash-activity-main{min-width:0}
+#cap-home-simple .cap-dash-activity-main strong{
+  font-size:clamp(15px,1.8vw,18px);font-weight:850;color:#fff;
+  white-space:normal;overflow-wrap:anywhere;line-height:1.35;
+}
+#cap-home-simple .cap-dash-activity-main span{
+  display:block;color:#bdd9d4;font-size:clamp(12px,1.5vw,14px);line-height:1.5;margin-top:3px;
+  white-space:normal;overflow-wrap:anywhere;
+}
+#cap-home-simple .cap-dash-activity-amt{
+  font-size:clamp(15px,1.9vw,19px);font-weight:900;
+  color:#e7fff0;white-space:nowrap;font-variant-numeric:tabular-nums;
+  justify-self:end;text-align:right;
+}
+#cap-home-simple .cap-home-activities-empty{
+  margin:8px 0 0;padding:13px 0;color:#c1ddd4;font-size:14px;line-height:1.6;
+}
+@media(max-width:600px){
+ #cap-home-simple .cap-home-activities{margin-top:16px;padding:17px 14px}
+ #cap-home-simple .cap-home-activities-heading{align-items:flex-start}
+ #cap-home-simple .cap-dash-activity{grid-template-columns:32px minmax(0,1fr) auto;gap:9px}
+ #cap-home-simple .cap-dash-activity-icon{width:31px;height:31px;border-radius:10px}
+ #cap-home-simple .cap-dash-activity-icon svg{width:15px;height:15px}
+ #cap-home-simple .cap-dash-activity-amt{font-size:14px}
+}
+</style>
 </body></html>
