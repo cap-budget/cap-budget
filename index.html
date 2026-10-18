@@ -7617,4 +7617,236 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  render();
 })();
 </script>
+<script id="cap-income-sources-script-20261018">
+(function(){
+ 'use strict';
+ const STORAGE='cap_income_sources_v1';
+ const get=id=>document.getElementById(id);
+ const form=get('cap-allocation-form'),list=get('cap-income-sources-list'),message=get('cap-allocation-message');
+ const sourceType=get('cap-income-source-type'),sourceLabel=get('cap-income-source-label');
+ const amountField=get('cap-income-source-amount'),frequencyField=get('cap-income-source-frequency');
+ const monthField=get('cap-income-source-month'),monthWrapper=get('cap-income-source-month-field');
+ const totalDisplay=get('cap-income-total-display'),totalInput=get('cap-allocation-income');
+ const counter=get('cap-income-sources-count'),formHeading=get('cap-income-form-heading');
+ const submitButton=get('cap-income-source-save'),cancelButton=get('cap-income-source-cancel');
+ if(!form||!list||!message||!sourceType||!sourceLabel||!amountField||!frequencyField||!monthField||!monthWrapper||!totalDisplay||!totalInput||!counter||!formHeading||!submitButton||!cancelButton)return;
+ const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+ const round=n=>Math.round((n+Number.EPSILON)*100)/100;
+ const currentMonth=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
+ const newId=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
+ const readBudget=()=>{try{const value=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');return value&&typeof value==='object'&&!Array.isArray(value)?value:null}catch(_){return null}};
+ const parseAmount=value=>{
+  let text=String(value||'').trim().replace(/[\s\u00a0\u202f€]/g,'');
+  if(text.includes(','))text=text.replace(/\./g,'').replace(',','.');
+  if(!/^\d+(?:\.\d{1,2})?$/.test(text))return NaN;
+  const number=Number(text);
+  return Number.isFinite(number)&&number>0&&number<=100000000?round(number):NaN;
+ };
+ const validMonth=m=>/^\d{4}-(?:0[1-9]|1[0-2])$/.test(String(m||''));
+ const safeItem=item=>{
+  if(!item||typeof item!=='object'||typeof item.id!=='string'||!item.id||
+     typeof item.label!=='string'||!item.label.trim()||
+     !Number.isFinite(Number(item.amount))||Number(item.amount)<=0||Number(item.amount)>100000000||
+     !['monthly','once'].includes(item.frequency)||item.frequency==='once'&&!validMonth(item.month))return null;
+  return {id:item.id,type:String(item.type||'Autre').slice(0,90),
+    label:item.label.trim().slice(0,90),amount:round(Number(item.amount)),
+    frequency:item.frequency,month:item.frequency==='once'?item.month:'',
+    createdAt:String(item.createdAt||'')};
+ };
+ function initialize(){
+  let raw;
+  try{raw=localStorage.getItem(STORAGE)}catch(_){return null}
+  if(raw!==null){
+   try{
+    const parsed=JSON.parse(raw);
+    if(!Array.isArray(parsed)||parsed.some(item=>!safeItem(item)))return null;
+    return parsed.map(safeItem);
+   }catch(_){return null}
+  }
+  // Migration sans perte : le revenu unique sauvegardé devient une première ligne.
+  const budget=readBudget(),existing=Number(budget?.income);
+  const initial=budget&&Number.isFinite(existing)&&existing>0&&existing<=100000000
+    ?[{id:newId(),type:'Autre',label:'Revenu principal déjà enregistré',
+       amount:round(existing),frequency:'monthly',month:'',createdAt:new Date().toISOString()}]
+    :[];
+  try{localStorage.setItem(STORAGE,JSON.stringify(initial));return initial}catch(_){return null}
+ }
+ let entries=initialize(),editingId=null,lastMonth=currentMonth();
+ function totalThisMonth(rows=entries){
+  return round((rows||[]).reduce((sum,row)=>
+   sum+(row.frequency==='monthly'||row.month===currentMonth()?row.amount:0),0));
+ }
+ function toggleMonth(){
+  const once=frequencyField.value==='once';
+  monthWrapper.hidden=!once;
+  monthField.required=once;
+  if(once&&!validMonth(monthField.value))monthField.value=currentMonth();
+ }
+ function resetForm(){
+  editingId=null;
+  form.reset();
+  monthField.value=currentMonth();
+  monthWrapper.hidden=true;
+  monthField.required=false;
+  formHeading.textContent='Ajouter un revenu';
+  submitButton.textContent='+ Ajouter ce revenu';
+  cancelButton.hidden=true;
+ }
+ function node(tag,className,content){
+  const el=document.createElement(tag);
+  if(className)el.className=className;
+  if(content!==undefined)el.textContent=String(content);
+  return el;
+ }
+ function render(){
+  if(!entries){
+   totalDisplay.textContent='Indisponible';
+   counter.textContent='Données illisibles';
+   list.replaceChildren(node('li','cap-income-sources-empty','Impossible de lire les revenus existants. Ils n’ont pas été effacés.'));
+   submitButton.disabled=true;
+   message.textContent='Le registre des revenus est illisible. Aucune nouvelle écriture ne sera effectuée.';
+   return;
+  }
+  const sum=totalThisMonth();
+  totalInput.value=String(sum);
+  totalDisplay.textContent=money(sum);
+  counter.textContent=entries.length+' source'+(entries.length===1?'':'s');
+  list.replaceChildren();
+  if(!entries.length){
+   list.append(node('li','cap-income-sources-empty','Aucune source enregistrée : ajoute ton salaire ou un autre revenu.'));
+   return;
+  }
+  const fragment=document.createDocumentFragment();
+  for(const entry of entries){
+   const active=entry.frequency==='monthly'||entry.month===currentMonth();
+   const row=node('li','cap-income-source-row'+(active?'':' is-previous'));
+   const details=node('div','cap-income-source-details');
+   const title=entry.type==='Autre'||entry.label===entry.type?entry.label:entry.type+' · '+entry.label;
+   details.append(node('strong','cap-income-source-name',title));
+   const frequency=entry.frequency==='monthly'?'Chaque mois':'Ponctuel · '+entry.month.slice(5,7)+'/'+entry.month.slice(0,4);
+   details.append(node('span','cap-income-source-meta',frequency+(active?'':' · Hors du total de ce mois')));
+   const right=node('div','cap-income-source-right');
+   right.append(node('strong','cap-income-source-amount',(active?'':'◦ ')+money(entry.amount)));
+   const buttons=node('div','cap-income-source-buttons');
+   const edit=node('button','','Modifier');edit.type='button';
+   edit.setAttribute('aria-label','Modifier '+title);
+   edit.addEventListener('click',()=>startEdit(entry.id));
+   const remove=node('button','cap-income-delete','Supprimer');remove.type='button';
+   remove.setAttribute('aria-label','Supprimer '+title);
+   remove.addEventListener('click',()=>removeEntry(entry.id));
+   buttons.append(edit,remove);right.append(buttons);row.append(details,right);fragment.append(row);
+  }
+  list.append(fragment);
+ }
+ function applyTotal(){
+  const total=totalThisMonth();
+  if(total>100000000)throw Error('Le total dépasse la limite de 100 millions d’euros.');
+  const legacy=get('cap-income'),calculate=get('cap-calc-btn');
+  if(!legacy||!calculate)throw Error('Le calcul du budget principal est momentanément indisponible.');
+  const prior=readBudget();
+  totalInput.value=String(total);
+  if(!prior||!Number.isFinite(Number(prior.income))||Math.abs(Number(prior.income)-total)>=0.005){
+   // Préserver les autres montants du moteur existant avant de recalculer.
+   for(const key of ['fixed','food','leisure','projects','other']){
+    const field=get('cap-'+key);
+    const value=Number(prior?.[key]);
+    if(field&&prior&&Number.isFinite(value)&&value>=0)field.value=String(value);
+   }
+   legacy.value=String(total);
+   calculate.click();
+   const updated=readBudget();
+   if(!updated||Math.abs(Number(updated.income)-total)>=0.005)
+    throw Error('Le total n’a pas pu être reporté dans le budget principal.');
+   window.dispatchEvent(new Event('capBudgetChanged'));
+  }
+ }
+ function commit(next,success){
+  if(!entries)return;
+  if(next.some(item=>!safeItem(item))){message.textContent='Montant ou source invalide. Aucune donnée modifiée.';return}
+  const old=entries;
+  try{
+   if(totalThisMonth(next)>100000000){message.textContent='Le total disponible ne peut pas dépasser 100 millions d’euros.';return}
+   localStorage.setItem(STORAGE,JSON.stringify(next));
+  }catch(_){message.textContent='Enregistrement impossible sur cet appareil. Les revenus existants sont conservés.';return}
+  entries=next;
+  try{applyTotal()}catch(error){
+   entries=old;
+   try{localStorage.setItem(STORAGE,JSON.stringify(old))}catch(_){}
+   message.textContent=(error?.message||'Erreur de calcul')+' Les anciennes sources ont été conservées.';
+   render();
+   return;
+  }
+  resetForm();render();
+  message.textContent=success+' Total disponible ce mois : '+money(totalThisMonth())+'.';
+  window.dispatchEvent(new Event('capIncomeSourcesChanged'));
+ }
+ function startEdit(id){
+  const selected=entries?.find(item=>item.id===id);if(!selected)return;
+  editingId=id;
+  sourceType.value=[...sourceType.options].some(o=>o.value===selected.type)?selected.type:'Autre';
+  sourceLabel.value=selected.label;
+  amountField.value=String(selected.amount).replace('.',',');
+  frequencyField.value=selected.frequency;
+  monthField.value=selected.frequency==='once'?selected.month:currentMonth();
+  toggleMonth();
+  formHeading.textContent='Modifier ce revenu';
+  submitButton.textContent='Enregistrer la modification';
+  cancelButton.hidden=false;
+  form.scrollIntoView({behavior:'smooth',block:'center'});
+  amountField.focus({preventScroll:true});
+ }
+ function removeEntry(id){
+  const entry=entries?.find(item=>item.id===id);if(!entry)return;
+  if(!window.confirm('Supprimer le revenu « '+entry.label+' » ('+money(entry.amount)+') ? Cette suppression modifiera le total disponible, sans supprimer tes dépenses.'))return;
+  const next=entries.filter(item=>item.id!==id);
+  commit(next,'Revenu supprimé.');
+ }
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  if(!entries)return;
+  const type=sourceType.value;
+  const label=sourceLabel.value.trim()||type;
+  const amount=parseAmount(amountField.value);
+  const frequency=frequencyField.value;
+  const month=frequency==='once'?monthField.value:'';
+  if(!type||!label||label.length>90||type==='Autre'&&!sourceLabel.value.trim()||
+     !Number.isFinite(amount)||!['monthly','once'].includes(frequency)||
+     frequency==='once'&&!validMonth(month)){
+   message.textContent='Indique une source, un nom si nécessaire et un montant positif (2 décimales maximum).';
+   return;
+  }
+  const previous=entries.find(item=>item.id===editingId);
+  const item={id:previous?.id||newId(),type,label,amount,frequency,month,
+    createdAt:previous?.createdAt||new Date().toISOString()};
+  const next=previous?entries.map(entry=>entry.id===previous.id?item:entry):[...entries,item];
+  commit(next,previous?'Revenu modifié.':'Revenu ajouté.');
+ });
+ frequencyField.addEventListener('change',toggleMonth);
+ sourceType.addEventListener('change',()=>{
+  if(!editingId){
+   frequencyField.value=['Remboursement mutuelle',"Remboursement d'achat",'Dividendes','Prime'].includes(sourceType.value)?'once':'monthly';
+   toggleMonth();
+  }
+ });
+ cancelButton.addEventListener('click',()=>{resetForm();message.textContent='Modification annulée. Aucun montant changé.';});
+ window.addEventListener('storage',event=>{
+  if(event.key!==null&&event.key!==STORAGE)return;
+  entries=initialize();
+  render();
+  if(entries){try{applyTotal()}catch(error){message.textContent=error.message}}
+ });
+ document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)return;
+  if(lastMonth!==currentMonth()){
+   lastMonth=currentMonth();
+   render();
+   if(entries){try{applyTotal()}catch(error){message.textContent=error.message}}
+  }
+ });
+ monthField.value=currentMonth();
+ toggleMonth();
+ render();
+ if(entries){try{applyTotal()}catch(error){message.textContent=error.message}}
+})();
+</script>
 </body></html>
