@@ -1528,10 +1528,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
             <button class="cap-dash-quick" style="--qc:#f8c84d;--qc-bg:rgba(248,200,77,.11)" data-dash-action="stats"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 20V10"/><path d="M12 20V5"/><path d="M19 20v-7"/></svg></span><strong>Voir mes stats</strong><span>Statistiques</span></button>
             <button class="cap-dash-quick" style="--qc:#19e0c1;--qc-bg:rgba(25,224,193,.11)" data-dash-action="advice"><span class="ico"><svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M8.2 14.5A6 6 0 1 1 16 14c-.9.7-1.5 1.6-1.7 2.6H9.7c-.2-1-.7-1.7-1.5-2.1Z"/></svg></span><strong>Conseil</strong><span>Votre situation</span></button>
           </div></article>
-                <div class="cap-dash-mid">
-          <article class="cap-dash-card cap-dash-card-pad"><div class="cap-dash-section-head"><h2>Dépenses du mois</h2><span id="dash-expenses-month">Ce mois</span></div><div class="cap-dash-expenses" id="dash-expenses"></div><div class="cap-dash-statline"><span>Total dépenses prévues</span><b id="dash-total-out">—</b></div></article>
-
-        </div>
       </section>
       <aside class="cap-dash-right">
 
@@ -1572,28 +1568,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     if(counselText)counselText.textContent=g
       ? (remain>=0?'Votre budget conserve un solde positif et votre projet principal est pris en compte.':'Votre budget dépasse actuellement les revenus renseignés.')
       : 'Ajoutez un projet pour suivre sa progression.';
-    // Jauges : dépenses réellement saisies dans le registre, rapportées aux enveloppes prévues.
-    const operations=O().filter(o=>o&&Number(o.amount)>0);
-    const byCategory={};operations.forEach(o=>{const key=String(o.category||'');byCategory[key]=(byCategory[key]||0)+Number(o.amount)});
-    const actualFor=names=>names.reduce((sum,name)=>sum+(byCategory[name]||0),0);
-    const known=['Logement','Charges fixes','Abonnements','Courses','Resto','Alimentation','Loisirs','Shopping','Voyages','Projets / voyages','Projets'];
-    const actualOther=Object.entries(byCategory).filter(([name])=>!known.includes(name)).reduce((sum,[,amount])=>sum+amount,0);
-    const cats=[
-      ['Logement',b.fixed,actualFor(['Logement','Charges fixes','Abonnements'])],
-      ['Alimentation',b.food,actualFor(['Courses','Resto','Alimentation'])],
-      ['Transport',Math.min(b.other,100),actualFor(['Transport'])],
-      ['Loisirs',b.leisure,actualFor(['Loisirs','Shopping'])],
-      ['Projets',b.projects,actualFor(['Voyages','Projets / voyages','Projets'])],
-      ['Autres',Math.max(0,b.other-100),Math.max(0,actualOther-(byCategory.Transport||0))]
-    ].filter(x=>x[1]>0||x[2]>0);
-    el('dash-expenses').innerHTML=cats.map(x=>{
-      const ratio=x[1]>0?x[2]/x[1]:(x[2]>0?Infinity:0);
-      const pct=Number.isFinite(ratio)?Math.round(ratio*100):100;
-      const color=ratio>=1?'red':ratio>=.75?'orange':'green';
-      const status=ratio>=1?'Limite atteinte ou dépassée':ratio>=.75?'À surveiller':'Dans l’enveloppe';
-      return '<div class="cap-dash-expense"><div class="cap-dash-expense-name"><i style="--ec:'+(color==='red'?'#ef4444':color==='orange'?'#fb923c':'#22c55e')+'"></i><span>'+esc(x[0])+'</span></div><div><div class="cap-dash-expense-bar" role="progressbar" aria-label="'+esc(x[0])+' : '+status+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.min(100,pct)+'"><i class="cap-traffic-'+color+'" style="width:'+Math.min(100,pct)+'%"></i></div><span class="cap-dash-expense-pct">'+pct+' % utilisé · '+status+'</span></div><div class="cap-dash-expense-amt">'+money(x[2])+' / '+money(x[1])+'</div></div>';
-    }).join('')||'<div style="font-size:9px;color:#6e879f">Aucune enveloppe renseignée pour le moment.</div>';el('dash-total-out').textContent=money(b.total);
-    const ops=O().filter(x=>x&&+x.amount>0).slice().sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)||(+b.id||0)-(+a.id||0)).slice(0,3);el('dash-activities').innerHTML=ops.length?ops.map(o=>'<div class="cap-dash-activity"><div class="cap-dash-activity-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div><div class="cap-dash-activity-main"><strong>'+esc(o.label||'Dépense')+'</strong><span>'+esc(o.category||'Autre')+' · '+(o.date?dateFmt(o.date):'Aujourd’hui')+'</span></div><div class="cap-dash-activity-amt">− '+money(o.amount)+'</div></div>').join(''):'<p class="cap-home-activities-empty">Aucune activité enregistrée pour le moment. Tes trois dernières opérations apparaîtront ici.</p>';el('dash-expenses-month').textContent=new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}
+    const ops=O().filter(x=>x&&+x.amount>0).slice().sort((a,b)=>new Date(b.date||0)-new Date(a.date||0)||(+b.id||0)-(+a.id||0)).slice(0,3);el('dash-activities').innerHTML=ops.length?ops.map(o=>'<div class="cap-dash-activity"><div class="cap-dash-activity-icon"><svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></svg></div><div class="cap-dash-activity-main"><strong>'+esc(o.label||'Dépense')+'</strong><span>'+esc(o.category||'Autre')+' · '+(o.date?dateFmt(o.date):'Aujourd’hui')+'</span></div><div class="cap-dash-activity-amt">− '+money(o.amount)+'</div></div>').join(''):'<p class="cap-home-activities-empty">Aucune activité enregistrée pour le moment. Tes trois dernières opérations apparaîtront ici.</p>';}
   document.querySelector('.cap-dash-nav').innerHTML=[
     '<button type="button" data-dash-target="#cap-dashboard-redesign" data-dash-key="accueil"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg><span>Accueil</span></button>',
     '<button type="button" data-dash-target="#tab-budget" data-dash-key="budget"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/><path d="M6 8h12"/><path d="M9 4h6"/><path d="M4 16h16"/><path d="M6 20h12"/></svg><span>Budget</span></button>',
