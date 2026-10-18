@@ -2592,13 +2592,40 @@ body:has(#tab-budget:not([hidden])) #pill {
 <h2>🎚️ Ma répartition 50 / 30 / 20</h2>
 <p>La règle 50/30/20 propose environ <strong>50 % pour les charges et besoins</strong>, <strong>30 % pour les loisirs et envies</strong> et <strong>20 % pour l'épargne</strong>. C'est un repère, pas une obligation.</p>
 <div class="cap-alloc-rows">
-<div class="cap-alloc-row"><label for="cap-alloc-charges">🏠 Charges <strong id="cap-alloc-charges-pct">50 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-charges" type="range" min="0" max="100" step="1" value="50"><output id="cap-alloc-charges-eur" for="cap-alloc-charges">— €</output></div></div>
-<div class="cap-alloc-row"><label for="cap-alloc-loisirs">🎈 Loisirs <strong id="cap-alloc-loisirs-pct">30 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-loisirs" type="range" min="0" max="100" step="1" value="30"><output id="cap-alloc-loisirs-eur" for="cap-alloc-loisirs">— €</output></div></div>
-<div class="cap-alloc-row"><label for="cap-alloc-epargne">🌱 Épargne <strong id="cap-alloc-epargne-pct">20 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-epargne" type="range" min="0" max="100" step="1" value="20"><output id="cap-alloc-epargne-eur" for="cap-alloc-epargne">— €</output></div></div>
+<div class="cap-alloc-row"><label for="cap-alloc-charges">🏠 Charges <strong id="cap-alloc-charges-pct">50 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-charges" type="range" min="0" max="100" step="1" value="50"><output id="cap-alloc-charges-eur" for="cap-alloc-charges">— €</output></div>
+ <div class="cap-alloc-actual" data-alloc-kind="charges">
+   <div class="cap-alloc-actual-main">
+     <div class="cap-alloc-progress-track" id="cap-alloc-charges-track" role="progressbar" aria-label="Charges : avancement mensuel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+       <span class="cap-alloc-progress-fill" id="cap-alloc-charges-fill"></span>
+     </div>
+     <strong class="cap-alloc-actual-values" id="cap-alloc-charges-real">0,00 € / 0,00 €</strong>
+   </div>
+   <span class="cap-alloc-actual-status" id="cap-alloc-charges-status">Dépenses enregistrées ce mois</span>
+ </div></div>
+<div class="cap-alloc-row"><label for="cap-alloc-loisirs">🎈 Loisirs <strong id="cap-alloc-loisirs-pct">30 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-loisirs" type="range" min="0" max="100" step="1" value="30"><output id="cap-alloc-loisirs-eur" for="cap-alloc-loisirs">— €</output></div>
+ <div class="cap-alloc-actual" data-alloc-kind="loisirs">
+   <div class="cap-alloc-actual-main">
+     <div class="cap-alloc-progress-track" id="cap-alloc-loisirs-track" role="progressbar" aria-label="Loisirs : avancement mensuel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+       <span class="cap-alloc-progress-fill" id="cap-alloc-loisirs-fill"></span>
+     </div>
+     <strong class="cap-alloc-actual-values" id="cap-alloc-loisirs-real">0,00 € / 0,00 €</strong>
+   </div>
+   <span class="cap-alloc-actual-status" id="cap-alloc-loisirs-status">Dépenses enregistrées ce mois</span>
+ </div></div>
+<div class="cap-alloc-row"><label for="cap-alloc-epargne">🌱 Épargne <strong id="cap-alloc-epargne-pct">20 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-epargne" type="range" min="0" max="100" step="1" value="20"><output id="cap-alloc-epargne-eur" for="cap-alloc-epargne">— €</output></div>
+ <div class="cap-alloc-actual" data-alloc-kind="epargne">
+   <div class="cap-alloc-actual-main">
+     <div class="cap-alloc-progress-track" id="cap-alloc-epargne-track" role="progressbar" aria-label="Épargne : avancement mensuel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+       <span class="cap-alloc-progress-fill" id="cap-alloc-epargne-fill"></span>
+     </div>
+     <strong class="cap-alloc-actual-values" id="cap-alloc-epargne-real">0,00 € / 0,00 €</strong>
+   </div>
+   <span class="cap-alloc-actual-status" id="cap-alloc-epargne-status">Épargne enregistrée ce mois</span>
+ </div></div>
 </div>
 <div class="cap-alloc-total" role="status" aria-live="polite"><strong id="cap-alloc-sum">Total : 100 %</strong><span id="cap-alloc-warning">Répartition complète</span></div>
 <button type="button" id="cap-alloc-reset">Revenir à 50 / 30 / 20</button>
-<p class="cap-alloc-fine">Ces curseurs sont une simulation. Ils n'ajoutent aucune opération et ne modifient pas tes enveloppes, charges ni projets enregistrés. Leurs pourcentages sont sauvegardés localement.</p>
+<p class="cap-alloc-fine">Ces curseurs définissent des plafonds indicatifs. Les barres ci-dessus comparent les montants enregistrés ce mois-ci à ces plafonds ; elles n'ajoutent aucune opération. Les pourcentages sont sauvegardés localement.</p>
 
 </div>
 <div class="cap-alloc-panel" id="cap-expense-entry">
@@ -5562,6 +5589,33 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 }
 /* Conserver le mode mobile et les couleurs de chaque carte existante. */
 </style>
+<style id="cap-allocation-actual-progress-20261018">
+/* Suivi du mois : une barre sous chacun des trois curseurs 50/30/20. */
+#cap-budget-allocation .cap-alloc-actual{display:grid;gap:7px;margin-top:12px}
+#cap-budget-allocation .cap-alloc-actual-main{display:flex;gap:15px;align-items:center;width:100%;min-width:0}
+#cap-budget-allocation .cap-alloc-progress-track{
+  flex:1 1 180px;min-width:80px;height:17px;position:relative;overflow:hidden;
+  border-radius:999px;background:#102f34;border:1px solid #659c8c;box-sizing:border-box
+}
+#cap-budget-allocation .cap-alloc-progress-fill{
+  display:block;height:100%;width:0%;border-radius:999px;transition:width .18s ease;
+  background:linear-gradient(90deg,#22c55e,#6ee7b7)
+}
+#cap-budget-allocation .cap-alloc-actual[data-alloc-kind="loisirs"] .cap-alloc-progress-fill{background:linear-gradient(90deg,#38bdf8,#818cf8)}
+#cap-budget-allocation .cap-alloc-actual[data-alloc-kind="epargne"] .cap-alloc-progress-fill{background:linear-gradient(90deg,#fbbf24,#fcd34d)}
+#cap-budget-allocation .cap-alloc-actual.is-over .cap-alloc-progress-fill{background:linear-gradient(90deg,#fb923c,#ef4444)!important}
+#cap-budget-allocation .cap-alloc-actual-values{flex:0 0 auto;min-width:210px;text-align:right;font-size:16px;color:#fff;font-variant-numeric:tabular-nums}
+#cap-budget-allocation .cap-alloc-actual-status{font-size:13px;color:#c0e3d5;line-height:1.5}
+#cap-budget-allocation .cap-alloc-actual.is-over .cap-alloc-actual-status{color:#fecaca;font-weight:800}
+#cap-budget-allocation .cap-alloc-actual.is-unbudgeted .cap-alloc-actual-status{color:#fde68a}
+@media(max-width:620px){
+ #cap-budget-allocation .cap-alloc-actual-main{flex-wrap:wrap;gap:7px}
+ #cap-budget-allocation .cap-alloc-progress-track{flex:1 1 100%;width:100%}
+ #cap-budget-allocation .cap-alloc-actual-values{min-width:0;flex:1 1 100%;text-align:right}
+}
+@media(prefers-reduced-motion:reduce){#cap-budget-allocation .cap-alloc-progress-fill{transition:none}}
+</style>
+
 <script id="cap-simple-layout-js-20261016">
 (function(){
 'use strict';
