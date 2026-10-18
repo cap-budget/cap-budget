@@ -2463,13 +2463,56 @@ body:has(#tab-budget:not([hidden])) #pill {
 <!-- La visibilité du guide suit directement celle de l'onglet Budget, sans dépendre des clics. -->
 <!-- BUDGET -->
 <section id="tab-budget" aria-label="Budget"><section id="cap-budget-allocation" aria-labelledby="cap-allocation-heading">
-<div class="cap-alloc-panel">
+<div class="cap-alloc-panel cap-income-sources-panel">
 <h2 id="cap-allocation-heading">💰 Mon argent disponible</h2>
-<p>Indique ton revenu mensuel (par exemple ton salaire). C'est la première étape pour organiser ton budget.</p>
-<form id="cap-allocation-form">
-<label for="cap-allocation-income">Montant disponible (€)</label>
-<div class="cap-alloc-income-line"><input id="cap-allocation-income" type="number" min="0" max="100000000" step="0.01" inputmode="decimal" placeholder="Ex. 2005" required><button type="submit">Enregistrer mon revenu</button></div>
-<p id="cap-allocation-message" role="status" aria-live="polite">Ce montant concerne le budget principal.</p>
+<p>Ajoute ton salaire et tes autres revenus : CAF, dividendes, remboursements de mutuelle ou d'achats, primes… Chaque montant s'ajoute au total de ton budget.</p>
+<div class="cap-income-total-card" aria-live="polite">
+  <span>Total des revenus disponibles ce mois</span>
+  <strong id="cap-income-total-display">— €</strong>
+  <small>Ce total alimente automatiquement la répartition 50 / 30 / 20 et les calculs CAP Budget.</small>
+</div>
+<input id="cap-allocation-income" type="number" min="0" max="100000000" step="0.01" value="0" hidden readonly aria-hidden="true" tabindex="-1">
+<div class="cap-income-sources-heading"><h3>Mes sources de revenus</h3><span id="cap-income-sources-count">0 revenu</span></div>
+<ul id="cap-income-sources-list" class="cap-income-sources-list" aria-label="Liste des revenus enregistrés">
+  <li class="cap-income-sources-empty">Ajoute ta première source de revenu.</li>
+</ul>
+<form id="cap-allocation-form" class="cap-income-add-form" aria-label="Ajouter ou modifier une source de revenu">
+  <h3 id="cap-income-form-heading">Ajouter un revenu</h3>
+  <div class="cap-income-fields">
+    <label for="cap-income-source-type">Type de revenu
+      <select id="cap-income-source-type" required>
+        <option value="Salaire">Salaire</option>
+        <option value="CAF">CAF / allocations</option>
+        <option value="Dividendes">Dividendes</option>
+        <option value="Remboursement mutuelle">Remboursement mutuelle</option>
+        <option value="Remboursement d'achat">Remboursement d'achat</option>
+        <option value="Prime">Prime / bonus</option>
+        <option value="Pension">Pension</option>
+        <option value="Loyer perçu">Loyer perçu</option>
+        <option value="Autre">Autre revenu</option>
+      </select>
+    </label>
+    <label for="cap-income-source-label">Précision <span class="cap-income-optional">(facultatif sauf « Autre »)</span>
+      <input id="cap-income-source-label" type="text" maxlength="90" autocomplete="off" placeholder="Ex. Salaire d'octobre, remboursement dentiste">
+    </label>
+    <label for="cap-income-source-amount">Montant (€)
+      <input id="cap-income-source-amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 125,50" required>
+    </label>
+    <label for="cap-income-source-frequency">Fréquence
+      <select id="cap-income-source-frequency">
+        <option value="monthly">Chaque mois</option>
+        <option value="once">Ponctuel (un seul mois)</option>
+      </select>
+    </label>
+    <label for="cap-income-source-month" id="cap-income-source-month-field" hidden>Mois du versement
+      <input id="cap-income-source-month" type="month">
+    </label>
+  </div>
+  <div class="cap-income-form-actions">
+    <button type="submit" id="cap-income-source-save">+ Ajouter ce revenu</button>
+    <button type="button" id="cap-income-source-cancel" hidden>Annuler la modification</button>
+  </div>
+  <p id="cap-allocation-message" role="status" aria-live="polite">Les revenus ponctuels ne seront pas recomptés les mois suivants.</p>
 </form>
 </div>
 <div class="cap-alloc-panel">
@@ -4449,7 +4492,7 @@ cloudBtn.onclick = async () => {
 /* Sauvegarde commune CAP : export local sans écriture ni fusion risquée. */
 (function(){
  'use strict';
- const keys=['capBudgetEngine','capBudgetGoals','capBudgetOperations','cap_state_v4'];
+ const keys=['capBudgetEngine','capBudgetGoals','capBudgetOperations','cap_state_v4','cap_income_sources_v1'];
  function exportAll(){
   const payload={format:'cap-budget-sauvegarde-complete',version:1,createdAt:new Date().toISOString(),origin:location.origin,modules:{}};
   let found=0;
@@ -5385,6 +5428,85 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 @media(prefers-reduced-motion:reduce){#cap-budget-allocation .cap-alloc-progress-fill{transition:none}}
 </style>
 
+<style id="cap-income-sources-style-20261018">
+/* Plusieurs revenus, lisibles sur ordinateur comme sur téléphone */
+#cap-budget-allocation .cap-income-sources-panel{display:grid;gap:15px}
+#cap-budget-allocation .cap-income-sources-panel>p{margin:0!important}
+#cap-budget-allocation .cap-income-total-card{
+ display:grid;gap:5px;padding:19px 22px;box-sizing:border-box;
+ background:linear-gradient(110deg,#064d3d,#174b61);
+ border:1px solid #78e5bb;border-radius:17px;
+ box-shadow:0 8px 24px rgba(7,39,34,.16)
+}
+#cap-budget-allocation .cap-income-total-card>span{font-size:16px;font-weight:800;color:#dcfff0}
+#cap-budget-allocation .cap-income-total-card>strong{
+ font-size:clamp(28px,4vw,41px);font-variant-numeric:tabular-nums;
+ color:#fff;line-height:1.25;overflow-wrap:anywhere
+}
+#cap-budget-allocation .cap-income-total-card>small{color:#d6f4e8;font-size:13px;line-height:1.6}
+#cap-budget-allocation .cap-income-sources-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:5px}
+#cap-budget-allocation .cap-income-sources-heading h3{margin:0;color:#fff;font-size:clamp(19px,2.8vw,23px)}
+#cap-budget-allocation .cap-income-sources-heading>span{color:#a7f3d0;font-size:14px;font-weight:850}
+#cap-budget-allocation .cap-income-sources-list{
+ display:grid;gap:10px;list-style:none;padding:0;margin:0;min-width:0
+}
+#cap-budget-allocation .cap-income-source-row{
+ display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 18px;
+ padding:13px 15px;align-items:center;box-sizing:border-box;
+ border:1px solid #4c8080;border-radius:13px;background:#0b2937
+}
+#cap-budget-allocation .cap-income-source-details{display:grid;gap:5px;min-width:0}
+#cap-budget-allocation .cap-income-source-name{color:#fff;font-size:16px;font-weight:850;overflow-wrap:anywhere}
+#cap-budget-allocation .cap-income-source-meta{font-size:13px;color:#bedbdc;line-height:1.4}
+#cap-budget-allocation .cap-income-source-right{display:flex;gap:13px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+#cap-budget-allocation .cap-income-source-amount{color:#9ef2c7;font-size:19px;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}
+#cap-budget-allocation .cap-income-source-row.is-previous .cap-income-source-amount{color:#bfccd5}
+#cap-budget-allocation .cap-income-source-buttons{display:flex;gap:6px}
+#cap-budget-allocation .cap-income-source-buttons button{
+ padding:8px 11px;min-height:39px;border-radius:9px;font-size:13px;
+ background:#1c4858;border:1px solid #6d9f9b;color:#eafff3
+}
+#cap-budget-allocation .cap-income-source-buttons .cap-income-delete{
+ background:#502b3a;color:#fff2f2;border-color:#b77b8b
+}
+#cap-budget-allocation .cap-income-sources-empty{
+ padding:16px 18px;font-size:14px;color:#c0ddd7;
+ border:1px dashed #6b918b;border-radius:12px
+}
+#cap-budget-allocation .cap-income-add-form{
+ padding:18px 18px 14px;border:1px solid #4b757f;border-radius:17px;
+ background:#102b3a;min-width:0
+}
+#cap-budget-allocation .cap-income-add-form h3{margin:0 0 14px;color:#fff;font-size:20px}
+#cap-budget-allocation .cap-income-fields{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 14px
+}
+#cap-budget-allocation .cap-income-fields label{
+ display:grid;gap:7px;margin:0!important;font-size:15px;font-weight:800;color:#f3fff9
+}
+#cap-budget-allocation .cap-income-fields [hidden]{display:none!important}
+#cap-budget-allocation .cap-income-optional{color:#c3ded6;font-size:12px;font-weight:500}
+#cap-budget-allocation .cap-income-fields input,
+#cap-budget-allocation .cap-income-fields select{
+ display:block;width:100%;min-width:0;box-sizing:border-box;min-height:51px;
+ padding:11px 12px;border:2px solid #74c8b4;border-radius:11px;
+ background:#061f2b;color:#fff;font:500 16px system-ui,sans-serif
+}
+#cap-budget-allocation .cap-income-fields input::placeholder{color:#b1cbc6}
+#cap-budget-allocation .cap-income-fields input:focus-visible,
+#cap-budget-allocation .cap-income-fields select:focus-visible{outline:3px solid #d0ffdf;outline-offset:2px}
+#cap-budget-allocation .cap-income-form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+#cap-budget-allocation .cap-income-form-actions button{min-height:47px;padding:11px 15px;font-size:15px}
+#cap-budget-allocation #cap-income-source-cancel{background:#1d4856;color:#e4fff7;border-color:#7aa9aa}
+#cap-budget-allocation #cap-allocation-message{color:#c8e5dc;font-size:13px;margin:12px 0 0!important;line-height:1.55}
+@media(max-width:660px){
+ #cap-budget-allocation .cap-income-fields{grid-template-columns:minmax(0,1fr)}
+ #cap-budget-allocation .cap-income-add-form{padding:15px 13px}
+ #cap-budget-allocation .cap-income-source-row{grid-template-columns:minmax(0,1fr)}
+ #cap-budget-allocation .cap-income-source-right{justify-content:space-between}
+ #cap-budget-allocation .cap-income-form-actions button{flex:1 1 100%}
+}
+</style>
 <script id="cap-simple-layout-js-20261016">
 (function(){
 'use strict';
@@ -5472,21 +5594,8 @@ get('cap-alloc-reset').addEventListener('click',()=>{
  ratios={charges:50,loisirs:30,epargne:20};renderSliders();
  try{localStorage.setItem(ALLOC,JSON.stringify(ratios))}catch(_){}
 });
-get('cap-allocation-form').addEventListener('submit',e=>{
- e.preventDefault();
- const n=Number(incomeInput.value),message=get('cap-allocation-message');
- if(incomeInput.value.trim()===''||!Number.isFinite(n)||n<0||n>100000000){message.textContent='Saisis un revenu valable entre 0 et 100 000 000 €.';return;}
- const mainInput=get('cap-income'),calc=get('cap-calc-btn');
- if(!mainInput||!calc){message.textContent='Moteur de budget indisponible. Aucun montant modifié.';return;}
- try{
-  mainInput.value=String(Math.round(n*100)/100);
-  calc.click();
-  dirty=false;
-  window.dispatchEvent(new Event('capBudgetChanged'));
-  message.textContent='Revenu enregistré : '+format(n)+'. Les dépenses existantes sont conservées.';
-  updateHome();
- }catch(_){message.textContent='Enregistrement indisponible. Les données existantes sont conservées.';}
-});
+// Saisie de plusieurs revenus gérée par cap-income-sources-script-20261018.
+
 function updateHome(){
  const b=stored('capBudgetEngine',null),n=Number(b?.income);
  const valid=b&&Number.isFinite(n)&&n>0;
