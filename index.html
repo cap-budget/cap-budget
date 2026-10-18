@@ -2921,12 +2921,6 @@ body:has(#tab-budget:not([hidden])) #pill {
 <ul class="rows" id="stats-months-list"></ul>
 <p class="empty" id="stats-months-empty">Aucun historique de dépenses disponible.</p>
 </div>
-<div class="card" id="stats-expense-card">
-<h2>📂 Détail des dépenses par catégorie</h2>
-<p class="hint">Ouvre une catégorie pour retrouver les libellés, enseignes et sous-catégories enregistrés ce mois-ci.</p>
-<div id="stats-expense-groups"></div>
-<p class="empty" id="stats-expense-empty">Aucune dépense enregistrée pour ce mois.</p>
-</div>
 <div class="card" id="stats-recurring-card">
 <h2>🔄 Détail des charges fixes</h2>
 <p class="hint">Clique sur une catégorie pour voir les prélèvements enregistrés, comme Netflix ou Amazon.</p>
@@ -3976,22 +3970,6 @@ h('div', {class: 'row-amount', text: eur(total)})
 
 listEl.replaceChildren.apply(listEl, rows);
 emptyEl.hidden = rows.length > 0;
-const expenseGroups = {};
-const activeMonth = iso(new Date()).slice(0,7);
-state.expenses.filter(e => e.date.slice(0,7) === activeMonth).forEach(e => {
-const category = (CAT[e.cat] || CAT.autre).label;
-(expenseGroups[category] = expenseGroups[category] || []).push(e);
-});
-const expenseGroupBox = $('#stats-expense-groups');
-const expenseEmpty = $('#stats-expense-empty');
-const expenseDetails = Object.keys(expenseGroups).sort((a,b)=>a.localeCompare(b,'fr')).map(category => {
-const items = expenseGroups[category];
-const subtotal = items.reduce((sum,item)=>sum+Number(item.amount||0),0);
-const detailRows = items.map(item => h('li',{class:'row'},h('div',{class:'row-main'},h('div',{class:'row-title',text:item.label||category}),h('div',{class:'row-sub',text:[item.subcat,item.date?friendlyDate(item.date):''].filter(Boolean).join(' · ')||'Dépense'})),h('div',{class:'row-amount',text:'− '+eur(item.amount)})));
-return h('details',{class:'stats-recurring-group'},h('summary',{},h('span',{text:category}),h('strong',{text:eur(subtotal)})),h('ul',{class:'rows'},detailRows));
-});
-expenseGroupBox.replaceChildren.apply(expenseGroupBox,expenseDetails);
-expenseEmpty.hidden = expenseDetails.length > 0;
 const recurringGroups = {};
 (state.recurring || []).forEach(r => {
 const category = r.category || inferRecurringCategory(r.label);
