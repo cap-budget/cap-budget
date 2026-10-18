@@ -2048,24 +2048,8 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 </script>
 
 
-<section class="cap-v6" id="cap-purchase-simulator" aria-labelledby="cap-purchase-title">
-  <article class="cap-v6-card">
-    <span class="cap-v6-badge">🛍️ Simulation sans achat</span>
-    <h3 id="cap-purchase-title" style="margin-top:8px">Et si j'achète ça ?</h3>
-    <p>Teste une envie avant de dépenser. Aucun achat ni opération ne sera enregistré.</p>
-    <form id="cap-purchase-form" class="cap-v6-form">
-      <div class="cap-v6-form-row">
-        <label>Nom de l'envie<input id="cap-purchase-name" type="text" maxlength="100" required placeholder="Ex. Veste"></label>
-        <label>Prix (€)<input id="cap-purchase-price" type="number" min="0.01" step="0.01" required placeholder="Ex. 80"></label>
-      </div>
-      <button type="submit" class="cap-v6-btn primary">Tester mon achat</button>
-    </form>
-    <div id="cap-purchase-result" role="status" aria-live="polite" hidden style="margin-top:12px;padding:14px;border:1px solid #94a3b855;border-radius:12px"></div>
-    <p>Calcul indicatif fondé sur le budget principal prévu. Ne remplace pas le solde bancaire réel.</p>
-  </article>
-</section>
 <section class="cap-v6" aria-label="CAP Budget — fonctions avancées">
-  <div class="cap-simple-summary" aria-label="Synthèse du budget"><div><small>Revenus</small><strong id="cap-simple-income">—</strong></div><div><small>Budget prévu</small><strong id="cap-simple-planned">—</strong><small id="cap-simple-rate"></small></div><div><small>Solde disponible</small><strong id="cap-simple-margin">—</strong></div></div>
+  
 
   <div class="cap-v6-kpis">
     <div class="cap-v6-kpi"><small>Reste disponible</small><b id="v6-remain">—</b></div>
@@ -2087,18 +2071,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     </article>
 
 
-
-    <article class="cap-v6-card" id="cap-legacy-budget-lecture">
-      <span class="cap-v6-badge">📊 Statistiques</span>
-      <h3 style="margin-top:8px">Lecture du budget</h3>
-      
-      <div id="v6-stats"></div>
-      <section id="cap-premium-insights" hidden aria-live="polite" style="margin-top:16px;padding:15px;border:1px solid #86cbb0;border-radius:14px;background:#f0fdf4">
-        <strong style="color:#166534">✨ Analyse approfondie · Premium TEST</strong>
-        <div id="cap-premium-insights-body" style="margin-top:10px;color:#173b2a;font-size:14px;line-height:1.7"></div>
-      </section>
-      
-    </article>
 
     <article class="cap-v6-card">
       <span class="cap-v6-badge">💾 Données</span>
@@ -2170,7 +2142,8 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
       ['Loisirs', b.income?Math.round((getBudget().leisure||0)/b.income*100):0],
       ['Projets', b.income?Math.round((getBudget().projects||0)/b.income*100):0]
     ];
-    document.getElementById('v6-stats').innerHTML=stats.map(x=>`<div class="cap-v6-row"><div><strong>${x[0]}</strong><span>${x[1]} % du revenu</span></div><b>${x[1]}%</b></div><div class="cap-v6-bar"><i style="width:${Math.min(x[1],100)}%"></i></div>`).join('');
+    const oldStatsTarget=document.getElementById('v6-stats');
+    if(oldStatsTarget)oldStatsTarget.innerHTML=stats.map(x=>`<div class="cap-v6-row"><div><strong>${x[0]}</strong><span>${x[1]} % du revenu</span></div><b>${x[1]}%</b></div><div class="cap-v6-bar"><i style="width:${Math.min(x[1],100)}%"></i></div>`).join('');
 
   }
 
@@ -5276,59 +5249,7 @@ padding:20px!important;margin:0!important;border:0!important;box-sizing:border-b
   });
 })();
 </script>
-<script>
-/* CAP : simulateur de décision en lecture seule ; ne touche à aucune sauvegarde. */
-(function(){
-  'use strict';
-  const form=document.getElementById('cap-purchase-form');
-  const output=document.getElementById('cap-purchase-result');
-  if(!form||!output)return;
-  const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
-  form.addEventListener('submit',function(event){
-    event.preventDefault();
-    const name=document.getElementById('cap-purchase-name').value.trim();
-    const price=Number(document.getElementById('cap-purchase-price').value);
-    output.hidden=false;
-    if(!name||!Number.isFinite(price)||price<=0){
-      output.textContent='Indique le nom de ton envie et un prix supérieur à zéro.';
-      return;
-    }
-    let data;
-    try{data=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');}catch(_){data=null;}
-    const fields=['income','fixed','food','leisure','projects','other'];
-    if(!data||!Number.isFinite(Number(data.income))||Number(data.income)<=0||fields.some(k=>!Number.isFinite(Number(data[k]||0))||Number(data[k]||0)<0)){
-      output.textContent='Renseigne d’abord un budget principal valide pour obtenir une simulation fiable.';
-      return;
-    }
-    const income=Number(data.income);
-    const planned=['fixed','food','leisure','projects','other'].reduce((sum,k)=>sum+Number(data[k]||0),0);
-    const margin=income-planned;
-    const weekly=Math.max(0,margin/4.33);
-    const after=margin-price;
-    let title,detail,color;
-    if(after<0){
-      title='🔴 Achat au-delà de la marge prévue';
-      detail='Cet achat dépasse ta marge de '+euro(Math.abs(after))+'. Il faudrait réduire un autre poste ou reporter cet achat, au risque d’empiéter sur les projets et l’épargne.';
-      color='#fca5a5';
-    }else if(price>weekly){
-      title='🟠 Prudence : achat supérieur au repère hebdomadaire';
-      detail='Le prix dépasse ton repère hebdomadaire de '+euro(price-weekly)+'. Même si la marge mensuelle suffit, cet achat peut réduire ce que tu peux consacrer aux autres semaines ou à ton épargne.';
-      color='#fcd34d';
-    }else{
-      title='🟢 Achat compatible avec le repère du budget';
-      detail='Le prix tient dans la marge mensuelle et le repère hebdomadaire calculés. Vérifie néanmoins les dépenses non encore enregistrées avant de décider.';
-      color='#86efac';
-    }
-    output.replaceChildren();
-    const heading=document.createElement('strong');heading.textContent=title;heading.style.color=color;
-    const summary=document.createElement('p');summary.textContent=name+' : '+euro(price)+' · Marge prévue avant : '+euro(margin)+' · Après simulation : '+euro(after)+' · Repère par semaine : '+euro(weekly)+'.';
-    const advice=document.createElement('p');advice.textContent=detail;
-    const note=document.createElement('small');note.textContent='Simulation uniquement : aucune dépense enregistrée, aucun paiement, aucune modification du budget.';
-    output.append(heading,summary,advice,note);
-    output.style.borderColor=color;
-  });
-})();
-</script>
+
 
 <!-- CAP ECONOMIES V2 MODULE -->
 <style>
