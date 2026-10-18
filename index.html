@@ -2244,7 +2244,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   const getOps=()=>{try{return JSON.parse(localStorage.getItem('capBudgetOperations')||'[]')}catch(e){return []}};
   const getCoreState=()=>{try{return JSON.parse(localStorage.getItem('cap_state_v4')||'{}')}catch(e){return {}}};
   const safeText=s=>String(s==null?'':s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  const saveOps=o=>localStorage.setItem('capBudgetOperations',JSON.stringify(o));
+  const saveOps=o=>{localStorage.setItem('capBudgetOperations',JSON.stringify(o));window.dispatchEvent(new Event('capOperationsChanged'));};
   const getPlan=()=>{const b=budget()||{};return (b.fixed||0)+(b.food||0)+(b.leisure||0)+(b.projects||0)+(b.other||0)};
   const baseIncome=()=>Number((budget()||{}).income||0);
   const categoryDetails={Courses:['Supermarché','Marché','Boulangerie'],Logement:['Loyer','Électricité / Gaz','Eau','Assurance habitation'],Assurances:['Habitation','Auto','Mutuelle','Responsabilité civile','Autre assurance'],Crédits:['Crédit immobilier','Crédit auto','Crédit à la consommation','Autre crédit'],Transport:['Essence','Transports en commun','Parking','Péage','Taxi / VTC'],Abonnements:['Netflix','Amazon Prime','Spotify','iCloud','Internet / Téléphone'],Repas:['Restaurant','Livraison','Café','Cantine','Fast-food'],Loisirs:['Sorties','Cinéma','Culture','Sport','Jeux'],Shopping:['Vêtements','Maison','Beauté','Électronique','Cadeaux'],Santé:['Pharmacie','Médecin','Mutuelle','Optique','Dentaire'],Éducation:['Fournitures','Cours','Livres'],'Projets / voyages':['Transport','Hébergement','Activités','Repas','Assurance voyage'],Voyages:['Transport','Hébergement','Activités','Repas','Assurance voyage'],Autre:['Cadeau','Animaux','Démarches','Don']};
@@ -5626,6 +5626,54 @@ const ALLOC='cap_budget_allocation_503020_v1',names=['charges','loisirs','epargn
 let ratios=stored(ALLOC,{charges:50,loisirs:30,epargne:20});
 if(!ratios||!names.every(k=>Number.isInteger(ratios[k])&&ratios[k]>=0&&ratios[k]<=100))ratios={charges:50,loisirs:30,epargne:20};
 const incomeInput=get('cap-allocation-income');let dirty=false;
+/* Le suivi utilise le registre des opérations réelles, une seule fois par ligne.
+   Les montants de ce mois sont répartis selon la catégorie choisie à la saisie. */
+function allocationKind(op){
+ const normalize=value=>String(value||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ const kind=normalize(op.kind);
+ if(kind==='charges'||kind==='loisirs'||kind==='epargne')return kind;
+ const category=normalize(op.category);
+ if(['epargne','reserve','investissement','epargne de precaution','epargne projet'].includes(category))return 'epargne';
+ if(['loisirs','shopping','resto','repas','voyages','projets / voyages','projets'].includes(category))return 'loisirs';
+ return 'charges';
+}
+function renderAllocationProgress(){
+ const raw=Number(incomeInput.value),income=incomeInput.value!==''&&Number.isFinite(raw)&&raw>=0?raw:0;
+ const now=new Date();
+ const currentMonth=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+ let operations=[];
+ try{const saved=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');if(Array.isArray(saved))operations=saved;}catch(_){}
+ const real={charges:0,loisirs:0,epargne:0};
+ operations.forEach(op=>{
+  if(!op||typeof op!=='object')return;
+  const amount=Number(op.amount);
+  if(!Number.isFinite(amount)||amount<=0)return;
+  const date=String(op.date||'').trim();
+  let monthKey=date.slice(0,7);
+  const fr=date.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  if(fr)monthKey=fr[3]+'-'+fr[2];
+  if(monthKey!==currentMonth)return;
+  real[allocationKind(op)]+=amount;
+ });
+ for(const kind of names){
+  const planned=Math.round(income*ratios[kind])/100;
+  const actual=Math.round(real[kind]*100)/100;
+  const percent=planned>0?Math.min(100,Math.max(0,Math.round(actual/planned*100))):0;
+  const row=document.querySelector('#cap-budget-allocation .cap-alloc-actual[data-alloc-kind="'+kind+'"]');
+  if(!row)continue;
+  const track=get('cap-alloc-'+kind+'-track');
+  const status=get('cap-alloc-'+kind+'-status');
+  get('cap-alloc-'+kind+'-fill').style.width=percent+'%';
+  track.setAttribute('aria-valuenow',String(percent));
+  track.setAttribute('aria-valuetext',(kind==='epargne'?'Épargne enregistrée':'Dépenses enregistrées')+' : '+format(actual)+' sur '+format(planned)+' prévus ce mois');
+  get('cap-alloc-'+kind+'-real').textContent=format(actual)+' / '+format(planned);
+  row.classList.toggle('is-over',actual>planned);
+  row.classList.toggle('is-unbudgeted',planned===0);
+  if(planned===0)status.textContent=actual>0?'Aucun budget prévu · '+format(actual)+' enregistré':'Aucun budget prévu pour ce mois';
+  else if(actual>planned)status.textContent=(kind==='epargne'?'Objectif d’épargne dépassé de ':'Budget dépassé de ')+format(actual-planned);
+  else status.textContent=(kind==='epargne'?'Épargne enregistrée':'Dépenses enregistrées')+' ce mois · '+Math.round(actual/planned*100)+' % du budget prévu';
+ }
+}
 function renderSliders(){
  const raw=Number(incomeInput.value),income=incomeInput.value!==''&&Number.isFinite(raw)&&raw>=0?raw:0;
  for(const k of names){
@@ -5639,6 +5687,7 @@ function renderSliders(){
  get('cap-alloc-sum').textContent='Total : '+total+' %';
  get('cap-alloc-warning').textContent=total>100?'Attention : dépassement de '+(total-100)+' %':total<100?(100-total)+' % encore à répartir':'100 % répartis';
  get('cap-alloc-warning').parentElement.classList.toggle('over',total>100);
+ renderAllocationProgress();
 }
 function syncIncome(){
  const b=stored('capBudgetEngine',null);
@@ -5703,14 +5752,16 @@ document.addEventListener('click',event=>{
   setTimeout(()=>{if(!document.body.classList.contains('cap-simple-home'))get('cap-budget-allocation')?.scrollIntoView({behavior:'smooth',block:'start'});},170);
  }
 },true);
-window.addEventListener('capBudgetChanged',()=>{syncIncome();updateHome()});
+window.addEventListener('capBudgetChanged',()=>{syncIncome();renderAllocationProgress();updateHome()});
+window.addEventListener('capOperationsChanged',renderAllocationProgress);
+window.addEventListener('capQuickExpenseSaved',renderAllocationProgress);
 window.addEventListener('storage',e=>{
- if(!e.key||[ALLOC,'capBudgetEngine','cap_savings_cagnottes_v1','cap_eco_v2_savings_1'].includes(e.key)){
+ if(!e.key||[ALLOC,'capBudgetEngine','capBudgetOperations','cap_savings_cagnottes_v1','cap_eco_v2_savings_1'].includes(e.key)){
   if(e.key===ALLOC){const t=stored(ALLOC,null);if(t&&names.every(k=>Number.isInteger(t[k])&&t[k]>=0&&t[k]<=100))ratios=t;}
-  syncIncome();renderSliders();updateHome();
+  syncIncome();renderSliders();renderAllocationProgress();updateHome();
  }
 });
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){syncIncome();updateHome()}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){syncIncome();renderAllocationProgress();updateHome()}});
 syncIncome();renderSliders();updateHome();showHome(true);
 })();
 </script>
