@@ -2919,18 +2919,7 @@ body:has(#tab-budget:not([hidden])) #pill {
 <p class="cap-nature-stats-caption">Les montants sont issus des opérations sauvegardées. Les budgets prévus ne sont pas ajoutés au total réel.</p>
 </section>
 
-<div class="card">
-<h2>📈 Tendances mensuelles</h2>
-<p class="hint">Suivi de tes dépenses globales par mois.</p>
-<ul class="rows" id="stats-months-list"></ul>
-<p class="empty" id="stats-months-empty">Aucun historique de dépenses disponible.</p>
-</div>
-<div class="card" id="stats-recurring-card">
-<h2>🔄 Détail des charges fixes</h2>
-<p class="hint">Clique sur une catégorie pour voir les prélèvements enregistrés, comme Netflix ou Amazon.</p>
-<div id="stats-recurring-groups"></div>
-<p class="empty" id="stats-recurring-empty">Aucune charge fixe enregistrée pour le moment.</p>
-</div>
+
 </section>
 <!-- CAP Conseil : rubrique de pédagogie budgétaire, indépendante des calculs -->
 <section id="tab-conseil" aria-label="Conseils pour gérer son budget" hidden>
@@ -3510,7 +3499,7 @@ const c = CAT[en[0]];
 return h('li', {}, h('span', {class: 'dot', style: '--c:' + c.color}), h('span', {class: 'name', text: c.label}), h('span', {class: 'amt', text: eur(en[1])}), h('span', {class: 'pct', text: Math.round(en[1] / (sum.spent - sum.recurringSpent || 1) * 100) + ' %'}) );
 }));
 renderRecurring();
-renderStats();
+/* Anciennes statistiques retirées : les nouveaux camemberts gèrent ce bilan. */
 }
 function expenseRow(e) {
 const c = CAT[e.cat] || CAT.autre;
@@ -3942,54 +3931,6 @@ save();
 renderAll();
 toast('Versement ajouté');
 });
-function renderStats() {
-const monthsMap = {};
-state.expenses.forEach(e => {
-const mKey = e.date.slice(0, 7);
-monthsMap[mKey] = (monthsMap[mKey] || 0) + e.amount;
-});
-const entries = Object.keys(monthsMap).sort((a, b) => b.localeCompare(a));
-const recurringTotal = state.recurring ? state.recurring.reduce((a, r) => a + r.amount, 0) : 0;
-
-const listEl = $('#stats-months-list');
-const emptyEl = $('#stats-months-empty');
-
-const rows = entries.map(mKey => {
-const [y, m] = mKey.split('-');
-const d = new Date(Number(y), Number(m) - 1, 1);
-const monthName = d.toLocaleDateString('fr-FR', {month: 'long', year: 'numeric'});
-const variable = monthsMap[mKey];
-const isCurrent = mKey === iso(new Date()).slice(0, 7);
-const fixedForMonth = isCurrent ? recurringTotal : 0;
-const total = variable + fixedForMonth;
-return h('li', {class: 'row'},
-h('span', {class: 'badge', style: '--c:#4F46E5', 'aria-hidden': 'true', text: '📊'}),
-h('div', {class: 'row-main'},
-h('div', {class: 'row-title', text: monthName}),
-h('div', {class: 'row-sub', text: 'Dépenses variables : ' + eur(variable) + (isCurrent ? ' + Charges fixes actuelles : ' + eur(recurringTotal) : ' (hors charges fixes)')})
-),
-h('div', {class: 'row-amount', text: eur(total)})
-);
-});
-
-listEl.replaceChildren.apply(listEl, rows);
-emptyEl.hidden = rows.length > 0;
-const recurringGroups = {};
-(state.recurring || []).forEach(r => {
-const category = r.category || inferRecurringCategory(r.label);
-(recurringGroups[category] = recurringGroups[category] || []).push(r);
-});
-const groupBox = $('#stats-recurring-groups');
-const recurringEmpty = $('#stats-recurring-empty');
-const groups = Object.keys(recurringGroups).sort((a, b) => a.localeCompare(b, 'fr')).map(category => {
-const items = recurringGroups[category];
-const subtotal = items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
-const detailRows = items.map(item => h('li', {class: 'row'}, h('div', {class: 'row-main'}, h('div', {class: 'row-title', text: item.label || item.subcategory || category}), h('div', {class: 'row-sub', text: [item.category, item.subcategory, 'Prélèvement mensuel'].filter(Boolean).join(' · ')})), h('div', {class: 'row-amount', text: '− ' + eur(item.amount)})));
-return h('details', {class: 'stats-recurring-group'}, h('summary', {}, h('span', {text: category}), h('strong', {text: eur(subtotal)})), h('ul', {class: 'rows'}, detailRows));
-});
-groupBox.replaceChildren.apply(groupBox, groups);
-recurringEmpty.hidden = groups.length > 0;
-}
 function showTab(name) {
 ['budget', 'repas', 'voyages', 'stats', 'conseil'].forEach(n => {
   const panel = $('#tab-' + n);
