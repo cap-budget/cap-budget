@@ -13,6 +13,21 @@ html.cap-entry-locked body:has(> #onboarding-modal:not([hidden])){overflow:hidde
 
 /* Sections retirées de l'interface à la demande de l'utilisatrice. Les données restent intactes. */
 #card-recurring, section.card[aria-labelledby="hist-title"], .cap-dash-counsel, .cap-v6-card:has(#v6-advice), .cap-play-panel, #cap-dash-savings-preview { display:none !important; }
+
+/* Nettoyage visuel : anciens blocs des quatre captures (18 octobre 2026).
+   Les moteurs et le stockage restent intacts pour ne pas perdre les opérations. */
+html body #cap-commercial-presentation,
+html body #cap-purchase-simulator,
+html body .app > header.top,
+html body .cap-v6[aria-label="CAP Budget — fonctions avancées"] > .cap-simple-summary,
+html body #cap-legacy-budget-lecture,
+html body #cap-premium-insights,
+html body #cap-savings-module { display:none!important; }
+
+/* La sauvegarde locale/les réglages restent accessibles et prennent toute la largeur. */
+html body .cap-v6[aria-label="CAP Budget — fonctions avancées"] > .cap-v6-grid > .cap-v6-card:last-child{
+  grid-column:1/-1;max-width:940px;width:100%;margin-inline:auto;box-sizing:border-box;
+}
 </style>
 
 <meta name="color-scheme" content="dark">
@@ -2047,7 +2062,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
 
 
 
-    <article class="cap-v6-card">
+    <article class="cap-v6-card" id="cap-legacy-budget-lecture">
       <span class="cap-v6-badge">📊 Statistiques</span>
       <h3 style="margin-top:8px">Lecture du budget</h3>
       
