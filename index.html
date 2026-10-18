@@ -2190,135 +2190,60 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     <div class="cap-v8-breakdown"><h3>📋 Détail du budget et des charges</h3><p>Compare, pour chaque poste, le montant prévu et les dépenses réellement enregistrées.</p><div class="cap-v8-plan-list" id="v8-plan-list"><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">🏠 Charges fixes</span><span class="cap-v8-plan-budget">Prévu : 1 100,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 1 100,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">🛒 Courses et repas</span><span class="cap-v8-plan-budget">Prévu : 350,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 350,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">🎮 Loisirs</span><span class="cap-v8-plan-budget">Prévu : 150,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 150,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">✈️ Projets et voyages</span><span class="cap-v8-plan-budget">Prévu : 200,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 200,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div><div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">📦 Autres dépenses</span><span class="cap-v8-plan-budget">Prévu : 100,00&nbsp;€</span></div><div class="cap-v8-plan-meta"><span>Réel : 0,00&nbsp;€</span><strong>Reste : 100,00&nbsp;€</strong></div><div class="cap-v8-plan-bar"><i style="width:0%"></i></div></div></div><div class="cap-v8-fixed-detail" id="v8-fixed-detail"><h4>🏠 Détail des charges fixes enregistrées</h4><div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div><div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>1 100,00&nbsp;€</strong></div><div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>0,00&nbsp;€ / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>1 100,00&nbsp;€ / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a></div></div>
   </div>
 
-  <div class="cap-v8-grid">
-    <article class="cap-v8-card">
-      <h3>➕ Ajouter une opération</h3>
-      <p>Choisis une catégorie, précise le poste, puis ajoute le montant. Le détail restera visible dans ton historique.</p>
-      <div class="cap-v8-form">
-        <label>Libellé ou commerçant<input id="v8-label" placeholder="Ex. Courses Carrefour, Netflix, essence…"></label>
-        <div class="cap-v8-form-row">
-          <label>Montant de l’opération (€)<input id="v8-amount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 42,50"></label>
-          <label>Catégorie<select id="v8-category">
-            <option value="Logement">🏠 Logement &amp; Charges</option>
-            <option value="Courses">🛒 Courses &amp; Alimentation</option>
-            <option value="Transport">🚗 Transport &amp; Auto</option>
-            <option value="Loisirs">🎮 Loisirs &amp; Plaisirs</option>
-            <option value="Santé">💚 Santé &amp; Famille</option>
-            <option value="Voyages">✈️ Projets &amp; Épargne</option>
-          </select></label>
-        </div>
-        <div class="cap-v8-detail" id="v8-detail-card" aria-live="polite">
-          <div class="cap-v8-detail-head"><span class="cap-v8-detail-icon" id="v8-detail-icon">🛒</span><div><strong id="v8-detail-title">Détail des courses</strong><p id="v8-detail-description">Choisis l’enseigne ou le type de commerce.</p></div></div>
-          <div class="cap-v8-quick" id="v8-quick-details"><button type="button">Supermarché</button><button type="button">Marché</button><button type="button">Boulangerie</button></div>
-          <div class="cap-v8-form-row" style="margin-top:9px"><label>Sous-catégorie<select id="v8-subcategory" aria-label="Précision de la dépense"><option value="">Choisir un détail</option><option value="Supermarché">Supermarché</option><option value="Marché">Marché</option><option value="Boulangerie">Boulangerie</option><option value="__custom">Autre détail…</option></select></label><input id="v8-subcategory-custom" type="text" placeholder="Écris ton détail ici" aria-label="Autre sous-catégorie" hidden=""></div>
-          <div class="cap-v8-detail-foot" id="v8-detail-foot">3 choix rapides · ou sélectionne « Autre détail… » pour écrire le tien.</div>
-        </div>
-        <button class="cap-v8-custom-link" type="button" id="v8-create-category">＋ Créer une catégorie personnalisée</button>
-        <label>Date de l’opération<input id="v8-date" type="date"></label>
-        <label>Note complémentaire (facultative)<textarea id="v8-note" maxlength="160" placeholder="Ex. achat pour la maison, courses du samedi…"></textarea></label>
-      </div>
-      <div class="cap-v8-actions"><button class="cap-v8-btn primary" id="v8-add">Ajouter</button></div>
-    </article>
-
-    <article class="cap-v8-card">
-      <h3>📒 Historique des opérations</h3>
-      <p>Modifiez ou supprimez une opération. Les chiffres sont recalculés immédiatement.</p>
-      <div class="cap-v8-list" id="v8-list"><div class="cap-v8-empty-state"><div class="cap-v8-empty-head"><span class="cap-v8-empty-icon">📒</span><div><h4>Ton historique est prêt</h4><p>Après avoir ajouté une opération, tu retrouveras ici son montant, sa catégorie, son détail, sa date et ta note.</p></div></div></div></div>
-    </article>
-
-    <article class="cap-v8-card">
-      <h3>📊 Répartition réelle</h3>
-      <p>Pour chaque poste, compare le montant déjà dépensé à l’enveloppe prévue. Les barres montrent la part utilisée.</p>
-      <div id="v8-stats"><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>🏠 Charges fixes</b><span>Réel 0,00&nbsp;€ / prévu 1 100,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 1 100,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>🛒 Courses et repas</b><span>Réel 0,00&nbsp;€ / prévu 350,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 350,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>🎮 Loisirs</b><span>Réel 0,00&nbsp;€ / prévu 150,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 150,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>✈️ Projets et voyages</b><span>Réel 0,00&nbsp;€ / prévu 200,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 200,00&nbsp;€</span></div></div><div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>📦 Autres dépenses</b><span>Réel 0,00&nbsp;€ / prévu 100,00&nbsp;€</span></div><div class="cap-v8-bar"><i style="width:0%"></i></div><div class="cap-v8-stat-note"><span>Aucune dépense réelle enregistrée</span><span>Enveloppe restante : 100,00&nbsp;€</span></div></div></div>
-    </article>
-
-    
-  </div>
 </section>
 
-<script>
+<script id="cap-v8-summary-only-20261018">
+/* Conserve les chiffres de synthèse et le détail du budget sans les trois blocs redondants. */
 (function(){
-  const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
-  const today=()=>new Date().toISOString().slice(0,10);
-  const budget=()=>{try{return JSON.parse(localStorage.getItem('capBudgetEngine')||'null')}catch(e){return null}};
-  const getOps=()=>{try{return JSON.parse(localStorage.getItem('capBudgetOperations')||'[]')}catch(e){return []}};
-  const getCoreState=()=>{try{return JSON.parse(localStorage.getItem('cap_state_v4')||'{}')}catch(e){return {}}};
-  const safeText=s=>String(s==null?'':s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  const saveOps=o=>{localStorage.setItem('capBudgetOperations',JSON.stringify(o));window.dispatchEvent(new Event('capOperationsChanged'));};
-  const getPlan=()=>{const b=budget()||{};return (b.fixed||0)+(b.food||0)+(b.leisure||0)+(b.projects||0)+(b.other||0)};
-  const baseIncome=()=>Number((budget()||{}).income||0);
-  const categoryDetails={Courses:['Supermarché','Marché','Boulangerie'],Logement:['Loyer','Électricité / Gaz','Eau','Assurance habitation'],Assurances:['Habitation','Auto','Mutuelle','Responsabilité civile','Autre assurance'],Crédits:['Crédit immobilier','Crédit auto','Crédit à la consommation','Autre crédit'],Transport:['Essence','Transports en commun','Parking','Péage','Taxi / VTC'],Abonnements:['Netflix','Amazon Prime','Spotify','iCloud','Internet / Téléphone'],Repas:['Restaurant','Livraison','Café','Cantine','Fast-food'],Loisirs:['Sorties','Cinéma','Culture','Sport','Jeux'],Shopping:['Vêtements','Maison','Beauté','Électronique','Cadeaux'],Santé:['Pharmacie','Médecin','Mutuelle','Optique','Dentaire'],Éducation:['Fournitures','Cours','Livres'],'Projets / voyages':['Transport','Hébergement','Activités','Repas','Assurance voyage'],Voyages:['Transport','Hébergement','Activités','Repas','Assurance voyage'],Autre:['Cadeau','Animaux','Démarches','Don']};
-  const categoryMeta={Courses:['🛒','Détail des courses',"Choisis l’enseigne ou le type de commerce."],Logement:['🏠','Détail du logement','Sépare le loyer des factures et de l’assurance.'],Assurances:['🛡️','Détail de l’assurance','Précise le type d’assurance pour le retrouver facilement.'],Crédits:['💳','Détail du crédit','Précise le crédit concerné.'],Transport:['🚗','Détail du transport','Précise le trajet ou le mode de transport.'],Abonnements:['📱','Détail des abonnements','Sélectionne le service concerné pour le retrouver facilement.'],Repas:['🍽️','Détail des repas','Restaurant, livraison, café ou cantine.'],Loisirs:['🎮','Détail des loisirs','Précise l’activité pour suivre tes sorties.'],Shopping:['🛍️','Détail du shopping','Vêtements, maison, beauté ou autre achat.'],Voyages:['✈️','Détail du voyage','Transport, hébergement, repas ou activité.'],'Projets / voyages':['🌴','Détail du projet','Identifie les dépenses liées à ton projet.'],Santé:['💚','Détail santé','Pharmacie, consultation ou mutuelle.'],Éducation:['📚','Détail éducation','Cours, livres ou fournitures.'],Autre:['📦','Autre dépense','Choisis une précision ou saisis ton propre détail.']};
-  const categorySelect=document.getElementById('v8-category'), subcategorySelect=document.getElementById('v8-subcategory'), customSubcategory=document.getElementById('v8-subcategory-custom'), quickDetails=document.getElementById('v8-quick-details');
-  function syncCustomV8Categories(){try{const state=JSON.parse(localStorage.getItem('cap_state_v4')||'{}');(state.customCategories||[]).forEach(c=>{if(c&&c.id&&c.label&&!Array.from(categorySelect.options).some(o=>o.value===c.label)){categorySelect.add(new Option(c.label,c.label));}});}catch(e){}}
-  function refreshV8Subcategories(){const selected=categorySelect.value;let choices=categoryDetails[selected]||[];let customCategory=false;try{const state=JSON.parse(localStorage.getItem('cap_state_v4')||'{}');const custom=(state.customCategories||[]).find(c=>c.label===selected);if(custom&&Array.isArray(custom.subcategories)){choices=custom.subcategories;customCategory=true;}}catch(e){}const meta=categoryMeta[selected]||['✨','Détail de '+selected,'Ajoute une précision pour retrouver cette dépense plus facilement.'];document.getElementById('v8-detail-icon').textContent=meta[0];document.getElementById('v8-detail-title').textContent=customCategory?'Détail de '+selected:meta[1];document.getElementById('v8-detail-description').textContent=meta[2];quickDetails.replaceChildren();choices.forEach(x=>{const chip=document.createElement('button');chip.type='button';chip.textContent=x;chip.addEventListener('click',()=>{subcategorySelect.value=x;customSubcategory.hidden=true;quickDetails.querySelectorAll('button').forEach(b=>b.classList.toggle('selected',b===chip));});quickDetails.append(chip);});subcategorySelect.replaceChildren(new Option('Choisir un détail',''));choices.forEach(x=>subcategorySelect.add(new Option(x,x)));subcategorySelect.add(new Option('Autre détail…','__custom'));customSubcategory.hidden=true;customSubcategory.value='';document.getElementById('v8-detail-foot').textContent=choices.length?choices.length+' choix rapides · ou sélectionne « Autre détail… » pour écrire le tien.':'Tu peux écrire un détail libre avec « Autre détail… ».';}
-  syncCustomV8Categories();refreshV8Subcategories();
-  categorySelect.addEventListener('change',refreshV8Subcategories);
-  subcategorySelect.addEventListener('change',()=>{customSubcategory.hidden=subcategorySelect.value!=='__custom';if(!customSubcategory.hidden)customSubcategory.focus();quickDetails.querySelectorAll('button').forEach(b=>b.classList.toggle('selected',b.textContent===subcategorySelect.value));});
-  document.getElementById('v8-create-category').addEventListener('click',()=>{const create=document.getElementById('show-custom-category');if(create){create.click();document.getElementById('custom-category-box')?.scrollIntoView({behavior:'smooth',block:'center'});}else alert('Utilise « Créer ma catégorie » dans la partie Budget pour ajouter une nouvelle catégorie et ses sous-catégories.');});
-  window.addEventListener('capBudgetChanged',syncCustomV8Categories);
-
-  function render(){
-    const ops=getOps(), b=budget()||{}, income=baseIncome(), real=ops.reduce((s,o)=>s+Number(o.amount||0),0), planned=getPlan(), remain=income-real, margin=income-planned;
-    document.getElementById('v8-income').textContent=money(income);
-    document.getElementById('v8-real').textContent=money(real);
-    document.getElementById('v8-planned').textContent=money(planned);
-    document.getElementById('v8-remain').textContent=money(remain);
-    document.getElementById('v8-margin').textContent=money(margin);
-    [['income',income],['fixed',b.fixed],['food',b.food],['leisure',b.leisure],['projects',b.projects],['other',b.other]].forEach(([key,value])=>{const el=document.getElementById('v8-flow-'+key);if(el)el.textContent=money(value);});
-    const actualByCategory={};ops.forEach(o=>actualByCategory[o.category]=(actualByCategory[o.category]||0)+Number(o.amount||0));
-    const planGroups=[
-      {key:'fixed',name:'Charges fixes',icon:'🏠',amount:Number(b.fixed)||0,cats:['Logement','Abonnements','Assurances','Crédits','Transport','Charges fixes']},
-      {key:'food',name:'Courses et repas',icon:'🛒',amount:Number(b.food)||0,cats:['Courses','Repas','Alimentation']},
-      {key:'leisure',name:'Loisirs',icon:'🎮',amount:Number(b.leisure)||0,cats:['Loisirs','Resto','Shopping']},
-      {key:'projects',name:'Projets et voyages',icon:'✈️',amount:Number(b.projects)||0,cats:['Voyages','Projets / voyages','Projets']},
-      {key:'other',name:'Autres dépenses',icon:'📦',amount:Number(b.other)||0,cats:[]}
-    ];
-    const assigned=new Set(planGroups.flatMap(g=>g.cats));
-    planGroups[4].actual=Object.entries(actualByCategory).filter(([cat])=>!assigned.has(cat)).reduce((sum,[,amount])=>sum+amount,0);
-    planGroups.slice(0,4).forEach(g=>g.actual=g.cats.reduce((sum,cat)=>sum+(actualByCategory[cat]||0),0));
-    document.getElementById('v8-plan-list').innerHTML=planGroups.map(g=>{const left=g.amount-g.actual,pct=g.amount?Math.min(100,Math.round(g.actual/g.amount*100)):0;return `<div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">${g.icon} ${g.name}</span><span class="cap-v8-plan-budget">Prévu : ${money(g.amount)}</span></div><div class="cap-v8-plan-meta"><span>Réel : ${money(g.actual)}</span><strong>${left>=0?'Reste : '+money(left):'Dépassement : '+money(Math.abs(left))}</strong></div><div class="cap-v8-plan-bar"><i style="width:${pct}%"></i></div></div>`;}).join('');
-    const recurring=Array.isArray(getCoreState().recurring)?getCoreState().recurring:[], recurringTotal=recurring.reduce((sum,item)=>sum+(Number(item.amount)||0),0), fixedUnlisted=Math.max(0,(Number(b.fixed)||0)-recurringTotal);
-    const recurringRows=recurring.length?recurring.map(item=>`<div class="cap-v8-fixed-line"><span>${safeText(item.label||item.subcategory||'Charge fixe')} · ${safeText([item.category,item.subcategory].filter(Boolean).join(' / '))}</span><strong>${money(item.amount)}</strong></div>`).join(''):'<div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div>';
-    document.getElementById('v8-fixed-detail').innerHTML=`<h4>🏠 Détail des charges fixes enregistrées</h4>${recurringRows}${fixedUnlisted?`<div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>${money(fixedUnlisted)}</strong></div>`:''}<div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>${money(recurringTotal)} / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>${money(Number(b.fixed)||0)} / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a>`;
-    const list=document.getElementById('v8-list');
-    list.innerHTML=ops.length?ops.slice().reverse().map((o,i)=>`<div class="cap-v8-item"><div><b>${safeText(o.label||o.subcategory||o.category)}</b><span>${safeText(o.category)}${o.subcategory?' · '+safeText(o.subcategory):''} · ${safeText(o.date||'Date non précisée')}${o.note?'<br><small>'+safeText(o.note)+'</small>':''}</span></div><strong class="cap-v8-negative">− ${money(o.amount)}</strong><button data-del="${ops.length-1-i}" aria-label="Supprimer ${safeText(o.label||o.category)}">✕</button></div>`).join(''):'<div class="cap-v8-empty-state"><div class="cap-v8-empty-head"><span class="cap-v8-empty-icon">📒</span><div><h4>Ton historique est prêt</h4><p>Après avoir ajouté une opération, tu retrouveras ici son montant, sa catégorie, son détail, sa date et ta note.</p></div></div></div>';
-    list.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=()=>{const o=getOps();o.splice(Number(btn.dataset.del),1);saveOps(o);render()});
-    document.getElementById('v8-stats').innerHTML=planGroups.map(g=>{const pct=g.amount?Math.min(100,Math.round(g.actual/g.amount*100)):0,left=g.amount-g.actual;return `<div class="cap-v8-stat-row"><div class="cap-v8-stat-head"><b>${g.icon} ${g.name}</b><span>Réel ${money(g.actual)} / prévu ${money(g.amount)}</span></div><div class="cap-v8-bar" role="progressbar" aria-label="${g.name.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${g.amount?Math.round(g.actual/g.amount*100):0}"><i class="cap-traffic-${g.amount>0?(g.actual>=g.amount?'red':g.actual/g.amount>=.75?'orange':'green'):(g.actual>0?'red':'green')}" style="width:${pct}%"></i></div><div class="cap-v8-stat-note"><span>${g.actual?'Dépense enregistrée':'Aucune dépense réelle enregistrée'}</span><span>${left>=0?'Reste dans l’enveloppe : '+money(left):'Dépassement : '+money(Math.abs(left))}</span></div></div>`;}).join('');
-    renderV8Advice();
-    window.dispatchEvent(new CustomEvent('capBudgetChanged'));
+ 'use strict';
+ const el=id=>document.getElementById(id);
+ const money=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(Number(n)||0);
+ const read=(key,fallback)=>{try{const v=JSON.parse(localStorage.getItem(key)||'null');return v===null?fallback:v}catch(_){return fallback}};
+ const safe=t=>String(t??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ function render(){
+  const b=read('capBudgetEngine',{})||{};
+  const saved=read('capBudgetOperations',[]);
+  const operations=Array.isArray(saved)?saved:[];
+  const income=Number(b.income)||0;
+  const fixed=Number(b.fixed)||0,food=Number(b.food)||0,leisure=Number(b.leisure)||0,projects=Number(b.projects)||0,other=Number(b.other)||0;
+  const planned=fixed+food+leisure+projects+other;
+  const real=operations.reduce((total,o)=>total+(Number.isFinite(Number(o?.amount))?Number(o.amount):0),0);
+  [['v8-income',income],['v8-real',real],['v8-planned',planned],['v8-remain',income-real],['v8-margin',income-planned]]
+    .forEach(([id,value])=>{const target=el(id);if(target)target.textContent=money(value)});
+  [['income',income],['fixed',fixed],['food',food],['leisure',leisure],['projects',projects],['other',other]]
+    .forEach(([key,value])=>{const target=el('v8-flow-'+key);if(target)target.textContent=money(value)});
+  const totals=Object.create(null);
+  operations.forEach(o=>{const cat=String(o?.category||'');const amount=Number(o?.amount);if(Number.isFinite(amount))totals[cat]=(totals[cat]||0)+amount});
+  const groups=[
+   {label:'🏠 Charges fixes',budget:fixed,cats:['Logement','Abonnements','Assurances','Crédits','Transport','Charges fixes']},
+   {label:'🛒 Courses et repas',budget:food,cats:['Courses','Repas','Alimentation']},
+   {label:'🎮 Loisirs',budget:leisure,cats:['Loisirs','Resto','Shopping']},
+   {label:'✈️ Projets et voyages',budget:projects,cats:['Voyages','Projets / voyages','Projets']}
+  ];
+  const assigned=new Set(groups.flatMap(g=>g.cats));
+  groups.push({label:'📦 Autres dépenses',budget:other,actual:Object.entries(totals).filter(([cat])=>!assigned.has(cat)).reduce((sum,[,amt])=>sum+amt,0)});
+  groups.slice(0,4).forEach(g=>g.actual=g.cats.reduce((sum,cat)=>sum+(totals[cat]||0),0));
+  const list=el('v8-plan-list');
+  if(list)list.innerHTML=groups.map(g=>{
+   const amount=Math.max(0,Number(g.actual)||0),budget=Math.max(0,g.budget),left=budget-amount,pct=budget?Math.min(100,Math.round(amount/budget*100)):0;
+   return '<div class="cap-v8-plan-row"><div class="cap-v8-plan-head"><span class="cap-v8-plan-title">'+g.label+'</span><span class="cap-v8-plan-budget">Prévu : '+money(budget)+'</span></div><div class="cap-v8-plan-meta"><span>Réel : '+money(amount)+'</span><strong>'+(left>=0?'Reste : '+money(left):'Dépassement : '+money(-left))+'</strong></div><div class="cap-v8-plan-bar"><i style="width:'+pct+'%"></i></div></div>';
+  }).join('');
+  const state=read('cap_state_v4',{})||{};
+  const recurring=Array.isArray(state.recurring)?state.recurring:[];
+  const totalRecurring=recurring.reduce((sum,item)=>sum+(Number(item?.amount)||0),0);
+  const unlisted=Math.max(0,fixed-totalRecurring);
+  const fixedDetail=el('v8-fixed-detail');
+  if(fixedDetail){
+   const rows=recurring.length?recurring.map(item=>'<div class="cap-v8-fixed-line"><span>'+safe(item?.label||item?.subcategory||'Charge fixe')+' · '+safe([item?.category,item?.subcategory].filter(Boolean).join(' / '))+'</span><strong>'+money(item?.amount)+'</strong></div>').join(''):'<div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div>';
+   fixedDetail.innerHTML='<h4>🏠 Détail des charges fixes enregistrées</h4>'+rows+(unlisted?'<div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>'+money(unlisted)+'</strong></div>':'')+'<div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>'+money(totalRecurring)+' / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>'+money(fixed)+' / mois</strong></div>';
   }
-
-  function renderV8Advice(){
-    const b=budget()||{}, ops=getOps(), income=Number(b.income)||0, planned=getPlan(), real=ops.reduce((sum,o)=>sum+(Number(o.amount)||0),0), margin=income-planned, box=document.getElementById('v8-advice-box');
-    if(!income){box.innerHTML='<div class="cap-v8-advice-panel"><h4>📝 Ton budget de départ manque</h4><p>Renseigne d’abord tes revenus et tes enveloppes dans le Budget. CAP pourra ensuite calculer le solde prévisionnel et l’effet des opérations enregistrées.</p></div>';return;}
-    const title=margin<0?'⚠️ Le budget dépasse les revenus':'✅ Voici ton solde après le budget prévu';
-    const explanation=ops.length?`Tu as ${ops.length} opération${ops.length>1?'s':''} réelle${ops.length>1?'s':''} enregistrée${ops.length>1?'s':''} pour un total de ${money(real)}.`:'Aucune opération réelle n’est encore enregistrée. La comparaison part donc de tes enveloppes prévues.';
-    box.innerHTML=`<div class="cap-v8-advice-panel"><h4>${title}</h4><p>${explanation} Le solde prévisionnel est calculée en retirant le budget prévu du revenu. Les dépenses réelles sont comparées aux enveloppes et ne sont pas soustraites une deuxième fois.</p><div class="cap-v8-advice-grid"><div><small>Revenus</small><strong>${money(income)}</strong></div><div><small>Budget prévu</small><strong>− ${money(planned)}</strong></div><div><small>Dépenses réelles enregistrées</small><strong>${money(real)}</strong></div><div><small>Solde après budget prévu</small><strong>${money(margin)}</strong></div></div><div class="cap-v8-advice-foot">Consulte la répartition réelle au-dessus pour voir les dépenses comparées à leur enveloppe, poste par poste.</div></div>`;
-  }
-
-  function add(label,amount,category,date,subcategory,note){
-    if(!label||amount<=0){alert('Indiquez un libellé et un montant supérieur à 0 €.');return}
-    const o=getOps();o.push({id:Date.now()+Math.random(),label,amount:Number(amount),category,subcategory:subcategory||'',date:date||today(),note:(note||'').trim()});saveOps(o);render();
-  }
-  document.getElementById('v8-date').value=today();
-  document.getElementById('v8-add').onclick=()=>{const detail=subcategorySelect.value==='__custom'?customSubcategory.value.trim():subcategorySelect.value;add(document.getElementById('v8-label').value.trim()||detail,Number(document.getElementById('v8-amount').value),document.getElementById('v8-category').value,document.getElementById('v8-date').value,detail,document.getElementById('v8-note').value);};
-  /* Conseils redondants retirés de l'interface. */
-  // Les charges fixes de l'ancien formulaire sont conservées dans cap_state_v4.
-  // Actualiser uniquement leur détail évite une boucle avec render(),
-  // qui émet lui-même capBudgetChanged.
-  window.addEventListener('capBudgetChanged',()=>{
-    const state=getCoreState();
-    const recurring=Array.isArray(state.recurring)?state.recurring:[];
-    const total=recurring.reduce((sum,item)=>sum+(Number(item.amount)||0),0);
-    const fixed=Number((budget()||{}).fixed)||0;
-    const unlisted=Math.max(0,fixed-total);
-    const rows=recurring.length?recurring.map(item=>`<div class="cap-v8-fixed-line"><span>${safeText(item.label||item.subcategory||'Charge fixe')} · ${safeText([item.category,item.subcategory].filter(Boolean).join(' / '))}</span><strong>${money(item.amount)}</strong></div>`).join(''):'<div class="cap-v8-fixed-line"><span>Aucune charge fixe détaillée enregistrée pour le moment.</span><strong>—</strong></div>';
-    const target=document.getElementById('v8-fixed-detail');
-    if(target) target.innerHTML=`<h4>🏠 Détail des charges fixes enregistrées</h4>${rows}${unlisted?`<div class="cap-v8-fixed-line"><span>Montant prévu non détaillé dans la liste</span><strong>${money(unlisted)}</strong></div>`:''}<div class="cap-v8-fixed-total"><span>Total des charges fixes détaillées</span><strong>${money(total)} / mois</strong></div><div class="cap-v8-fixed-total"><span>Enveloppe de charges fixes prévue</span><strong>${money(fixed)} / mois</strong></div><a class="cap-v8-fixed-link" href="#card-recurring">Voir ou compléter la liste des charges fixes ↓</a>`;
-  });
-  window.addEventListener('capQuickExpenseSaved',render);
-  render();
+ }
+ window.addEventListener('capQuickExpenseSaved',render);
+ window.addEventListener('capOperationsChanged',render);
+ window.addEventListener('capBudgetChanged',render);
+ window.addEventListener('storage',e=>{if(!e.key||['capBudgetEngine','capBudgetOperations','cap_state_v4'].includes(e.key))render()});
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)render()});
+ render();
 })();
 </script>
 
@@ -2630,7 +2555,20 @@ body:has(#tab-budget:not([hidden])) #pill {
    </div>
    <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer la dépense</button></div>
    <p class="cap-alloc-entry-feedback" role="status" aria-live="polite"></p>
- </form></div>
+ </form>
+ <details class="cap-alloc-history" data-alloc-history-kind="charges">
+   <summary>
+     <span class="cap-alloc-history-title">📒 Historique des charges</span>
+     <span class="cap-alloc-history-count" aria-live="polite" id="cap-alloc-history-charges-count">0 opération</span>
+     <span class="cap-alloc-history-chevron" aria-hidden="true">⌄</span>
+   </summary>
+   <div class="cap-alloc-history-content">
+     <p>Opérations enregistrées dans Charges · tous les mois.</p>
+     <ul class="cap-alloc-history-list" id="cap-alloc-history-charges-list" aria-label="Historique des charges">
+       <li class="cap-alloc-history-empty">Aucune opération enregistrée dans cette catégorie.</li>
+     </ul>
+   </div>
+ </details></div>
 <div class="cap-alloc-row"><label for="cap-alloc-loisirs">🎈 Loisirs <strong id="cap-alloc-loisirs-pct">30 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-loisirs" type="range" min="0" max="100" step="1" value="30"><output id="cap-alloc-loisirs-eur" for="cap-alloc-loisirs">— €</output></div>
  <div class="cap-alloc-actual" data-alloc-kind="loisirs">
    <div class="cap-alloc-actual-main">
@@ -2669,7 +2607,20 @@ body:has(#tab-budget:not([hidden])) #pill {
    </div>
    <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer la dépense</button></div>
    <p class="cap-alloc-entry-feedback" role="status" aria-live="polite"></p>
- </form></div>
+ </form>
+ <details class="cap-alloc-history" data-alloc-history-kind="loisirs">
+   <summary>
+     <span class="cap-alloc-history-title">📒 Historique des loisirs</span>
+     <span class="cap-alloc-history-count" aria-live="polite" id="cap-alloc-history-loisirs-count">0 opération</span>
+     <span class="cap-alloc-history-chevron" aria-hidden="true">⌄</span>
+   </summary>
+   <div class="cap-alloc-history-content">
+     <p>Opérations enregistrées dans Loisirs · tous les mois.</p>
+     <ul class="cap-alloc-history-list" id="cap-alloc-history-loisirs-list" aria-label="Historique des loisirs">
+       <li class="cap-alloc-history-empty">Aucune opération enregistrée dans cette catégorie.</li>
+     </ul>
+   </div>
+ </details></div>
 <div class="cap-alloc-row"><label for="cap-alloc-epargne">🌱 Épargne <strong id="cap-alloc-epargne-pct">20 %</strong></label><div class="cap-alloc-control"><input id="cap-alloc-epargne" type="range" min="0" max="100" step="1" value="20"><output id="cap-alloc-epargne-eur" for="cap-alloc-epargne">— €</output></div>
  <div class="cap-alloc-actual" data-alloc-kind="epargne">
    <div class="cap-alloc-actual-main">
@@ -2704,7 +2655,20 @@ body:has(#tab-budget:not([hidden])) #pill {
    </div>
    <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer l'épargne</button></div>
    <p class="cap-alloc-entry-feedback" role="status" aria-live="polite"></p>
- </form></div>
+ </form>
+ <details class="cap-alloc-history" data-alloc-history-kind="epargne">
+   <summary>
+     <span class="cap-alloc-history-title">📒 Historique de l'épargne</span>
+     <span class="cap-alloc-history-count" aria-live="polite" id="cap-alloc-history-epargne-count">0 opération</span>
+     <span class="cap-alloc-history-chevron" aria-hidden="true">⌄</span>
+   </summary>
+   <div class="cap-alloc-history-content">
+     <p>Opérations enregistrées dans Épargne · tous les mois.</p>
+     <ul class="cap-alloc-history-list" id="cap-alloc-history-epargne-list" aria-label="Historique de l'épargne">
+       <li class="cap-alloc-history-empty">Aucune opération enregistrée dans cette catégorie.</li>
+     </ul>
+   </div>
+ </details></div>
 </div>
 <div class="cap-alloc-total" role="status" aria-live="polite"><strong id="cap-alloc-sum">Total : 100 %</strong><span id="cap-alloc-warning">Répartition complète</span></div>
 <button type="button" id="cap-alloc-reset">Revenir à 50 / 30 / 20</button>
@@ -5688,6 +5652,7 @@ function allocationKind(op){
  if(['loisirs','shopping','resto','repas','voyages','projets / voyages','projets'].includes(category))return 'loisirs';
  return 'charges';
 }
+window.CAP_allocationKind=allocationKind;
 function renderAllocationProgress(){
  const raw=Number(incomeInput.value),income=incomeInput.value!==''&&Number.isFinite(raw)&&raw>=0?raw:0;
  const now=new Date();
