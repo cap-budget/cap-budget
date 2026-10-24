@@ -7,6 +7,7 @@
   const gallery = el('cap-project-gallery');
   const feedback = el('cap-project-message');
   if (!form || !gallery) return;
+  form.noValidate = true; // les erreurs s'affichent dans la page (message ci-dessous), pas en infobulle native
   const euros = n => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n)||0);
   function getGoals() {
     try { const data=JSON.parse(localStorage.getItem(KEY)||'[]');return Array.isArray(data)?data:[]; }
@@ -123,6 +124,7 @@
   }
   form.addEventListener('submit',async event=>{
     event.preventDefault();
+    feedback.textContent='';
     const name=el('cap-project-name').value.trim();
     const target=Number(el('cap-project-target').value);
     const saved=el('cap-project-saved').value.trim()===''?0:Number(el('cap-project-saved').value);
