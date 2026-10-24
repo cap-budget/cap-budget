@@ -25,6 +25,55 @@
   LEGACY.forEach(name=>window.addEventListener(name,()=>emit(name)));
 })();
 </script>
+<script id="cap-shared-utils">
+/* CAP : utilitaires partagés. Une seule règle pour tous les formulaires. */
+(function(){
+  'use strict';
+  /* Montant saisi par l'utilisateur -> nombre (2 décimales max) ou NaN.
+     Accepte : 1234,56 · 1 234,56 · 1.234,56 · 1234.56 · 12,5 € ; refuse : texte, 3 décimales, vide.
+     Le contrôle « > 0 » et le plafond restent à la charge de l'appelant. */
+  window.CAP_parseAmount=function(value){
+    let text=String(value==null?'':value).trim().replace(/[\s\u00a0\u202f€]/g,'');
+    if(!text)return NaN;
+    if(text.includes(','))text=text.replace(/\./g,'').replace(',','.');
+    if(!/^\d+(?:\.\d{1,2})?$/.test(text))return NaN;
+    const n=Number(text);
+    return Number.isFinite(n)?Math.round(n*100)/100:NaN;
+  };
+  /* Identifiant texte unique (remplace les anciens identifiants décimaux). */
+  window.CAP_newId=function(prefix){
+    return (prefix||'id')+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);
+  };
+  window.CAP_todayISO=function(){
+    const d=new Date();
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  };
+  /* « AAAA-MM-JJ » réellement existant -> même chaîne, sinon ''. */
+  window.CAP_isoDate=function(value){
+    const m=String(value==null?'':value).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if(!m)return '';
+    const y=+m[1],mo=+m[2],d=+m[3];
+    if(y<2000||y>2100)return '';
+    const t=new Date(y,mo-1,d);
+    return t.getFullYear()===y&&t.getMonth()===mo-1&&t.getDate()===d?m[0]:'';
+  };
+  /* Répartition 50/30/20 enregistrée -> {charges,loisirs,epargne} en entiers, ou null si inutilisable.
+     Les valeurs décimales (import, sauvegarde) sont arrondies au lieu de tout réinitialiser. */
+  window.CAP_normalizeRatios=function(raw){
+    if(!raw||typeof raw!=='object')return null;
+    const out={};
+    for(const k of ['charges','loisirs','epargne']){
+      const v=raw[k];
+      if(v===null||v===''||v===undefined)return null;
+      const n=Number(v);
+      if(!Number.isFinite(n)||n<0||n>100)return null;
+      out[k]=Math.round(n);
+    }
+    return out;
+  };
+})();
+</script>
+
 
 <style>
 html.cap-entry-locked body:has(> #onboarding-modal:not([hidden])) > :not(#onboarding-modal){display:none!important}
@@ -2553,6 +2602,9 @@ body:has(#tab-budget:not([hidden])) #pill {
        <label for="cap-alloc-entry-charges-amount">Montant (€)
          <input id="cap-alloc-entry-charges-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
        </label>
+       <label for="cap-alloc-entry-charges-date">Date
+         <input id="cap-alloc-entry-charges-date" name="date" type="date">
+       </label>
      </div>
    </div>
    <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer la dépense</button></div>
@@ -2605,6 +2657,9 @@ body:has(#tab-budget:not([hidden])) #pill {
        <label for="cap-alloc-entry-loisirs-amount">Montant (€)
          <input id="cap-alloc-entry-loisirs-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
        </label>
+       <label for="cap-alloc-entry-loisirs-date">Date
+         <input id="cap-alloc-entry-loisirs-date" name="date" type="date">
+       </label>
      </div>
    </div>
    <div class="cap-alloc-entry-actions"><button type="submit">Enregistrer la dépense</button></div>
@@ -2652,6 +2707,9 @@ body:has(#tab-budget:not([hidden])) #pill {
        </label>
        <label for="cap-alloc-entry-epargne-amount">Montant (€)
          <input id="cap-alloc-entry-epargne-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex. 14,00" required>
+       </label>
+       <label for="cap-alloc-entry-epargne-date">Date
+         <input id="cap-alloc-entry-epargne-date" name="date" type="date">
        </label>
      </div>
    </div>
@@ -3403,7 +3461,7 @@ const startOfToday = () => { const n = new Date(); return new Date(n.getFullYear
 const nf0 = new Intl.NumberFormat('fr-FR', {maximumFractionDigits: 0});
 const nf2 = new Intl.NumberFormat('fr-FR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const eur = n => { const v = Math.round(n * 100) / 100; return (Number.isInteger(v) ? nf0.format(v) : nf2.format(v)) + '\u00A0€'; };
-const parseAmount = v => { const raw = String(v).trim().replace(/[\s\u00a0\u202f€]/g, ''); if (!raw) return NaN; const normalized = raw.includes(',') ? raw.replace(/\./g, '').replace(',', '.') : raw; return /^\d+(?:\.\d{1,2})?$/.test(normalized) ? Number(normalized) : NaN; };
+const parseAmount = v => window.CAP_parseAmount(v); // règle unique, voir cap-shared-utils
 const validAmount = n => Number.isFinite(n) && n > 0 && n < 10000000;
 function h(tag, attrs) {
 const el = document.createElement(tag); const a = attrs || {};
@@ -5329,8 +5387,8 @@ const get=id=>document.getElementById(id);
 const format=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n);
 const stored=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(_){return fallback}};
 const ALLOC='cap_budget_allocation_503020_v1',names=['charges','loisirs','epargne'];
-let ratios=stored(ALLOC,{charges:50,loisirs:30,epargne:20});
-if(!ratios||!names.every(k=>Number.isInteger(ratios[k])&&ratios[k]>=0&&ratios[k]<=100))ratios={charges:50,loisirs:30,epargne:20};
+let ratios=window.CAP_normalizeRatios(stored(ALLOC,null))||{charges:50,loisirs:30,epargne:20};
+let limitNotice=false;
 const incomeInput=get('cap-allocation-income');let dirty=false;
 /* Le suivi utilise le registre des opérations réelles, une seule fois par ligne.
    Les montants de ce mois sont répartis selon la catégorie choisie à la saisie. */
@@ -5393,7 +5451,7 @@ function renderSliders(){
  }
  const total=names.reduce((sum,k)=>sum+ratios[k],0);
  get('cap-alloc-sum').textContent='Total : '+total+' %';
- get('cap-alloc-warning').textContent=total>100?'Attention : dépassement de '+(total-100)+' %':total<100?(100-total)+' % encore à répartir':'100 % répartis';
+ get('cap-alloc-warning').textContent=limitNotice?'Total limité à 100 % : baisse d’abord un autre curseur.':total>100?'Attention : dépassement de '+(total-100)+' %':total<100?(100-total)+' % encore à répartir':'100 % répartis';
  get('cap-alloc-warning').parentElement.classList.toggle('over',total>100);
  renderAllocationProgress();
 }
@@ -5402,7 +5460,13 @@ function syncIncome(){
  if(!dirty&&b&&Number.isFinite(Number(b.income))&&Number(b.income)>=0){incomeInput.value=String(b.income);renderSliders();}
 }
 for(const k of names)get('cap-alloc-'+k).addEventListener('input',e=>{
- ratios[k]=Number(e.target.value);renderSliders();
+ // Le total ne peut plus dépasser 100 % : on peut toujours baisser un curseur, mais pas en monter un au-delà du reste disponible.
+ const previous=ratios[k],requested=Math.round(Number(e.target.value));
+ let next=Number.isFinite(requested)?Math.max(0,Math.min(100,requested)):previous;
+ const others=names.reduce((sum,n)=>n===k?sum:sum+ratios[n],0);
+ limitNotice=false;
+ if(next>previous&&others+next>100){next=Math.max(previous,100-others);limitNotice=next<requested;}
+ ratios[k]=next;renderSliders();
  try{localStorage.setItem(ALLOC,JSON.stringify(ratios))}catch(_){}
 });
 incomeInput.addEventListener('input',()=>{dirty=true;renderSliders()});
@@ -5450,7 +5514,7 @@ document.addEventListener('click',event=>{
 window.addEventListener('capDataChanged',()=>{syncIncome();renderAllocationProgress();updateHome()});
 window.addEventListener('storage',e=>{
  if(!e.key||[ALLOC,'capBudgetEngine','capBudgetOperations','cap_savings_cagnottes_v1','cap_eco_v2_savings_1'].includes(e.key)){
-  if(e.key===ALLOC){const t=stored(ALLOC,null);if(t&&names.every(k=>Number.isInteger(t[k])&&t[k]>=0&&t[k]<=100))ratios=t;}
+  if(e.key===ALLOC){const t=window.CAP_normalizeRatios(stored(ALLOC,null));if(t)ratios=t;}
   syncIncome();renderSliders();renderAllocationProgress();updateHome();
  }
 });
@@ -6583,7 +6647,8 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
 /* Un formulaire de trois champs directement sous chaque barre, sans menu Répartition. */
 #cap-budget-allocation .cap-alloc-expense-form{margin:14px 0 0;padding:13px 0 0;border-top:1px solid #3d6767}
 #cap-budget-allocation .cap-alloc-entry-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;padding:3px 0 10px}
-#cap-budget-allocation .cap-alloc-entry-fields{display:grid;grid-template-columns:minmax(155px,1.15fr) minmax(170px,1.2fr) minmax(125px,.75fr);gap:10px;align-items:end;min-width:500px}
+#cap-budget-allocation .cap-alloc-entry-fields{display:grid;grid-template-columns:minmax(155px,1.15fr) minmax(170px,1.2fr) minmax(125px,.75fr) minmax(145px,.8fr);gap:10px;align-items:end;min-width:650px}
+#cap-budget-allocation .cap-alloc-entry-fields input[type="date"]{color-scheme:dark}
 #cap-budget-allocation .cap-alloc-row .cap-alloc-entry-fields label{
  display:flex!important;flex-direction:column!important;justify-content:flex-end!important;align-items:stretch!important;
  min-width:0!important;gap:7px!important;margin:0!important;font-size:14px!important;font-weight:750!important;color:#fff!important
@@ -6602,7 +6667,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
 #cap-budget-allocation .cap-alloc-expense-form .cap-alloc-entry-feedback{margin:8px 0 0!important;min-height:18px;font-size:13px;color:#c5e6d8;line-height:1.4}
 @media(max-width:620px){
  #cap-budget-allocation .cap-alloc-entry-scroll{padding-bottom:13px}
- #cap-budget-allocation .cap-alloc-entry-fields{min-width:535px}
+ #cap-budget-allocation .cap-alloc-entry-fields{min-width:690px}
  #cap-budget-allocation .cap-alloc-entry-actions button{width:100%}
 }
 </style>
@@ -6623,6 +6688,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   };
   forms.forEach(form=>{
     form.noValidate=true; // les erreurs s'affichent dans la page, pas en infobulle native facile à manquer
+    {const d=form.elements.namedItem('date');if(d&&!d.value)d.value=today();}
     form.addEventListener('submit',event=>{
       event.preventDefault();
       const kind=form.dataset.allocEntryKind;
@@ -6633,30 +6699,34 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
       const feedback=form.querySelector('.cap-alloc-entry-feedback');
       if(!group||!labelField||!natureField||!amountField||!feedback)return;
       const label=labelField.value.trim(),nature=natureField.value.trim();
-      const raw=amountField.value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
-      const amount=Number(raw);
+      const amount=window.CAP_parseAmount(amountField.value);
+      const dateField=form.elements.namedItem('date');
       const fail=(text,field)=>{feedback.textContent=text;feedback.scrollIntoView?.({block:'nearest'});field?.focus?.({preventScroll:true});};
       if(!label)return fail('Indique un nom pour cette dépense.',labelField);
       if(label.length>80)return fail('Le nom est trop long (80 caractères maximum).',labelField);
       if(!nature)return fail('Choisis une nature dans la liste.',natureField);
-      if(!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>=10000000)
+      if(!Number.isFinite(amount)||amount<=0||amount>=10000000)
         return fail('Indique un montant supérieur à 0 € (2 décimales maximum, ex. 125,50).',amountField);
+      // Date de la dépense : aujourd'hui par défaut, jamais dans le futur.
+      const date=window.CAP_isoDate((dateField&&dateField.value.trim())||today());
+      if(!date)return fail('Indique une date valide.',dateField);
+      if(date>today())return fail('La date ne peut pas être dans le futur.',dateField);
       let operations;
       try{operations=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');}
       catch(_){feedback.textContent='Impossible de lire les dépenses existantes. Rien n’a été ajouté.';return;}
       if(!Array.isArray(operations)){feedback.textContent='Le registre des opérations est invalide. Rien n’a été ajouté.';return;}
       // Répartition implicite : le formulaire utilisé choisit son groupe, sans menu supplémentaire.
       const operation={
-        id:Date.now()+Math.random(),label,
+        id:window.CAP_newId('op'),label,
         amount:Math.round(amount*100)/100,
         category:group.category,subcategory:nature,
-        date:today(),note:'Répartition : '+group.title,
+        date,note:'Répartition : '+group.title,
         kind:group.title,nature,source:'cap-entry-503020'
       };
       try{localStorage.setItem('capBudgetOperations',JSON.stringify([...operations,operation]));}
       catch(_){feedback.textContent='Enregistrement impossible sur cet appareil. Aucune donnée existante n’a été modifiée.';return;}
       feedback.textContent=group.title+' : '+label+' · '+money(operation.amount)+' enregistré. Barre actualisée.';
-      labelField.value='';natureField.value='';amountField.value='';
+      labelField.value='';natureField.value='';amountField.value='';if(dateField)dateField.value=today();
       // Rafraîchit le suivi 50/30/20 ainsi que le registre détaillé existant.
       window.dispatchEvent(new Event('capQuickExpenseSaved'));
       window.dispatchEvent(new Event('capBudgetChanged'));
@@ -7229,8 +7299,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  function readAllocation(){
   let stored;
   try{stored=JSON.parse(localStorage.getItem(allocationKey)||'null')}catch(_){}
-  const ratios=kinds.every(k=>stored&&Number.isInteger(stored[k])&&stored[k]>=0&&stored[k]<=100)
-   ?stored:standardRatios;
+  const ratios=window.CAP_normalizeRatios(stored)||standardRatios;
   const input=document.getElementById('cap-allocation-income');
   const field=Number(input?.value);
   let income=Number.isFinite(field)&&input?.value!==''&&field>=0?field:NaN;
@@ -7581,22 +7650,22 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
    detail.textContent=money(recent.amount)+(recent.date&&!Number.isNaN(Date.parse(recent.date))?' · '+new Date(recent.date).toLocaleDateString('fr-FR'):'')+' · Belle réussite !';
   }
  }
+ form.noValidate=true; // messages affichés dans la page, comme les autres formulaires
  form.addEventListener('submit',event=>{
   event.preventDefault();
   const nameField=byId('cap-home-win-new-name'),amountField=byId('cap-home-win-new-amount');
   const name=nameField.value.trim();
-  const raw=amountField.value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
-  const amount=Number(raw);
-  if(!name||name.length>90||!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>100000){
-   status.textContent='Indique une dépense évitée et un montant positif valide (2 décimales maximum).';
-   return;
-  }
+  const amount=window.CAP_parseAmount(amountField.value);
+  const fail=(text,field)=>{status.textContent=text;field?.focus?.({preventScroll:true});};
+  if(!name)return fail('Indique la dépense évitée (ex. Café à emporter).',nameField);
+  if(name.length>90)return fail('Le nom est trop long (90 caractères maximum).',nameField);
+  if(!Number.isFinite(amount)||amount<=0||amount>100000)return fail('Indique un montant entre 0,01 € et 100 000 € (2 décimales maximum, ex. 5,90).',amountField);
   const old=read(KEY,{});
   if(!old||typeof old!=='object'||Array.isArray(old)||old.victories!==undefined&&!Array.isArray(old.victories)){
    status.textContent='Sauvegarde actuelle illisible : la victoire n’a pas été enregistrée pour protéger tes données.';
    return;
   }
-  const victory={id:Date.now()+'-'+Math.random().toString(36).slice(2),name,amount:Math.round(amount*100)/100,date:new Date().toISOString()};
+  const victory={id:window.CAP_newId('win'),name,amount:Math.round(amount*100)/100,date:new Date().toISOString()};
   // Écriture dans un seul registre existant : conserve réserves, repas et abonnements éventuels.
   const next={...old,victories:[...(old.victories||[]),victory]};
   try{localStorage.setItem(KEY,JSON.stringify(next))}
@@ -7634,10 +7703,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  const newId=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,9);
  const readBudget=()=>{try{const value=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');return value&&typeof value==='object'&&!Array.isArray(value)?value:null}catch(_){return null}};
  const parseAmount=value=>{
-  let text=String(value||'').trim().replace(/[\s\u00a0\u202f€]/g,'');
-  if(text.includes(','))text=text.replace(/\./g,'').replace(',','.');
-  if(!/^\d+(?:\.\d{1,2})?$/.test(text))return NaN;
-  const number=Number(text);
+  const number=window.CAP_parseAmount(value);
   return Number.isFinite(number)&&number>0&&number<=100000000?round(number):NaN;
  };
  const validMonth=m=>/^\d{4}-(?:0[1-9]|1[0-2])$/.test(String(m||''));
