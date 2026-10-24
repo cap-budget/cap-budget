@@ -5,6 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- CAP : la fenêtre d'accueil est la seule vue visible avant un choix explicite. -->
 <script>try{if(sessionStorage.getItem('cap_onboarding_open_dashboard')!=='1')document.documentElement.classList.add('cap-entry-locked');}catch(_){document.documentElement.classList.add('cap-entry-locked');}</script>
+<script id="cap-data-events-bridge">
+/* CAP : événement unique « capDataChanged ».
+   Les anciens événements (capBudgetChanged, capOperationsChanged, capQuickExpenseSaved,
+   capIncomeSourcesChanged) restent émis tels quels, mais tous sont regroupés en UN seul
+   événement par action. Les modules n'écoutent plus que celui-ci.
+   Pour toute nouvelle écriture de données : window.CAP_notifyDataChanged('source'). */
+(function(){
+  'use strict';
+  const LEGACY=['capBudgetChanged','capOperationsChanged','capQuickExpenseSaved','capIncomeSourcesChanged'];
+  let queued=false,sources=[];
+  function emit(source){
+    sources.push(source);
+    if(queued)return;
+    queued=true;
+    queueMicrotask(()=>{queued=false;window.dispatchEvent(new CustomEvent('capDataChanged',{detail:{sources:sources.splice(0)}}));});
+  }
+  window.CAP_notifyDataChanged=source=>emit(source||'manual');
+  LEGACY.forEach(name=>window.addEventListener(name,()=>emit(name)));
+})();
+</script>
+
 <style>
 html.cap-entry-locked body:has(> #onboarding-modal:not([hidden])) > :not(#onboarding-modal){display:none!important}
 html.cap-entry-locked body #onboarding-modal.onboarding-banner:not([hidden]){display:flex!important;position:fixed!important;inset:0!important;z-index:2147483100!important;align-items:center!important;justify-content:center!important;overflow-y:auto!important;padding:16px!important;background:rgba(13,15,18,.96)!important;box-sizing:border-box!important}
@@ -1598,9 +1619,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     el('nav-budget')?.click();
     setTimeout(()=>el('tab-budget')?.scrollIntoView({behavior:'smooth',block:'start'}),80);
   }));
-  window.addEventListener('capBudgetChanged',render);
-  window.addEventListener('capOperationsChanged',render);
-  window.addEventListener('capQuickExpenseSaved',render);
+  window.addEventListener('capDataChanged',render);
   window.addEventListener('storage',render);
   render();
 })();
@@ -1817,7 +1836,6 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     </div>
   </div>
 
-  <div style="display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 18px"><button type="button" id="cap-frigo-print" class="primary" style="padding:12px 18px;border-radius:12px;cursor:pointer">📄 Imprimer / Export Frigo</button><span id="cap-frigo-status" role="status" style="align-self:center;font-size:12px">Repas de la semaine et résumé du budget · impression ou PDF</span></div>
 
   <div class="cap-week-grid">
     <article class="cap-day today"><div class="cap-day-name">Lundi</div><div class="cap-day-date">Aujourd'hui</div>
@@ -1941,7 +1959,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   const ids = ['income','fixed','food','leisure','projects','other'];
   const euro = n => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:2}).format(n);
   const val = id => Math.max(0, Number(document.getElementById('cap-'+id).value) || 0);
-  function calc(){
+  function calc(persist){
     const v = Object.fromEntries(ids.map(id=>[id,val(id)]));
     const totalOut = v.fixed+v.food+v.leisure+v.projects+v.other;
     const remain = v.income-totalOut;
@@ -1961,15 +1979,21 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     if(remain<0){title.textContent='Attention : le budget dépasse les revenus.';body.textContent='Réduisez ou réorganisez un ou plusieurs postes avant d’ajouter de nouvelles dépenses.'}
     else if(remain<100){title.textContent='Solde très serrée.';body.textContent='Gardez une réserve pour les imprévus avant de prévoir des dépenses supplémentaires.'}
     else {title.textContent='Votre solde est positive.';body.textContent='Vous disposez encore d’un solde après les montants renseignés. Une partie peut être affectée à l’épargne ou aux imprévus.'}
-    localStorage.setItem('capBudgetEngine',JSON.stringify(v));
+    // Écriture uniquement sur action explicite, en fusionnant avec l'objet existant (aucun champ perdu).
+    if(persist===true){
+      let prior={};
+      try{const p=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');if(p&&typeof p==='object'&&!Array.isArray(p))prior=p;}catch(e){}
+      try{localStorage.setItem('capBudgetEngine',JSON.stringify(Object.assign({},prior,v)));}catch(e){}
+      window.dispatchEvent(new Event('capBudgetChanged'));
+    }
   }
-  document.getElementById('cap-calc-btn').addEventListener('click',calc);
-  document.getElementById('cap-save-btn').addEventListener('click',()=>{calc();alert('Budget sauvegardé sur cet appareil pour cette version de test.')});
+  document.getElementById('cap-calc-btn').addEventListener('click',()=>calc(true));
+  document.getElementById('cap-save-btn').addEventListener('click',()=>{calc(true);alert('Budget sauvegardé sur cet appareil pour cette version de test.')});
   try{
     const saved=JSON.parse(localStorage.getItem('capBudgetEngine')||'null');
     if(saved) ids.forEach(id=>{if(saved[id]!==undefined) document.getElementById('cap-'+id).value=saved[id]});
   }catch(e){}
-  calc();
+  calc(false); // affichage seulement : aucune écriture au chargement
 })();
 </script>
 
@@ -2176,7 +2200,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
   [['v8-income',income],['v8-real',actual],['v8-planned',planned],['v8-remain',income-actual],['v8-margin',income-planned]].forEach(([key,val])=>{const node=get(key);if(node)node.textContent=money(val)});
   ['income','fixed','food','leisure','projects','other'].forEach(key=>{const node=get('v8-flow-'+key);if(node)node.textContent=money(Number(budget[key])||0)});
  }
- ['capQuickExpenseSaved','capOperationsChanged','capBudgetChanged'].forEach(name=>window.addEventListener(name,render));
+ window.addEventListener('capDataChanged',render);
  window.addEventListener('storage',e=>{if(!e.key||['capBudgetEngine','capBudgetOperations'].includes(e.key))render()});
  render();
 })();
@@ -2269,7 +2293,7 @@ section[aria-label="Présentation de CAP Budget"] { background-color:#E8F5E9; bo
     document.getElementById('v10-chart').innerHTML=vals.length?vals.map(([k,v])=>`<div class="cap-v10-col"><i style="height:${Math.max(6,Math.round(v/m*100))}%"></i>${k}<br>${money(v)}</div>`).join(''):'<div style="color:#8fa3bd;font-size:11px">Ajoutez des opérations pour construire votre évolution.</div>';
   }
   document.getElementById('v10-refresh').onclick=render;
-  window.addEventListener('capBudgetChanged',render);
+  window.addEventListener('capDataChanged',render);
   render();
 })();
 </script>
@@ -2789,7 +2813,6 @@ body:has(#tab-budget:not([hidden])) #pill {
 <span class="muted" id="meal-count">0 sur 14 prévus</span>
 </div>
 <div class="meter" aria-hidden="true"><i id="meal-meter" style="width: 0%;"></i></div>
-<div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:12px 0"><button type="button" id="cap-meal-planner-print" class="btn">🖨️ Imprimer / Enregistrer le planning PDF</button><span id="cap-meal-planner-print-status" role="status" class="muted">Imprime les repas saisis dans cette rubrique.</span></div>
 <div id="days"><div class="day"><div><div class="day-name">Lundi</div><div class="day-date">5 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Lundi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Lundi soir"></label></div></div><div class="day"><div><div class="day-name">Mardi</div><div class="day-date">6 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Mardi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Mardi soir"></label></div></div><div class="day today"><div><div class="day-name">Mercredi</div><div class="day-date">7 oct.</div><span class="tag">Aujourd'hui</span></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Mercredi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Mercredi soir"></label></div></div><div class="day"><div><div class="day-name">Jeudi</div><div class="day-date">8 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Jeudi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Jeudi soir"></label></div></div><div class="day"><div><div class="day-name">Vendredi</div><div class="day-date">9 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Vendredi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Vendredi soir"></label></div></div><div class="day"><div><div class="day-name">Samedi</div><div class="day-date">10 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Samedi midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Samedi soir"></label></div></div><div class="day"><div><div class="day-name">Dimanche</div><div class="day-date">11 oct.</div></div><div class="slots"><label class="slot"><span>Midi</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : salade composée" value="" aria-label="Dimanche midi"></label><label class="slot"><span>Soir</span><input class="input" type="text" list="ideas" maxlength="60" autocomplete="off" placeholder="Ex : pâtes carbonara" value="" aria-label="Dimanche soir"></label></div></div></div>
 <div class="foot"><button class="link" id="clear-meals" type="button">Vider la semaine</button></div>
 <datalist id="ideas">
@@ -4459,7 +4482,7 @@ cloudBtn.onclick = async () => {
     // Relecture après l'initialisation des autres modules, sans boucle d'écriture.
     queueMicrotask(reconcileOnReturn);
   });
-  window.addEventListener('capBudgetChanged',()=>{
+  window.addEventListener('capDataChanged',()=>{
     syncIncomeFromMain();
     updateComparison();
     updateSyncExplanation();
@@ -4552,7 +4575,7 @@ cloudBtn.onclick = async () => {
    panel.innerHTML='<h2 style="margin:0 0 8px">📒 Mes dépenses réelles du mois</h2><p style="margin:0 0 8px">Uniquement les opérations ajoutées et enregistrées. Ce total est distinct du budget prévu et des charges mensuelles programmées.</p><p style="font-size:22px;font-weight:800;margin:8px 0" data-real-total>0 €</p><p data-real-count role="status"></p><div data-real-items></div>';
    form.parentNode.insertBefore(panel,form);
    refresh();
-   window.addEventListener('capBudgetChanged',refresh);
+   window.addEventListener('capDataChanged',refresh);
    window.addEventListener('storage',e=>{if(e.key==='cap_state_v4')refresh();});
    document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
  }
@@ -4974,51 +4997,6 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
 })();
 </script>
 
-<!-- CAP : impression du planning de repas saisi, sans modifier les données. -->
-<script>
-(function(){
-  'use strict';
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  document.addEventListener('click',event=>{
-    if(!event.target.closest('#cap-meal-planner-print'))return;
-    const status=document.getElementById('cap-meal-planner-print-status');
-    const rows=Array.from(document.querySelectorAll('#tab-repas #days .day')).map(day=>{
-      const name=day.querySelector('.day-name')?.textContent?.trim()||'Jour';
-      const date=day.querySelector('.day-date')?.textContent?.trim()||'';
-      const meals=Array.from(day.querySelectorAll('.slots .slot')).map(slot=>{
-        const label=slot.querySelector('span')?.textContent?.trim()||'Repas';
-        const value=slot.querySelector('input')?.value?.trim()||'Non renseigné';
-        return '<p><strong>'+esc(label)+' :</strong> '+esc(value)+'</p>';
-      }).join('');
-      return '<section><h2>'+esc(name)+' <small>'+esc(date)+'</small></h2>'+meals+'</section>';
-    }).join('');
-    if(!rows){if(status)status.textContent='Le planning de repas est introuvable.';return;}
-    const popup=window.open('','_blank');
-    if(!popup){if(status)status.textContent='Autorisez les fenêtres pop-up pour imprimer ou enregistrer en PDF.';return;}
-    const html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget - Planning de repas</title><style>@page{size:A4;margin:15mm}body{font:14px Arial,sans-serif;color:#17352c}h1{color:#126449;font-size:23px}section{border:1px solid #bad9cb;border-radius:9px;padding:10px 14px;margin:9px 0;break-inside:avoid}h2{font-size:16px;margin:0 0 8px}small{font-size:12px;color:#52665f}p{margin:5px 0;line-height:1.5}.note{font-size:12px;color:#52665f}</style></head><body><h1>🍽️ CAP Budget — Mon planning de repas</h1><p class="note">Repas saisis dans le planning de la semaine · les cases vides restent non renseignées.</p>'+rows+'<p class="note">Pour créer un PDF : dans la fenêtre d’impression, choisir « Enregistrer au format PDF ».</p><!-- Ancien contrôleur Cagnottes V1 retiré : aucun effacement des données déjà sauvegardées. -->
-<script>
-(function(){
- function sync(){
-  const original=document.getElementById('cap-reserve-value'),meter=document.getElementById('cap-reserve-progress');
-  const label=document.getElementById('cap-dash-reserve-value'),preview=document.getElementById('cap-dash-reserve-meter'),bar=document.getElementById('cap-dash-reserve-bar');
-  if(!original||!meter||!label||!preview||!bar)return;
-  label.textContent=original.textContent;
-  const pct=Math.max(0,Math.min(100,Number(meter.getAttribute('aria-valuenow'))||0));
-  preview.setAttribute('aria-valuenow',String(pct));bar.style.width=pct+'%';
- }
- function init(){
-  sync();
-  const original=document.getElementById('cap-reserve-value'),meter=document.getElementById('cap-reserve-progress');
-  if(original)new MutationObserver(sync).observe(original,{childList:true,characterData:true,subtree:true});
-  if(meter)new MutationObserver(sync).observe(meter,{attributes:true,attributeFilter:['aria-valuenow']});
-  document.getElementById('cap-dash-meal-save')?.addEventListener('click',()=>{
-   document.getElementById('cap-savings-module')?.scrollIntoView({behavior:'smooth',block:'start'});
-   window.setTimeout(()=>document.getElementById('cap-meal-name')?.focus({preventScroll:true}),350);
-  });
- }
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
-})();
-</script>
 <script>
 /* CAP Conseil : météo calculée sur la marge du tableau principal, jamais sur un solde bancaire. */
 (function(){
@@ -5068,174 +5046,6 @@ body.cap-wizard-active #onboarding-modal [hidden] {display:none!important;}
 
 <!-- Ancienne présentation CAP restaurée : surcharge cap-correction-lisibilite-20261012 désactivée. -->
 
-<!-- CAP : export Frigo en impression / PDF, sans écriture de données. -->
-<script>
-(function(){
-  const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  function makeSheet(){
-    const days=Array.from(document.querySelectorAll('.cap-week-grid .cap-day'));
-    const meals=days.map(day=>{
-      const name=day.querySelector('.cap-day-name')?.textContent?.trim()||'Jour';
-      const lines=Array.from(day.querySelectorAll('.cap-meal')).map(meal=>{
-        const slot=meal.querySelector('.cap-meal-label')?.textContent?.trim()||'Repas';
-        const food=meal.querySelector('strong')?.textContent?.trim()||'Non renseigné';
-        const cost=meal.querySelector('span')?.textContent?.trim()||'';
-        return '<div class="meal"><b>'+escapeHtml(slot)+'</b> : '+escapeHtml(food)+' <small>'+escapeHtml(cost)+'</small></div>';
-      }).join('');
-      return '<section class="day"><h3>'+escapeHtml(name)+'</h3>'+lines+'</section>';
-    }).join('');
-    const get=id=>document.getElementById(id)?.textContent?.trim()||'Non renseigné';
-    const stats=Array.from(document.querySelectorAll('#v6-stats .cap-v6-row')).map(row=>{
-      const label=row.querySelector('strong')?.textContent?.trim()||'Poste';
-      const pct=row.querySelector('b')?.textContent?.trim()||'';
-      return '<li>'+escapeHtml(label)+' : '+escapeHtml(pct)+'</li>';
-    }).join('');
-    return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>CAP Budget — Mon frigo</title><style>'+
-      '@page{size:A4;margin:13mm}*{box-sizing:border-box}body{font:13px Arial,sans-serif;color:#17352c;margin:0}h1{font-size:23px;margin:0 0 4px;color:#126449}h2{font-size:17px;border-bottom:2px solid #16835e;padding-bottom:5px;margin:20px 0 10px}h3{font-size:13px;margin:0 0 8px}.sub{color:#52665f}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.day{border:1px solid #b9d9cb;border-radius:8px;padding:10px;break-inside:avoid}.meal{margin:5px 0}.meal small{color:#53665f}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.kpi{border:1px solid #b9d9cb;padding:9px;border-radius:8px}.kpi strong{display:block;font-size:18px;margin-top:4px}ul{columns:2;padding-left:18px}.note{font-size:11px;color:#59645f;margin-top:12px}@media print{.day,.kpi{print-color-adjust:exact}}'+
-      '</style><!-- CAP GUIDE 12 CARTES CAGNOTTES - CIBLES REELLES -->
-<style id="cap-guide-cagnottes-cards-20261017">
-/* Cible les 12 vraies rubriques du guide : details.cap-help-card. */
-#cap-budget-guide .cap-help-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:22px!important;align-items:start!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card{
-display:block!important;box-sizing:border-box!important;min-width:0!important;width:100%!important;
-background:#fff!important;background-image:none!important;border:1px solid #d4dfe7!important;
-border-radius:17px!important;box-shadow:0 6px 18px rgba(19,44,62,.10)!important;
-overflow:hidden!important;margin:0!important;padding:0!important;color:#233a52!important;
-}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{
-background:#fff!important;min-height:150px!important;padding:20px!important;margin:0!important;
-box-sizing:border-box!important;color:#233a52!important;
-}
-#cap-budget-guide .cap-help-grid>details.cap-help-card[open]>summary{border-bottom:1px solid #e0e8ed!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>.cap-help-answer{
-background:#fff!important;background-image:none!important;color:#233a52!important;
-padding:20px!important;margin:0!important;border:0!important;box-sizing:border-box!important;
-}
-#cap-budget-guide .cap-help-grid>details.cap-help-card:not([open])>.cap-help-answer{display:none!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy,
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy strong,
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy span{color:#233a52!important}
-@media(max-width:780px){#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important;gap:16px!important}}
-</style>
-
-<style id="cap-guide-compact-rounded-cards-20261017">
-/* Guide réel : 12 details.cap-help-card, format compact proche des Cagnottes. */
-#cap-budget-guide .cap-help-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;align-items:start!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card{width:100%!important;min-width:0!important;max-width:none!important;border:1px solid #d9e5df!important;border-radius:24px!important;background:#fff!important;box-shadow:0 5px 16px rgba(23,59,50,.11)!important;overflow:hidden!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{min-height:0!important;padding:16px!important;grid-template-columns:32px 34px minmax(0,1fr) 12px!important;grid-template-rows:auto!important;gap:8px!important;align-items:center!important;border-radius:24px!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-num{width:32px!important;height:32px!important;font-size:17px!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-icon{font-size:25px!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card[open]>summary{border-radius:24px 24px 0 0!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>.cap-help-answer{padding:16px!important}
-@media(max-width:1050px){#cap-budget-guide .cap-help-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-width:650px){#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important;gap:14px!important}#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{padding:14px!important}}
-</style>
-<!-- CAP GUIDE GREEN ACCENTS 20261017 -->
-<style id="cap-guide-green-accents-20261017">
-/* Touches vertes douces : les cartes restent blanches et lisibles. */
-#cap-budget-guide .cap-guide-column>details.guide-card{border-color:#b9ddc9!important;border-radius:20px!important;box-shadow:0 5px 18px rgba(22,101,52,.10)!important;height:fit-content!important;align-self:start!important}
-#cap-budget-guide .cap-guide-column>details.guide-card>summary{border-left:5px solid #22a568!important;padding-left:15px!important}
-#cap-budget-guide .cap-guide-column>details.guide-card>summary:hover{background:#f0faf3!important}
-#cap-budget-guide .cap-guide-column>details.guide-card[open]{border-color:#28a66d!important;box-shadow:0 7px 22px rgba(22,101,52,.17)!important}
-#cap-budget-guide .cap-guide-column>details.guide-card[open]>summary{background:#effaf2!important;border-bottom-color:#ccebd6!important}
-#cap-budget-guide .cap-guide-column>details.guide-card .cap-guide-heading{color:#176b45!important}
-@media(max-width:800px){#cap-budget-guide .cap-guide-column>details.guide-card>summary{padding-left:13px!important}}
-</style>
-</head><body><h1>CAP Budget · Mon frigo</h1><p class="sub">Ma semaine et mon budget — fiche à afficher à la maison</p>'+
-      '<h2>🍽️ Repas de la semaine</h2><div class="grid">'+meals+'</div>'+
-      '<p class="note">Les repas affichés peuvent être des exemples de présentation : vérifiez-les avant impression.</p>'+
-      '<h2>💶 Mon budget prévisionnel</h2><div class="kpis">'+
-      '<div class="kpi">Marge après budget prévu<strong>'+escapeHtml(get('v6-remain'))+'</strong></div>'+
-      '<div class="kpi">Budget engagé<strong>'+escapeHtml(get('v6-rate'))+'</strong></div>'+
-      '<div class="kpi">Épargne projets<strong>'+escapeHtml(get('v6-projects'))+'</strong></div>'+
-      '<div class="kpi">Repère par semaine<strong>'+escapeHtml(get('v6-week'))+'</strong></div></div>'+
-      (stats?'<h2>Répartition prévue</h2><ul>'+stats+'</ul>':'')+
-      '<p class="note">Chiffres indicatifs du budget prévisionnel, pas un solde bancaire. Ne pas additionner au cadran « Reste à vivre ».</p>'+
-      '
-<style id="cap-help-reference-design">
-#cap-budget-guide{background:#effaf0!important;border:3px solid #78d894!important;border-radius:30px!important;padding:22px!important;color:#103d2d!important;box-shadow:none!important}
-#cap-budget-guide .cap-help-header{display:flex;align-items:center;gap:20px;margin-bottom:28px}
-#cap-budget-guide .cap-help-book{width:70px;height:70px;display:grid;place-items:center;flex:none;background:linear-gradient(140deg,#0bbd71,#006e4b);border-radius:19px;font-size:36px}
-#cap-budget-guide .cap-help-header h2{font-size:clamp(25px,3vw,36px)!important;color:#07563b!important;margin:0 0 5px!important;line-height:1.2}
-#cap-budget-guide .cap-help-header p{font-size:clamp(16px,2vw,23px)!important;margin:0!important;color:#283954!important}
-#cap-budget-guide .cap-help-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
-#cap-budget-guide .cap-help-card{min-width:0!important;background:linear-gradient(135deg,#fff,#f8fbf9)!important;border:1px solid #c7efda!important;border-radius:17px!important;overflow:hidden!important;margin:0!important;box-shadow:none!important;color:#15233b!important}
-#cap-budget-guide .cap-help-card summary{list-style:none!important;cursor:pointer!important;display:grid!important;grid-template-columns:40px 43px minmax(0,1fr) 14px!important;grid-template-rows:auto 1fr!important;align-items:start!important;gap:12px 8px!important;padding:18px!important;min-height:170px!important;background:transparent!important;color:#15233b!important}
-#cap-budget-guide .cap-help-card summary::-webkit-details-marker{display:none}
-#cap-budget-guide .cap-help-num{width:39px;height:39px;display:grid;place-items:center;background:#d9fbe4;border-radius:50%;font-size:21px;font-weight:800;color:#09653a}
-#cap-budget-guide .cap-help-card:nth-child(4n+2) .cap-help-num{background:#dff2ff;color:#15458d}
-#cap-budget-guide .cap-help-card:nth-child(4n+3) .cap-help-num{background:#f2e5ff;color:#6728a0}
-#cap-budget-guide .cap-help-card:nth-child(4n+4) .cap-help-num{background:#ffe7e7;color:#b22b2b}
-#cap-budget-guide .cap-help-icon{font-size:31px;line-height:1.2}
-#cap-budget-guide .cap-help-copy{display:contents!important}
-#cap-budget-guide .cap-help-copy strong{grid-column:3;grid-row:1;font-size:clamp(15px,1.55vw,19px);line-height:1.32;color:#17243d}
-#cap-budget-guide .cap-help-copy>span{grid-column:1/4;grid-row:2;font-size:clamp(14px,1.5vw,18px);line-height:1.45;color:#46536a}
-#cap-budget-guide .cap-help-arrow{grid-column:4;grid-row:1/3;align-self:center;font-size:32px;font-weight:300;color:#15233b}
-#cap-budget-guide .cap-help-card[open] .cap-help-arrow{transform:rotate(90deg)}
-#cap-budget-guide .cap-help-answer{border-top:1px solid #c7efda;padding:15px 18px 20px;background:#fff;font-size:16px;line-height:1.6;color:#233c37}
-#cap-budget-guide .cap-help-answer p{margin:5px 0 0}
-@media(max-width:850px){#cap-budget-guide .cap-help-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
-@media(max-width:560px){#cap-budget-guide{padding:14px!important;border-radius:20px!important}#cap-budget-guide .cap-help-grid{grid-template-columns:minmax(0,1fr)!important}#cap-budget-guide .cap-help-header{gap:12px}#cap-budget-guide .cap-help-book{width:54px;height:54px;font-size:28px}#cap-budget-guide .cap-help-card summary{min-height:140px!important}}
-</style>
-
-<style id="cap-guide-compact-height-20261017">
-/* Cartes du Guide : hauteur naturelle et espacement compact. */
-#cap-budget-guide .guide-grid,
-#cap-budget-guide .cap-guide-panels,
-#cap-budget-guide .cap-guide-twelve-grid,
-#cap-budget-guide .cap-help-grid {
-  align-items: start !important;
-  align-content: start !important;
-}
-#cap-budget-guide .guide-card,
-#cap-budget-guide .cap-guide-frame,
-#cap-budget-guide .cap-help-grid > details.cap-help-card {
-  height: fit-content !important;
-  min-height: 0 !important;
-  align-self: start !important;
-}
-#cap-budget-guide .cap-guide-twelve-grid > article.cap-guide-frame > details.cap-guide-item > summary,
-#cap-budget-guide .cap-guide-panels > .cap-guide-column > details.guide-card > summary,
-#cap-budget-guide .cap-help-grid > details.cap-help-card > summary {
-  padding: 12px 16px !important;
-  min-height: 0 !important;
-}
-#cap-budget-guide .cap-help-grid > details.cap-help-card > summary {
-  align-items: center !important;
-}
-</style>
-
-<style id="cap-guide-savings-matched-20261017">
-/* Guide pas à pas : même famille de cadres que Cagnottes & Économies.
-   Présentation uniquement : aucune modification du budget ou du stockage. */
-#cap-budget-guide{background:linear-gradient(145deg,#263c55,#1c3047)!important;border:1px solid #64829b!important;border-radius:22px!important;padding:clamp(16px,3vw,26px)!important;color:#f8fafc!important;box-shadow:0 10px 30px #0002!important}
-#cap-budget-guide .cap-help-header h2{color:#f8fafc!important}
-#cap-budget-guide .cap-help-header p{color:#dbeafe!important}
-#cap-budget-guide .cap-help-book{background:linear-gradient(145deg,#167d65,#0b514b)!important;border:1px solid #34d39980!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card{background:linear-gradient(145deg,#304a62,#233b52)!important;background-image:linear-gradient(145deg,#304a62,#233b52)!important;border:1px solid #64829b!important;border-radius:16px!important;box-shadow:0 5px 16px #0002!important;color:#f8fafc!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>summary{background:transparent!important;color:#f8fafc!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy strong{color:#ffffff!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-copy span{color:#dbeafe!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-arrow{color:#6ee7b7!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card[open]>summary{border-bottom:1px solid #64829b!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>.cap-help-answer{background:#1d3348!important;background-image:none!important;color:#f8fafc!important;border:0!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-answer p{color:#e2e8f0!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card .cap-help-answer strong{color:#6ee7b7!important}
-#cap-budget-guide .cap-help-grid>details.cap-help-card>summary:focus-visible{outline:3px solid #6ee7b7!important;outline-offset:-3px!important}
-</style>
-</body></html>';
-  }
-  document.addEventListener('click',event=>{
-    const button=event.target.closest('#cap-frigo-print');if(!button)return;
-    const status=document.getElementById('cap-frigo-status');
-    const popup=window.open('','_blank');
-    if(!popup){if(status)status.textContent='Autorisez les fenêtres pop-up pour imprimer la fiche.';return;}
-    popup.document.open();popup.document.write(makeSheet());popup.document.close();
-    popup.focus();popup.setTimeout(()=>popup.print(),350);
-    if(status)status.textContent='Fiche ouverte : choisissez Imprimer ou Enregistrer au format PDF.';
-  });
-})();
-</script>
 
 
 <!-- CAP ECONOMIES V2 MODULE -->
@@ -5422,6 +5232,8 @@ html body #cap-premium-insights-body span{color:#f1fff8!important}
 #cap-budget-allocation .cap-alloc-actual-values{flex:0 0 auto;min-width:210px;text-align:right;font-size:16px;color:#fff;font-variant-numeric:tabular-nums}
 #cap-budget-allocation .cap-alloc-actual-status{font-size:13px;color:#c0e3d5;line-height:1.5}
 #cap-budget-allocation .cap-alloc-actual.is-over .cap-alloc-actual-status{color:#fecaca;font-weight:800}
+#cap-budget-allocation .cap-alloc-actual.is-goal-reached .cap-alloc-progress-fill{background:linear-gradient(90deg,#34d399,#16a34a)!important}
+#cap-budget-allocation .cap-alloc-actual.is-goal-reached .cap-alloc-actual-status{color:#bbf7d0;font-weight:800}
 #cap-budget-allocation .cap-alloc-actual.is-unbudgeted .cap-alloc-actual-status{color:#fde68a}
 @media(max-width:620px){
  #cap-budget-allocation .cap-alloc-actual-main{flex-wrap:wrap;gap:7px}
@@ -5562,7 +5374,8 @@ function renderAllocationProgress(){
   track.setAttribute('aria-valuenow',String(percent));
   track.setAttribute('aria-valuetext',(kind==='epargne'?'Épargne enregistrée':'Dépenses enregistrées')+' : '+format(actual)+' sur '+format(planned)+' prévus ce mois');
   get('cap-alloc-'+kind+'-real').textContent=format(actual)+' / '+format(planned);
-  row.classList.toggle('is-over',actual>planned);
+  row.classList.toggle('is-over',kind!=='epargne'&&actual>planned);
+  row.classList.toggle('is-goal-reached',kind==='epargne'&&planned>0&&actual>=planned);
   row.classList.toggle('is-unbudgeted',planned===0);
   if(planned===0)status.textContent=actual>0?'Aucun budget prévu · '+format(actual)+' enregistré':'Aucun budget prévu pour ce mois';
   else if(actual>planned)status.textContent=(kind==='epargne'?'Objectif d’épargne dépassé de ':'Budget dépassé de ')+format(actual-planned);
@@ -5634,9 +5447,7 @@ document.addEventListener('click',event=>{
   setTimeout(()=>{if(!document.body.classList.contains('cap-simple-home'))get('cap-budget-allocation')?.scrollIntoView({behavior:'smooth',block:'start'});},170);
  }
 },true);
-window.addEventListener('capBudgetChanged',()=>{syncIncome();renderAllocationProgress();updateHome()});
-window.addEventListener('capOperationsChanged',renderAllocationProgress);
-window.addEventListener('capQuickExpenseSaved',renderAllocationProgress);
+window.addEventListener('capDataChanged',()=>{syncIncome();renderAllocationProgress();updateHome()});
 window.addEventListener('storage',e=>{
  if(!e.key||[ALLOC,'capBudgetEngine','capBudgetOperations','cap_savings_cagnottes_v1','cap_eco_v2_savings_1'].includes(e.key)){
   if(e.key===ALLOC){const t=stored(ALLOC,null);if(t&&names.every(k=>Number.isInteger(t[k])&&t[k]>=0&&t[k]<=100))ratios=t;}
@@ -6811,6 +6622,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
     epargne:{title:'Épargne',category:'Épargne'}
   };
   forms.forEach(form=>{
+    form.noValidate=true; // les erreurs s'affichent dans la page, pas en infobulle native facile à manquer
     form.addEventListener('submit',event=>{
       event.preventDefault();
       const kind=form.dataset.allocEntryKind;
@@ -6823,10 +6635,12 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
       const label=labelField.value.trim(),nature=natureField.value.trim();
       const raw=amountField.value.replace(/[\s\u00a0\u202f€]/g,'').replace(',','.');
       const amount=Number(raw);
-      if(!label||label.length>80||!nature||!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>=10000000){
-        feedback.textContent='Renseigne le nom, la nature et un montant supérieur à 0 € (2 décimales maximum).';
-        return;
-      }
+      const fail=(text,field)=>{feedback.textContent=text;feedback.scrollIntoView?.({block:'nearest'});field?.focus?.({preventScroll:true});};
+      if(!label)return fail('Indique un nom pour cette dépense.',labelField);
+      if(label.length>80)return fail('Le nom est trop long (80 caractères maximum).',labelField);
+      if(!nature)return fail('Choisis une nature dans la liste.',natureField);
+      if(!/^\d+(?:\.\d{1,2})?$/.test(raw)||!Number.isFinite(amount)||amount<=0||amount>=10000000)
+        return fail('Indique un montant supérieur à 0 € (2 décimales maximum, ex. 125,50).',amountField);
       let operations;
       try{operations=JSON.parse(localStorage.getItem('capBudgetOperations')||'[]');}
       catch(_){feedback.textContent='Impossible de lire les dépenses existantes. Rien n’a été ajouté.';return;}
@@ -7135,9 +6949,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
    list.appendChild(fragment);
   }
  }
- window.addEventListener('capQuickExpenseSaved',renderHistory);
- window.addEventListener('capOperationsChanged',renderHistory);
- window.addEventListener('capBudgetChanged',renderHistory);
+ window.addEventListener('capDataChanged',renderHistory);
  window.addEventListener('storage',event=>{if(!event.key||event.key==='capBudgetOperations')renderHistory()});
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderHistory()});
  renderHistory();
@@ -7443,7 +7255,13 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   }
   return totals;
  }
- function gaugeLevel(value,planned){
+ function gaugeLevel(value,planned,kind){
+  // Épargne : plus on s'approche (ou dépasse) l'objectif, plus c'est bon. Échelle inversée par rapport aux dépenses.
+  if(kind==='epargne'){
+   if(!Number.isFinite(planned)||planned<=0)return 'none';
+   const saved=value/planned;
+   return saved>=0.9?'green':saved>=0.5?'yellow':'orange';
+  }
   if(!Number.isFinite(planned)||planned<=0)return value>0?'red':'none';
   const ratio=value/planned;
   if(ratio>=0.9)return 'red';
@@ -7452,7 +7270,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   return 'green';
  }
  function addGaugeRing(svg,kind,actual,planned){
-  const level=gaugeLevel(actual,planned);
+  const level=gaugeLevel(actual,planned,kind);
   const color=gaugeColors[level];
   const used=planned>0?Math.max(0,actual/planned):actual>0?1:0;
   const filled=Math.min(1,used);
@@ -7472,7 +7290,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
  function updateGaugeReadout(kind,actual,planned){
   const chart=document.getElementById('cap-nature-stats-'+kind+'-chart');
   const wrapper=chart.closest('.cap-nature-chart-column');
-  const level=gaugeLevel(actual,planned);
+  const level=gaugeLevel(actual,planned,kind);
   if(wrapper)wrapper.dataset.gaugeLevel=level;
   const percentageNode=document.getElementById('cap-nature-stats-'+kind+'-gauge-percent');
   const amountNode=document.getElementById('cap-nature-stats-'+kind+'-gauge-amount');
@@ -7610,7 +7428,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   document.getElementById('cap-nature-stats-all').textContent='Total enregistré sur la période : '+euro(grand);
  }
  select.addEventListener('change',render);
- ['capQuickExpenseSaved','capOperationsChanged','capBudgetChanged','capIncomeSourcesChanged'].forEach(name=>window.addEventListener(name,render));
+ window.addEventListener('capDataChanged',render);
  ['charges','loisirs','epargne'].forEach(kind=>document.getElementById('cap-alloc-'+kind)?.addEventListener('input',render));
  document.getElementById('cap-allocation-income')?.addEventListener('input',render);
  document.getElementById('nav-stats')?.addEventListener('click',()=>setTimeout(render,0));
@@ -7981,6 +7799,7 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   const next=entries.filter(item=>item.id!==id);
   commit(next,'Revenu supprimé.');
  }
+ form.noValidate=true; // les erreurs s'affichent dans la page, pas en infobulle native facile à manquer
  form.addEventListener('submit',event=>{
   event.preventDefault();
   if(!entries)return;
@@ -7989,12 +7808,12 @@ html.cap-entry-locked body #onboarding-modal.onboarding-banner { background: rgb
   const amount=parseAmount(amountField.value);
   const frequency=frequencyField.value;
   const month=frequency==='once'?monthField.value:'';
-  if(!type||!label||label.length>90||type==='Autre'&&!sourceLabel.value.trim()||
-     !Number.isFinite(amount)||!['monthly','once'].includes(frequency)||
-     frequency==='once'&&!validMonth(month)){
-   message.textContent='Indique une source, un nom si nécessaire et un montant positif (2 décimales maximum).';
-   return;
-  }
+  const fail=(text,field)=>{message.textContent=text;message.scrollIntoView?.({block:'nearest'});field?.focus?.({preventScroll:true});};
+  if(!type)return fail('Choisis le type de revenu.',sourceType);
+  if(type==='Autre'&&!sourceLabel.value.trim())return fail('Pour « Autre », indique un nom (ex. remboursement dentiste).',sourceLabel);
+  if(label.length>90)return fail('Le nom est trop long (90 caractères maximum).',sourceLabel);
+  if(!Number.isFinite(amount))return fail('Indique un montant supérieur à 0 € (2 décimales maximum, ex. 125,50).',amountField);
+  if(!['monthly','once'].includes(frequency)||frequency==='once'&&!validMonth(month))return fail('Choisis le mois du revenu ponctuel.',monthField);
   const previous=entries.find(item=>item.id===editingId);
   const item={id:previous?.id||newId(),type,label,amount,frequency,month,
     createdAt:previous?.createdAt||new Date().toISOString()};
